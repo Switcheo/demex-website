@@ -1,6 +1,6 @@
+import { MainLayout } from "@demex-info/layout";
 import React from "react";
 import { render } from "react-snapshot";
-import { MainLayout } from "@demex-info/layout";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 

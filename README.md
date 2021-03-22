@@ -21,3 +21,8 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `yarn serve`
+
+Serves the build folder locally at [http://localhost:8080](http://localhost:8080) using [http-server](https://github.com/http-party/http-server).\
+Use this to simulate production environment.
