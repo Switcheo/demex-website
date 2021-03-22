@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core"
 import { PreferenceThemeProvider } from "@demex-info/components"
 import { MainLayout } from "@demex-info/layout";
 import React from "react";
@@ -9,7 +10,9 @@ render(
   <React.StrictMode>
     <PreferenceThemeProvider>
       <MainLayout>
-        This is some text
+        <Typography variant="body1" color="textSecondary">
+          This is some text
+        </Typography>
       </MainLayout>
     </PreferenceThemeProvider>
   </React.StrictMode>,
