@@ -1,4 +1,5 @@
 import "./index.css";
+import "typeface-roboto";
 
 import { MainLayout } from "@demex-info/layout";
 import { PreferenceThemeProvider } from "@demex-info/components";
