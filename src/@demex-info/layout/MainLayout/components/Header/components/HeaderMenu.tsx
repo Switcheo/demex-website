@@ -1,5 +1,5 @@
 import { Hidden, Link, Theme, makeStyles } from "@material-ui/core";
-import { NavLink, Paths, StaticLinks, getExplorerLink } from "@demex-info/constants";
+import { NavLink, Paths, StaticLinks, getDemexLink, getExplorerLink } from "@demex-info/constants";
 
 import { ExternalLink } from "@demex-info/assets/icons";
 import React from "react";
@@ -15,19 +15,19 @@ const HeaderMenu: React.FC = () => {
   const navLinksArr: NavLink[] = [
     {
       label: "Trade",
-      path: Paths.Trade,
+      href: getDemexLink(Paths.Trade, net),
     },
     {
       label: "Pools",
-      path: Paths.Pools.List,
+      href: getDemexLink(Paths.Pools.List, net),
     },
     {
       label: "Staking",
-      path: Paths.Stake.List,
+      href: getDemexLink(Paths.Stake.List, net),
     },
     // {
     //   label: "Leaderboard",
-    //   path: Paths.Leaderboard,
+    //   href: Paths.Leaderboard,
     // },
     {
       label: "Tradescan",
@@ -63,6 +63,7 @@ const HeaderMenu: React.FC = () => {
               className={classes.navLink}
               key={navLink.label}
               href={navLink?.href}
+              target="_blank"
             >
               {navLink.label}
               {navLink?.showIcon && (

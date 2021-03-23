@@ -48,6 +48,12 @@ export const Paths = {
   },
 };
 
+export const DemexHosts: { [key: string]: string } = {
+  [Network.MainNet]: "https://app.dem.exchange",
+  [Network.TestNet]: "https://beta-app.dem.exchange",
+  [Network.DevNet]: "https://dev-app.dem.exchange",
+  [Network.LocalHost]: "http://127.0.0.1:3000",
+};
 
 export const StaticLinks = {
   JoinValidator: "https://github.com/Switcheo/tradehub",
@@ -102,11 +108,21 @@ export function getExplorerHost(net: Network) {
   return "https://staging.switcheo.org";
 }
 
+export function getDemexHost(net: Network) {
+  if (net) {
+    return DemexHosts[net];
+  }
+  return '';
+}
+
+export function getDemexLink(path: string, net: Network) {
+  return `${getDemexHost(net)}${path}`
+}
+
 export function getExplorerLink(net: Network) {
   return `${getExplorerHost(net)}?${getNetworkQueryParam(net)}`;
 }
 
-export const TESTNET_LANDING_URL: string = "https://beta-app.dem.exchange/";
 export const BUY_SWITCHEO_LINK: string = "https://switcheo.exchange/markets/SWTH_NEO";
 
 export interface NavLink {
