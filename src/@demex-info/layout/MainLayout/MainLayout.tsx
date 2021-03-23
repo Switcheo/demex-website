@@ -1,7 +1,9 @@
 import { Box, BoxProps, makeStyles } from "@material-ui/core";
+
+import React from "react";
 import clsx from "clsx";
 
-interface Props extends BoxProps { };
+interface Props extends BoxProps { }
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
@@ -10,10 +12,10 @@ const MainLayout: React.FC<Props> = (props: Props) => {
     <Box {...rest} className={clsx(classes.root, className)}>
       {children}
     </Box>
-  )
+  );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {},
 }));
 

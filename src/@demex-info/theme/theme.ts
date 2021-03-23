@@ -1,8 +1,8 @@
-import { createMuiTheme, PaletteType, Theme } from "@material-ui/core"
+import { PaletteType, Theme, createMuiTheme } from "@material-ui/core";
+import { darkPalette, lightPalette } from "./palettes";
 
 import _overrides from "./overrides";
-import { darkPalette, lightPalette } from "./palettes"
-import { typography } from "./typography"
+import { typography } from "./typography";
 
 const applyFlavour = (overrides: any, theme: Theme) => {
   const result: any = {};
@@ -17,7 +17,7 @@ const getPaletteForMode = (mode: PaletteType) => {
 };
 
 export function loadTheme(paletteType: "light" | "dark") {
-  const palette = getPaletteForMode(paletteType)
+  const palette = getPaletteForMode(paletteType);
   const theme = createMuiTheme({
     palette,
     props: {
@@ -34,7 +34,7 @@ export function loadTheme(paletteType: "light" | "dark") {
       },
     },
     typography,
-  })
+  });
   theme.overrides = applyFlavour(_overrides, theme);
-  return theme
+  return theme;
 }

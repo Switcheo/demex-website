@@ -10,4 +10,4 @@ const overrides = {
   MuiToolbar,
 };
 
-export default overrides
+export default overrides;

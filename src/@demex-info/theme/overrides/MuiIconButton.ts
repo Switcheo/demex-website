@@ -1,6 +1,6 @@
-import { Theme } from "@material-ui/core"
+import { Theme } from "@material-ui/core";
 
-const MuiIconButton = (theme: Theme) => ({
+const MuiIconButton = (theme: Theme) => ({ // eslint-disable-line no-unused-vars
   root: {
     padding: "unset",
     "&:hover": {
@@ -9,4 +9,4 @@ const MuiIconButton = (theme: Theme) => ({
   },
 });
 
-export default MuiIconButton
+export default MuiIconButton;

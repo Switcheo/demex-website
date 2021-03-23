@@ -1,4 +1,4 @@
-import { TypographyOptions } from "@material-ui/core/styles/createTypography"
+import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 
 export const typography: TypographyOptions = {
   h1: { // graphik based header, refactor later
@@ -50,4 +50,4 @@ export const typography: TypographyOptions = {
     lineHeight: 1.142,
     textTransform: "none",
   },
-}
+};

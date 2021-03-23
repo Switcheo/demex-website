@@ -1,1 +1,1 @@
-export { default as PreferenceThemeProvider } from "./PreferenceThemeProvider"
+export { default as PreferenceThemeProvider } from "./PreferenceThemeProvider";

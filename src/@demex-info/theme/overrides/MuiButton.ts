@@ -1,4 +1,4 @@
-import { Theme } from "@material-ui/core"
+import { Theme } from "@material-ui/core";
 
 const MuiButton = (theme: Theme) => ({
   root: {
@@ -26,4 +26,4 @@ const MuiButton = (theme: Theme) => ({
   },
 });
 
-export default MuiButton
+export default MuiButton;

@@ -1,5 +1,5 @@
 import { PaletteOptions } from "@material-ui/core/styles/createPalette";
-import { palette } from "./base"
+import { palette } from "./base";
 
 export const lightPalette: PaletteOptions = {
   ...palette,

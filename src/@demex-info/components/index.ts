@@ -1,2 +1,2 @@
-export * from './PreferenceThemeProvider';
+export * from "./PreferenceThemeProvider";
 export * from "./SampleComponent";
