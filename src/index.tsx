@@ -7,21 +7,21 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import { render } from "react-snapshot";
 import reportWebVitals from "./reportWebVitals";
-import store from "./store";
+import { store } from "@demex-info/store";
 
 render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PreferenceThemeProvider>
-        <MainLayout>
-          <Typography variant="body1" color="textSecondary">
+	<React.StrictMode>
+		<Provider store={store}>
+			<PreferenceThemeProvider>
+				<MainLayout>
+					<Typography variant="body1" color="textSecondary">
             This is some text
-          </Typography>
-        </MainLayout>
-      </PreferenceThemeProvider>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+					</Typography>
+				</MainLayout>
+			</PreferenceThemeProvider>
+		</Provider>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 reportWebVitals(console.log); // eslint-disable-line no-console

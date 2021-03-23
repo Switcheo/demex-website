@@ -23,13 +23,6 @@
     "no-console": ["warn", {
       "allow": ["warn", "error"]
     }],
-    "indent": [
-      "warn",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "semi": ["warn", "always"],
     "quotes": ["warn", "double"],
     "object-curly-spacing": ["warn", "always"],

@@ -4,10 +4,10 @@ import MuiIconButton from "./MuiIconButton";
 import MuiToolbar from "./MuiToolbar";
 
 const overrides = {
-  MuiAppBar,
-  MuiButton,
-  MuiIconButton,
-  MuiToolbar,
+	MuiAppBar,
+	MuiButton,
+	MuiIconButton,
+	MuiToolbar,
 };
 
 export default overrides;

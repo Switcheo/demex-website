@@ -9,14 +9,14 @@ interface Props {
 }
 
 const PreferenceThemeProvider: React.FC<Props> = (props: Props) => {
-  const { children, theme = "dark", ...rest } = props;
-  const newTheme = loadTheme(theme);
+	const { children, theme = "dark", ...rest } = props;
+	const newTheme = loadTheme(theme);
 
-  return (
-    <MuiThemeProvider theme={newTheme} {...rest}>
-      {children}
-    </MuiThemeProvider>
-  );
+	return (
+		<MuiThemeProvider theme={newTheme} {...rest}>
+			{children}
+		</MuiThemeProvider>
+	);
 };
 
 export default PreferenceThemeProvider;
