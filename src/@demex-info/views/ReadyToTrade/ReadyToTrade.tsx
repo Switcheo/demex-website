@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: 0,
     position: "absolute",
     [theme.breakpoints.only("xs")]: {
-      bottom: "1.5rem",
+      bottom: "1.75rem",
       height: "2rem",
       maxWidth: "7.05rem",
     },
@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       height: "2rem",
       maxWidth: "7.05rem",
-      top: "1.5rem",
+      top: "1.75rem",
     },
   },
   buttonGroup: {
@@ -158,7 +158,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
     padding: theme.spacing(0, 6),
-    width: "100%",
+    width: "calc(100% - 96px)",
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 5),
     },
@@ -166,7 +166,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(0, 5),
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 2.5),
+      margin: 0,
+      padding: 0,
+      width: "100%",
     },
   },
   keyIcon: {
