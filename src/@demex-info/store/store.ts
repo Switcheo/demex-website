@@ -17,7 +17,7 @@ if ((!process.env.NODE_ENV || process.env.NODE_ENV === "development") && !proces
 // redux 4 does not have a easy workaround createStore needing 4 type arguments.
 // @ts-ignore
 const AppStore = createStore(combinedReducers, composeWithDevTools(
-	applyMiddleware(...middlewares)
+	applyMiddleware(...middlewares),
 ));
 
 export default AppStore;
