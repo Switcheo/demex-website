@@ -5,7 +5,13 @@ import { Network } from "tradehub-api-js";
 export const Paths = {
   Home: "/",
 
-  Login: "/login",
+  Login: {
+    Main: "/login",
+    Ledger: "/login/ledger",
+    MetaMask: "/login/metamask",
+    EncryptedKey: "/login/encrypted-key",
+  },
+
   PasswordReset: "/reset_password",
   Register: "/register",
 
