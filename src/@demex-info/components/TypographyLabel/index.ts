@@ -1,1 +1,1 @@
-export { default } from "./TypographyLabel";
+export { default as TypographyLabel } from "./TypographyLabel";

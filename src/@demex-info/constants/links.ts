@@ -1,8 +1,6 @@
-import { Discord, Medium } from "@demex-info/assets/logos";
-import { Facebook, LinkedIn, Reddit, Telegram, Twitter, YouTube } from "@material-ui/icons";
+import { Discord, Facebook, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 
 import { Network } from "tradehub-api-js";
-import React from "react";
 
 export const Paths = {
   Home: "/",
@@ -112,11 +110,11 @@ export function getDemexHost(net: Network) {
   if (net) {
     return DemexHosts[net];
   }
-  return '';
+  return "";
 }
 
 export function getDemexLink(path: string, net: Network) {
-  return `${getDemexHost(net)}${path}`
+  return `${getDemexHost(net)}${path}`;
 }
 
 export function getExplorerLink(net: Network) {
@@ -135,7 +133,7 @@ export interface NavLink {
 export interface ExtSocialLnk {
   label: string;
   href: string;
-  component: React.ReactNode;
+  component: any;
 }
 
 export const SocialLnks: { [key: string]: ExtSocialLnk } = {
@@ -167,7 +165,7 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
   Youtube: {
     label: "youtube",
     href: StaticLinks.Socials.Youtube,
-    component: YouTube,
+    component: Youtube,
   },
   Medium: {
     label: "medium",

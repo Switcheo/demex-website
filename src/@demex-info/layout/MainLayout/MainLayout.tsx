@@ -1,7 +1,7 @@
-import { BoxProps, Theme, makeStyles } from "@material-ui/core";
+import { Box, BoxProps, Theme, makeStyles } from "@material-ui/core";
+import { Footer, Header } from "./components";
 import React, { useEffect } from "react";
 
-import { Header } from "./components";
 import clsx from "clsx";
 import { startSagas } from "@demex-info/saga";
 
@@ -18,7 +18,9 @@ const MainLayout: React.FC<Props> = (props: Props) => {
 	return (
     <main className={clsx(classes.app, className)} {...rest}>
       <Header />
+      <Box className={classes.filler} />
 			{children}
+      <Footer />
     </main>
 	);
 };
@@ -31,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     overflow: "auto",
     position: "relative",
+  },
+  filler: {
+    height: "3.3125rem",
   },
 }));
 
