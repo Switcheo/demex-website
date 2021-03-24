@@ -11,7 +11,7 @@ const YourThoughts: React.FC = () => {
   const goToLink = (link: string) => {
     if (!link) return;
     window.open(link, "_blank");
-  }
+  };
 
   return (
     <Box className={classes.root}>
@@ -53,8 +53,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     transition: "margin 0.5s ease",
   },
   innerDiv: {
-    margin: theme.spacing(0, 'auto'),
-    maxWidth: '84rem',
+    margin: theme.spacing(0, "auto"),
+    maxWidth: "84rem",
+    padding: theme.spacing(0, 2.5),
   },
   root: {
     backgroundColor: theme.palette.background.default,
@@ -62,8 +63,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   shareBtn: {
     ...theme.typography.button,
-    display: 'block',
-    margin: theme.spacing(4, 'auto', 0),
+    display: "block",
+    margin: theme.spacing(4, "auto", 0),
     padding: theme.spacing(1.5, 2),
     "&:hover": {
       "& $caretRight": {
@@ -74,13 +75,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   subtitle: {
     ...theme.typography.subtitle1,
-    textAlign: 'center',
-    maxWidth: '36rem',
-    margin: theme.spacing(4, 'auto', 0),
+    textAlign: "center",
+    maxWidth: "36rem",
+    margin: theme.spacing(4, "auto", 0),
   },
   title: {
     ...theme.typography.h3,
-    textAlign: 'center',
+    textAlign: "center",
   },
 }));
 

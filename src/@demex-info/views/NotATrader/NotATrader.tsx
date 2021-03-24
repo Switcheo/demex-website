@@ -31,8 +31,9 @@ const NotATrader: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   innerDiv: {
-    margin: theme.spacing(0, 'auto'),
-    maxWidth: '84rem',
+    margin: theme.spacing(0, "auto"),
+    maxWidth: "84rem",
+    padding: theme.spacing(0, 2.5),
   },
   root: {
     backgroundColor: theme.palette.background.default,
@@ -40,13 +41,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   subtitle: {
     ...theme.typography.subtitle1,
-    textAlign: 'center',
-    maxWidth: '36rem',
-    margin: theme.spacing(4, 'auto', 0),
+    textAlign: "center",
+    maxWidth: "36rem",
+    margin: theme.spacing(4, "auto", 0),
   },
   title: {
     ...theme.typography.h3,
-    textAlign: 'center',
+    textAlign: "center",
   },
 }));
 
