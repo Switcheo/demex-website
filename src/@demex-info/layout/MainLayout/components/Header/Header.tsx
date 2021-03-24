@@ -17,7 +17,7 @@ const Header: React.FC = () => {
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
   const goToLink = (link: string) => {
-    window.open(getDemexLink(link, network), "_blank");
+    window.open(link, "_blank");
   };
 
   const handleOpen = () => {
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
           <Button
             className={classes.loginBtn}
             color="secondary"
-            onClick={() => goToLink(Paths.Login.Main)}
+            onClick={() => goToLink(getDemexLink(Paths.Login.Main, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "1.25rem",
   },
   root: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     minHeight: "1.75rem",
     padding: theme.spacing(1.5, 2.5),
     position: "fixed",

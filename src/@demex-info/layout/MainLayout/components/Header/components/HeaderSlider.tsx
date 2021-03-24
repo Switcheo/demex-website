@@ -99,7 +99,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   box: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     bottom: 0,
     height: "3.375rem",
     position: "absolute",
@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflowY: "auto",
   },
   list: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     height: "100%",
     width: "16rem",
     position: "relative",

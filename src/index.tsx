@@ -1,7 +1,7 @@
 import "./index.css";
 import "typeface-roboto";
 
-import { DexProperties, PoweredBySwitcheo, ReadyToTrade } from "@demex-info/views";
+import { DexProperties, NotATrader, PoweredBySwitcheo, ReadyToTrade, YourThoughts } from "@demex-info/views";
 
 import { MainLayout } from "@demex-info/layout";
 import { PreferenceThemeProvider } from "@demex-info/components";
@@ -18,6 +18,8 @@ render(
 				<MainLayout>
           <DexProperties />
           <PoweredBySwitcheo />
+          <NotATrader />
+          <YourThoughts />
           <ReadyToTrade />
 				</MainLayout>
 			</PreferenceThemeProvider>

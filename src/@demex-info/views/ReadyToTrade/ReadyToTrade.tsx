@@ -6,7 +6,6 @@ import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import clsx from "clsx";
 import { useSelector } from "react-redux";
 
 const ReadyToTrade: React.FC = () => {
@@ -14,11 +13,9 @@ const ReadyToTrade: React.FC = () => {
 
   const network = useSelector((state: RootState) => state.app.network);
 
-  const [toggle, setToggle] = React.useState<boolean>(false);
-
   const goToLink = (link: string) => {
     if (!link) return;
-    window.open(getDemexLink(link, network), "_blank");
+    window.open(link, "_blank");
   };
 
   return (
@@ -50,7 +47,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(Paths.Login.MetaMask)}
+            onClick={() => goToLink(getDemexLink(Paths.Login.MetaMask, network))}
           >
             <MetaMask className={classes.metamaskIcon} />
             Metamask
@@ -60,7 +57,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(Paths.Login.EncryptedKey)}
+            onClick={() => goToLink(getDemexLink(Paths.Login.EncryptedKey, network))}
           >
             <EncryptedKey className={classes.keyIcon} />
             Encrypted Key
@@ -70,12 +67,10 @@ const ReadyToTrade: React.FC = () => {
           className={classes.tradingBtn}
           variant="text"
           color="secondary"
-          onClick={() => goToLink(Paths.Trade)}
-          onMouseEnter={() => setToggle(true)}
-          onMouseLeave={() => setToggle(false)}
+          onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
         >
           View Live Trading
-          <CaretRight className={clsx(classes.caretRight, { toggle })} />
+          <CaretRight className={classes.caretRight} />
         </Button>
       </Box>
       <HomeBorderLeft className={classes.borderLeft} />
@@ -144,9 +139,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "0.625rem",
     marginLeft: "0.2rem",
     transition: "margin 0.5s ease",
-    "&.toggle": {
-      margin: theme.spacing(0, 0, 0, 1.25),
-    },
   },
   header: {
     ...theme.typography.h5,

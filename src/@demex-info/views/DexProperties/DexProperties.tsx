@@ -17,7 +17,7 @@ const DexProperties: React.FC = () => {
 
   const goToLink = (link: string) => {
     if (!link) return;
-    window.open(getDemexLink(link, network), "_blank");
+    window.open(link, "_blank");
   };
 
   return (
@@ -34,7 +34,7 @@ const DexProperties: React.FC = () => {
             </TypographyLabel>
             <Button
               className={classes.tradeBtn}
-              onClick={() => goToLink(Paths.Trade)}
+              onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
               color="secondary"
             >
               Start Trading
