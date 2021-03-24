@@ -1,20 +1,23 @@
 import { Box, Button, Grid, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
 import { DexProp, dexPropsArr } from "./dexPropsConfig";
+import { Paths, getDemexLink } from "@demex-info/constants";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
 import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
-import { Paths } from "@demex-info/constants";
 import { PropertyBox } from "./components";
 import React from "react";
+import { RootState } from "@demex-info/store/types";
 import clsx from "clsx";
-import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
-  const history = useHistory();
+
+  const network = useSelector((state: RootState) => state.app.network);
 
   const goToLink = (link: string) => {
-    history.push(link);
+    if (!link) return;
+    window.open(getDemexLink(link, network), "_blank");
   };
 
   return (

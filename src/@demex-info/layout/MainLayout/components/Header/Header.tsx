@@ -1,21 +1,23 @@
 import { Box, Button, Hidden, IconButton, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { HeaderMenu, HeaderSlider } from "./components";
+import { Paths, getDemexLink } from "@demex-info/constants";
 
 import { DemexLogo } from "@demex-info/assets/logos";
-import { Paths } from "@demex-info/constants";
 import React from "react";
-import { useHistory } from "react-router";
+import { RootState } from "@demex-info/store/types";
+import { useSelector } from "react-redux";
 
 const Header: React.FC = () => {
   const classes = useStyles();
-  const history = useHistory();
   const widthXs = useMediaQuery("@media (max-width: 599px)");
+
+  const network = useSelector((state: RootState) => state.app.network);
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
-  const goToLogin = () => {
-    history.push(Paths.Login);
+  const goToLink = (link: string) => {
+    window.open(getDemexLink(link, network), "_blank");
   };
 
   const handleOpen = () => {
@@ -50,7 +52,11 @@ const Header: React.FC = () => {
         </Box>
         <Box display="flex" alignItems="center">
           <HeaderMenu />
-          <Button className={classes.loginBtn} color="secondary" onClick={goToLogin}>
+          <Button
+            className={classes.loginBtn}
+            color="secondary"
+            onClick={() => goToLink(Paths.Login.Main)}
+          >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>
         </Box>

@@ -74,19 +74,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradeDescription: {
-    paddingRight: theme.spacing(8),
     "& a": {
       cursor: "pointer",
-    },
-    [theme.breakpoints.only("xs")]: {
-      paddingRight: 0,
     },
   },
   tradeHubBox: {
     margin: theme.spacing(8, "auto"),
     maxWidth: "84rem",
     padding: theme.spacing(0, 6),
-    width: "100%",
+    width: `calc(100% - ${theme.spacing(12)}px)`,
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 5),
     },

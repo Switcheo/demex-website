@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="8px" viewBox="0 0 20 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Wallet Icon</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Layout-/-Desktop-/-05-Ready-to-Trade" transform="translate(-836.000000, -182.000000)" fill="#FFFFFF">
+            <g id="Group-6" transform="translate(450.000000, 162.000000)">
+                <g id="Card-/-Connect-Wallet-Copy-4" transform="translate(368.000000, 0.000000)">
+                    <g id="Wallet-Icon" transform="translate(10.000000, 6.000000)">
+                        <circle id="Oval" fill-opacity="0" cx="18" cy="18" r="18"></circle>
+                        <g id="System-Icon-/-Email" transform="translate(6.000000, 6.000000)">
+                            <path d="M5.5,8 C7.13062319,8 8.50080012,9.27440338 8.88956574,10.9992501 L15.5,11 L15.5,9.5 C15.5,8.94771525 15.9477153,8.5 16.5,8.5 C17.0128358,8.5 17.4355072,8.88604019 17.4932723,9.38337887 L17.5,9.5 L17.5,11 L18.5,11 L18.5,9.5 C18.5,8.94771525 18.9477153,8.5 19.5,8.5 C20.0128358,8.5 20.4355072,8.88604019 20.4932723,9.38337887 L20.5,9.5 L20.5,11 L21,11 C21.5522847,11 22,11.4477153 22,12 C22,12.5128358 21.6139598,12.9355072 21.1166211,12.9932723 L21,13 L8.88978975,12.9997556 C8.5013267,14.7251068 7.13093653,16 5.5,16 C3.56700338,16 2,14.209139 2,12 C2,9.790861 3.56700338,8 5.5,8 Z M5.5,10 C4.73538531,10 4,10.8404404 4,12 C4,13.1595596 4.73538531,14 5.5,14 C6.26461469,14 7,13.1595596 7,12 C7,10.8404404 6.26461469,10 5.5,10 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

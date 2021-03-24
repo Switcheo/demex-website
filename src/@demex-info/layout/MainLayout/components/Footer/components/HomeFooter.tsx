@@ -29,14 +29,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1.5, 0),
     [theme.breakpoints.only("xs")]: {
       display: "block",
-      padding: theme.spacing(1, 0, 1.25),
     },
   },
   tradehubLogo: {
     height: "0.85rem",
     width: "unset",
     [theme.breakpoints.only("xs")]: {
-      marginTop: theme.spacing(1.75),
+      marginTop: theme.spacing(1),
     },
   },
 }));
