@@ -14,6 +14,13 @@ export const typography: TypographyOptions = {
 		lineHeight: 1.235,
 		letterSpacing: "0.00735em",
 	},
+  h4: {
+		fontFamily: "Graphik, sans-serif",
+		fontSize: "1.875rem",
+		fontWeight: 600,
+		lineHeight: 1.235,
+		letterSpacing: "0.0065em",
+  },
 	h5: { // graphik based header, refactor later
 		fontFamily: "Graphik",
 		fontWeight: 600,

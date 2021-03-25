@@ -1,3 +1,4 @@
+export * from "./DemexProducts";
 export * from "./DexProperties";
 export * from "./NotATrader";
 export * from "./PoweredBySwitcheo";

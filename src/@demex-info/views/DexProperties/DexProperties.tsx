@@ -180,8 +180,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.button,
     marginTop: theme.spacing(6),
     padding: theme.spacing(1.75, 3.5),
+    [theme.breakpoints.only("sm")]: {
+      marginTop: theme.spacing(4),
+    },
     [theme.breakpoints.only("xs")]: {
-      marginTop: theme.spacing(4.5),
+      marginTop: theme.spacing(3),
     },
   },
 }));

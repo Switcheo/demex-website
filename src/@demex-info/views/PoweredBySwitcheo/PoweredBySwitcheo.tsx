@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       textDecoration: "none",
     },
-    [theme.breakpoints.only("xs")]: {
-      marginTop: theme.spacing(4.5),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(4),
     },
   },
   root: {
@@ -106,8 +106,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     "& p": {
-      ...theme.typography.subtitle1,
-      lineHeight: "1.625rem",
       "&:first-child": {
         marginBottom: theme.spacing(2),
       },
@@ -138,6 +136,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     [theme.breakpoints.down("md")]: {
       paddingTop: theme.spacing(8),
+    },
+    [theme.breakpoints.only("xs")]: {
+      paddingTop: theme.spacing(6),
     },
   },
   "@keyframes scrollLeft": {

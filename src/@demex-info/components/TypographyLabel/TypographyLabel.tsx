@@ -21,7 +21,7 @@ const TypographyLabel: React.FC<Props> = (props: Props) => {
   return (
     <Box className={boxClass} {...boxProps}>
       <Typography
-        variant="body2"
+        variant="subtitle1"
         color="textPrimary"
         {...rest}
         className={clsx(classes.root, className)}
@@ -32,10 +32,8 @@ const TypographyLabel: React.FC<Props> = (props: Props) => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    ...theme.typography.body2,
-  },
+const useStyles = makeStyles(() => ({
+  root: {},
 }));
 
 export default TypographyLabel;

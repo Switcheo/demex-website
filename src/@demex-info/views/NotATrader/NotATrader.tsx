@@ -38,15 +38,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(11, 0),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(6, 0),
+    },
   },
   subtitle: {
-    ...theme.typography.subtitle1,
     textAlign: "center",
     maxWidth: "36rem",
     margin: theme.spacing(4, "auto", 0),
   },
   title: {
-    ...theme.typography.h3,
     textAlign: "center",
   },
 }));

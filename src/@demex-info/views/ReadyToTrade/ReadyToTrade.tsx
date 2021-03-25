@@ -143,7 +143,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   header: {
     ...theme.typography.h5,
     fontSize: "1.75rem",
-    fontWeight: 500,
     textAlign: "center",
   },
   innerDiv: {
