@@ -1,16 +1,39 @@
+import "./index.css";
+import "typeface-roboto";
+
+import {
+  DemexProducts,
+  DexProperties,
+  NotATrader,
+  PoweredBySwitcheo,
+  ReadyToTrade,
+  YourThoughts,
+} from "@demex-info/views";
+
 import { MainLayout } from "@demex-info/layout";
+import { PreferenceThemeProvider } from "@demex-info/components";
+import { Provider } from "react-redux";
 import React from "react";
 import { render } from "react-snapshot";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import { store } from "@demex-info/store";
 
 render(
-  <React.StrictMode>
-    <MainLayout>
-
-    </MainLayout>
-  </React.StrictMode>,
-  document.getElementById("root")
+	<React.StrictMode>
+		<Provider store={store}>
+			<PreferenceThemeProvider>
+				<MainLayout>
+          <DexProperties />
+          <PoweredBySwitcheo />
+          <NotATrader />
+          <DemexProducts />
+          <YourThoughts />
+          <ReadyToTrade />
+				</MainLayout>
+			</PreferenceThemeProvider>
+		</Provider>
+	</React.StrictMode>,
+	document.getElementById("root"),
 );
 
-reportWebVitals(console.log);
+reportWebVitals(console.log); // eslint-disable-line no-console
