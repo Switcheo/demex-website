@@ -11,6 +11,8 @@ const storedNetwork = networks[storedNetworkString || ""] || DefaultFallbackNetw
 const initial_state: AppState = {
 	network: storedNetwork,
   restClient: new RestClient({ network: storedNetwork }),
+  tokens: [],
+  usdPrices: {},
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -25,6 +27,16 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       restClient: actions.restClient,
+    };
+  case AppActionTypes.SET_TOKENS:
+    return {
+      ...state,
+      tokens: actions.tokens,
+    };
+  case AppActionTypes.SET_USD_PRICES:
+    return {
+      ...state,
+      usdPrices: actions.usdPrices,
     };
 	default:
 		return state;

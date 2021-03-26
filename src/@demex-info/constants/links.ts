@@ -127,6 +127,11 @@ export function getExplorerLink(net: Network) {
   return `${getExplorerHost(net)}?${getNetworkQueryParam(net)}`;
 }
 
+export function goToLink(link: string) {
+  if (!link) return;
+  window.open(link, "_blank");
+}
+
 export const BUY_SWITCHEO_LINK: string = "https://switcheo.exchange/markets/SWTH_NEO";
 
 export interface NavLink {

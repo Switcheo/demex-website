@@ -1,29 +1,72 @@
+import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
-import { InsuranceFund, LiquidityPool, Staking } from "@demex-info/assets/graphic";
-import { Paths, getDemexLink } from "@demex-info/constants";
+import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
 
+import BigNumber from "bignumber.js";
+import { LiquidityPool } from "@demex-info/assets/graphic";
+import { Pool } from "@demex-info/store/pools/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { TypographyLabel } from "@demex-info/components";
 import { useSelector } from "react-redux";
 
-interface Props {
-
-}
-
-const ProductScroll: React.FC<Props> = () => {
+const LiquidityPoolSection: React.FC = () => {
   const classes = useStyles();
 
-  const network = useSelector((state: RootState) => state.app.network);
+  const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
+  const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
 
-  const goToLink = (link: string) => {
-    if (!link) return;
-    window.open(link, "_blank");
-  };
+  const { totalLiquidity, totalCommit } = React.useMemo((): {
+    totalLiquidity: BigNumber;
+    totalCommit: BigNumber;
+  } => {
+    let totalUsd = BN_ZERO;
+    let totalCommit = BN_ZERO;
+    pools.forEach((pool: Pool) => {
+      const { denom, denomA, amountA, denomB, amountB } = pool;
+      const tokenAUsd = getUsd(usdPrices, denomA);
+      const tokenBUsd = getUsd(usdPrices, denomB);
+      totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
+
+      const commitToken = totalCommitMap?.[denom];
+      if (!commitToken) {
+        totalCommit = totalCommit.plus(BN_ZERO);
+      } else {
+        const [tokenAAmt, tokenBAmt] = getBreakdownToken(
+          commitToken,
+          pool,
+          BN_HUNDRED,
+          commitToken,
+          tokens,
+        );
+        totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
+      }
+    });
+    return {
+      totalLiquidity: totalUsd,
+      totalCommit,
+    };
+  }, [pools, usdPrices, tokens, totalCommitMap]);
+
+  const avgApy  = React.useMemo((): BigNumber => {
+    let weightTotal: BigNumber = BN_ZERO;
+    let cumApy: BigNumber = BN_ZERO;
+
+    pools.forEach((p: Pool) => {
+      weightTotal = weightTotal.plus(p?.rewardsWeight ?? BN_ZERO);
+    });
+    pools.forEach((pool: Pool) => {
+      const indivApy = calculateAPY(usdPrices, pool, weeklyRewards, weightTotal);
+      cumApy = cumApy.plus(indivApy);
+    });
+    return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
+  }, [pools, weeklyRewards, usdPrices]);
 
   return (
-    <Box className={classes.rootItem}>
-      <Box id="liquidityPools"></Box>
+    <React.Fragment>
+      <Box id="liquidityPools" height="0px">
+        &nbsp;
+      </Box>
       <Box className={classes.productItem}>
         <Typography
           variant="h3"
@@ -39,10 +82,10 @@ const ProductScroll: React.FC<Props> = () => {
         <Box className={classes.poolsStats}>
           <Box className={classes.statsBox}>
             <TypographyLabel color="textSecondary">
-              Total Value Locked
+              Total Liquidity
             </TypographyLabel>
             <Typography variant="h4" color="textPrimary">
-              $23.4m
+              ${toShorterNum(totalLiquidity)}
             </Typography>
           </Box>
           <Box className={classes.statsBox}>
@@ -50,7 +93,7 @@ const ProductScroll: React.FC<Props> = () => {
               Avg APR
             </TypographyLabel>
             <Typography variant="h4" color="textPrimary">
-              94.5%
+              {avgApy.decimalPlaces(1, 1).toString(10)}%
             </Typography>
           </Box>
           <Hidden only="xs">
@@ -59,7 +102,7 @@ const ProductScroll: React.FC<Props> = () => {
                 Total Committed Value
               </TypographyLabel>
               <Typography variant="h4" color="textPrimary">
-                8.72m
+                ${toShorterNum(totalCommit)}
               </Typography>
             </Box>
           </Hidden>
@@ -70,7 +113,7 @@ const ProductScroll: React.FC<Props> = () => {
               Total Committed Value
             </TypographyLabel>
             <Typography variant="h4" color="textPrimary">
-              8.72m
+              ${toShorterNum(totalCommit)}
             </Typography>
           </Box>
         </Hidden>
@@ -86,78 +129,7 @@ const ProductScroll: React.FC<Props> = () => {
       <Box className={classes.productItem}>
         <img className={classes.liquidityImg} src={LiquidityPool} />
       </Box>
-      <Box id="staking">
-        &nbsp;
-      </Box>
-      <Box className={classes.productItem}>
-        <Typography
-          variant="h3"
-          color="textPrimary"
-          className={classes.title}
-        >
-          Staking
-        </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle}>
-          Accrue weekly rewards from trading fees and block rewards when you stake SWTH.
-        </TypographyLabel>
-        <Divider className={classes.divider} />
-        <Box className={classes.poolsStats}>
-          <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
-              Total Staked
-            </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              949m SWTH
-            </Typography>
-          </Box>
-          <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
-              Staking APR
-            </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              70.72%
-            </Typography>
-          </Box>
-        </Box>
-        <Button
-          className={classes.earningBtn}
-          variant="contained"
-          color="secondary"
-          onClick={() => goToLink(getDemexLink(Paths.Stake.List, network))}
-        >
-          Start Earning
-        </Button>
-      </Box>
-      <Box className={classes.productItem}>
-        <img className={classes.stakingImg} src={Staking} />
-      </Box>
-      <Box id="insuranceFund">&nbsp;</Box>
-      <Box className={classes.productItem}>
-        <Typography
-          variant="h3"
-          color="textPrimary"
-          className={classes.title}
-        >
-          Insurance Fund
-        </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle} mt={3.5}>
-          Gain premiums from insurance fund payouts as a SWTH staker or by contributing SWTH to the fund at launch.
-        </TypographyLabel>
-        <Divider className={classes.divider} />
-        <Button
-          className={classes.earningBtn}
-          variant="contained"
-          color="secondary"
-          onClick={() => goToLink(getDemexLink(Paths.Stake.List, network))}
-          disabled
-        >
-          Coming Soon
-        </Button>
-      </Box>
-      <Box className={classes.productItem}>
-        <InsuranceFund className={classes.insuranceImg} />
-      </Box>
-    </Box>
+    </React.Fragment>
   );
 };
 
@@ -173,16 +145,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(4.5),
     padding: theme.spacing(1.75, 3.5),
   },
-  insuranceImg: {
-    display: "block",
-    height: "100%",
-    width: "100%",
-    margin: theme.spacing(0, "auto"),
-    maxHeight: "17rem",
-    maxWidth: "26rem",
-  },
   liquidityImg: {
     display: "block",
+    margin: theme.spacing(0, "auto"),
     maxWidth: "32rem",
     width: "100%",
     [theme.breakpoints.only("xs")]: {
@@ -198,20 +163,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   productItem: {
     margin: theme.spacing(7, "auto", 0),
-    maxWidth: "38rem",
+    maxWidth: "34rem",
     overflow: "hidden",
     [theme.breakpoints.only("xs")]: {
       margin: theme.spacing(5, "auto", 0),
       maxWidth: "32rem",
     },
-  },
-  rootItem: {
-    position: "relative",
-  },
-  stakingImg: {
-    display: "block",
-    maxWidth: "32rem",
-    width: "100%",
   },
   statsBox: {
     marginLeft: theme.spacing(4),
@@ -224,10 +181,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& h4": {
       marginTop: theme.spacing(1),
     },
+    [theme.breakpoints.down("sm")]: {
+      "& h4": {
+        fontSize: "1.75rem",
+      },
+    },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
       "& h6": {
-        height: "3rem",
+        height: "2rem",
       },
     },
   },
@@ -239,10 +201,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& h4": {
       marginTop: theme.spacing(1),
     },
+    [theme.breakpoints.down("sm")]: {
+      "& h4": {
+        fontSize: "1.75rem",
+      },
+    },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
       "& h6": {
-        height: "3rem",
+        height: "2rem",
       },
     },
   },
@@ -255,4 +222,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {},
 }));
 
-export default ProductScroll;
+export default LiquidityPoolSection;

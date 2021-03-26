@@ -1,15 +1,8 @@
 import { Box, Button, Hidden, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
-import { ProductCarousel, ProductScroll } from "./components";
+import { ProductCarousel, ProductScroll, SlideCategory, SlideItem } from "./components";
 
 import React from "react";
 import clsx from "clsx";
-
-export type SlideCategory = "liquidityPools" | "staking" | "insuranceFund";
-
-export interface SlideItem {
-  label: string;
-  value: SlideCategory;
-}
 
 const DemexProducts: React.FC = () => {
   const classes = useStyles();
@@ -75,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(11, 0),
+    overflowX: "hidden",
     height: "28rem",
     [theme.breakpoints.down("sm")]: {
       height: "unset",
