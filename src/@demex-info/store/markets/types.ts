@@ -17,9 +17,16 @@ export interface MarketStatItem {
   mark_price: BigNumber;
   last_price: BigNumber;
   market: string;
-  market_type: string;
+  market_type: MarketType;
   open_interest: BigNumber;
 }
+
+export const MarkType: { [key: string]: MarketType } = {
+  Spot: "spot",
+  Futures: "futures",
+};
+
+export type MarketType = "spot" | "futures";
 
 export function parseMarketStats(marketStats: any[]): MarketStatItem[] {
   if (typeof marketStats !== "object" || marketStats.length <= 0) {

@@ -2,12 +2,11 @@ import "./index.css";
 import "typeface-roboto";
 
 import {
-  DemexProducts,
   DexProperties,
-  NotATrader,
+  MarketsTable,
+  MiddleBlackSection,
   PoweredBySwitcheo,
   ReadyToTrade,
-  YourThoughts,
 } from "@demex-info/views";
 
 import { MainLayout } from "@demex-info/layout";
@@ -23,11 +22,10 @@ render(
 		<Provider store={store}>
 			<PreferenceThemeProvider>
 				<MainLayout>
+          <MarketsTable />
           <DexProperties />
           <PoweredBySwitcheo />
-          <NotATrader />
-          <DemexProducts />
-          <YourThoughts />
+          <MiddleBlackSection />
           <ReadyToTrade />
 				</MainLayout>
 			</PreferenceThemeProvider>

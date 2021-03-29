@@ -4,30 +4,20 @@ import { Paths, getDemexLink, goToLink } from "@demex-info/constants";
 import { InsuranceFund } from "@demex-info/assets/graphic";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import { SlideCategory } from "../../slideConfig";
 import { TypographyLabel } from "@demex-info/components";
-import clsx from "clsx";
 import { useSelector } from "react-redux";
 
-interface Props {
-  slideItem: SlideCategory;
-}
-
-const InsuranceSlide: React.FC<Props> = (props: Props) => {
-  const { slideItem } = props;
+const InsuranceSection: React.FC = () => {
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
 
   return (
-    <Box
-      className={clsx(
-        classes.slideItem,
-        "insuranceFund",
-        { out: slideItem !== "insuranceFund" },
-      )}
-    >
-      <Box className={classes.leftGrid}>
+    <React.Fragment>
+      <Box id="insuranceFund" height="0.5rem">
+        &nbsp;
+      </Box>
+      <Box className={classes.productItem}>
         <Typography
           variant="h3"
           color="textPrimary"
@@ -49,10 +39,10 @@ const InsuranceSlide: React.FC<Props> = (props: Props) => {
           Coming Soon
         </Button>
       </Box>
-      <Box className={classes.rightGrid}>
+      <Box className={classes.productItem}>
         <InsuranceFund className={classes.insuranceImg} />
       </Box>
-    </Box>
+    </React.Fragment>
   );
 };
 
@@ -60,44 +50,37 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: theme.palette.text.secondary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(4),
     width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4.5),
     padding: theme.spacing(1.75, 3.5),
   },
   insuranceImg: {
     display: "block",
+    height: "100%",
     width: "100%",
     margin: theme.spacing(0, "auto"),
-    maxWidth: "22rem",
+    maxHeight: "17rem",
+    maxWidth: "26rem",
   },
-  leftGrid: {
-    maxWidth: "50%",
-    padding: theme.spacing(0, 2.5),
-    width: "100%",
-  },
-  rightGrid: {
-    maxWidth: "50%",
-    padding: theme.spacing(0, 2.5),
-    width: "100%",
-  },
-  slideItem: {
-    display: "inline-flex",
-    height: "100%",
-    position: "absolute",
-    top: 0,
-    transition: "transform ease 0.6s",
-    width: "100%",
-    transform: "translateX(0%)",
-    "&.out": {
-      transform: "translateX(150%)",
+  productItem: {
+    margin: theme.spacing(7, "auto", 0),
+    maxWidth: "34rem",
+    overflow: "hidden",
+    [theme.breakpoints.only("xs")]: {
+      maxWidth: "32rem",
     },
   },
-  subtitle: {},
+  subtitle: {
+    marginTop: theme.spacing(3.5),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(2),
+    },
+  },
   title: {},
 }));
 
-export default InsuranceSlide;
+export default InsuranceSection;

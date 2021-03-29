@@ -14,32 +14,30 @@ const YourThoughts: React.FC = () => {
   };
 
   return (
-    <Box className={classes.root}>
-      <Box className={classes.innerDiv}>
-        <Box  >
-          <Typography
-            color="textPrimary"
-            variant="h3"
-            className={classes.title}
-          >
-            Let Us Know Your Thoughts
-          </Typography>
-          <TypographyLabel
-            color="textSecondary"
-            className={classes.subtitle}
-          >
-            We value your thoughts to bring Demex further. Check out our forum for community to discuss, propose, and execute ideas.
-          </TypographyLabel>
-          <Button
-            className={classes.shareBtn}
-            color="secondary"
-            variant="text"
-            onClick={() => goToLink(StaticLinks.Feedback)}
-          >
-            Share Your Thoughts
-            <CaretRight className={classes.caretRight} />
-          </Button>
-        </Box>
+    <Box className={classes.innerDiv}>
+      <Box  >
+        <Typography
+          color="textPrimary"
+          variant="h3"
+          className={classes.title}
+        >
+          Let Us Know Your Thoughts
+        </Typography>
+        <TypographyLabel
+          color="textSecondary"
+          className={classes.subtitle}
+        >
+          We value your thoughts to bring Demex further. Check out our forum for community to discuss, propose, and execute ideas.
+        </TypographyLabel>
+        <Button
+          className={classes.shareBtn}
+          color="secondary"
+          variant="text"
+          onClick={() => goToLink(StaticLinks.Feedback)}
+        >
+          Share Your Thoughts
+          <CaretRight className={classes.caretRight} />
+        </Button>
       </Box>
     </Box>
   );
@@ -53,15 +51,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     transition: "margin 0.5s ease",
   },
   innerDiv: {
-    margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
-    padding: theme.spacing(0, 2.5),
-  },
-  root: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(11, 0),
+    margin: theme.spacing(0, "auto", 0),
+    maxWidth: "84rem",
+    padding: theme.spacing(11, 2.5),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(6, 0),
+      padding: theme.spacing(6, 2.5),
     },
   },
   shareBtn: {

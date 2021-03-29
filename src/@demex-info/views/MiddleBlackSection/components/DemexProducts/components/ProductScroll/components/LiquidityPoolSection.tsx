@@ -166,7 +166,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "34rem",
     overflow: "hidden",
     [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(5, "auto", 0),
       maxWidth: "32rem",
     },
   },

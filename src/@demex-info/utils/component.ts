@@ -20,6 +20,8 @@ export interface PartialBoxProps {
   paddingTop?: string | number
   paddingX?: string | number
   paddingY?: string | number
+  px?: string | number
+  py?: string | number
 
   flex?: string | number
   flexBasis?: string
@@ -53,6 +55,8 @@ export const extractBoxProps = (props: any) => {
     paddingTop,
     paddingX,
     paddingY,
+    px,
+    py,
     flex,
     flexBasis,
     flexDirection,
@@ -86,6 +90,8 @@ export const extractBoxProps = (props: any) => {
     paddingTop,
     paddingX,
     paddingY,
+    px,
+    py,
     flex,
     flexBasis,
     flexDirection,

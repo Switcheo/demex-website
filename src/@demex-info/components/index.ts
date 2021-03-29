@@ -1,3 +1,4 @@
+export * from "./PaperBox";
 export * from "./PreferenceThemeProvider";
 export * from "./SampleComponent";
 export * from "./ThemeProviders";

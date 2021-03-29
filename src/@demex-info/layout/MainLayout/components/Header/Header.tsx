@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     minHeight: "1.75rem",
     padding: theme.spacing(1.5, 2.5),
     position: "fixed",
+    top: 0,
     width: `calc(100% - ${theme.spacing(5)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {

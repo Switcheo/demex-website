@@ -7,17 +7,17 @@ import { LiquidityPool } from "@demex-info/assets/graphic";
 import { Pool } from "@demex-info/store/pools/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import { SlideCategory } from "../../slideConfig";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 
 interface Props {
-  slideItem: SlideCategory;
+  liquidityRef: () => void;
+  liquidityView: boolean;
 }
 
 const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
-  const { slideItem } = props;
+  const { liquidityRef, liquidityView } = props;
   const classes = useStyles();
 
   const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
@@ -70,12 +70,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   }, [pools, weeklyRewards, usdPrices]);
 
   return (
-    <Box
-      className={clsx(
-        classes.slideItem,
-        { out: slideItem !== "liquidityPools" },
-      )}
-    >
+    <div ref={liquidityRef} id="liquidityPools" className={clsx(classes.slideItem, { liquidityView })}>
       <Box className={classes.leftGrid}>
         <Typography
           variant="h3"
@@ -123,10 +118,10 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
           Start Earning
         </Button>
       </Box>
-      <Box className={classes.rightGrid}>
+      <Box px={2.5}>
         <img className={classes.liquidityImg} src={LiquidityPool} />
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -134,12 +129,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: theme.palette.text.secondary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(6),
     width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(9),
     padding: theme.spacing(1.75, 3.5),
   },
   leftGrid: {
@@ -149,34 +144,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   liquidityImg: {
     display: "block",
-    margin: theme.spacing(1, "auto", 0),
-    maxWidth: "28rem",
+    maxWidth: "32rem",
     width: "100%",
   },
   poolsStats: {
     alignItems: "center",
     display: "flex",
-    marginTop: theme.spacing(5),
-  },
-  rightGrid: {
-    maxWidth: "50%",
-    padding: theme.spacing(0, 2.5),
-    width: "100%",
+    marginTop: theme.spacing(6),
   },
   slideItem: {
-    display: "inline-flex",
-    height: "100%",
-    position: "absolute",
-    top: 0,
-    transition: "transform ease 0.6s",
+    display: "flex",
     width: "100%",
-    transform: "translateX(0%)",
-    "&.out": {
-      transform: "translateX(-150%)",
+    justifyContent: "center",
+    margin: "1rem 0",
+    paddingTop: "10vh",
+    paddingBottom: "22vh",
+    "&.liquidityView": {
+      paddingTop: "22vh",
     },
   },
   statsBox: {
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(5),
     "&:first-child": {
       marginLeft: 0,
     },
@@ -188,8 +176,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       overflow: "hidden",
     },
   },
-  subtitle: {},
-  title: {},
+  subtitle: {
+    fontSize: "1.125rem",
+  },
+  title: {
+    fontSize: "2.5rem",
+  },
 }));
 
 export default LiquidityPoolSlide;

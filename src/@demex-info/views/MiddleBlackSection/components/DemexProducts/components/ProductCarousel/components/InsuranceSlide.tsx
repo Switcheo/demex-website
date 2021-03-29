@@ -7,17 +7,19 @@ import { RootState } from "@demex-info/store/types";
 import { TypographyLabel } from "@demex-info/components";
 import { useSelector } from "react-redux";
 
-const InsuranceSection: React.FC = () => {
+interface Props {
+  insuranceRef: () => void;
+}
+
+const InsuranceSlide: React.FC<Props> = (props: Props) => {
+  const { insuranceRef } = props;
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
 
   return (
-    <React.Fragment>
-      <Box id="insuranceFund" height="0.5rem">
-        &nbsp;
-      </Box>
-      <Box className={classes.productItem}>
+    <div ref={insuranceRef} id="insuranceFund" className={classes.slideItem}>
+      <Box className={classes.leftGrid}>
         <Typography
           variant="h3"
           color="textPrimary"
@@ -39,10 +41,10 @@ const InsuranceSection: React.FC = () => {
           Coming Soon
         </Button>
       </Box>
-      <Box className={classes.productItem}>
+      <Box px={2.5}>
         <InsuranceFund className={classes.insuranceImg} />
       </Box>
-    </React.Fragment>
+    </div>
   );
 };
 
@@ -50,38 +52,38 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: theme.palette.text.secondary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(6),
     width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,
-    marginTop: theme.spacing(4.5),
+    marginTop: theme.spacing(9),
     padding: theme.spacing(1.75, 3.5),
   },
   insuranceImg: {
     display: "block",
-    height: "100%",
     width: "100%",
-    margin: theme.spacing(0, "auto"),
-    maxHeight: "17rem",
-    maxWidth: "26rem",
+    maxWidth: "22rem",
   },
-  productItem: {
-    margin: theme.spacing(7, "auto", 0),
-    maxWidth: "34rem",
-    overflow: "hidden",
-    [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(5, "auto", 0),
-      maxWidth: "32rem",
-    },
+  leftGrid: {
+    padding: theme.spacing(0, 2.5),
+    width: "50%",
+  },
+  slideItem: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+    // height: "50vh",
+    margin: "1rem 0",
+    paddingTop: "22vh",
+    paddingBottom: "22vh",
   },
   subtitle: {
-    marginTop: theme.spacing(3.5),
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(2),
-    },
+    fontSize: "1.125rem",
   },
-  title: {},
+  title: {
+    fontSize: "2.5rem",
+  },
 }));
 
-export default InsuranceSection;
+export default InsuranceSlide;
