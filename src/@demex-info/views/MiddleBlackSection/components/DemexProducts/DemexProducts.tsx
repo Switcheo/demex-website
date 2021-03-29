@@ -59,7 +59,7 @@ const DemexProducts: React.FC = () => {
       changeTab("insuranceFund");
       return;
     }
-  }, [slide])
+  }, [slide]);
 
   const SlideTabs: SlideItem[] = [{
     label: "Liquidity Pools",

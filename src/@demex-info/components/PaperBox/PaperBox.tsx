@@ -25,6 +25,6 @@ const PaperBox: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles(() => ({
   box: {},
   paper: {},
-}))
+}));
 
 export default PaperBox;
