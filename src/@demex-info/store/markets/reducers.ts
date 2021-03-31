@@ -4,6 +4,7 @@ import { MarketsState } from "./types";
 const initial_state: MarketsState = {
   stats: [],
   list: {},
+  candlesticks: {},
 };
 
 const reducer = (state: MarketsState = initial_state, actions: any) => {
@@ -18,6 +19,12 @@ const reducer = (state: MarketsState = initial_state, actions: any) => {
       return {
         ...state,
         list: actions.list,
+      };
+    }
+    case MarketsActionTypes.SET_MARKET_CANDLESTICKS: {
+      return {
+        ...state,
+        candlesticks: actions.candlesticks,
       };
     }
     default: {

@@ -1,7 +1,8 @@
+import { Area, AreaChart } from "recharts";
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
-import { Box, Button, Hidden, TableCell, TableRow, Theme, makeStyles } from "@material-ui/core";
-import { MarkType, MarketListItem, MarketStatItem } from "@demex-info/store/markets/types";
+import { Box, Button, Hidden, TableCell, TableRow, Theme, makeStyles, useTheme } from "@material-ui/core";
+import { CandleStickItem, MarkType, MarketListItem, MarketStatItem } from "@demex-info/store/markets/types";
 import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
 import React, { useEffect } from "react";
 
@@ -15,6 +16,7 @@ import { useSelector } from "react-redux";
 interface Props {
   listItem: MarketListItem;
   stat: MarketStatItem;
+  candlesticks: CandleStickItem[] | undefined;
 }
 
 const COIN_OVERRIDE: {
@@ -24,9 +26,10 @@ const COIN_OVERRIDE: {
 };
 
 const MarketGridRow: React.FC<Props> = (props: Props) => {
-  const { listItem, stat } = props;
+  const { candlesticks, listItem, stat } = props;
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
+  const theme = useTheme();
 
   const { network, usdPrices } = useSelector((state: RootState) => state.app);
 
@@ -45,6 +48,12 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   const change24H = openPriceUsd.isZero() ? BN_ZERO : closePriceUsd.minus(openPriceUsd).dividedBy(openPriceUsd);
 
   const usdVolume = baseUsd.times(stat?.day_volume ?? BN_ZERO);
+  const graphMainColor = !change24H.isZero()
+    ? (change24H.gt(0) ? theme.palette.success.main : theme.palette.error.main)
+    : theme.palette.text.secondary;
+  const graphLightColor = !change24H.isZero()
+    ? (change24H.gt(0) ? theme.palette.success.light : theme.palette.error.light)
+    : theme.palette.text.secondary;
 
   useEffect(() => {
     setTimeout(() => {
@@ -158,10 +167,35 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           </RenderGuard>
         </Box>
       </TableCell>
-      <TableCell className={classes.marketCell} align="right">
-        Cell 5
+      <TableCell className={classes.chartCell} align="right">
+        <Box display="flex" justifyContent="flex-end">
+          <RenderGuard renderIf={Boolean(!candlesticks)}>
+            <Skeleton variant="rect" width={240} height={88} />
+          </RenderGuard>
+          <RenderGuard renderIf={Boolean(candlesticks)}>
+            <AreaChart width={240} height={88} data={candlesticks}>
+              <defs>
+                <linearGradient id={`graphGradient-${stat.market}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={graphLightColor} stopOpacity={0.6}/>
+                  <stop offset="20%" stopColor={graphLightColor} stopOpacity={0.3}/>
+                  <stop offset="100%" stopColor={graphLightColor} stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <Area
+                strokeWidth={1.5}
+                dot={false}
+                type="monotone"
+                dataKey="close"
+                xAxisId="timestamp"
+                yAxisId="close"
+                stroke={graphMainColor}
+                fill={`url(#graphGradient-${stat.market})`}
+              />
+            </AreaChart>
+          </RenderGuard>
+        </Box>
       </TableCell>
-      <TableCell className={classes.marketCell} align="right">
+      <TableCell className={clsx(classes.marketCell, "trade")} align="right">
         <Button
           className={classes.tradeBtn}
           color="secondary"
@@ -182,6 +216,12 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   change24h: {
     minWidth: "5rem",
+  },
+  chartCell: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    height: "100%",
+    maxHeight: "6rem",
+    padding: theme.spacing(0.5),
   },
   denomVal: {
     fontWeight: 500,
@@ -208,6 +248,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     maxHeight: "6rem",
     padding: theme.spacing(3, 2),
+    "&.trade": {
+      maxWidth: "4rem",
+    },
     "&.positive": {
       color: theme.palette.success.main,
     },

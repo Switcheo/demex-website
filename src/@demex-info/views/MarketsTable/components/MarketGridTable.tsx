@@ -20,7 +20,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
   const { marketsList } = props;
   const classes = useStyles();
 
-  const { list } = useSelector((state: RootState) => state.markets);
+  const { list, candlesticks } = useSelector((state: RootState) => state.markets);
 
   const [expand, setExpand] = React.useState<boolean>(false);
 
@@ -55,8 +55,8 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
     tableHeight = "100%";
     marketPaperHeight = "100%";
   } else {
-    tableHeight = 38 + (4 * 96);
-    marketPaperHeight = tableHeight + 48;
+    tableHeight = 38 + (4 * 98);
+    marketPaperHeight = tableHeight + 56;
   }
 
   return (
@@ -86,11 +86,13 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                 {
                   marketsList.map((stat: MarketStatItem) => {
                     const listItem = list?.[stat.market] ?? {};
+                    const candleSticksArr = candlesticks?.[stat.market] ?? undefined;
                     return (
                       <MarketGridRow
                         key={stat.market}
                         stat={stat}
                         listItem={listItem}
+                        candlesticks={candleSticksArr}
                       />
                     );
                   })

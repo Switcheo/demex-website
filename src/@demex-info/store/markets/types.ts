@@ -1,10 +1,30 @@
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 
 import BigNumber from "bignumber.js";
+import moment from "moment";
 
 export interface MarketsState {
   stats: MarketStatItem[];
   list: MarketListMap;
+  candlesticks: CandleSticksMap;
+}
+
+export interface CandleStickItem {
+  id: number;
+  market: string;
+  time: string;
+  resolution: number;
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  volume: number;
+  quoteVolume: number;
+  timestamp: number;
+}
+
+export interface CandleSticksMap {
+  [key: string]: CandleStickItem[];
 }
 
 export interface MarketListItem {
@@ -161,6 +181,39 @@ export function parseMarketStats(marketStats: any[]): MarketStatItem[] {
     last_price: parseNumber(marketStat.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStat.open_interest, BN_ZERO)!,
   }));
+}
+
+export function parseMarketCandlesticks(candlesticks: any[]): CandleStickItem[] {
+  if (typeof candlesticks !== "object" || candlesticks.length <= 0) {
+    return [];
+  }
+  return candlesticks.map((candlestick: any) => {
+    const {
+      id = 0,
+      market = "",
+      time = "1970-01-01T00:00:00Z",
+      resolution = 1,
+      open = "0",
+      close = "0",
+      high = "0",
+      low = "0",
+      volume = "0",
+      quote_volume: quoteVolume = "0",
+    } = candlestick;
+    return {
+      id,
+      market,
+      time,
+      resolution,
+      open: parseFloat(open),
+      close: parseFloat(close),
+      high: parseFloat(high),
+      low: parseFloat(low),
+      volume: parseFloat(volume),
+      quoteVolume: parseFloat(quoteVolume),
+      timestamp: moment(time).unix(),
+    };
+  });
 }
 
 export const MarketTasks: { [key: string]: string } = {
