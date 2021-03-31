@@ -35,6 +35,13 @@ export const typography: TypographyOptions = {
 		lineHeight: "1.375rem",
 		letterSpacing: "0.01071em",
 	},
+	subtitle2: {
+		fontFamily: "Roboto",
+		fontWeight: "normal",
+		fontSize: "0.875rem",
+		lineHeight: "1.375rem",
+		letterSpacing: "0.01071em",
+	},
 	body1: {
 		fontFamily: "Roboto",
 		fontWeight: "normal",

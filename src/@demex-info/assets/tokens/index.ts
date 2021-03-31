@@ -1,0 +1,17 @@
+export { ReactComponent as BNB } from "./BNB.svg";
+export { ReactComponent as BTC } from "./BTC.svg";
+export { ReactComponent as BUSD } from "./BUSD.svg";
+export { ReactComponent as CEL } from "./CEL.svg";
+export { ReactComponent as DAI } from "./DAI.svg";
+export { ReactComponent as EOS } from "./EOS.svg";
+export { ReactComponent as ETH } from "./ETH.svg";
+export { ReactComponent as FLM } from "./FLM.svg";
+export { ReactComponent as GAS } from "./GAS.svg";
+export { ReactComponent as iUSD } from "./iUSD.svg";
+export { ReactComponent as NEO } from "./NEO.svg";
+export { ReactComponent as NEX } from "./NEX.svg";
+export { ReactComponent as SWTH } from "./SWTH.svg";
+export { ReactComponent as USD } from "./USD.svg";
+export { ReactComponent as USDC } from "./USDC.svg";
+export { ReactComponent as USDT } from "./USDT.svg";
+export { ReactComponent as WBTC } from "./WBTC.svg";

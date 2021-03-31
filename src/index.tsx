@@ -18,19 +18,17 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "@demex-info/store";
 
 render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<PreferenceThemeProvider>
-				<MainLayout>
-          <MarketsTable />
-          <DexProperties />
-          <PoweredBySwitcheo />
-          <MiddleBlackSection />
-          <ReadyToTrade />
-				</MainLayout>
-			</PreferenceThemeProvider>
-		</Provider>
-	</React.StrictMode>,
+  <Provider store={store}>
+    <PreferenceThemeProvider>
+      <MainLayout>
+        <MarketsTable />
+        <DexProperties />
+        <PoweredBySwitcheo />
+        <MiddleBlackSection />
+        <ReadyToTrade />
+      </MainLayout>
+    </PreferenceThemeProvider>
+  </Provider>,
 	document.getElementById("root"),
 );
 

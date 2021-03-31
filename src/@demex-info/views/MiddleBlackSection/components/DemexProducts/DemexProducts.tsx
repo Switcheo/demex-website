@@ -47,17 +47,19 @@ const DemexProducts: React.FC = () => {
   }, [liquidityView, stakingView, insuranceView]);
 
   useEffect(() => {
-    if (slide === "liquidityPools") {
-      changeTab("liquidityPools");
-      return;
-    }
-    if (slide === "staking") {
-      changeTab("staking");
-      return;
-    }
-    if (slide === "insuranceFund") {
-      changeTab("insuranceFund");
-      return;
+    switch (slide) {
+      case "liquidityPools":
+        changeTab("liquidityPools");
+        break;
+      case "insuranceFund":
+        changeTab("insuranceFund");
+        break;
+      case "staking":
+        changeTab("staking");
+        break;
+      default:
+        changeTab(null);
+        return;
     }
   }, [slide]);
 

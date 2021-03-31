@@ -2,7 +2,8 @@ import { MarketsActionTypes } from "./actions";
 import { MarketsState } from "./types";
 
 const initial_state: MarketsState = {
-  marketStats: [],
+  stats: [],
+  list: {},
 };
 
 const reducer = (state: MarketsState = initial_state, actions: any) => {
@@ -10,7 +11,13 @@ const reducer = (state: MarketsState = initial_state, actions: any) => {
     case MarketsActionTypes.SET_MARKET_STATS: {
       return {
         ...state,
-        marketStats: actions.marketStats,
+        stats: actions.stats,
+      };
+    }
+    case MarketsActionTypes.SET_MARKET_LIST_MAP: {
+      return {
+        ...state,
+        list: actions.list,
       };
     }
     default: {

@@ -1,12 +1,20 @@
-import { MarketStatItem } from "./types";
+import { MarketListMap, MarketStatItem } from "./types";
 
 export const MarketsActionTypes = {
+	SET_MARKET_LIST_MAP: "SET_MARKET_LIST_MAP",
   SET_MARKET_STATS: "SET_MARKET_STATS",
 };
 
-export function setMarketStats(marketStats: MarketStatItem[]) {
+export function setMarketStats(stats: MarketStatItem[]) {
 	return {
 		type: MarketsActionTypes.SET_MARKET_STATS,
-		marketStats,
+		stats,
+	};
+}
+
+export function setMarketListMap(list: MarketListMap) {
+	return {
+		type: MarketsActionTypes.SET_MARKET_LIST_MAP,
+		list,
 	};
 }
