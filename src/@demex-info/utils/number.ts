@@ -70,3 +70,19 @@ export function formatUsdPrice(number: string | number | BigNumber, includeDolla
   }
   return `${dollarPortion}${newNum.toFormat(2)}`;
 }
+
+export function toPercentage(number: any, dp: number = 3) {
+  if (!number) {
+    return BN_ZERO.toFormat(dp);
+  }
+  let finalBN = BN_ZERO;
+  if (!BigNumber.isBigNumber(number)) {
+    finalBN = parseNumber(number, BN_ZERO)!;
+  } else {
+    finalBN = number;
+  }
+  if (!finalBN.isFinite() || finalBN.isZero()) {
+    return BN_ZERO.toFormat(dp);
+  }
+  return finalBN.times(100).toFormat(dp);
+}

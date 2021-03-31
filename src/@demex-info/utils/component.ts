@@ -1,3 +1,4 @@
+// Box Utils
 export interface PartialBoxProps {
   margin?: string | number
   marginBottom?: string | number
@@ -20,6 +21,8 @@ export interface PartialBoxProps {
   paddingTop?: string | number
   paddingX?: string | number
   paddingY?: string | number
+  px?: string | number
+  py?: string | number
 
   flex?: string | number
   flexBasis?: string
@@ -29,6 +32,11 @@ export interface PartialBoxProps {
   flexWrap?: string
 
   position?: "relative" | "absolute" | "fixed" | "initial" | "unset"
+
+  height?: string | number
+  width?: string | number
+  maxHeight?: string | number
+  maxWidth?: string | number
 }
 
 export const extractBoxProps = (props: any) => {
@@ -53,6 +61,8 @@ export const extractBoxProps = (props: any) => {
     paddingTop,
     paddingX,
     paddingY,
+    px,
+    py,
     flex,
     flexBasis,
     flexDirection,
@@ -60,6 +70,10 @@ export const extractBoxProps = (props: any) => {
     flexShrink,
     flexWrap,
     position,
+    height,
+    width,
+    maxHeight,
+    maxWidth,
     ...restProps
   } = props;
 
@@ -86,6 +100,8 @@ export const extractBoxProps = (props: any) => {
     paddingTop,
     paddingX,
     paddingY,
+    px,
+    py,
     flex,
     flexBasis,
     flexDirection,
@@ -93,6 +109,10 @@ export const extractBoxProps = (props: any) => {
     flexShrink,
     flexWrap,
     position,
+    height,
+    width,
+    maxHeight,
+    maxWidth,
   };
 
   for (const key of Object.keys(boxProps)) {
@@ -106,3 +126,22 @@ export const extractBoxProps = (props: any) => {
     restProps,
   };
 };
+
+// Table Utils
+export interface HeaderCell {
+  childClass?: string
+  className?: string
+  key?: string
+  title: string
+  sortFunc?: () => void  // required for sorting
+  sortProps?: SortProps  // required for sorting
+  sortKey?: string  // required for sorting
+  tooltip?: string
+}
+
+export type SortDirection = "desc" | "asc"
+
+export interface SortProps {
+  prop: string
+  direction: SortDirection
+}

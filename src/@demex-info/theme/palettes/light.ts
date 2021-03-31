@@ -14,6 +14,7 @@ export const lightPalette: PaletteOptions = {
 		default: "#fcfdff",
 		paper: "#F5F7FA",
 	},
+	divider: "#E3E8F7",
 	text: {
 		primary: "#363B46",
 		secondary: "#6B748B",

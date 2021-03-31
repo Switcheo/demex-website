@@ -1,0 +1,2 @@
+export const SECONDS_PER_HOUR = 60*60;
+export const SECONDS_PER_DAY = SECONDS_PER_HOUR*24;

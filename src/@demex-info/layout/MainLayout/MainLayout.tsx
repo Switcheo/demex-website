@@ -28,10 +28,8 @@ const MainLayout: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   app: {
     backgroundColor: theme.palette.background.default,
-    minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    overflow: "auto",
     position: "relative",
   },
   filler: {

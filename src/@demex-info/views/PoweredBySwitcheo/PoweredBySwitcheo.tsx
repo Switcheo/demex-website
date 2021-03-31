@@ -1,13 +1,72 @@
-import { Box, Button, Grid, Hidden, Link, Theme, Typography, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Grid,
+  Hidden,
+  Link,
+  Theme,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
+import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
-import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
+import Lottie from "react-lottie";
 import React from "react";
 import { StaticLinks } from "@demex-info/constants";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
+// const tickerContent = "Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.";
+// const xMax = 500;
+// const xMin = -xMax;
+
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
+
+  const lottieOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: ScrollingText,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  // const theme = useTheme();
+  // const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
+
+  // const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  // const [x, setX] = React.useState<number>(xMax);
+
+  // // const movePixel = 1;
+
+  // const draw = (context: any, canvas: any, x: number) => {
+  //   context.clearRect(0, 0, x, canvas.height/4*3);
+  //   context.font = "3.5rem Graphik Semibold";
+  //   context.textAlign = "center";
+  //   context.strokeStyle = fade(theme.palette.text.primary, 0.15);
+  //   context.strokeText(tickerContent, x, canvas.height/4*3);
+  // };
+
+  // React.useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   const context = canvas?.getContext('2d');
+  //   let animationFrameId: any;
+
+  //   const render = () => {
+  //     if (x > xMin) {
+  //       setX(x - 1);
+  //     } else {
+  //       setX(xMax);
+  //     }
+  //     draw(context, canvas, x);
+  //     animationFrameId = window.requestAnimationFrame(render);
+  //   }
+  //   render()
+    
+  //   return () => {
+  //     window.cancelAnimationFrame(animationFrameId);
+  //   }
+  // }, [draw])
 
   return (
     <Box className={classes.root}>
@@ -15,9 +74,11 @@ const PoweredBySwitcheo: React.FC = () => {
         <Hidden smUp>
           <HomeBorder className={classes.homeBorder} />
         </Hidden>
-        <Box className={classes.textAnimation}>
+        {/* <canvas className={classes.textCanvas} ref={canvasRef} /> */}
+        {/* <Box className={classes.textAnimation}>
           Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.
-        </Box>
+        </Box> */}
+        <Lottie options={lottieOptions} height="6rem" />
       </Box>
       <Box className={classes.tradeHubBox}>
         <Grid container>
@@ -32,7 +93,7 @@ const PoweredBySwitcheo: React.FC = () => {
                 {/* eslint-disable-next-line no-trailing-spaces */}
                 <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
               </TypographyLabel>
-              <TypographyLabel color="textSecondary">
+              <TypographyLabel color="textSecondary" mt={2}>
                 The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
               </TypographyLabel>
               <Button
@@ -72,6 +133,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       padding: 0,
     },
+  },
+  textCanvas: {
+    width: "100%",
+    maxHeight: "8rem",
+    height: "100%",
   },
   tradeDescription: {
     "& a": {

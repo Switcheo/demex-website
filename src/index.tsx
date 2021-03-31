@@ -2,12 +2,11 @@ import "./index.css";
 import "typeface-roboto";
 
 import {
-  DemexProducts,
   DexProperties,
-  NotATrader,
+  MarketsTable,
+  MiddleBlackSection,
   PoweredBySwitcheo,
   ReadyToTrade,
-  YourThoughts,
 } from "@demex-info/views";
 
 import { MainLayout } from "@demex-info/layout";
@@ -19,20 +18,17 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "@demex-info/store";
 
 render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<PreferenceThemeProvider>
-				<MainLayout>
-          <DexProperties />
-          <PoweredBySwitcheo />
-          <NotATrader />
-          <DemexProducts />
-          <YourThoughts />
-          <ReadyToTrade />
-				</MainLayout>
-			</PreferenceThemeProvider>
-		</Provider>
-	</React.StrictMode>,
+  <Provider store={store}>
+    <PreferenceThemeProvider>
+      <MainLayout>
+        <MarketsTable />
+        <DexProperties />
+        <PoweredBySwitcheo />
+        <MiddleBlackSection />
+        <ReadyToTrade />
+      </MainLayout>
+    </PreferenceThemeProvider>
+  </Provider>,
 	document.getElementById("root"),
 );
 

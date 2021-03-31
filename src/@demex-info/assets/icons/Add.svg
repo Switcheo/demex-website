@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Line</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Pools-/-Row" transform="translate(-1060.000000, -29.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Add-Liquidity" transform="translate(1054.000000, 23.000000)">
+                <path d="M13,6.5 C13.7179702,6.5 14.3,7.08202983 14.3,7.8 L14.3,11.6987 L18.2,11.7 C18.9179702,11.7 19.5,12.2820298 19.5,13 C19.5,13.7179702 18.9179702,14.3 18.2,14.3 L14.3,14.3 L14.3,18.2 C14.3,18.9179702 13.7179702,19.5 13,19.5 C12.2820298,19.5 11.7,18.9179702 11.7,18.2 L11.7,14.3 L7.8,14.3 C7.08202983,14.3 6.5,13.7179702 6.5,13 C6.5,12.2820298 7.08202983,11.7 7.8,11.7 L11.7,11.7 L11.7,7.8 C11.7,7.08202983 12.2820298,6.5 13,6.5 Z" id="Line"></path>
+            </g>
+        </g>
+    </g>
+</svg>
