@@ -15031,9 +15031,9 @@ tr46@~0.0.3:
   resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-"tradehub-api-js@git+ssh://git@github.com/Switcheo/tradehub-api-js":
+"tradehub-api-js@git+ssh://git@github.com/Switcheo/tradehub-api-js#feat/candlesticks":
   version "1.0.0"
-  resolved "git+ssh://git@github.com/Switcheo/tradehub-api-js#611b726bd1e9985ee4d95d645562b84e17a6abe1"
+  resolved "git+ssh://git@github.com/Switcheo/tradehub-api-js#ce6478b67f7cd7b9d610c9d69664ad76b29edb21"
   dependencies:
     "@cityofzion/neon-core" "^4.8.0"
     "@cityofzion/neon-js" "^4.8.0"
