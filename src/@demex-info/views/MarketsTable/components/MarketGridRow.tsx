@@ -257,12 +257,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.negative": {
       color: theme.palette.error.main,
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
       "&:first-child": {
         padding: theme.spacing(3, 2, 3, 4.5),
       },
       "&:last-child": {
         padding: theme.spacing(3, 4.5, 3, 2),
+      },
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(3, 1.5),
+      "&:first-child": {
+        padding: theme.spacing(3, 1.5, 3, 3.5),
+      },
+      "&:last-child": {
+        padding: theme.spacing(3, 3.5, 3, 1.5),
       },
     },
   },
@@ -289,6 +298,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   spotCell: {
     minWidth: "13rem",
+    [theme.breakpoints.only("xs")]: {
+      minWidth: "11rem",
+    },
   },
   svgBox: {
     paddingTop: 0,
