@@ -181,7 +181,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "1.375rem",
   },
   root: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
     padding: theme.spacing(8, 0),
     position: "relative",

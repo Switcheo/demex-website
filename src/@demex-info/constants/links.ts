@@ -90,9 +90,16 @@ export const StaticLinks = {
   },
   DemexDocs: {
     Home: "https://docs.dem.exchange",
+    Start: {
+      CreateAccount: "https://docs.dem.exchange/getting-started/creating-a-demex-account",
+    },
     LiquidityPools: {
       Instructions: "https://docs.dem.exchange/getting-started/committing-liquidity-pool-tokens",
       Faqs: "https://docs.dem.exchange/products/what-is-liquidity-pooling/faqs",
+    },
+    Trade: {
+      Spot: "https://docs.dem.exchange/products/trading-spot-markets",
+      Futures: "https://docs.dem.exchange/products/futures/trading-futures-on-demex",
     },
     Fees: "https://docs.dem.exchange/getting-started/fees",
   },
@@ -145,6 +152,7 @@ export interface ExtSocialLnk {
   label: string;
   href: string;
   component: any;
+  color?: string;
 }
 
 export const SocialLnks: { [key: string]: ExtSocialLnk } = {

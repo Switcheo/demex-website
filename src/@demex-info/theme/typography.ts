@@ -9,7 +9,7 @@ export const typography: TypographyOptions = {
 	},
 	h3: { // graphik based header, refactor later
 		fontFamily: "Graphik, sans-serif",
-		fontSize: "2.25rem",
+		fontSize: "2.5rem",
 		fontWeight: 600,
 		lineHeight: 1.235,
 		letterSpacing: "0.00735em",

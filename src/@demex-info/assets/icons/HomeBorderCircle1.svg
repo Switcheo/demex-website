@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="480px" height="480px" viewBox="0 0 480 480" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Pattern</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Layout-/-Desktop-/-04-Comparison-+-Support" transform="translate(240.000000, -1436.000000)">
+            <g id="Pattern" transform="translate(0.000000, 1676.000000) rotate(-180.000000) translate(-0.000000, -1676.000000) translate(-240.000000, 1436.000000)">
+                <circle id="Oval-Copy-2" stroke="#A7CBFF" cx="240" cy="240" r="239.5"></circle>
+                <circle id="Oval-Copy-4" stroke="#A7CBFF" cx="240" cy="240" r="169.5"></circle>
+                <circle id="Oval-Copy-5" stroke="#A7CBFF" cx="240" cy="240" r="100.5"></circle>
+                <path d="M87.6057761,443.804347 C95.3543265,446.990341 104.237063,443.338013 107.446049,435.647234 C110.655035,427.957388 106.976212,419.140879 99.227662,415.955818 L87.6057761,443.804347" id="Fill-1" fill="#FFBA24" transform="translate(98.105776, 430.455818) rotate(42.000000) translate(-98.105776, -430.455818) "></path>
+                <rect id="Rectangle" fill="#1E7DFA" transform="translate(153.820515, 292.820515) rotate(-252.000000) translate(-153.820515, -292.820515) " x="146.820515" y="285.820515" width="14" height="14"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
