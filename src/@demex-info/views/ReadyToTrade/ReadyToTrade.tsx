@@ -6,6 +6,8 @@ import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
 import React from "react";
 import { RootState } from "@demex-info/store/types";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
 const ReadyToTrade: React.FC = () => {
@@ -18,9 +20,14 @@ const ReadyToTrade: React.FC = () => {
     window.open(link, "_blank");
   };
 
+  const [sectionRef, sectionView] = useInView({
+    threshold: 0.3,
+    triggerOnce: true,
+  });
+
   return (
-    <Box className={classes.root}>
-      <Box className={classes.innerDiv}>
+    <div ref={sectionRef} className={classes.root}>
+      <Box className={clsx(classes.innerDiv, classes.slide, { open: sectionView })}>
         <Typography variant="h5" className={classes.header}>
           Ready to Trade?
         </Typography>
@@ -75,7 +82,7 @@ const ReadyToTrade: React.FC = () => {
       </Box>
       <HomeBorderLeft className={classes.borderLeft} />
       <HomeBorderRight className={classes.borderRight} />
-    </Box>
+    </div>
   );
 };
 
@@ -187,6 +194,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "relative",
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(10, 0),
+    },
+  },
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 30px)",
+    transition: "opacity ease-in 0.6s, transform ease-in 0.7s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
     },
   },
   subtitle: {

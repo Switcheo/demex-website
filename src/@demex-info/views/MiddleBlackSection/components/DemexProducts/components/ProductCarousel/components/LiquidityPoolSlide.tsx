@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 interface Props {
   liquidityRef: () => void;
   liquidityView: boolean;
+  stakingView: boolean;
 }
 
 const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
@@ -70,7 +71,16 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   }, [pools, weeklyRewards, usdPrices]);
 
   return (
-    <div ref={liquidityRef} id="liquidityPools" className={clsx(classes.slideItem, { liquidityView })}>
+    <div
+      ref={liquidityRef}
+      id="liquidityPools"
+      className={clsx(
+        classes.slideItem,
+        {
+          slideIn: liquidityView,
+        },
+      )}
+    >
       <Box className={classes.leftGrid}>
         <Typography
           variant="h3"
@@ -157,10 +167,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     justifyContent: "center",
     margin: "1rem 0",
-    paddingTop: "10vh",
+    paddingTop: "22vh",
     paddingBottom: "22vh",
-    "&.liquidityView": {
-      paddingTop: "22vh",
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.slideIn": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+    "&.slideOutTop": {
+      opacity: 0,
+      transform: "translate(0px,-60px)",
+    },
+    "&.slideOutBottom": {
+      opacity: 0,
+      transform: "translate(0px, 60px)",
     },
   },
   statsBox: {

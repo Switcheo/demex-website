@@ -1,5 +1,5 @@
 import { Box, Theme, makeStyles } from "@material-ui/core";
-import { CoinIcon, PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
+import { CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme } from "@demex-info/components";
 
 import React from "react";
 import { RootState } from "@demex-info/store/types";
@@ -17,7 +17,7 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
   const { tokens: tokenList } = useSelector((state: RootState) => state.app);
 
   return (
-    <React.Fragment>
+    <RenderGuard renderIf={tokens.length > 0}>
       <PaperBox boxClass={classes.dropdownPaper}>
         {
           tokens.map((token: string) => {
@@ -33,7 +33,7 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
           })
         }
       </PaperBox>
-    </React.Fragment>
+    </RenderGuard>
   );
 };
 

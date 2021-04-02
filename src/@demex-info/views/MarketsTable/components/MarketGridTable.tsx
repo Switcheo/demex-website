@@ -1,24 +1,27 @@
 import { Add, Remove } from "@demex-info/assets";
-import { Box, Hidden, Table, TableBody, TableCell, TableHead, TableRow, Theme, makeStyles } from "@material-ui/core";
+import { Box, CircularProgress, Hidden, Table, TableBody, TableCell, TableHead, TableRow, Theme, makeStyles } from "@material-ui/core";
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
+import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
 
 import { HeaderCell } from "@demex-info/utils";
 import MarketGridRow from "./MarketGridRow";
 import MarketPaper from "./MarketPaper";
-import { MarketStatItem } from "@demex-info/store/markets/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
 import clsx from "clsx";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { useSelector } from "react-redux";
+import { useTaskSubscriber } from "@demex-info/hooks";
 
 interface Props {
   marketsList: MarketStatItem[];
+  marketOption: MarketType;
 }
 
 const MarketGridTable: React.FC<Props> = (props: Props) => {
-  const { marketsList } = props;
+  const { marketsList, marketOption } = props;
   const classes = useStyles();
+  const [loading] = useTaskSubscriber(MarketTasks.List, MarketTasks.Stats);
 
   const { list, candlesticks } = useSelector((state: RootState) => state.markets);
 
@@ -81,7 +84,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                 </Hidden>
               </TableRow>
             </TableHead>
-            <RenderGuard renderIf={marketsList?.length > 0}>
+            <RenderGuard renderIf={!loading && marketsList?.length > 0}>
               <TableBody>
                 {
                   marketsList.map((stat: MarketStatItem) => {
@@ -100,12 +103,26 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
               </TableBody>
             </RenderGuard>
           </Table>
-          <RenderGuard renderIf={marketsList.length === 0}>
-            <EmptyState theme="light" />
+          <RenderGuard renderIf={!loading && marketsList.length === 0}>
+            <EmptyState
+              helperText={`No ${marketOption === MarkType.Spot ? "Spot" : "Futures"} found at the moment`}
+              theme="light"
+            />
+          </RenderGuard>
+          <RenderGuard renderIf={loading}>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+              width="100%"
+            >
+              <CircularProgress color="secondary" size="3rem" />
+            </Box>
           </RenderGuard>
         </Box>
         {
-          marketsList?.length > 4 && (
+          !loading && marketsList?.length > 4 && (
             <Box className={clsx(classes.viewBtn, { expand })} onClick={() => setExpand(!expand)}>
               {
                 expand ? (
@@ -179,6 +196,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.button,
     alignItems: "center",
     color: theme.palette.text.secondary,
+    cursor: "pointer",
     display: "flex",
     fontSize: "0.9rem",
     justifyContent: "center",

@@ -11,36 +11,25 @@ const DemexProducts: React.FC = () => {
   const [slide, setSlide] = React.useState<SlideCategory | null>(null);
 
   const [liquidityRef, liquidityView] = useInView({
-    threshold: 0.1,
+    threshold: 0.3,
   });
   const [stakingRef, stakingView] = useInView({
-    threshold: 0.2,
+    threshold: 0.3,
   });
   const [insuranceRef, insuranceView] = useInView({
-    threshold: 0.4,
+    threshold: 0.3,
   });
 
-  const changeTab = (tab: SlideCategory | null) => {
-    setSlide(tab);
-    if (tab) {
-      const slideItem = document.querySelector(`#${tab}`);
-      slideItem?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   useEffect(() => {
-    if (liquidityView && !insuranceView && !stakingView) {
+    if (liquidityView) {
       setSlide("liquidityPools");
       return;
     }
-    if (stakingView && !insuranceView && !liquidityView) {
+    if (stakingView) {
       setSlide("staking");
       return;
     }
-    if (insuranceView && !liquidityView && !stakingView) {
+    if (insuranceView) {
       setSlide("insuranceFund");
       return;
     }
@@ -49,16 +38,16 @@ const DemexProducts: React.FC = () => {
   useEffect(() => {
     switch (slide) {
       case "liquidityPools":
-        changeTab("liquidityPools");
+        setSlide("liquidityPools");
         break;
       case "insuranceFund":
-        changeTab("insuranceFund");
+        setSlide("insuranceFund");
         break;
       case "staking":
-        changeTab("staking");
+        setSlide("staking");
         break;
       default:
-        changeTab(null);
+        setSlide(null);
         return;
     }
   }, [slide]);
@@ -84,7 +73,6 @@ const DemexProducts: React.FC = () => {
                 key={slidetab.value}
                 className={clsx(classes.tab, { selected: slide === slidetab.value })}
                 variant="text"
-                onClick={() => changeTab(slidetab.value)}
               >
                 {slidetab.label}
               </Button>
@@ -97,6 +85,8 @@ const DemexProducts: React.FC = () => {
             stakingRef={stakingRef}
             insuranceRef={insuranceRef}
             liquidityView={liquidityView}
+            stakingView={stakingView}
+            insuranceView={insuranceView}
           />
         </Hidden>
         <Hidden mdUp>

@@ -4,6 +4,8 @@ import { CaretRight } from "@demex-info/assets/icons";
 import React from "react";
 import { StaticLinks } from "@demex-info/constants";
 import { TypographyLabel } from "@demex-info/components";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 
 const YourThoughts: React.FC = () => {
   const classes = useStyles();
@@ -13,9 +15,14 @@ const YourThoughts: React.FC = () => {
     window.open(link, "_blank");
   };
 
+  const [sectionRef, sectionView] = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
   return (
-    <Box className={classes.innerDiv}>
-      <Box  >
+    <div ref={sectionRef} className={classes.innerDiv}>
+      <Box className={clsx(classes.slide, { open: sectionView })}>
         <Typography
           color="textPrimary"
           variant="h3"
@@ -39,7 +46,7 @@ const YourThoughts: React.FC = () => {
           <CaretRight className={classes.caretRight} />
         </Button>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -69,6 +76,15 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginRight: "-0.4rem",
         marginLeft: "0.6rem",
       },
+    },
+  },
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 20px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
     },
   },
   subtitle: {

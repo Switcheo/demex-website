@@ -17,22 +17,22 @@ const JustGettingStarted: React.FC = () => {
   return (
     <div ref={titleRef} className={classes.root}>
       <Box className={classes.innerDiv}>
-        <TypographyLabel
-          className={clsx(classes.slide, "title", { open: titleView })}
-          align="center"
-          variant="h3"
-        >
-          Just Getting Started?
-        </TypographyLabel>
-        <TypographyLabel
-          className={clsx(classes.slide, "subtitle", { open: titleView })}
-          color="textSecondary"
-          align="center"
-          mt={4}
-          variant="subtitle1"
-        >
-          Discover infinite possibilities with Demex. You are limited only by your own imagination. 
-        </TypographyLabel>
+        <Box className={clsx(classes.slide, "title", { open: titleView })}>
+          <TypographyLabel
+            align="center"
+            variant="h3"
+          >
+            Just Getting Started?
+          </TypographyLabel>
+          <TypographyLabel
+            color="textSecondary"
+            align="center"
+            mt={4}
+            variant="subtitle1"
+          >
+            Discover infinite possibilities with Demex. You are limited only by your own imagination. 
+          </TypographyLabel>
+        </Box>
         <Box className={clsx(classes.slide, "paperBox", { open: titleView })} mt={6}>
           <Grid container>
             <Grid item className={classes.gridItem} xs={12} md={6}>
@@ -107,9 +107,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "&.title": {
       transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
-    },
-    "&.subtitle": {
-      transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
     },
     "&.open": {
       opacity: 1,

@@ -10,12 +10,15 @@ import { setCandleSticksMap } from "@demex-info/store/markets/actions";
 
 function* handleQueryMarketStats(): Generator {
 	logger("query market stats");
+  let startLoad: boolean = true;
 	while (true) {
     const restClient: any = yield select((state: RootState): RestClient => state.app.restClient);
     if (!restClient) continue;
 
-		const marketUuid = uuidv4();
-		yield put(actions.Layout.addBackgroundLoading(MarketTasks.Stats, marketUuid));
+    const marketUuid = uuidv4();
+    if (startLoad) {
+      yield put(actions.Layout.addBackgroundLoading(MarketTasks.Stats, marketUuid));
+    }
 		try {
       const response: any = yield call([restClient, restClient.getMarketStats]);
       const marketStats: MarketStatItem[] = parseMarketStats(response);
@@ -23,7 +26,10 @@ function* handleQueryMarketStats(): Generator {
 		} catch (err) {
       console.error(err);
     } finally {
-			yield put(actions.Layout.removeBackgroundLoading(marketUuid));
+      if (startLoad) {
+        yield put(actions.Layout.removeBackgroundLoading(marketUuid));
+        startLoad = false;
+      }
 			yield delay(15000);
 		}
 	}
@@ -31,12 +37,15 @@ function* handleQueryMarketStats(): Generator {
 
 function* handleQueryMarketListMap(): Generator {
   logger("query market list map");
+  let startLoad: boolean = true;
   while (true) {
     const restClient: any = yield select((state: RootState): RestClient => state.app.restClient);
     if (!restClient) continue;
 
 		const marketListUuid = uuidv4();
-		yield put(actions.Layout.addBackgroundLoading(MarketTasks.List, marketListUuid));
+    if (startLoad) {
+      yield put(actions.Layout.addBackgroundLoading(MarketTasks.List, marketListUuid));
+    }
 		try {
       const response: any = yield call([restClient, restClient.getMarkets]);
       const marketListMap: MarketListMap = parseMarketListMap(response);
@@ -44,7 +53,10 @@ function* handleQueryMarketListMap(): Generator {
 		} catch (err) {
       console.error(err);
     } finally {
-			yield put(actions.Layout.removeBackgroundLoading(marketListUuid));
+      if (startLoad) {
+        yield put(actions.Layout.removeBackgroundLoading(marketListUuid));
+        startLoad = false;
+      }
 			yield delay(15000);
 		}
   }

@@ -1,22 +1,25 @@
 import { Backdrop, Box, Button, Theme, Typography, makeStyles } from "@material-ui/core";
-import { CoinIcon, TypographyLabel } from "@demex-info/components";
+import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover } from "./components";
-import { MarkType, MarketStatItem, MarketType } from "@demex-info/store/markets/types";
+import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
 import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
-import { useAssetSymbol, useRollingNum } from "@demex-info/hooks";
+import { useAssetSymbol, useRollingNum, useTaskSubscriber } from "@demex-info/hooks";
 
 import { BN_ZERO } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
+import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import moment from "moment";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
+  const [loading] = useTaskSubscriber(MarketTasks.Stats, MarketTasks.List);
 
   const { network, usdPrices } = useSelector((state: RootState) => state.app);
   const { list, stats } = useSelector((state: RootState) => state.markets);
@@ -61,10 +64,10 @@ const MarketsTable: React.FC = () => {
 
       const baseToken = assetSymbol(marketItem.base);
       const quoteToken = assetSymbol(marketItem.quote);
-      if (!coinsList.includes(baseToken)) {
+      if (!coinsList.includes(baseToken) && baseToken.length > 0) {
         coinsList.push(baseToken);
       }
-      if (!coinsList.includes(quoteToken)) {
+      if (!coinsList.includes(quoteToken) && quoteToken.length > 0) {
         coinsList.push(quoteToken);
       }
     });
@@ -110,8 +113,13 @@ const MarketsTable: React.FC = () => {
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
 
+  const [tableRef, tableView] = useInView({
+    threshold: [0.2, 0.8],
+    triggerOnce: true,
+  });
+  
   return (
-    <Box className={classes.root}>
+    <div ref={tableRef} className={classes.root}>
       <Box className={classes.innerDiv}>
         <Box className={classes.buttonDiv} display="flex" justifyContent="center">
           {MarketTabs.map((tab: MarketTab) => (
@@ -125,15 +133,27 @@ const MarketsTable: React.FC = () => {
             </Button>
           ))}
         </Box>
-        <Box className={classes.tableRoot}>
+        <Box
+          className={clsx(
+            classes.tableRoot,
+            classes.slide,
+            "table",
+            { open: tableView },
+          )}
+        >
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
-              <TypographyLabel color="textSecondary" variant="subtitle2">
+              <TypographyLabel mb={1.5} color="textSecondary" variant="subtitle2">
                 Volume (24H)
               </TypographyLabel>
-              <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
-                ${volumeCountUp}
-              </TypographyLabel>
+              <RenderGuard renderIf={loading}>
+                <Skeleton width="80px" height="44px" />
+              </RenderGuard>
+              <RenderGuard renderIf={!loading}>
+                <TypographyLabel color="textPrimary" variant="h4">
+                  ${volumeCountUp}
+                </TypographyLabel>
+              </RenderGuard>
             </MarketPaper>
             <Box className={classes.gridSecondGrid}>
               <MarketPaper className={classes.gridPaperAlt}>
@@ -149,9 +169,14 @@ const MarketsTable: React.FC = () => {
                         justifyContent="space-between"
                         mt={1.5}
                       >
-                        <TypographyLabel color="textPrimary" variant="h4">
-                          {spotCountUp}
-                        </TypographyLabel>
+                        <RenderGuard renderIf={loading}>
+                          <Skeleton width="80px" height="44px" />
+                        </RenderGuard>
+                        <RenderGuard renderIf={!loading}>
+                          <TypographyLabel color="textPrimary" variant="h4">
+                            {spotCountUp}
+                          </TypographyLabel>
+                        </RenderGuard>
                         <Button onClick={() => goToLink(getDemexLink(Paths.Trade, network))} className={classes.viewAll} variant="text" color="secondary">
                           View All
                         </Button>
@@ -165,9 +190,14 @@ const MarketsTable: React.FC = () => {
                       <TypographyLabel color="textSecondary" variant="subtitle2">
                         Open Interest
                       </TypographyLabel>
-                      <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
-                        ${interestCountUp}
-                      </TypographyLabel>
+                      <RenderGuard renderIf={loading}>
+                        <Skeleton width="80px" height="44px" />
+                      </RenderGuard>
+                      <RenderGuard renderIf={!loading}>
+                        <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                          ${interestCountUp}
+                        </TypographyLabel>
+                      </RenderGuard>
                     </React.Fragment>
                   )
                 }
@@ -180,51 +210,63 @@ const MarketsTable: React.FC = () => {
                         Coins
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={1.5} justifyContent="space-between">
-                        <TypographyLabel color="textPrimary" variant="h4">
-                          {coinsCountUp}
-                        </TypographyLabel>
-                        <Box position="relative">
-                          <Box
-                            className={classes.labelBox}
-                            display="flex"
-                            alignItems="center"
-                            onMouseEnter={handleOpen}
-                            onFocus={handleOpen}
-                          >
-                            {coinsList.map((coin: string, index: number) => {
-                              if (index <= 3) {
-                                return (
-                                  <CoinIcon
-                                    className={clsx(classes.coinIcon, `coin-${index}`)}
-                                    key={coin}
-                                    denom={coin}
-                                  />
-                                );
+                        <RenderGuard renderIf={loading}>
+                          <Skeleton width="80px" height="44px" />
+                        </RenderGuard>
+                        <RenderGuard renderIf={!loading}>
+                          <TypographyLabel color="textPrimary" variant="h4">
+                            {coinsCountUp}
+                          </TypographyLabel>
+                        </RenderGuard>
+                        <RenderGuard renderIf={!loading && coinsList.length > 0}>
+                          <Box position="relative">
+                            <Box
+                              className={classes.labelBox}
+                              display="flex"
+                              alignItems="center"
+                              onMouseEnter={handleOpen}
+                              onFocus={handleOpen}
+                            >
+                              {coinsList.map((coin: string, index: number) => {
+                                if (index <= 3) {
+                                  return (
+                                    <CoinIcon
+                                      className={clsx(classes.coinIcon, `coin-${index}`)}
+                                      key={coin}
+                                      denom={coin}
+                                    />
+                                  );
+                                }
+                                return null;
+                              })}
+                              {
+                                coinsList.length > 4 && (
+                                  <Box>
+                                    <Typography
+                                      color="textPrimary"
+                                      variant="h5"
+                                      className={classes.plusLabel}
+                                    >
+                                      +{coinsList.length - 4}
+                                    </Typography>
+                                  </Box>
+                                )
                               }
-                              return null;
-                            })}
-                            {
-                              coinsList.length > 4 && (
-                                <Box>
-                                  <Typography
-                                    color="textPrimary"
-                                    variant="h5"
-                                    className={classes.plusLabel}
-                                  >
-                                    +{coinsList.length - 4}
-                                  </Typography>
-                                </Box>
-                              )
-                            }
+                            </Box>
+                            <Box className={classes.dropdownContainer}>
+                              {
+                                openTokens && (
+                                  <TokenPopover tokens={coinsList} />
+                                )
+                              }
+                            </Box>
                           </Box>
-                          <Box className={classes.dropdownContainer}>
-                            {
-                              openTokens && (
-                                <TokenPopover tokens={coinsList} />
-                              )
-                            }
+                        </RenderGuard>
+                        <RenderGuard renderIf={loading}>
+                          <Box alignItems="center" display="flex" justifyContent="center">
+                            <Skeleton width="120px" height="44px" />
                           </Box>
-                        </Box>
+                        </RenderGuard>
                       </Box>
                       <Backdrop className={classes.backdrop} open={openTokens} invisible onMouseLeave={handleClose} />
                     </React.Fragment>
@@ -239,9 +281,14 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textSecondary" variant="subtitle2">
                               Delivery Futures
                             </TypographyLabel>
-                            <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
-                              {futuresCountUp}
-                            </TypographyLabel>
+                            <RenderGuard renderIf={loading}>
+                              <Skeleton width="80px" height="44px" />
+                            </RenderGuard>
+                            <RenderGuard renderIf={!loading}>
+                              <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                                {futuresCountUp}
+                              </TypographyLabel>
+                            </RenderGuard>
                           </Box>
                         )
                       }
@@ -251,9 +298,14 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textSecondary" variant="subtitle2">
                               Perpetual Swaps
                             </TypographyLabel>
-                            <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
-                              {perpetualsCountUp}
-                            </TypographyLabel>
+                            <RenderGuard renderIf={loading}>
+                              <Skeleton width="80px" height="44px" />
+                            </RenderGuard>
+                            <RenderGuard renderIf={!loading}>
+                              <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                                {perpetualsCountUp}
+                              </TypographyLabel>
+                            </RenderGuard>
                           </Box>
                         )
                       }
@@ -263,10 +315,10 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable marketsList={marketsList} />
+          <MarketGridTable marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -414,6 +466,17 @@ const useStyles = makeStyles((theme: Theme) => ({
   plusLabel: {
     fontSize: "1rem",
     marginLeft: theme.spacing(0.75),
+  },
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    "&.table": {
+      transition: "opacity ease-in 0.4s, transform ease-in 0.5s",
+    },
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
   },
   viewAll: {
     padding: theme.spacing(1),
