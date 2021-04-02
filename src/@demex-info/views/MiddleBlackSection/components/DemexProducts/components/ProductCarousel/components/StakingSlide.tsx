@@ -5,22 +5,34 @@ import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Staking } from "@demex-info/assets/graphic";
 import { TypographyLabel } from "@demex-info/components";
+import clsx from "clsx";
 import { toShorterNum } from "@demex-info/utils";
 import { useSelector } from "react-redux";
 
 interface Props {
+  liquidityView: boolean;
   stakingRef: () => void;
+  stakingView: boolean;
+  insuranceView: boolean;
 }
 
 const StakingSlide: React.FC<Props> = (props: Props) => {
-  const { stakingRef } = props;
+  const { stakingRef, stakingView } = props;
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
   const { totalStaked } = useSelector((state: RootState) => state.staking.stats);
 
   return (
-    <div ref={stakingRef} id="staking" className={classes.slideItem}>
+    <div
+      ref={stakingRef}
+      id="staking"
+      className={clsx(classes.slideItem,
+        {
+          slideIn: stakingView,
+        },
+      )}
+    >
       <Box px={2.5}>
         <img className={classes.stakingImg} src={Staking} />
       </Box>
@@ -100,6 +112,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "1rem 0",
     paddingTop: "22vh",
     paddingBottom: "22vh",
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.slideIn": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+    "&.slideOutTop": {
+      opacity: 0,
+      transform: "translate(0px,-60px)",
+    },
+    "&.slideOutBottom": {
+      opacity: 0,
+      transform: "translate(0px, 60px)",
+    },
   },
   stakingImg: {
     display: "block",

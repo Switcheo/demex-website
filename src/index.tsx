@@ -3,6 +3,7 @@ import "typeface-roboto";
 
 import {
   DexProperties,
+  JustGettingStarted,
   MarketsTable,
   MiddleBlackSection,
   PoweredBySwitcheo,
@@ -25,6 +26,7 @@ render(
         <DexProperties />
         <PoweredBySwitcheo />
         <MiddleBlackSection />
+        <JustGettingStarted />
         <ReadyToTrade />
       </MainLayout>
     </PreferenceThemeProvider>

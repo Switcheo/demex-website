@@ -8,6 +8,7 @@ import { PropertyBox } from "./components";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
 import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
 const DexProperties: React.FC = () => {
@@ -20,40 +21,51 @@ const DexProperties: React.FC = () => {
     window.open(link, "_blank");
   };
 
+  const [sectionRef, sectionView] = useInView({
+    threshold: 0.4,
+    triggerOnce: true,
+  });
+
   return (
-    <Box className={classes.root}>
+    <div ref={sectionRef} className={classes.root}>
       <Box display="flex">
         <Box className={classes.innerDiv}>
           <Box className={classes.titleBox}>
-            <Typography variant="h3">
-              A Derivatives
-              DEX Built Right
-            </Typography>
-            <TypographyLabel color="textSecondary">
-              Demex is powered by a layer 2 blockchain solution for an unrivalled trading experience.
-            </TypographyLabel>
-            <Button
-              className={classes.tradeBtn}
-              onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-              color="secondary"
-            >
-              Start Trading
-            </Button>
+            <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
+              <Typography variant="h3">
+                A Derivatives
+                DEX Built Right
+              </Typography>
+              <TypographyLabel color="textSecondary">
+                Demex is powered by a layer 2 blockchain solution for an unrivalled trading experience.
+              </TypographyLabel>
+              <Button
+                className={classes.tradeBtn}
+                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                color="secondary"
+              >
+                Start Trading
+              </Button>
+            </Box>
             <Hidden smDown>
               <HomeBorder className={classes.decoration} />
             </Hidden>
           </Box>
           <Box className={classes.infoBox}>
-            <Grid container>
+            <Grid className={clsx(classes.slide, "rightBox", { open: sectionView })} container>
               {
                 dexPropsArr.map((dexProp: DexProp, index: number) => (
                   <Grid
                     key={dexProp.title}
                     item
-                    className={clsx(classes.mobileGridItem, {
+                    className={clsx(classes.mobileGridItem,
+                      classes.slide, {
                       [classes.gridItem]: !(index === dexPropsArr.length - 1 || index === dexPropsArr.length - 2),
                       [classes.oddItem]: index % 2 === 1,
                       [classes.evenItem]: index % 2 === 0,
+                      rightFirst: !(index === dexPropsArr.length - 1 || index === dexPropsArr.length - 2),
+                      rightSecond: (index === dexPropsArr.length - 1 || index === dexPropsArr.length - 2),
+                      open: sectionView,
                     })}
                     xs={12}
                     sm={6}
@@ -66,7 +78,7 @@ const DexProperties: React.FC = () => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -144,6 +156,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(8, 0),
     [theme.breakpoints.down("sm")]: {
       padding: 0,
+    },
+  },
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 20px)",
+    "&.leftBox": {
+      transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    },
+    "&.rightFirst": {
+      transform: "translate(0px, 30px)",
+      transition: "opacity ease-in 0.6s, transform ease-in 0.7s",
+    },
+    "&.rightSecond": {
+      transform: "translate(0px, 30px)",
+      transition: "opacity ease-in 0.7s, transform ease-in 0.8s",
+    },
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
     },
   },
   titleBox: {

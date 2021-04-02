@@ -5,20 +5,28 @@ import { InsuranceFund } from "@demex-info/assets/graphic";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { TypographyLabel } from "@demex-info/components";
+import clsx from "clsx";
 import { useSelector } from "react-redux";
 
 interface Props {
   insuranceRef: () => void;
+  insuranceView: boolean;
 }
 
 const InsuranceSlide: React.FC<Props> = (props: Props) => {
-  const { insuranceRef } = props;
+  const { insuranceView, insuranceRef } = props;
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
 
   return (
-    <div ref={insuranceRef} id="insuranceFund" className={classes.slideItem}>
+    <div
+      ref={insuranceRef}
+      id="insuranceFund"
+      className={clsx(classes.slideItem, {
+        slideIn: insuranceView,
+      })}
+    >
       <Box className={classes.leftGrid}>
         <Typography
           variant="h3"
@@ -77,6 +85,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "1rem 0",
     paddingTop: "22vh",
     paddingBottom: "22vh",
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.slideIn": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
   },
   subtitle: {
     fontSize: "1.125rem",

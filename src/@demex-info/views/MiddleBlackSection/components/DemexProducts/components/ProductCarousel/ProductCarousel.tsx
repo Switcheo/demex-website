@@ -8,16 +8,27 @@ interface Props {
   stakingRef: () => void;
   insuranceRef: () => void;
   liquidityView: boolean;
+  stakingView: boolean;
+  insuranceView: boolean;
 }
 
 const ProductCarousel: React.FC<Props> = (props: Props) => {
-  const { liquidityRef, stakingRef, insuranceRef, liquidityView } = props;
+  const { insuranceView, liquidityRef, stakingRef, insuranceRef, liquidityView, stakingView } = props;
 
   return (
     <React.Fragment>
-      <LiquidityPoolSlide liquidityRef={liquidityRef} liquidityView={liquidityView} />
-      <StakingSlide stakingRef={stakingRef} />
-      <InsuranceSlide insuranceRef={insuranceRef} />
+      <LiquidityPoolSlide
+        liquidityRef={liquidityRef}
+        liquidityView={liquidityView}
+        stakingView={stakingView}
+      />
+      <StakingSlide
+        liquidityView={liquidityView}
+        insuranceView={insuranceView}
+        stakingView={stakingView}
+        stakingRef={stakingRef}
+      />
+      <InsuranceSlide insuranceView={insuranceView} insuranceRef={insuranceRef} />
     </React.Fragment>
   );
 };

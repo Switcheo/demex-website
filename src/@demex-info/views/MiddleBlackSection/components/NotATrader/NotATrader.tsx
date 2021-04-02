@@ -2,13 +2,20 @@ import { Box, Theme, Typography, makeStyles } from "@material-ui/core";
 
 import React from "react";
 import { TypographyLabel } from "@demex-info/components";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 
 const NotATrader: React.FC = () => {
   const classes = useStyles();
 
+  const [sectionRef, sectionView] = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
   return (
-    <Box className={classes.innerDiv}>
-      <Box>
+    <div ref={sectionRef} className={classes.innerDiv}>
+      <Box className={clsx(classes.slide, { open: sectionView })}>
         <Typography
           color="textPrimary"
           variant="h3"
@@ -23,7 +30,7 @@ const NotATrader: React.FC = () => {
           Let your cryptoassets work harder for you with more ways to earn.
         </TypographyLabel>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -35,6 +42,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(11, 2.5, 5),
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(6, 2.5),
+    },
+  },
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 20px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
     },
   },
   subtitle: {

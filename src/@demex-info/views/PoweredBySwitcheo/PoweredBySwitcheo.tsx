@@ -14,11 +14,8 @@ import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import Lottie from "react-lottie";
 import React from "react";
 import { StaticLinks } from "@demex-info/constants";
-import { fade } from "@material-ui/core/styles/colorManipulator";
-
-// const tickerContent = "Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.";
-// const xMax = 500;
-// const xMin = -xMax;
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
@@ -31,64 +28,39 @@ const PoweredBySwitcheo: React.FC = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  // const theme = useTheme();
-  // const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
 
-  // const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  // const [x, setX] = React.useState<number>(xMax);
-
-  // // const movePixel = 1;
-
-  // const draw = (context: any, canvas: any, x: number) => {
-  //   context.clearRect(0, 0, x, canvas.height/4*3);
-  //   context.font = "3.5rem Graphik Semibold";
-  //   context.textAlign = "center";
-  //   context.strokeStyle = fade(theme.palette.text.primary, 0.15);
-  //   context.strokeText(tickerContent, x, canvas.height/4*3);
-  // };
-
-  // React.useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   const context = canvas?.getContext('2d');
-  //   let animationFrameId: any;
-
-  //   const render = () => {
-  //     if (x > xMin) {
-  //       setX(x - 1);
-  //     } else {
-  //       setX(xMax);
-  //     }
-  //     draw(context, canvas, x);
-  //     animationFrameId = window.requestAnimationFrame(render);
-  //   }
-  //   render()
-    
-  //   return () => {
-  //     window.cancelAnimationFrame(animationFrameId);
-  //   }
-  // }, [draw])
+  const [sectionRef, sectionView] = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
 
   return (
-    <Box className={classes.root}>
+    <div ref={sectionRef} className={classes.root}>
       <Box className={classes.textRoot}>
         <Hidden smUp>
           <HomeBorder className={classes.homeBorder} />
         </Hidden>
-        {/* <canvas className={classes.textCanvas} ref={canvasRef} /> */}
-        {/* <Box className={classes.textAnimation}>
-          Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.Defi.Open Finance.
-        </Box> */}
         <Lottie options={lottieOptions} height="6rem" />
       </Box>
       <Box className={classes.tradeHubBox}>
         <Grid container>
           <Grid item xs={12} md={5} lg={4}>
-            <Typography variant="h3">
+            <Typography
+              className={clsx(classes.slide, "title", { open: sectionView })}
+              variant="h3"
+            >
               Powered by Switcheo TradeHub
             </Typography>
           </Grid>
           <Grid item xs={12} md={7} lg={8}>
-            <Box className={classes.tradeDescription}>
+            <Box
+              className={clsx(
+                classes.tradeDescription,
+                classes.slide,
+                "subtitle",
+                { open: sectionView },
+              )}
+            >
               <TypographyLabel color="textSecondary">
                 {/* eslint-disable-next-line no-trailing-spaces */}
                 <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
@@ -109,7 +81,7 @@ const PoweredBySwitcheo: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </div>
   );
 };
 
@@ -133,11 +105,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       padding: 0,
     },
-  },
-  textCanvas: {
-    width: "100%",
-    maxHeight: "8rem",
-    height: "100%",
   },
   tradeDescription: {
     "& a": {
@@ -185,19 +152,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       display: "block",
     },
   },
-  textAnimation: {
-    ...theme.typography.h1,
-    fontSize: "4rem",
-    animation: "$scrollLeft 300s infinite linear",
-    display: "inline-block",
-    whiteSpace: "nowrap",
-    "-webkit-text-stroke": `1px ${fade(theme.palette.text.primary, 0.2)}`,
-    "-webkit-text-fill-color": "transparent",
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.h3,
-      fontSize: "3rem",
-    },
-  },
   textRoot: {
     overflow: "hidden",
     [theme.breakpoints.down("md")]: {
@@ -207,9 +161,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       paddingTop: theme.spacing(6),
     },
   },
-  "@keyframes scrollLeft": {
-    to: {
-      transform: "translateX(-100%)",
+  slide: {
+    opacity: 0,
+    transform: "translate(0px, 40px)",
+    "&.title": {
+      transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    },
+    "&.subtitle": {
+      transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
+    },
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
     },
   },
 }));
