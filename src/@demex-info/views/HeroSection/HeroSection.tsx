@@ -5,14 +5,20 @@ import { BackgroundAnimation } from "./components";
 import React from "react";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 
+	const [sectionRef, sectionView] = useInView({
+		threshold: 0.8,
+		triggerOnce: true,
+	});
+
 	return (
-		<Box component="section" className={clsx(classes.root)}>
+		<section ref={sectionRef} className={clsx(classes.root)}>
 			<BackgroundAnimation />
-			<Container maxWidth="lg" className={classes.contentContainer}>
+			<Container maxWidth="lg" className={clsx(classes.contentContainer, classes.slide, { open: sectionView })}>
 				<Box className={classes.content}>
 					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
 						Powerful. Permissionless. Secure.
@@ -38,7 +44,7 @@ const HeroSection: React.FC = () => {
 					</Button>
 				</Box>
 			</Container>
-		</Box>
+		</section>
 	);
 };
 
@@ -66,10 +72,34 @@ const useStyles = makeStyles((theme) => ({
 	contentContainer: {
 		marginTop: "120px",
 		position: "relative",
+		[theme.breakpoints.up("lg")]: {
+			alignItems: "center",
+			display: "flex",
+			justifyContent: "center",
+			height: "calc(100vh - 1.75rem)",
+			paddingBottom: "3.75rem",
+			marginTop: 0,
+		},
+		[theme.breakpoints.only("xs")]: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			marginTop: "10vh",
+			height: "100%",
+		},
 		[theme.breakpoints.down("sm")]: {
 			minHeight: "48px",
 		},
 	},
+	slide: {
+    opacity: 0,
+    transform: "translate(0px, 50px)",
+		transition: "opacity ease-in 0.6s, transform ease-in 0.7s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+  },
 	text: {
 		fontFamily: "Graphik",
 		color: "#fff",
@@ -96,12 +126,18 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "1.555em",
 		maxWidth: "35.55em",
 		marginTop: "2.222em",
+		[theme.breakpoints.only("xs")]: {
+			marginTop: "1.75em",
+		},
 	},
 	button: {
 		marginTop: "4em",
 		padding: "0.8125em 1.75em",
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("sm")]: {
 			marginTop: "2em",
+		},
+		[theme.breakpoints.only("xs")]: {
+			marginTop: "1.75em",
 		},
 		"& .MuiButton-label": {
 			[theme.breakpoints.down("sm")]: {

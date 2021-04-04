@@ -200,6 +200,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       right: "-13vh",
       width: "14rem",
     },
+    [theme.breakpoints.down("sm")]: {
+      top: "-20vh",
+      height: "14rem",
+      right: "-20vh",
+      width: "14rem",
+    },
   },
   slide: {
     opacity: 0,
@@ -279,6 +285,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.secondary.main,
     },
     [theme.breakpoints.only("xs")]: {
+      fontSize: "1.25rem",
       padding: theme.spacing(2.875, 1.5),
     },
   },
