@@ -4,6 +4,7 @@ import "typeface-roboto";
 import {
   DexProperties,
   ExchangeComparison,
+  HeroSection,
   JustGettingStarted,
   MarketsTable,
   MiddleBlackSection,
@@ -23,6 +24,7 @@ render(
   <Provider store={store}>
     <PreferenceThemeProvider>
       <MainLayout>
+        <HeroSection />
         <MarketsTable />
         <DexProperties />
         <PoweredBySwitcheo />
