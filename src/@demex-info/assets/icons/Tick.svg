@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="13px" viewBox="0 0 17 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon / Cross Copy</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Table-/-Comparison-/-CEX-/-Security" transform="translate(-276.000000, -305.000000)" fill="#02A566">
+            <g id="Table-/-Comparison-/-CEX-/-Trading" transform="translate(-4.000000, 0.000000)">
+                <g id="Security-Comparison" transform="translate(0.000000, 59.000000)">
+                    <g id="Exchange" transform="translate(206.287929, 74.000000)">
+                        <g id="Tick" transform="translate(71.000000, 167.000000)">
+                            <path d="M17.3672231,5.82049671 C17.8190821,5.3714365 18.5272702,5.39743902 18.9490053,5.87857496 C19.3382993,6.32270045 19.3474372,6.99938767 18.9911401,7.45406345 L18.8944611,7.56284409 L9.30171464,17.0961719 C8.88941016,17.5059225 8.26255142,17.520756 7.83498056,17.1522752 L7.73247916,17.052176 L3.06353847,11.9333501 C2.63449914,11.4595925 2.64738081,10.705196 3.09231049,10.2483584 C3.5030148,9.8266621 4.13829282,9.80591118 4.57104875,10.1778371 L4.67477136,10.2789946 L8.57886478,14.5530908 L17.3672231,5.82049671 Z" id="Line"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

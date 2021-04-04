@@ -62,8 +62,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.palette.action.hover,
     },
     [theme.breakpoints.only("xs")]: {
+      fontSize: "0.95rem",
       minHeight: "4rem",
-      padding: theme.spacing(1, 0),
+      lineHeight: "1.25rem",
     },
   },
 }));

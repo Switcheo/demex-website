@@ -3,6 +3,7 @@ import "typeface-roboto";
 
 import {
   DexProperties,
+  ExchangeComparison,
   HeroSection,
   JustGettingStarted,
   MarketsTable,
@@ -28,6 +29,7 @@ render(
         <DexProperties />
         <PoweredBySwitcheo />
         <MiddleBlackSection />
+        <ExchangeComparison />
         <JustGettingStarted />
         <ReadyToTrade />
       </MainLayout>

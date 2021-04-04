@@ -13,3 +13,4 @@ export { ReactComponent as HomeBorderCircle1 } from "./HomeBorderCircle1.svg";
 export { ReactComponent as MenuIcon } from "./Menu.svg";
 export { ReactComponent as Notebook } from "./Notebook.svg";
 export { ReactComponent as Remove } from "./Remove.svg";
+export { ReactComponent as TickIcon } from "./Tick.svg";
