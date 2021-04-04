@@ -1,19 +1,23 @@
 import { Box, Theme, Typography, makeStyles } from "@material-ui/core";
 import { DexProp, PropItem } from "../dexPropsConfig";
+import React, { useEffect } from "react";
 
 import { Bullet as BulletIcon } from "@demex-info/assets/icons";
 import Lottie from "react-lottie";
-import React from "react";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
 
 interface Props extends DexProp {
   className?: string;
+  index: number;
+  sectionView: boolean;
 }
 
 const PropertyBox: React.FC<Props> = (props: Props) => {
-  const { animation, className, points, title } = props;
+  const { animation, className, index, points, sectionView, title } = props;
   const classes = useStyles();
+
+  const [showAnimate, setShowAnimate] = React.useState<boolean>(false);
 
   const lottieOptions = {
     loop: true,
@@ -24,10 +28,22 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
     },
   };
 
+  useEffect(() => {
+    if (sectionView) {
+      setTimeout(() => {
+        setShowAnimate(true);
+      }, index * 1000);
+    }
+  }, [sectionView]);
+
   return (
     <Box className={clsx(classes.root, className)}>
       <Box className={classes.lottieSvg}>
-        <Lottie options={lottieOptions} />
+        {
+          showAnimate && (
+            <Lottie options={lottieOptions} />
+          )
+        }
       </Box>
       <TypographyLabel className={classes.title} color="textPrimary">
         {title}
