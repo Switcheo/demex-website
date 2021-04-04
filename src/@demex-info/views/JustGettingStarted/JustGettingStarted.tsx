@@ -140,10 +140,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       left: "-14vh",
       width: "15rem",
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
       bottom: "-13vh",
       height: "14rem",
       left: "-13vh",
+      width: "14rem",
+    },
+    [theme.breakpoints.only("xs")]: {
+      bottom: "-20vh",
+      height: "14rem",
+      left: "-20vh",
       width: "14rem",
     },
   },

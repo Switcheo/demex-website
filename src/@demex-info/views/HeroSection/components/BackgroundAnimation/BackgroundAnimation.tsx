@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
 		left: 0,
 		width: "100%",
 		overflow: "hidden",
+		[theme.breakpoints.up("lg")]: {
+			height: "100vh",
+		},
 	},
 	container: {
 		position: "relative",
