@@ -22,7 +22,7 @@ const TypographyLabel: React.FC<Props> = (props: Props) => {
   const content = !empty ? children : (<span>&nbsp;</span>);
 
   return (
-    <Box className={boxClass} {...boxProps}>
+    <Box className={clsx(classes.container, boxClass)} {...boxProps}>
       <Typography
         variant={variant}
         color={color}
@@ -37,6 +37,9 @@ const TypographyLabel: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles(() => ({
   root: {},
+  container: {
+    fontSize: "inherit",
+  },
 }));
 
 export default TypographyLabel;

@@ -126,7 +126,7 @@ export function getDemexHost(net: Network) {
   return "";
 }
 
-export function getDemexLink(path: string, net: Network) {
+export function getDemexLink(path: string, net: Network = Network.MainNet) {
   return `${getDemexHost(net)}${path}`;
 }
 
