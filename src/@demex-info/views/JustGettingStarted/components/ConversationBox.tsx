@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, Theme, makeStyles } from "@material-ui/core";
+import { Box, Divider, IconButton, Theme, fade, makeStyles } from "@material-ui/core";
 import { ExtSocialLnk, SocialLnks } from "@demex-info/constants/links";
 import { PaperBox, TypographyLabel } from "@demex-info/components";
 
@@ -17,12 +17,12 @@ const ConversationBox: React.FC = () => {
   ];
 
   return (
-    <PaperBox className={classes.gridBox} padding={4}>
+    <PaperBox className={classes.gridBox}>
       <Dialogue className={classes.cardSvg} />
       <TypographyLabel className={classes.cardTitle} mt={2} variant="h4">
         Join the Conversation
       </TypographyLabel>
-      <TypographyLabel mt={2} variant="subtitle1">
+      <TypographyLabel boxClass={classes.cardSubtitle} variant="subtitle1">
         Be a part of our growing community and never miss an update.
       </TypographyLabel>
       <Divider className={classes.divider} />
@@ -44,6 +44,12 @@ const ConversationBox: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  cardSubtitle: {
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.only("xs")]: {
+      marginTop: theme.spacing(1.5),
+    },
+  },
   cardSvg: {
     width: "2.5rem",
     height: "2.5rem",
@@ -51,19 +57,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   cardTitle: {
     fontSize: "1.75rem",
     fontWeight: 500,
+    [theme.breakpoints.only("xs")]: {
+      lineHeight: 1.15,
+    },
   },
   divider: {
     margin: theme.spacing(4, 0),
     width: "4rem",
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(4, 0),
+    },
   },
   gridBox: {
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.spacing(0.25),
-    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 5%), 0px 1px 1px 0px rgb(0 0 0 / 5%), 0px 1px 3px 0px rgb(0 0 0 / 5%)",
-    height: "100%",
+    boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
+    height: "calc(100% - 4rem)",
+    padding: theme.spacing(4),
     marginLeft: theme.spacing(1.25),
+    zIndex: 5,
     [theme.breakpoints.down("sm")]: {
       marginLeft: theme.spacing(0),
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "calc(100% - 3.5rem)",
+      padding: theme.spacing(3.5, 2.5),
     },
   },
   iconBtn: {
@@ -97,6 +115,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       marginLeft: theme.spacing(1.5),
+      marginTop: theme.spacing(0.75),
     },
   },
   iconSvg: {
@@ -112,9 +131,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     [theme.breakpoints.only("xs")]: {
-      height: "1.125rem",
+      height: "1rem",
       padding: theme.spacing(1.5),
-      width: "1.125rem",
+      width: "1rem",
     },
   },
 }));

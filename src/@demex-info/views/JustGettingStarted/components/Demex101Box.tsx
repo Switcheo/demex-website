@@ -1,4 +1,4 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
+import { Box, Theme, fade, makeStyles } from "@material-ui/core";
 import { PaperBox, TypographyLabel } from "@demex-info/components";
 
 import InfoLinkBox from "./InfoLinkBox";
@@ -10,12 +10,12 @@ const Demex101Box: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <PaperBox className={classes.gridBox} padding={4}>
+    <PaperBox className={classes.gridBox}>
       <Notebook className={classes.cardSvg} />
-      <TypographyLabel className={classes.cardTitle} mt={2} variant="h4">
+      <TypographyLabel className={classes.cardTitle} variant="h4">
         Demex 101
       </TypographyLabel>
-      <Box mt={4}>
+      <Box className={classes.linkBox}>
         <InfoLinkBox
           titleClass={classes.infoLink}
           href={StaticLinks.DemexDocs.Start.CreateAccount}
@@ -40,25 +40,45 @@ const useStyles = makeStyles((theme: Theme) => ({
   cardSvg: {
     width: "2.5rem",
     height: "2.5rem",
+    [theme.breakpoints.only("xs")]: {
+      height: "2.25rem",
+      width: "2.25rem",
+    },
   },
   cardTitle: {
-    fontSize: "1.75rem",
     fontWeight: 500,
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1.75rem",
+      lineHeight: 1.15,
+    },
   },
   gridBox: {
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.spacing(0.25),
-    boxShadow: "0px 2px 1px -1px rgb(0 0 0 / 5%), 0px 1px 1px 0px rgb(0 0 0 / 5%), 0px 1px 3px 0px rgb(0 0 0 / 5%)",
-    height: "100%",
+    boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
+    height: "calc(100% - 4rem)",
+    padding: theme.spacing(4),
     marginRight: theme.spacing(1.25),
+    zIndex: 5,
     [theme.breakpoints.down("sm")]: {
       marginRight: theme.spacing(0),
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "calc(100% - 3.5rem)",
+      padding: theme.spacing(3.5, 2.5),
     },
   },
   infoLink: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     "&:last-child": {
       borderBottom: "none",
+    },
+  },
+  linkBox: {
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.only("xs")]: {
+      marginTop: theme.spacing(2),
     },
   },
 }));

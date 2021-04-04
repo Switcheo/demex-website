@@ -1,4 +1,5 @@
 export * from "./DexProperties";
+export * from "./ExchangeComparison";
 export * from "./JustGettingStarted";
 export * from "./MarketsTable";
 export * from "./MiddleBlackSection";
