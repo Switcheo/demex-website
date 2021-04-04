@@ -70,7 +70,11 @@ const DexProperties: React.FC = () => {
                     xs={12}
                     sm={6}
                   >
-                    <PropertyBox {...dexProp} />
+                    <PropertyBox
+                      index={index}
+                      sectionView={sectionView}
+                      {...dexProp}
+                    />
                   </Grid>
                 ))
               }
@@ -170,7 +174,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "&.rightSecond": {
       transform: "translate(0px, 30px)",
-      transition: "opacity ease-in 0.7s, transform ease-in 0.8s",
+      transition: "opacity ease-in 1.1s, transform ease-in 1.2s",
     },
     "&.open": {
       opacity: 1,
