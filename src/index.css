@@ -20,6 +20,12 @@
 }
 
 @font-face {
+  font-family: "Roboto Bold";
+  font-weight: 700;
+  src: url("./@demex-info/assets/fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "Roboto Mono";
   font-style: normal;
   font-weight: 500;

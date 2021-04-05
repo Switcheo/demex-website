@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 const LiquidityPoolSection: React.FC = () => {
   const classes = useStyles();
 
+  const lottieRef = React.useRef<any>();
+
   const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
   const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
 
@@ -62,6 +64,13 @@ const LiquidityPoolSection: React.FC = () => {
     });
     return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
   }, [pools, weeklyRewards, usdPrices]);
+
+  const delayAnimation = () => {
+    lottieRef?.current?.pause();
+    setTimeout(() => {
+      lottieRef?.current?.goToAndPlay(0);
+    }, 5000);
+  };
 
   return (
     <React.Fragment>
@@ -129,8 +138,11 @@ const LiquidityPoolSection: React.FC = () => {
       </Box>
       <Box className={classes.productItem}>
         <Lottie
+          lottieRef={lottieRef}
           { ...lottieDefaultOptions }
           animationData={LiquidityPools}
+          loop={false}
+          onComplete={delayAnimation}
         />
       </Box>
     </React.Fragment>

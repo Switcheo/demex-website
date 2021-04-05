@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 
+import Lottie from "lottie-react";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Staking } from "@demex-info/assets";
@@ -8,7 +9,6 @@ import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
 import { toShorterNum } from "@demex-info/utils";
 import { useSelector } from "react-redux";
-import Lottie from "lottie-react";
 
 interface Props {
   liquidityView: boolean;
@@ -46,8 +46,8 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
       <Box maxWidth="30rem" px={2.5}>
         <Lottie
           lottieRef={lottieRef}
-          animationData={Staking}
           { ...lottieDefaultOptions }
+          animationData={Staking}
           loop={false}
           onComplete={delayAnimation}
         />

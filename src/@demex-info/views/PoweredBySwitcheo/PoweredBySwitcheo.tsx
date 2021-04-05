@@ -9,11 +9,11 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
+import { StaticLinks, lottieDefaultOptions } from "@demex-info/constants";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
 import Lottie from "lottie-react";
 import React from "react";
-import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 

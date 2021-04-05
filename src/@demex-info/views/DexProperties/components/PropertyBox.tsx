@@ -1,12 +1,12 @@
 import { Box, Theme, Typography, makeStyles } from "@material-ui/core";
 import { DexProp, PropItem } from "../dexPropsConfig";
 import React, { useEffect } from "react";
-import { lottieDefaultOptions } from "@demex-info/constants";
 
 import { Bullet as BulletIcon } from "@demex-info/assets/icons";
 import Lottie from "lottie-react";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
+import { lottieDefaultOptions } from "@demex-info/constants";
 
 interface Props extends DexProp {
   className?: string;
