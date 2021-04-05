@@ -88,3 +88,11 @@ export function getUsd(usdPrices: USDPrices, denom: string): BigNumber {
 }
 
 export const POOL_DECIMALS = 18;
+
+export const lottieDefaultOptions = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};

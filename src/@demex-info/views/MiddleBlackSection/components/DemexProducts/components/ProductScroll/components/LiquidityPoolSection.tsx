@@ -1,9 +1,10 @@
 import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
+import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 
 import BigNumber from "bignumber.js";
-import { LiquidityPool } from "@demex-info/assets/graphic";
+import { LiquidityPools } from "@demex-info/assets";
+import Lottie from "lottie-react";
 import { Pool } from "@demex-info/store/pools/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
@@ -127,7 +128,10 @@ const LiquidityPoolSection: React.FC = () => {
         </Button>
       </Box>
       <Box className={classes.productItem}>
-        <img className={classes.liquidityImg} src={LiquidityPool} />
+        <Lottie
+          { ...lottieDefaultOptions }
+          animationData={LiquidityPools}
+        />
       </Box>
     </React.Fragment>
   );

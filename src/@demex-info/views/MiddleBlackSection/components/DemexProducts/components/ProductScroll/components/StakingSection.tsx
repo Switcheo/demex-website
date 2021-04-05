@@ -1,12 +1,13 @@
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, goToLink } from "@demex-info/constants";
+import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import { Staking } from "@demex-info/assets/graphic";
+import { Staking } from "@demex-info/assets";
 import { TypographyLabel } from "@demex-info/components";
 import { toShorterNum } from "@demex-info/utils";
 import { useSelector } from "react-redux";
+import Lottie from "lottie-react";
 
 const StakingSection: React.FC = () => {
   const classes = useStyles();
@@ -59,7 +60,7 @@ const StakingSection: React.FC = () => {
         </Button>
       </Box>
       <Box className={classes.productItem}>
-        <img className={classes.stakingImg} src={Staking} />
+        <Lottie { ...lottieDefaultOptions } animationData={Staking} />
       </Box>
     </React.Fragment>
   );

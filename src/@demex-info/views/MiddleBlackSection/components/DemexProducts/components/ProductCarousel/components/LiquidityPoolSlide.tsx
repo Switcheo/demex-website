@@ -1,9 +1,10 @@
 import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
+import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 
 import BigNumber from "bignumber.js";
-import { LiquidityPool } from "@demex-info/assets/graphic";
+import { LiquidityPools } from "@demex-info/assets";
+import Lottie from "lottie-react";
 import { Pool } from "@demex-info/store/pools/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
@@ -20,6 +21,8 @@ interface Props {
 const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   const { liquidityRef, liquidityView } = props;
   const classes = useStyles();
+
+  const lottieRef = React.useRef<any>();
 
   const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
   const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
@@ -69,6 +72,13 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     });
     return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
   }, [pools, weeklyRewards, usdPrices]);
+
+  const delayAnimation = () => {
+    lottieRef?.current?.pause();
+    setTimeout(() => {
+      lottieRef?.current?.goToAndPlay(0);
+    }, 5000);
+  };
 
   return (
     <div
@@ -128,8 +138,14 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
           Start Earning
         </Button>
       </Box>
-      <Box px={2.5}>
-        <img className={classes.liquidityImg} src={LiquidityPool} />
+      <Box maxWidth="32rem" px={2.5}>
+        <Lottie
+          lottieRef={lottieRef}
+          { ...lottieDefaultOptions }
+          animationData={LiquidityPools}
+          loop={false}
+          onComplete={delayAnimation}
+        />
       </Box>
     </div>
   );
