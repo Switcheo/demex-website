@@ -44,7 +44,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(Paths.Login.Ledger)}
+            onClick={() => goToLink(getDemexLink(Paths.Login.Ledger, network))}
           >
             <Ledger className={classes.ledgerIcon} />
             Ledger

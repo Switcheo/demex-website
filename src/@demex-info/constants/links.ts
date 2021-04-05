@@ -9,7 +9,7 @@ export const Paths = {
     Main: "/login",
     Ledger: "/login/ledger",
     MetaMask: "/login/metamask",
-    EncryptedKey: "/login/encrypted-key",
+    EncryptedKey: "/login/encrypted_key",
   },
 
   PasswordReset: "/reset_password",
