@@ -28,7 +28,7 @@ const Demex101Box: React.FC = () => {
         />
         <InfoLinkBox
           titleClass={classes.infoLink}
-          href={StaticLinks.DemexDocs.Trade.Spot}
+          href={StaticLinks.DemexDocs.Trade.Futures}
           title="How to Trade Futures on Demex?"
         />
       </Box>

@@ -33,6 +33,8 @@ const ConversationBox: React.FC = () => {
             <IconButton
               className={clsx(classes.iconBtn, btnSocial.label)}
               key={btnSocial.label}
+              href={btnSocial.href}
+              target="_blank"
             >
               <SvgComponent className={classes.iconSvg} />
             </IconButton>
