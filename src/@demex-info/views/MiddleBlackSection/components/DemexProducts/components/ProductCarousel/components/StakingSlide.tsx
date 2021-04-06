@@ -14,7 +14,6 @@ interface Props {
   liquidityView: boolean;
   stakingRef: () => void;
   stakingView: boolean;
-  insuranceView: boolean;
 }
 
 const StakingSlide: React.FC<Props> = (props: Props) => {
@@ -75,14 +74,14 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
                 {toShorterNum(totalStaked)} SWTH
               </Typography>
             </Box>
-            {/* <Box className={classes.statsBox}>
+            <Box className={classes.statsBox}>
               <TypographyLabel color="textSecondary">
                 Staking APR
               </TypographyLabel>
               <Typography variant="h4" color="textPrimary">
                 70.72%
               </Typography>
-            </Box> */}
+            </Box>
           </Box>
           <Button
             className={classes.earningBtn}

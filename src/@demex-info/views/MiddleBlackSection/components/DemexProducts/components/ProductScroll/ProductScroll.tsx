@@ -1,4 +1,4 @@
-import { InsuranceSection, LiquidityPoolSection, StakingSection } from "./components";
+import { LiquidityPoolSection, StakingSection } from "./components";
 
 // import { Box } from "@material-ui/core";
 import React from "react";
@@ -12,7 +12,7 @@ const ProductScroll: React.FC<Props> = () => {
     <React.Fragment>
       <LiquidityPoolSection />
       <StakingSection />
-      <InsuranceSection />
+      {/* <InsuranceSection /> */}
     </React.Fragment>
   );
 };
