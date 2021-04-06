@@ -1,19 +1,25 @@
 import { BN_ZERO, SECONDS_PER_HOUR, SECONDS_PER_MINUTE, SECONDS_PER_YEAR, parseNumber, toPercentage, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
+import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
 import Lottie from "lottie-react";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
+import { Skeleton } from "@material-ui/lab";
 import { Staking } from "@demex-info/assets";
-import { TypographyLabel } from "@demex-info/components";
+import { StakingTasks } from "@demex-info/store/staking/types";
 import { useSelector } from "react-redux";
+import { useTaskSubscriber } from "@demex-info/hooks";
 
 const StakingSection: React.FC = () => {
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
+
+  const [statsLoading] = useTaskSubscriber(StakingTasks.Stats);
+  const [aprLoading] = useTaskSubscriber(StakingTasks.Blocks, StakingTasks.AvgBlockTime, StakingTasks.Validators);
 
   const network = useSelector((state: RootState) => state.app.network);
   const { avgBlockTime, avgReward, stats, totalBonded } = useSelector((state: RootState) => state.staking);
@@ -56,17 +62,31 @@ const StakingSection: React.FC = () => {
             <TypographyLabel color="textSecondary">
               Total Staked
             </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              {toShorterNum(stats?.totalStaked ?? BN_ZERO)} SWTH
-            </Typography>
+            <RenderGuard renderIf={statsLoading}>
+              <Box>
+                <Skeleton width="10rem" height="3rem" />
+              </Box>
+            </RenderGuard>
+            <RenderGuard renderIf={!statsLoading}>
+              <Typography variant="h4" color="textPrimary">
+                {toShorterNum(stats.totalStaked ?? BN_ZERO)} SWTH
+              </Typography>
+            </RenderGuard>
           </Box>
           <Box className={classes.statsBox}>
             <TypographyLabel color="textSecondary">
               Staking APR
             </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              {toPercentage(apr, 2)}%
-            </Typography>
+            <RenderGuard renderIf={aprLoading}>
+              <Box>
+                <Skeleton width="10rem" height="3rem" />
+              </Box>
+            </RenderGuard>
+            <RenderGuard renderIf={!aprLoading}>
+              <Typography variant="h4" color="textPrimary">
+                {toPercentage(apr, 2)}%
+              </Typography>
+            </RenderGuard>
           </Box>
         </Box>
         <Button

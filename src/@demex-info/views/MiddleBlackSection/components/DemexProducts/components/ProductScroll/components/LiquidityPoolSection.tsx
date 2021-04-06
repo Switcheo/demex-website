@@ -1,20 +1,25 @@
 import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
+import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
 import { LiquidityPools } from "@demex-info/assets";
 import Lottie from "lottie-react";
 import { Pool } from "@demex-info/store/pools/types";
+import { PoolsTasks } from "@demex-info/store/pools/types";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import { TypographyLabel } from "@demex-info/components";
+import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
+import { useTaskSubscriber } from "@demex-info/hooks";
 
 const LiquidityPoolSection: React.FC = () => {
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
+
+  const [loading] = useTaskSubscriber(PoolsTasks.List, PoolsTasks.Rewards);
 
   const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
   const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
@@ -94,26 +99,47 @@ const LiquidityPoolSection: React.FC = () => {
             <TypographyLabel color="textSecondary">
               Total Liquidity
             </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              ${toShorterNum(totalLiquidity)}
-            </Typography>
+            <RenderGuard renderIf={loading}>
+              <Box>
+                <Skeleton width="8rem" height="3rem" />
+              </Box>
+            </RenderGuard>
+            <RenderGuard renderIf={!loading}>
+              <Typography variant="h4" color="textPrimary">
+                ${toShorterNum(totalLiquidity)}
+              </Typography>
+            </RenderGuard>
           </Box>
           <Box className={classes.statsBox}>
             <TypographyLabel color="textSecondary">
               Avg APR
             </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
-              {avgApy.decimalPlaces(1, 1).toString(10)}%
-            </Typography>
+            <RenderGuard renderIf={loading}>
+              <Box>
+                <Skeleton width="8rem" height="3rem" />
+              </Box>
+            </RenderGuard>
+            <RenderGuard renderIf={!loading}>
+              <Typography variant="h4" color="textPrimary">
+                {avgApy.decimalPlaces(1, 1).toString(10)}%
+              </Typography>
+            </RenderGuard>
           </Box>
           <Hidden only="xs">
             <Box className={classes.statsBox}>
               <TypographyLabel color="textSecondary">
                 Total Committed Value
               </TypographyLabel>
-              <Typography variant="h4" color="textPrimary">
-                ${toShorterNum(totalCommit)}
-              </Typography>
+              <RenderGuard renderIf={loading}>
+                <Box>
+                  <Skeleton width="8rem" height="3rem" />
+                </Box>
+              </RenderGuard>
+              <RenderGuard renderIf={!loading}>
+                <Typography variant="h4" color="textPrimary">
+                  ${toShorterNum(totalCommit)}
+                </Typography>
+              </RenderGuard>
             </Box>
           </Hidden>
         </Box>

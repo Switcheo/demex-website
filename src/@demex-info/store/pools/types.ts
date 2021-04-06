@@ -87,3 +87,8 @@ export const parseLiquidityPools = (data: any): Pool[] => {
     };
   });
 };
+
+export const PoolsTasks: { [key: string]: string } = {
+  List: "List-Pools",
+  Rewards: "Rewards-Pools",
+};
