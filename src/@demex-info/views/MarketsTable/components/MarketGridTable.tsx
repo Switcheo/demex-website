@@ -1,4 +1,4 @@
-import { Add, Remove } from "@demex-info/assets";
+// import { Add, Remove } from "@demex-info/assets";
 import { Box, CircularProgress, Hidden, Table, TableBody, TableCell, TableHead, TableRow, Theme, makeStyles } from "@material-ui/core";
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
 import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
@@ -25,7 +25,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
 
   const { list, candlesticks } = useSelector((state: RootState) => state.markets);
 
-  const [expand, setExpand] = React.useState<boolean>(false);
+  // const [expand, setExpand] = React.useState<boolean>(false);
 
   const marketHeaders: HeaderCell[] = [{
     title: "Market",
@@ -54,12 +54,14 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
 
   let marketPaperHeight: string | number = 0;
   let tableHeight: string | number = 0;
-  if (marketsList.length > 4 && expand) {
+  if (marketsList.length > 4) {
+    //   if (marketsList.length > 4 && expand) {
     tableHeight = "100%";
     marketPaperHeight = "100%";
   } else {
     tableHeight = 38 + (4 * 98);
-    marketPaperHeight = tableHeight + 56;
+    // marketPaperHeight = tableHeight + 56;
+    marketPaperHeight = tableHeight;
   }
 
   return (
@@ -87,17 +89,21 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
             <RenderGuard renderIf={!loading && marketsList?.length > 0}>
               <TableBody>
                 {
-                  marketsList.map((stat: MarketStatItem) => {
+                  marketsList.map((stat: MarketStatItem, index: number) => {
                     const listItem = list?.[stat.market] ?? {};
                     const candleSticksArr = candlesticks?.[stat.market] ?? undefined;
-                    return (
-                      <MarketGridRow
-                        key={stat.market}
-                        stat={stat}
-                        listItem={listItem}
-                        candlesticks={candleSticksArr}
-                      />
-                    );
+                    if (index <= 3) {
+                      return (
+                        <MarketGridRow
+                          key={stat.market}
+                          stat={stat}
+                          listItem={listItem}
+                          candlesticks={candleSticksArr}
+                          marketOption={marketOption}
+                        />
+                      );
+                    }
+                    return null;
                   })
                 }
               </TableBody>
@@ -121,7 +127,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
             </Box>
           </RenderGuard>
         </Box>
-        {
+        {/* {
           !loading && marketsList?.length > 4 && (
             <Box className={clsx(classes.viewBtn, { expand })} onClick={() => setExpand(!expand)}>
               {
@@ -134,7 +140,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
               View { expand ? "Less" : "More" }
             </Box>
           )
-        }
+        } */}
       </MarketPaper>
     </Box>
   );

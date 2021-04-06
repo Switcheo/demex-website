@@ -52,21 +52,28 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up("lg")]: {
 			height: "100vh",
 		},
+		[theme.breakpoints.only("md")]: {
+			minHeight: "45rem",
+		},
+		[theme.breakpoints.down("sm")]: {
+			minHeight: "30rem",
+		},
 	},
 	container: {
 		position: "relative",
-		margin: "-806px -1268px",
+		margin: "-45vh -1268px",
 		[theme.breakpoints.down("lg")]: {
-			margin: "-713px -1268px",
+			// margin: "-713px -1268px",
+			margin: "-42% -1268px",
 		},
 		[theme.breakpoints.down("md")]: {
-			margin: "-383px -897px",
+			margin: "-45% -897px",
 		},
 		[theme.breakpoints.down("sm")]: {
-			margin: "-323px -715px",
+			margin: "-50vh -715px",
 		},
 		[theme.breakpoints.down("xs")]: {
-			margin: "-112px -397px",
+			margin: "-15vh -397px",
 		},
 	},
 	padding: {

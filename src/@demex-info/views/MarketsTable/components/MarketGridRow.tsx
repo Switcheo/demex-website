@@ -2,7 +2,7 @@ import { Area, AreaChart } from "recharts";
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
 import { Box, Button, Hidden, TableCell, TableRow, Theme, makeStyles, useTheme } from "@material-ui/core";
-import { CandleStickItem, MarkType, MarketListItem, MarketStatItem } from "@demex-info/store/markets/types";
+import { CandleStickItem, MarkType, MarketListItem, MarketStatItem, MarketType } from "@demex-info/store/markets/types";
 import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
 import React, { useEffect } from "react";
 
@@ -17,6 +17,7 @@ interface Props {
   listItem: MarketListItem;
   stat: MarketStatItem;
   candlesticks: CandleStickItem[] | undefined;
+  marketOption: MarketType;
 }
 
 const COIN_OVERRIDE: {
@@ -26,7 +27,7 @@ const COIN_OVERRIDE: {
 };
 
 const MarketGridRow: React.FC<Props> = (props: Props) => {
-  const { candlesticks, listItem, stat } = props;
+  const { candlesticks, listItem, marketOption, stat } = props;
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
@@ -35,8 +36,8 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const [load, setLoad] = React.useState<boolean>(true);
 
-  const baseSymbol = assetSymbol(listItem?.base, COIN_OVERRIDE);
-  const quoteSymbol = assetSymbol(listItem?.quote, COIN_OVERRIDE);
+  const baseSymbol = assetSymbol(listItem?.base, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
+  const quoteSymbol = assetSymbol(listItem?.quote, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
   const marketType = stat?.market_type ?? MarkType.Spot;
   const expiryTime = moment(listItem?.expiryTime);
 
