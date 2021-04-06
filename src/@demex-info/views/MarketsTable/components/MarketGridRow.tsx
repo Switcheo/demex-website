@@ -2,7 +2,7 @@ import { Area, AreaChart } from "recharts";
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
 import { Box, Button, Hidden, TableCell, TableRow, Theme, makeStyles, useTheme } from "@material-ui/core";
-import { CandleStickItem, MarkType, MarketListItem, MarketStatItem } from "@demex-info/store/markets/types";
+import { CandleStickItem, MarkType, MarketListItem, MarketStatItem, MarketType } from "@demex-info/store/markets/types";
 import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
 import React, { useEffect } from "react";
 
@@ -17,6 +17,7 @@ interface Props {
   listItem: MarketListItem;
   stat: MarketStatItem;
   candlesticks: CandleStickItem[] | undefined;
+  marketOption: MarketType;
 }
 
 const COIN_OVERRIDE: {
@@ -26,7 +27,7 @@ const COIN_OVERRIDE: {
 };
 
 const MarketGridRow: React.FC<Props> = (props: Props) => {
-  const { candlesticks, listItem, stat } = props;
+  const { candlesticks, listItem, marketOption, stat } = props;
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
@@ -35,17 +36,17 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const [load, setLoad] = React.useState<boolean>(true);
 
-  const baseSymbol = assetSymbol(listItem?.base, COIN_OVERRIDE);
-  const quoteSymbol = assetSymbol(listItem?.quote, COIN_OVERRIDE);
+  const baseSymbol = assetSymbol(listItem?.base, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
+  const quoteSymbol = assetSymbol(listItem?.quote, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
   const marketType = stat?.market_type ?? MarkType.Spot;
   const expiryTime = moment(listItem?.expiryTime);
 
   const baseUsd = getUsd(usdPrices, listItem?.base ?? "");
   const quoteUsd = getUsd(usdPrices, listItem?.quote ?? "");
-  const openPriceUsd = quoteUsd.times(stat?.day_open ?? BN_ZERO);
-  const closePriceUsd = quoteUsd.times(stat?.day_close ?? BN_ZERO);
+  const openPrice = stat?.day_open ?? BN_ZERO;
+  const closePrice = stat?.day_close ?? BN_ZERO;
   const lastPriceUsd = quoteUsd.times(stat?.last_price ?? BN_ZERO);
-  const change24H = openPriceUsd.isZero() ? BN_ZERO : closePriceUsd.minus(openPriceUsd).dividedBy(openPriceUsd);
+  const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
   const usdVolume = baseUsd.times(stat?.day_volume ?? BN_ZERO);
   const graphMainColor = !change24H.isZero()

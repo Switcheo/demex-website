@@ -2,10 +2,12 @@ import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import { Network, RestClient } from "tradehub-api-js";
 
 import BigNumber from "bignumber.js";
+import TendermintClient from "@demex-info/utils/tendermint";
 
 export interface AppState {
   network: Network;
   restClient: RestClient;
+  tendermintClient: TendermintClient;
   tokens: TokenObj[];
   usdPrices: USDPrices;
 }

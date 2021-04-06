@@ -16,9 +16,9 @@ const DemexProducts: React.FC = () => {
   const [stakingRef, stakingView] = useInView({
     threshold: 0.3,
   });
-  const [insuranceRef, insuranceView] = useInView({
-    threshold: 0.3,
-  });
+  // const [insuranceRef, insuranceView] = useInView({
+  //   threshold: 0.3,
+  // });
 
   useEffect(() => {
     if (liquidityView) {
@@ -29,20 +29,20 @@ const DemexProducts: React.FC = () => {
       setSlide("staking");
       return;
     }
-    if (insuranceView) {
-      setSlide("insuranceFund");
-      return;
-    }
-  }, [liquidityView, stakingView, insuranceView]);
+    // if (insuranceView) {
+    //   setSlide("insuranceFund");
+    //   return;
+    // }
+  }, [liquidityView, stakingView]);
 
   useEffect(() => {
     switch (slide) {
       case "liquidityPools":
         setSlide("liquidityPools");
         break;
-      case "insuranceFund":
-        setSlide("insuranceFund");
-        break;
+      // case "insuranceFund":
+      //   setSlide("insuranceFund");
+      //   break;
       case "staking":
         setSlide("staking");
         break;
@@ -58,9 +58,6 @@ const DemexProducts: React.FC = () => {
   }, {
     label: "Staking",
     value: "staking",
-  }, {
-    label: "Insurance Fund",
-    value: "insuranceFund",
   }];
 
   return (
@@ -83,10 +80,10 @@ const DemexProducts: React.FC = () => {
           <ProductCarousel
             liquidityRef={liquidityRef}
             stakingRef={stakingRef}
-            insuranceRef={insuranceRef}
+            // insuranceRef={insuranceRef}
             liquidityView={liquidityView}
             stakingView={stakingView}
-            insuranceView={insuranceView}
+            // insuranceView={insuranceView}
           />
         </Hidden>
         <Hidden mdUp>

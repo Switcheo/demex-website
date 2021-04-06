@@ -3,6 +3,7 @@ import { Network, RestClient } from "tradehub-api-js";
 
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
+import { makeTendermintClient } from "@demex-info/utils";
 
 const storedNetworkString = localStorage.getItem(LocalStorageKeys.Network);
 const networks: { [index: string]: Network | undefined } = Network;
@@ -11,6 +12,7 @@ const storedNetwork = networks[storedNetworkString || ""] || DefaultFallbackNetw
 const initial_state: AppState = {
 	network: storedNetwork,
   restClient: new RestClient({ network: storedNetwork }),
+  tendermintClient: makeTendermintClient(storedNetwork),
   tokens: [],
   usdPrices: {},
 };
@@ -27,6 +29,11 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       restClient: actions.restClient,
+    };
+  case AppActionTypes.SET_TENDERMINT_CLIENT:
+    return {
+      ...state,
+      tendermintClient: actions.tendermintClient,
     };
   case AppActionTypes.SET_TOKENS:
     return {

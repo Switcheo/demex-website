@@ -35,7 +35,7 @@ const PoweredBySwitcheo: React.FC = () => {
           { ...lottieDefaultOptions }
           animationData={ScrollingText}
           style={{
-            height: "6rem",
+            height: "8rem",
           }}
         />
       </Box>

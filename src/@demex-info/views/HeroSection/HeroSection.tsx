@@ -51,10 +51,13 @@ const HeroSection: React.FC = () => {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: "relative",
-		minHeight: "625px",
+		minHeight: "45rem",
 		marginBottom: "12px",
+		[theme.breakpoints.up("lg")]: {
+			height: "100vh",
+		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "400px",
+			minHeight: "480px",
 		},
 	},
 	content: {
@@ -73,22 +76,29 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "120px",
 		position: "relative",
 		[theme.breakpoints.up("lg")]: {
-			alignItems: "center",
 			display: "flex",
 			justifyContent: "center",
-			height: "calc(100vh - 1.75rem)",
-			paddingBottom: "3.75rem",
+			marginTop: "calc((100vh - 420px) / 2)",
+		},
+		[theme.breakpoints.only("md")]: {
+			height: "100%",
 			marginTop: 0,
+			maxHeight: "45rem",
+			paddingTop: "calc((50% - 200px)/2)",
+		},
+		[theme.breakpoints.only("sm")]: {
+			marginTop: 0,
+			paddingTop: "calc((50% - 108px)/2)",
 		},
 		[theme.breakpoints.only("xs")]: {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			marginTop: "10vh",
+			marginTop: 0,
 			height: "100%",
 		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "48px",
+			minHeight: "480px",
 		},
 	},
 	slide: {

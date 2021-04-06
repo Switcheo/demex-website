@@ -1,19 +1,17 @@
 // import { Box, makeStyles } from "@material-ui/core";
-import { InsuranceSlide, LiquidityPoolSlide, StakingSlide } from "./components";
+import { LiquidityPoolSlide, StakingSlide } from "./components";
 
 import React from "react";
 
 interface Props {
   liquidityRef: () => void;
   stakingRef: () => void;
-  insuranceRef: () => void;
   liquidityView: boolean;
   stakingView: boolean;
-  insuranceView: boolean;
 }
 
 const ProductCarousel: React.FC<Props> = (props: Props) => {
-  const { insuranceView, liquidityRef, stakingRef, insuranceRef, liquidityView, stakingView } = props;
+  const { liquidityRef, stakingRef, liquidityView, stakingView } = props;
 
   return (
     <React.Fragment>
@@ -24,11 +22,10 @@ const ProductCarousel: React.FC<Props> = (props: Props) => {
       />
       <StakingSlide
         liquidityView={liquidityView}
-        insuranceView={insuranceView}
         stakingView={stakingView}
         stakingRef={stakingRef}
       />
-      <InsuranceSlide insuranceView={insuranceView} insuranceRef={insuranceRef} />
+      {/* <InsuranceSlide insuranceView={insuranceView} insuranceRef={insuranceRef} /> */}
     </React.Fragment>
   );
 };
