@@ -1,9 +1,10 @@
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, goToLink } from "@demex-info/constants";
+import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 
+import Lottie from "lottie-react";
 import React from "react";
 import { RootState } from "@demex-info/store/types";
-import { Staking } from "@demex-info/assets/graphic";
+import { Staking } from "@demex-info/assets";
 import { TypographyLabel } from "@demex-info/components";
 import { toShorterNum } from "@demex-info/utils";
 import { useSelector } from "react-redux";
@@ -11,8 +12,17 @@ import { useSelector } from "react-redux";
 const StakingSection: React.FC = () => {
   const classes = useStyles();
 
+  const lottieRef = React.useRef<any>();
+
   const network = useSelector((state: RootState) => state.app.network);
   const { totalStaked } = useSelector((state: RootState) => state.staking.stats);
+
+  const delayAnimation = () => {
+    lottieRef?.current?.pause();
+    setTimeout(() => {
+      lottieRef?.current?.goToAndPlay(0);
+    }, 5000);
+  };
 
   return (
     <React.Fragment>
@@ -59,7 +69,13 @@ const StakingSection: React.FC = () => {
         </Button>
       </Box>
       <Box className={classes.productItem}>
-        <img className={classes.stakingImg} src={Staking} />
+        <Lottie
+          lottieRef={lottieRef}
+          { ...lottieDefaultOptions }
+          animationData={Staking}
+          loop={false}
+          onComplete={delayAnimation}
+        />
       </Box>
     </React.Fragment>
   );

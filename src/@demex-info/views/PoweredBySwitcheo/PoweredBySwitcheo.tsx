@@ -9,25 +9,16 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
+import { StaticLinks, lottieDefaultOptions } from "@demex-info/constants";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import React from "react";
-import { StaticLinks } from "@demex-info/constants";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
-
-  const lottieOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: ScrollingText,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const [sectionRef, sectionView] = useInView({
     threshold: 0.5,
@@ -40,7 +31,13 @@ const PoweredBySwitcheo: React.FC = () => {
         <Hidden smUp>
           <HomeBorder className={classes.homeBorder} />
         </Hidden>
-        <Lottie options={lottieOptions} height="6rem" />
+        <Lottie
+          { ...lottieDefaultOptions }
+          animationData={ScrollingText}
+          style={{
+            height: "6rem",
+          }}
+        />
       </Box>
       <Box className={classes.tradeHubBox}>
         <Grid container>

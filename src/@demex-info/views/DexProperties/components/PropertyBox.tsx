@@ -3,9 +3,10 @@ import { DexProp, PropItem } from "../dexPropsConfig";
 import React, { useEffect } from "react";
 
 import { Bullet as BulletIcon } from "@demex-info/assets/icons";
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
+import { lottieDefaultOptions } from "@demex-info/constants";
 
 interface Props extends DexProp {
   className?: string;
@@ -18,15 +19,6 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
 
   const [showAnimate, setShowAnimate] = React.useState<boolean>(false);
-
-  const lottieOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   useEffect(() => {
     if (sectionView) {
@@ -41,7 +33,7 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
       <Box className={classes.lottieSvg}>
         {
           showAnimate && (
-            <Lottie options={lottieOptions} />
+            <Lottie {...lottieDefaultOptions} animationData={animation} />
           )
         }
       </Box>

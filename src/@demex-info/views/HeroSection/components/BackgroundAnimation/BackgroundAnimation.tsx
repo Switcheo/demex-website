@@ -2,7 +2,7 @@ import { AllOrbitals, OrbitalGroup3, OrbitalGroup4, OrbitalGroup5 } from "@demex
 import { Box, Container, makeStyles } from "@material-ui/core";
 import React, { useMemo } from "react";
 
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import clsx from "clsx";
 
 const getLottieConfig = (animationData: any, className: string) => {
@@ -29,10 +29,10 @@ const BackgroundAnimation: React.FC = () => {
 			<Box className={classes.position}>
 				<Box className={classes.container}>
 					<Box className={classes.padding} />
-					<Lottie options={allOrbitals} />
-					<Lottie options={orbital3} />
-					<Lottie options={orbital4} />
-					<Lottie options={orbital5} />
+					<Lottie { ...allOrbitals } />
+					<Lottie { ...orbital3 } />
+					<Lottie { ...orbital4 } />
+					<Lottie { ...orbital5 } />
 				</Box>
 			</Box>
 		</Container>
