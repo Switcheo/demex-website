@@ -42,10 +42,10 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const baseUsd = getUsd(usdPrices, listItem?.base ?? "");
   const quoteUsd = getUsd(usdPrices, listItem?.quote ?? "");
-  const openPriceUsd = quoteUsd.times(stat?.day_open ?? BN_ZERO);
-  const closePriceUsd = quoteUsd.times(stat?.day_close ?? BN_ZERO);
+  const openPrice = stat?.day_open ?? BN_ZERO;
+  const closePrice = stat?.day_close ?? BN_ZERO;
   const lastPriceUsd = quoteUsd.times(stat?.last_price ?? BN_ZERO);
-  const change24H = openPriceUsd.isZero() ? BN_ZERO : closePriceUsd.minus(openPriceUsd).dividedBy(openPriceUsd);
+  const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
   const usdVolume = baseUsd.times(stat?.day_volume ?? BN_ZERO);
   const graphMainColor = !change24H.isZero()
