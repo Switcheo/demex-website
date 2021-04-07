@@ -17,7 +17,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
     startSagas();
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 2000);
   }, []);
 
 	const classes = useStyles();

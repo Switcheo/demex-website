@@ -1,8 +1,8 @@
 export const palette = {
 	secondary: {
-		light: "#5583e8",
-		main: "#4276e6",
-		dark: "#4276e6",
+		light: "#4b97fb",
+		main: "#1E7DFA",
+		dark: "#1b70e1",
 		contrastText: "#FAFBFC",
 	},
 	success: {

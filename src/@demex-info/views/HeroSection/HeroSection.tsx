@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: "relative",
-		minHeight: "45rem",
+		minHeight: "40rem",
 		marginBottom: "12px",
 		[theme.breakpoints.up("lg")]: {
 			height: "100vh",
@@ -73,29 +73,33 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
-		marginTop: "120px",
+		alignItems: "center",
+		display: "flex",
+		justifyContent: "center",
+		paddingTop: "3.375rem",
 		position: "relative",
 		[theme.breakpoints.up("lg")]: {
-			display: "flex",
-			justifyContent: "center",
-			marginTop: "calc((100vh - 420px) / 2)",
+			height: "100vh",
 		},
+		// [theme.breakpoints.only("md")]: {
+		// 	height: "100%",
+		// 	marginTop: 0,
+		// 	maxHeight: "45rem",
+		// 	paddingTop: "calc((50% - 200px)/2)",
+		// },
+		// [theme.breakpoints.only("sm")]: {
+		// 	marginTop: 0,
+		// 	paddingTop: "calc((50% - 108px)/2)",
+		// },
+		// [theme.breakpoints.only("xs")]: {
+		// 	display: "flex",
+		// 	alignItems: "center",
+		// 	justifyContent: "center",
+		// 	marginTop: 0,
+		// 	height: "100%",
+		// },
 		[theme.breakpoints.only("md")]: {
-			height: "100%",
-			marginTop: 0,
-			maxHeight: "45rem",
-			paddingTop: "calc((50% - 200px)/2)",
-		},
-		[theme.breakpoints.only("sm")]: {
-			marginTop: 0,
-			paddingTop: "calc((50% - 108px)/2)",
-		},
-		[theme.breakpoints.only("xs")]: {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			marginTop: 0,
-			height: "100%",
+			minHeight: "40rem",
 		},
 		[theme.breakpoints.down("sm")]: {
 			minHeight: "480px",
@@ -123,11 +127,12 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "3.75em",
 		fontWeight: 600,
 		lineHeight: "1.333em",
-		marginTop: "0.4em",
-		[theme.breakpoints.down("sm")]: {
+		marginTop: theme.spacing(5),
+		[theme.breakpoints.down("md")]: {
 			fontSize: "3em",
 		},
 		[theme.breakpoints.down("sm")]: {
+			marginTop: "1em",
 			fontSize: "2.2em",
 		},
 	},
