@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     margin: theme.spacing(0, "auto"),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(5, 2.5, 9),
+      padding: theme.spacing(0, 2.5, 8),
     },
   },
   tab: {

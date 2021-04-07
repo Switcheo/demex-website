@@ -126,16 +126,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradeDescription: {
-    // margin: theme.spacing(0, 6),
     "& a": {
       cursor: "pointer",
     },
-    // [theme.breakpoints.only("md")]: {
-    //   margin: theme.spacing(0, 0, 0, 2),
-    // },
-    // [theme.breakpoints.down("sm")]: {
-    //   margin: 0,
-    // },
   },
   tradeHubBox: {
     display: "flex",
@@ -148,11 +141,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(0, 5, 7.5),
+      padding: theme.spacing(0, 5, 9),
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 2.5, 7.5),
+      padding: theme.spacing(0, 2.5, 8),
       width: `calc(100% - ${theme.spacing(5)}px)`,
     },
     [theme.breakpoints.down("sm")]: {

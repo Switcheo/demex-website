@@ -183,10 +183,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     overflow: "hidden",
-    padding: theme.spacing(11, 0),
+    padding: theme.spacing(13, 0, 6.5),
     position: "relative",
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(6, 0),
+      padding: theme.spacing(8, 0, 5),
     },
   },
   sideBorder: {

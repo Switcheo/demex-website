@@ -59,11 +59,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     backgroundColor: theme.palette.background.default,
-    margin: theme.spacing(0, "auto", 0),
+    margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(11, 2.5),
+    padding: theme.spacing(5, 2.5, 13),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(6, 2.5),
+      padding: theme.spacing(6, 2.5, 8),
     },
   },
   shareBtn: {
