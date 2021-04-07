@@ -2,12 +2,12 @@ import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } fr
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
 import { Pool, PoolsTasks } from "@demex-info/store/pools/types";
+import React, { useEffect } from "react";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
 import { LiquidityPools } from "@demex-info/assets";
 import Lottie from "lottie-react";
-import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
@@ -83,6 +83,13 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
       lottieRef?.current?.goToAndPlay(0);
     }, 5000);
   };
+
+  useEffect(() => {
+    lottieRef?.current?.stop();
+    if (liquidityView) {
+      lottieRef?.current?.goToAndPlay(0);
+    }
+  }, [liquidityView]);
 
   return (
     <div

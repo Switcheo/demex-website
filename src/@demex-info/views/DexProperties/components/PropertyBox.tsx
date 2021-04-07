@@ -22,30 +22,6 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
 
   const [showAnimate, setShowAnimate] = React.useState<boolean>(false);
 
-  // const lottieObj = useLottie({
-  //   ...lottieDefaultOptions,
-  //   animationData: animation,
-  //   lottieRef: lottieRef,
-  // });
-  // const animationObj = useLottieInteractivity({
-  //   lottieObj,
-  //   mode: "cursor",
-  //   actions: [{
-  //     position: { x: [0, 1], y: [0, 1] },
-  //     type: "play",
-  //     frames: [0],
-  //   }],
-  // });
-
-  // const interactivity = {
-  //   mode: "cursor",
-  //   actions: [{
-  //     position: { x: [0, 1], y: [0, 1] },
-  //     type: "play",
-  //     frames: [0],
-  //   }],
-  // };
-
   const hoverLottie = () => {
     lottieRef?.current?.stop();
     lottieRef?.current?.goToAndPlay(0);
