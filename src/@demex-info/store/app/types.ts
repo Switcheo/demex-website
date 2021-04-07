@@ -64,3 +64,7 @@ export const parseTokensArr = (data: any): TokenObj[] => {
     };
   });
 };
+
+export const AppTasks: { [key: string]: string } = {
+  Tokens: "tokens-app",
+};

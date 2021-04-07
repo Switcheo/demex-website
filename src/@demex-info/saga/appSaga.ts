@@ -1,5 +1,5 @@
-import { BN_ZERO, logger, parseNumber } from "@demex-info/utils";
-import { TokenObj, USDPrices, parseTokensArr } from "@demex-info/store/app/types";
+import { AppTasks, TokenObj, USDPrices, parseTokensArr } from "@demex-info/store/app/types";
+import { BN_ZERO, logger, parseNumber, uuidv4 } from "@demex-info/utils";
 import { all, call, delay, fork, put, select } from "redux-saga/effects";
 
 import { RestClient } from "tradehub-api-js";
@@ -8,9 +8,15 @@ import actions from "@demex-info/store/actions";
 
 function* handleQueryTokens(): Generator {
   while (true) {
+    let setLoad: boolean = true;
+
     const restClient: any = yield select((state: RootState): RestClient => state.app.restClient);
     if (!restClient) continue;
 
+    const tokensUuid = uuidv4();
+    if (setLoad) {
+      yield put(actions.Layout.addBackgroundLoading(AppTasks.Tokens, tokensUuid));
+    }
     try {
       const response: any = yield call([restClient, restClient.getTokens]);
       const tokensData: TokenObj[] = parseTokensArr(response);
@@ -19,6 +25,10 @@ function* handleQueryTokens(): Generator {
       yield put(actions.App.setTokens([]));
       console.error(err);
     } finally {
+      if (setLoad) {
+        yield put(actions.Layout.removeBackgroundLoading(tokensUuid));
+        setLoad = false;
+      }
       yield delay(60000);
     }
   }
