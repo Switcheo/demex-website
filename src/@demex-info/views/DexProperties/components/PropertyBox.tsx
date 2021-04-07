@@ -18,7 +18,14 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
   const { animation, className, index, points, sectionView, title } = props;
   const classes = useStyles();
 
+  const lottieRef = React.useRef<any>();
+
   const [showAnimate, setShowAnimate] = React.useState<boolean>(false);
+
+  const hoverLottie = () => {
+    lottieRef?.current?.stop();
+    lottieRef?.current?.goToAndPlay(0);
+  };
 
   useEffect(() => {
     if (sectionView) {
@@ -30,10 +37,14 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
 
   return (
     <Box className={clsx(classes.root, className)}>
-      <Box className={classes.lottieSvg}>
+      <Box onMouseEnter={hoverLottie} className={classes.lottieSvg}>
         {
           showAnimate && (
-            <Lottie {...lottieDefaultOptions} animationData={animation} />
+            <Lottie
+              {...lottieDefaultOptions}
+              animationData={animation}
+              lottieRef={lottieRef}
+            />
           )
         }
       </Box>

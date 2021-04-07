@@ -1,6 +1,7 @@
 import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
+import React, { useEffect } from "react";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
@@ -8,15 +9,24 @@ import { LiquidityPools } from "@demex-info/assets";
 import Lottie from "lottie-react";
 import { Pool } from "@demex-info/store/pools/types";
 import { PoolsTasks } from "@demex-info/store/pools/types";
-import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Skeleton } from "@material-ui/lab";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { useTaskSubscriber } from "@demex-info/hooks";
 
 const LiquidityPoolSection: React.FC = () => {
   const classes = useStyles();
 
+  const [liquidityTextRef, liquidityTxtView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+  const [liquidityImgRef, liquidityImgView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
   const lottieRef = React.useRef<any>();
 
   const [loading] = useTaskSubscriber(PoolsTasks.List, PoolsTasks.Rewards);
@@ -77,12 +87,19 @@ const LiquidityPoolSection: React.FC = () => {
     }, 5000);
   };
 
+  useEffect(() => {
+    lottieRef?.current?.stop();
+    if (liquidityImgView) {
+      lottieRef?.current?.goToAndPlay(0);
+    }
+  }, [liquidityImgView]);
+
   return (
     <React.Fragment>
       <Box id="liquidityPools" height="0px">
         &nbsp;
       </Box>
-      <Box className={classes.productItem}>
+      <div ref={liquidityTextRef} className={clsx(classes.productItem, { slideIn: liquidityTxtView })}>
         <Typography
           variant="h3"
           color="textPrimary"
@@ -161,8 +178,8 @@ const LiquidityPoolSection: React.FC = () => {
         >
           Start Earning
         </Button>
-      </Box>
-      <Box className={classes.productItem}>
+      </div>
+      <div ref={liquidityImgRef} className={clsx(classes.productItem, { slideIn: liquidityImgView })}>
         <Lottie
           lottieRef={lottieRef}
           { ...lottieDefaultOptions }
@@ -170,7 +187,7 @@ const LiquidityPoolSection: React.FC = () => {
           loop={false}
           onComplete={delayAnimation}
         />
-      </Box>
+      </div>
     </React.Fragment>
   );
 };
@@ -207,6 +224,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(7, "auto", 0),
     maxWidth: "34rem",
     overflow: "hidden",
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.slideIn": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+    "&.slideOutTop": {
+      opacity: 0,
+      transform: "translate(0px,-60px)",
+    },
+    "&.slideOutBottom": {
+      opacity: 0,
+      transform: "translate(0px, 60px)",
+    },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "32rem",
     },

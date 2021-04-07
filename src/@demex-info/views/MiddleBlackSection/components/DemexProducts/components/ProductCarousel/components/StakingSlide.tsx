@@ -1,11 +1,11 @@
 import { BN_ZERO, SECONDS_PER_HOUR, SECONDS_PER_MINUTE, SECONDS_PER_YEAR, parseNumber, toPercentage, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
+import React, { useEffect } from "react";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
 import Lottie from "lottie-react";
-import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Skeleton } from "@material-ui/lab";
 import { Staking } from "@demex-info/assets";
@@ -47,6 +47,13 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
       lottieRef?.current?.goToAndPlay(0);
     }, 5000);
   };
+
+  useEffect(() => {
+    lottieRef?.current?.stop();
+    if (stakingView) {
+      lottieRef?.current?.goToAndPlay(0);
+    }
+  }, [stakingView]);
 
   return (
     <div

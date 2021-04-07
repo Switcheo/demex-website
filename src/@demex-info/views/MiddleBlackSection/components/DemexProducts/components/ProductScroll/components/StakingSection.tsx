@@ -1,15 +1,17 @@
 import { BN_ZERO, SECONDS_PER_HOUR, SECONDS_PER_MINUTE, SECONDS_PER_YEAR, parseNumber, toPercentage, toShorterNum } from "@demex-info/utils";
 import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
 import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
+import React, { useEffect } from "react";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 
 import BigNumber from "bignumber.js";
 import Lottie from "lottie-react";
-import React from "react";
 import { RootState } from "@demex-info/store/types";
 import { Skeleton } from "@material-ui/lab";
 import { Staking } from "@demex-info/assets";
 import { StakingTasks } from "@demex-info/store/staking/types";
+import clsx from "clsx";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { useTaskSubscriber } from "@demex-info/hooks";
 
@@ -17,6 +19,14 @@ const StakingSection: React.FC = () => {
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
+  const [stakingTxtRef, stakingTxtView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+  const [stakingImgRef, stakingImgView] = useInView({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
 
   const [statsLoading] = useTaskSubscriber(StakingTasks.Stats);
   const [aprLoading] = useTaskSubscriber(StakingTasks.Blocks, StakingTasks.AvgBlockTime, StakingTasks.Validators);
@@ -40,12 +50,19 @@ const StakingSection: React.FC = () => {
     }, 5000);
   };
 
+  useEffect(() => {
+    lottieRef?.current?.stop();
+    if (stakingImgView) {
+      lottieRef?.current?.goToAndPlay(0);
+    }
+  }, [stakingImgView]);
+
   return (
     <React.Fragment>
       <Box id="staking" height="0.5rem">
         &nbsp;
       </Box>
-      <Box className={classes.productItem}>
+      <div ref={stakingTxtRef} className={clsx(classes.productItem, { slideIn: stakingTxtView })}>
         <Typography
           variant="h3"
           color="textPrimary"
@@ -97,8 +114,8 @@ const StakingSection: React.FC = () => {
         >
           Start Earning
         </Button>
-      </Box>
-      <Box className={classes.productItem}>
+      </div>
+      <div ref={stakingImgRef} className={clsx(classes.productItem, { slideIn: stakingImgView })}>
         <Lottie
           lottieRef={lottieRef}
           { ...lottieDefaultOptions }
@@ -106,7 +123,7 @@ const StakingSection: React.FC = () => {
           loop={false}
           onComplete={delayAnimation}
         />
-      </Box>
+      </div>
     </React.Fragment>
   );
 };
@@ -134,6 +151,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(7, "auto", 0),
     maxWidth: "34rem",
     overflow: "hidden",
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.slideIn": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+    "&.slideOutTop": {
+      opacity: 0,
+      transform: "translate(0px,-60px)",
+    },
+    "&.slideOutBottom": {
+      opacity: 0,
+      transform: "translate(0px, 60px)",
+    },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "32rem",
     },

@@ -25,7 +25,7 @@ const dexDefault = "dex-technology";
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
 
-  const [dexToggle, setDexToggle] = React.useState<boolean>(false);
+  const [dexToggle, setDexToggle] = React.useState<boolean>(true);
   const [propertyTab, setPropertyTab] = React.useState<PropertyTab>(cexDefault);
 
   const [titleRef, titleView] = useInView({
@@ -113,7 +113,7 @@ const ExchangeComparison: React.FC = () => {
             </TypographyLabel>
           </Box>
 
-          <PaperBox height={paperHeight} className={classes.tablePaper} mt={4}>
+          <PaperBox height={paperHeight} className={classes.tablePaper}>
             <Box position="relative">
               <Box className={clsx(classes.tabSlide, "cex", { out: dexToggle })}>
                 {
@@ -235,7 +235,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-    margin: theme.spacing(0, "auto"),
+    margin: theme.spacing(0, "auto", 4),
   },
   switchRoot: {
     padding: theme.spacing(0.75),
@@ -298,6 +298,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.spacing(0.25),
     boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
+    overflow: "hidden",
   },
   tableSection: {
     marginTop: theme.spacing(6),
