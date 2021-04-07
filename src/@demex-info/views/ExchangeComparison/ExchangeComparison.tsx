@@ -167,8 +167,17 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
-    padding: theme.spacing(0, 2.5),
+    maxWidth: "78rem",
+    padding: theme.spacing(0, 6),
+    width: `calc(100% - ${theme.spacing(12)}px)`,
+    [theme.breakpoints.between("sm", "md")]: {
+      padding: theme.spacing(0, 5),
+      width: `calc(100% - ${theme.spacing(10)}px)`,
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 2.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
+    },
   },
   root: {
     backgroundColor: theme.palette.background.paper,

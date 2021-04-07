@@ -418,15 +418,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
-    padding: theme.spacing(0, 2.5),
+    maxWidth: "78rem",
+    padding: theme.spacing(0, 6),
+    [theme.breakpoints.between("sm", "md")]: {
+      padding: theme.spacing(0, 5),
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 2.5),
+    },
   },
   root: {
     background: `linear-gradient(180deg, ${fade(theme.palette.background.paper, 0.05)} 0%, ${fade(theme.palette.background.paper, 0.5)} 25%, ${theme.palette.background.paper} 100%)`,
     color: theme.palette.text.primary,
     padding: theme.spacing(0, 0, 11),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0, 0, 6),
+      padding: theme.spacing(0, 0, 8),
     },
   },
   tab: {

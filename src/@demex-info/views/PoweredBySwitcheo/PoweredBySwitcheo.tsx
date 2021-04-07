@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  Grid,
+  // Grid,
   Hidden,
   Link,
   Theme,
@@ -40,43 +40,41 @@ const PoweredBySwitcheo: React.FC = () => {
         />
       </Box>
       <Box className={classes.tradeHubBox}>
-        <Grid container>
-          <Grid item xs={12} md={5} lg={4}>
-            <Typography
-              className={clsx(classes.slide, "title", { open: sectionView })}
-              variant="h3"
+        <Box className={classes.leftDiv}>
+          <Typography
+            className={clsx(classes.slide, "title", { open: sectionView })}
+            variant="h3"
+          >
+            Powered by Switcheo TradeHub
+          </Typography>
+        </Box>
+        <Box className={classes.rightDiv}>
+          <Box
+            className={clsx(
+              classes.tradeDescription,
+              classes.slide,
+              "subtitle",
+              { open: sectionView },
+            )}
+          >
+            <TypographyLabel color="textSecondary">
+              {/* eslint-disable-next-line no-trailing-spaces */}
+              <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
+            </TypographyLabel>
+            <TypographyLabel color="textSecondary" mt={2}>
+              The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
+            </TypographyLabel>
+            <Button
+              className={classes.ecosystemBtn}
+              color="secondary"
+              component={Link}
+              href={StaticLinks.SwitcheoNetwork}
+              target="_blank"
             >
-              Powered by Switcheo TradeHub
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={7} lg={8}>
-            <Box
-              className={clsx(
-                classes.tradeDescription,
-                classes.slide,
-                "subtitle",
-                { open: sectionView },
-              )}
-            >
-              <TypographyLabel color="textSecondary">
-                {/* eslint-disable-next-line no-trailing-spaces */}
-                <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
-              </TypographyLabel>
-              <TypographyLabel color="textSecondary" mt={2}>
-                The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
-              </TypographyLabel>
-              <Button
-                className={classes.ecosystemBtn}
-                color="secondary"
-                component={Link}
-                href={StaticLinks.SwitcheoNetwork}
-                target="_blank"
-              >
-                See Our Ecosystem
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+              See Our Ecosystem
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </div>
   );
@@ -95,6 +93,30 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(4),
     },
   },
+  leftDiv: {
+    padding: theme.spacing(0, 3, 0, 6),
+    width: "calc(100% / 12 * 4)",
+    [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(0, 2, 0, 0),
+      width: "calc(100% / 12 * 5)",
+    },
+    [theme.breakpoints.down("sm")]: {
+      padding: 0,
+      width: "100%",
+    },
+  },
+  rightDiv: {
+    padding: theme.spacing(0, 6, 0, 3),
+    width: "calc(100% / 12 * 8)",
+    [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(0, 0, 0, 2),
+      width: "calc(100% / 12 * 7)",
+    },
+    [theme.breakpoints.down("sm")]: {
+      padding: 0,
+      width: "100%",
+    },
+  },
   root: {
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
@@ -104,23 +126,34 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradeDescription: {
+    // margin: theme.spacing(0, 6),
     "& a": {
       cursor: "pointer",
     },
+    // [theme.breakpoints.only("md")]: {
+    //   margin: theme.spacing(0, 0, 0, 2),
+    // },
+    // [theme.breakpoints.down("sm")]: {
+    //   margin: 0,
+    // },
   },
   tradeHubBox: {
+    display: "flex",
     margin: theme.spacing(8, "auto"),
     maxWidth: "84rem",
     padding: theme.spacing(0, 6),
     width: `calc(100% - ${theme.spacing(12)}px)`,
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 5),
+      width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(0, 5, 7.5),
+      width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(0, 2.5, 7.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
     },
     [theme.breakpoints.down("sm")]: {
       display: "block",
@@ -129,7 +162,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "unset",
     },
     "& h3": {
-      paddingRight: theme.spacing(5),
       [theme.breakpoints.down("sm")]: {
         marginBottom: theme.spacing(2.5),
         paddingRight: 0,
