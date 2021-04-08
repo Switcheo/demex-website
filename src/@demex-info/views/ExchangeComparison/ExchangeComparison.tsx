@@ -71,8 +71,8 @@ const ExchangeComparison: React.FC = () => {
 
   // tabs list = 67px
   // header row = 78px
-  // each row height = 136px
-  const paperHeight = 67 + 80 + (136 * tableSelect.length);
+  // each row height = 128px
+  const paperHeight = 67 + 80 + (128 * tableSelect.length);
 
   return (
     <div ref={titleRef} className={classes.root}>
