@@ -141,6 +141,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(6, 5, 7),
     },
     [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(6, 4),
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(6, 2.5),
     },
     [theme.breakpoints.down("sm")]: {
@@ -223,7 +226,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(8, 5),
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(6, 2.5),
+      padding: theme.spacing(8, 4),
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(8, 2.5),
     },
     [theme.breakpoints.down("sm")]: {
       maxWidth: "100%",

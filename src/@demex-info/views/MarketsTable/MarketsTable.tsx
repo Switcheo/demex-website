@@ -424,6 +424,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(0, 5),
     },
     [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 4),
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5),
     },
   },

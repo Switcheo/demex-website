@@ -112,8 +112,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
     margin: theme.spacing(0, "auto"),
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
+      padding: theme.spacing(0, 5, 8),
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 4, 8),
+      width: `calc(100% - ${theme.spacing(8)}px)`,
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5, 8),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
   tab: {

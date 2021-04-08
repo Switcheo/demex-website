@@ -62,7 +62,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
     padding: theme.spacing(5, 2.5, 13),
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.between("xs", "sm")]: {
+      padding: theme.spacing(6, 4, 8),
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(6, 2.5, 8),
     },
   },

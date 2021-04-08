@@ -221,7 +221,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   productItem: {
-    margin: theme.spacing(7, "auto", 0),
+    margin: theme.spacing(5, "auto", 0),
     maxWidth: "34rem",
     overflow: "hidden",
     opacity: 0,

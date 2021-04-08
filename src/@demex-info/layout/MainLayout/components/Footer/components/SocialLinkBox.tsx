@@ -77,6 +77,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(9),
       marginRight: 0,
     },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(4.5),
+      marginRight: 0,
+    },
   },
   navTitle: {
     color: theme.palette.text.secondary,

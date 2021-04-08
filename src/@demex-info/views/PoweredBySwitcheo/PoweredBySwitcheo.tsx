@@ -145,6 +145,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 4, 8),
+      width: `calc(100% - ${theme.spacing(8)}px)`,
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5, 8),
       width: `calc(100% - ${theme.spacing(5)}px)`,
     },

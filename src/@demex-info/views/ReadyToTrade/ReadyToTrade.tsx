@@ -165,8 +165,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       margin: 0,
-      padding: 0,
-      width: "100%",
+      padding: theme.spacing(0, 2.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
   keyIcon: {

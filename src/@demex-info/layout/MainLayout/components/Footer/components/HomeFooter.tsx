@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   copyright: {
     color: theme.palette.text.primary,
     fontSize: "0.75rem",
+    [theme.breakpoints.only("xs")]: {
+      textAlign: "center",
+    },
   },
   root: {
     alignItems: "center",
@@ -29,13 +32,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1.5, 0),
     [theme.breakpoints.only("xs")]: {
       display: "block",
+      padding: theme.spacing(1, 0, 2),
     },
   },
   tradehubLogo: {
     height: "0.85rem",
     width: "unset",
     [theme.breakpoints.only("xs")]: {
-      marginTop: theme.spacing(1),
+      display: "block",
+      margin: theme.spacing(0.75, "auto", 0),
     },
   },
 }));
