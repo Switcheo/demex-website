@@ -211,7 +211,7 @@ const MarketsTable: React.FC = () => {
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={1.5} justifyContent="space-between">
                         <RenderGuard renderIf={loading}>
-                          <Skeleton width="80px" height="44px" />
+                          <Skeleton className={classes.numSkeleton} />
                         </RenderGuard>
                         <RenderGuard renderIf={!loading}>
                           <TypographyLabel color="textPrimary" variant="h4">
@@ -264,7 +264,7 @@ const MarketsTable: React.FC = () => {
                         </RenderGuard>
                         <RenderGuard renderIf={loading}>
                           <Box alignItems="center" display="flex" justifyContent="center">
-                            <Skeleton width="120px" height="44px" />
+                            <Skeleton className={classes.coinSkeleton} />
                           </Box>
                         </RenderGuard>
                       </Box>
@@ -326,6 +326,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   backdrop: {
     zIndex: 0,
   },
+  numSkeleton: {
+    width: "80px",
+    height: "44px",
+    [theme.breakpoints.only("xs")]: {
+      width: "40px",
+    },
+    "@media (max-width: 400px)": {
+      width: "80px",
+    },
+  },
   btnLabel: {
     alignItems: "center",
     justifyContent: "center",
@@ -348,6 +358,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       height: "1.75em",
       width: "1.75em",
+    },
+  },
+  coinSkeleton: {
+    width: "120px",
+    height: "44px",
+    [theme.breakpoints.only("xs")]: {
+      width: "72px",
+    },
+    "@media (max-width: 400px)": {
+      width: "120px",
     },
   },
   dropdownContainer: {
@@ -380,12 +400,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "50%",
     padding: theme.spacing(4, 3),
     width: "100%",
-    [theme.breakpoints.only("sm")]: {
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(2.5, 2),
       "&:first-child": {
         marginLeft: 0,
       },
+      "& h4": {
+        fontSize: "1.5rem",
+      },
     },
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 400px)": {
       maxWidth: "100%",
       marginLeft: 0,
       padding: theme.spacing(2.5, 2),
@@ -393,15 +417,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       "&:first-child": {
         marginBottom: theme.spacing(2),
       },
-      "& h4": {
-        fontSize: "1.5rem",
-      },
     },
   },
   gridSecondGrid: {
     display: "flex",
     width: "100%",
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 400px)": {
       display: "block",
     },
   },
@@ -473,6 +494,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   labelBox: {
     cursor: "pointer",
     zIndex: 5,
+    [theme.breakpoints.only("xs")]: {
+      width: "8rem",
+    },
+    "@media (max-width: 400px)": {
+      width: "unset",
+    },
   },
   plusLabel: {
     fontSize: "1rem",
