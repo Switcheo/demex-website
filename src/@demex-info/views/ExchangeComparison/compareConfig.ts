@@ -231,25 +231,33 @@ export const CexServiceVal: CexTradingRow[] = [{
 }];
 
 export const CexFeesVal: CexTradingRow[] = [{
-  header: "Taker fees\n(-ve fees are rebates)",
+  header: "Spot Market Fees\n(-ve fees are rebates)",
   values: {
-    demex: [{
-      header: "Spot",
-      values: ["0.25% taker", "-0.05% maker"],
-    }, {
-      header: "Futures",
-      values: ["0.075% taker", "-0.005% maker"],
-    }],
+    demex: ["0.25% taker", "-0.05% maker"],
     kraken: "0.05% taker, 0.02% maker, depending on volume",
-    deribit: [{
-      header: "Futures",
-      values: ["0.05% taker", "0% maker"],
-    }, {
-      header: "Options",
-      values: ["0.03% taker", "0.03% maker"],
-    }],
+    deribit: "N/A",
     bybit: ["0.075% taker", "-0.025% maker"],
     bitmex: ["0.075% taker", "-0.025% maker"],
+    binance: ["0.04% taker", "0.02% maker"],
+  },
+}, {
+  header: "Futures Market Fees\n(-ve fees are rebates)",
+  values: {
+    demex: ["0.075% taker", "-0.005% maker"],
+    kraken: "0.05% taker, 0.02% maker, depending on volume",
+    deribit: ["0.05% taker", "0% maker"],
+    bybit: ["0.075% taker", "-0.025% maker"],
+    bitmex: ["0.075% taker", "-0.025% maker"],
+    binance: ["0.04% taker", "0.02% maker"],
+  },
+}, {
+  header: "Options Market Fees\n(-ve fees are rebates)",
+  values: {
+    demex: "N/A (Upcoming)",
+    kraken: "N/A",
+    deribit: ["0.03% taker", "0.03% maker"],
+    bybit: "N/A",
+    bitmex: "N/A",
     binance: ["0.04% taker", "0.02% maker"],
   },
 }];
