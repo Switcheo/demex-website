@@ -137,6 +137,7 @@ export interface HeaderCell {
   sortProps?: SortProps  // required for sorting
   sortKey?: string  // required for sorting
   tooltip?: string
+  showCol?: boolean;
 }
 
 export type SortDirection = "desc" | "asc"

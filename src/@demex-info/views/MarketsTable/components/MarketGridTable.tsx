@@ -1,5 +1,8 @@
 // import { Add, Remove } from "@demex-info/assets";
-import { Box, CircularProgress, Hidden, Table, TableBody, TableCell, TableHead, TableRow, Theme, makeStyles } from "@material-ui/core";
+import {
+  Box, CircularProgress, Hidden, Table, TableBody, TableCell, TableHead,
+  TableRow, Theme, makeStyles, useMediaQuery, useTheme,
+} from "@material-ui/core";
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
 import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
 
@@ -21,6 +24,8 @@ interface Props {
 const MarketGridTable: React.FC<Props> = (props: Props) => {
   const { marketsList, marketOption } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading] = useTaskSubscriber(MarketTasks.List, MarketTasks.Stats);
 
   const { list, candlesticks } = useSelector((state: RootState) => state.markets);
@@ -42,14 +47,17 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
     className: classes.alignRight,
     title: "24H Volume",
     key: "24hVolume",
+    showCol: widthSmDown ? false : true,
   }, {
     className: classes.alignRight,
     title: "Chart",
     key: "chart",
+    showCol: widthSmDown ? false : true,
   }, {
     className: classes.alignRight,
     title: "Trade",
     key: "trade",
+    showCol: widthSmDown ? false : true,
   }];
 
   let marketPaperHeight: string | number = 0;
@@ -75,11 +83,15 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                   <TableCell className={classes.fillerCell}></TableCell>
                 </Hidden>
                 {
-                  marketHeaders.map((header: HeaderCell) => (
-                    <TableCell className={clsx(classes.headerCell, header.className)} key={header?.key ?? header.title}>
-                      {header.title}
-                    </TableCell>
-                  ))
+                  marketHeaders.map((header: HeaderCell) => {
+                    const { showCol = true } = header;
+                    if (!showCol) return null;
+                    return (
+                      <TableCell className={clsx(classes.headerCell, header.className)} key={header?.key ?? header.title}>
+                        {header.title}
+                      </TableCell>
+                    );
+                  })
                 }
                 <Hidden smDown>
                   <TableCell className={classes.fillerCell}></TableCell>
@@ -180,12 +192,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(1, 1.5),
+      padding: theme.spacing(1),
       "&:first-child": {
-        padding: theme.spacing(1, 1.5, 1, 3.5),
+        padding: theme.spacing(1, 1, 1, 2),
       },
       "&:last-child": {
-        padding: theme.spacing(1, 3.5, 1, 1.5),
+        padding: theme.spacing(1, 2, 1, 1),
       },
     },
   },
