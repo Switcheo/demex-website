@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: "transparent",
     },
     "&.selected": {
-      color: theme.palette.secondary.main,
+      color: theme.palette.text.primary,
     },
     [theme.breakpoints.down("sm")]: {
       fontSize: "1.25rem",

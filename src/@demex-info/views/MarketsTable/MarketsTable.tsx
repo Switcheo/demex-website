@@ -447,22 +447,24 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: "transparent",
     },
     "&.selected": {
-      color: theme.palette.secondary.main,
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1.25rem",
+      color: theme.palette.text.primary,
     },
     [theme.breakpoints.only("xs")]: {
-      fontSize: "1rem",
-      lineHeight: 1.3,
-      width: "calc(100% / 3)",
+      fontSize: "1.25rem",
+      marginLeft: theme.spacing(2),
+      "&:first-child": {
+        marginLeft: 0,
+      },
     },
   },
   tableRoot: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4),
     position: "relative",
+    [theme.breakpoints.only("md")]: {
+      marginTop: theme.spacing(3.5),
+    },
     [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4),
+      marginTop: theme.spacing(2.5),
     },
   },
   labelBox: {

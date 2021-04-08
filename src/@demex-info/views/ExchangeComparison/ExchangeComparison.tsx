@@ -88,7 +88,7 @@ const ExchangeComparison: React.FC = () => {
         )}>
           <Box className={classes.switchDiv}>
             <TypographyLabel
-              className={classes.switchSub}
+              className={clsx(classes.switchSub, { toggle: !dexToggle })}
               variant="subtitle1"
               onClick={() => setDexToggle(false)}
             >
@@ -102,10 +102,10 @@ const ExchangeComparison: React.FC = () => {
                 track: classes.switchTrack,
               }}
               onChange={() => setDexToggle(!dexToggle)}
-              color="secondary"
+              color="default"
             />
             <TypographyLabel
-              className={classes.switchSub}
+              className={clsx(classes.switchSub, { toggle: dexToggle })}
               variant="subtitle1"
               onClick={() => setDexToggle(true)}
             >
@@ -259,6 +259,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "&:last-child": {
       marginLeft: theme.spacing(1),
+    },
+    "&.toggle": {
+      color: theme.palette.text.secondary,
     },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "7rem",
