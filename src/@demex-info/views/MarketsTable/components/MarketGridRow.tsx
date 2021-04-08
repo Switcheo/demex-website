@@ -77,7 +77,14 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
               denomA={baseSymbol}
               denomB={quoteSymbol}
             />
-            {`${baseSymbol} / ${quoteSymbol}`}
+            <Box className={classes.title}>
+              {`${baseSymbol} / ${quoteSymbol}`}
+              <Hidden mdUp>
+                <TypographyLabel color="textSecondary" className={classes.usdValue}>
+                  {formatUsdPrice(usdVolume)}
+                </TypographyLabel>
+              </Hidden>
+            </Box>
           </RenderGuard>
 
           <RenderGuard renderIf={load && marketType === MarkType.Spot}>
@@ -85,23 +92,40 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
               <Skeleton className={clsx(classes.skeletonSvg, "left")} variant="circle" />
               <Skeleton className={clsx(classes.skeletonSvg, "right")} variant="circle" />
             </Box>
-            <Skeleton className={classes.nextText} variant="text" />
+            <Box className={classes.title}>
+              <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
+              <Hidden mdUp>
+                <Skeleton className={classes.skeletonSubtitle} variant="text" />
+              </Hidden>
+            </Box>
           </RenderGuard>
 
           <RenderGuard renderIf={load && marketType === MarkType.Futures}>
             <Box className={classes.skeletonBox}>
               <Skeleton className={classes.skeletonSvg} variant="circle" />
             </Box>
-            <Skeleton className={classes.nextText} variant="text" />
+            <Box className={classes.title}>
+              <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
+              <Hidden mdUp>
+                <Skeleton className={classes.skeletonSubtitle} variant="text" />
+              </Hidden>
+            </Box>
           </RenderGuard>
 
           <RenderGuard renderIf={!load && marketType === MarkType.Futures}>
             <AssetIcon
-              className={classes.svgBox}
+              className={clsx(classes.svgBox, "futures")}
               svgClass={classes.normalSvg}
               denom={baseSymbol}
             />
-            {baseSymbol} - {expiryTime.unix() > 0 ? expiryTime.format("DD MMM YYYY") : "PERP"}
+            <Box className={classes.title}>
+              {baseSymbol} - {expiryTime.unix() > 0 ? expiryTime.format("DD MMM YYYY") : "PERP"}
+              <Hidden mdUp>
+                <TypographyLabel color="textSecondary" className={classes.usdValue}>
+                  {formatUsdPrice(usdVolume)}
+                </TypographyLabel>
+              </Hidden>
+            </Box>
           </RenderGuard>
         </Box>
       </TableCell>
@@ -147,67 +171,67 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           </Box>
         </RenderGuard>
       </TableCell>
-      <TableCell className={classes.marketCell} align="right">
-        <Box className={clsx(classes.volumeCell, { load })}>
-          <RenderGuard renderIf={load}>
-            <Box flexDirection="column" flexWrap="wrap">
-              <Skeleton className={classes.skeletonTitle} variant="text" />
-              <Box display="flex" justifyContent="flex-end">
-                <Skeleton className={classes.skeletonSubtitle} variant="text" />
-              </Box>
-            </Box>
-          </RenderGuard>
-
-          <RenderGuard renderIf={!load}>
-            <TypographyLabel className={classes.denomVal}>
-              {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
-            </TypographyLabel>
-            <TypographyLabel color="textSecondary" className={classes.usdValue}>
-              {formatUsdPrice(usdVolume)}
-            </TypographyLabel>
-          </RenderGuard>
-        </Box>
-      </TableCell>
-      <TableCell className={classes.chartCell} align="right">
-        <Box display="flex" justifyContent="flex-end">
-          <RenderGuard renderIf={Boolean(!candlesticks)}>
-            <Skeleton variant="rect" width={240} height={88} />
-          </RenderGuard>
-          <RenderGuard renderIf={Boolean(candlesticks)}>
-            <AreaChart width={240} height={88} data={candlesticks}>
-              <defs>
-                <linearGradient id={`graphGradient-${stat.market}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={graphLightColor} stopOpacity={0.6}/>
-                  <stop offset="20%" stopColor={graphLightColor} stopOpacity={0.3}/>
-                  <stop offset="100%" stopColor={graphLightColor} stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <Area
-                strokeWidth={1.5}
-                dot={false}
-                type="monotone"
-                dataKey="close"
-                xAxisId="timestamp"
-                yAxisId="close"
-                stroke={graphMainColor}
-                fill={`url(#graphGradient-${stat.market})`}
-              />
-            </AreaChart>
-          </RenderGuard>
-        </Box>
-      </TableCell>
-      <TableCell className={clsx(classes.marketCell, "trade")} align="right">
-        <Button
-          className={classes.tradeBtn}
-          color="secondary"
-          variant="contained"
-          onClick={() => goToLink(getDemexLink(`${Paths.Trade}/${stat?.market ?? ""}`, network))}
-          disabled={load}
-        >
-          Trade
-        </Button>
-      </TableCell>
       <Hidden smDown>
+        <TableCell className={classes.marketCell} align="right">
+          <Box className={clsx(classes.volumeCell, { load })}>
+            <RenderGuard renderIf={load}>
+              <Box flexDirection="column" flexWrap="wrap">
+                <Skeleton className={classes.skeletonTitle} variant="text" />
+                <Box display="flex" justifyContent="flex-end">
+                  <Skeleton className={classes.skeletonSubtitle} variant="text" />
+                </Box>
+              </Box>
+            </RenderGuard>
+
+            <RenderGuard renderIf={!load}>
+              <TypographyLabel className={classes.denomVal}>
+                {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
+              </TypographyLabel>
+              <TypographyLabel color="textSecondary" className={classes.usdValue}>
+                {formatUsdPrice(usdVolume)}
+              </TypographyLabel>
+            </RenderGuard>
+          </Box>
+        </TableCell>
+        <TableCell className={classes.chartCell} align="right">
+          <Box display="flex" justifyContent="flex-end">
+            <RenderGuard renderIf={Boolean(!candlesticks)}>
+              <Skeleton variant="rect" width={240} height={88} />
+            </RenderGuard>
+            <RenderGuard renderIf={Boolean(candlesticks)}>
+              <AreaChart width={240} height={88} data={candlesticks}>
+                <defs>
+                  <linearGradient id={`graphGradient-${stat.market}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={graphLightColor} stopOpacity={0.6}/>
+                    <stop offset="20%" stopColor={graphLightColor} stopOpacity={0.3}/>
+                    <stop offset="100%" stopColor={graphLightColor} stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Area
+                  strokeWidth={1.5}
+                  dot={false}
+                  type="monotone"
+                  dataKey="close"
+                  xAxisId="timestamp"
+                  yAxisId="close"
+                  stroke={graphMainColor}
+                  fill={`url(#graphGradient-${stat.market})`}
+                />
+              </AreaChart>
+            </RenderGuard>
+          </Box>
+        </TableCell>
+        <TableCell className={clsx(classes.marketCell, "trade")} align="right">
+          <Button
+            className={classes.tradeBtn}
+            color="secondary"
+            variant="contained"
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}/${stat?.market ?? ""}`, network))}
+            disabled={load}
+          >
+            Trade
+          </Button>
+        </TableCell>
         <TableCell className={classes.fillerCell}></TableCell>
       </Hidden>
     </TableRow>
@@ -217,6 +241,9 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   change24h: {
     minWidth: "5rem",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "3.5rem",
+    },
   },
   chartCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -243,6 +270,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "1.75rem",
     height: "1.75rem",
     transform: "translate(-0.75em, 0)",
+    [theme.breakpoints.down("sm")]: {
+      transform: "translate(-0.75em, 0) rotate(-45deg)",
+    },
   },
   marketCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -267,12 +297,14 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(3, 1.5),
+      height: "6rem",
+      maxHeight: "unset",
+      padding: 0,
       "&:first-child": {
-        padding: theme.spacing(3, 1.5, 3, 3.5),
+        padding: theme.spacing(0, 1, 0, 2),
       },
       "&:last-child": {
-        padding: theme.spacing(3, 3.5, 3, 1.5),
+        padding: theme.spacing(0, 2, 0, 1),
       },
     },
   },
@@ -286,6 +318,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(2.5),
     width: "8rem",
     height: "1.5rem",
+    "&.noMargin": {
+      marginLeft: 0,
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "5rem",
+    },
   },
   normalSvg: {
     width: "1.75rem",
@@ -296,22 +334,35 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "1.75rem",
     height: "1.75rem",
     transform: "translate(0.75em, 0)",
+    [theme.breakpoints.down("sm")]: {
+      transform: "translate(0.75em, 0) rotate(-45deg)",
+    },
   },
   spotCell: {
     minWidth: "13rem",
     [theme.breakpoints.only("xs")]: {
-      minWidth: "11rem",
+      minWidth: "8rem",
     },
   },
   svgBox: {
     paddingTop: 0,
     marginRight: theme.spacing(2.5),
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 0,
+      transform: "rotate(45deg)",
+      "&.futures": {
+        transform: "none",
+      },
+    },
   },
   skeletonBox: {
     position: "relative",
     width: "2em",
     height: "2em",
     flexShrink: 0,
+    [theme.breakpoints.down("sm")]: {
+      transform: "rotate(45deg)",
+    },
   },
   skeletonSvg: {
     position: "absolute",
@@ -323,11 +374,17 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "1.75rem",
       height: "1.75rem",
       transform: "translate(-0.75em, 0)",
+      [theme.breakpoints.down("sm")]: {
+        transform: "translate(-0.75em, 0) rotate(-45deg)",
+      },
     },
     "&.right": {
       width: "1.75rem",
       height: "1.75rem",
       transform: "translate(0.75em, 0)",
+      [theme.breakpoints.down("sm")]: {
+        transform: "translate(0.75em, 0) rotate(-45deg)",
+      },
     },
   },
   skeletonTitle: {
@@ -337,6 +394,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   skeletonSubtitle: {
     width: "3.5rem",
     height: "1.125rem",
+  },
+  title: {
+    [theme.breakpoints.only("sm")]: {
+      marginLeft: theme.spacing(3),
+    },
+    [theme.breakpoints.only("xs")]: {
+      marginLeft: theme.spacing(2.5),
+    },
   },
   tradeBtn: {
     ...theme.typography.button,

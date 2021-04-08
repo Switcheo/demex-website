@@ -91,14 +91,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     minHeight: "1.75rem",
-    padding: theme.spacing(1.5, 2.5),
+    padding: theme.spacing(1.5, 5),
     position: "fixed",
     top: 0,
-    width: `calc(100% - ${theme.spacing(5)}px)`,
+    width: `calc(100% - ${theme.spacing(10)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1.25, 1.75),
-      width: `calc(100% - ${theme.spacing(3.5)}px)`,
+      padding: theme.spacing(1.25, 2.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
   topLogo: {

@@ -28,16 +28,26 @@ const DexProperties: React.FC = () => {
 
   return (
     <div ref={sectionRef} className={classes.root}>
-      <Box display="flex">
+      <Box position="relative">
+        <Hidden smDown>
+          <Box className={classes.fillerBox} />
+        </Hidden>
         <Box className={classes.innerDiv}>
           <Box className={classes.titleBox}>
             <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
               <Typography variant="h3">
-                A Derivatives
-                DEX Built Right
+                A Derivatives DEX&nbsp;
+                <Hidden mdDown>
+                  <br />
+                </Hidden>
+                Built Right
               </Typography>
               <TypographyLabel color="textSecondary">
-                Demex is powered by a layer 2 blockchain solution for an unrivalled trading experience.
+                Demex is powered by a layer 2 blockchain solution for&nbsp;
+                <Hidden mdDown>
+                  <br />
+                </Hidden>
+                an unrivalled trading experience.
               </TypographyLabel>
               <Button
                 className={classes.tradeBtn}
@@ -99,6 +109,14 @@ const useStyles = makeStyles((theme: Theme) => ({
       paddingRight: 0,
     },
   },
+  fillerBox: {
+    backgroundColor: theme.palette.background.default,
+    width: "25%",
+    height: "100%",
+    position: "absolute",
+    right: 0,
+    zIndex: 1,
+  },
   gridItem: {
     marginBottom: theme.spacing(8),
     [theme.breakpoints.down("sm")]: {
@@ -111,6 +129,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     minHeight: "100%",
     padding: theme.spacing(8, 0, 8, 6),
     width: "100%",
+    zIndex: 10,
     [theme.breakpoints.only("lg")]: {
       padding: theme.spacing(8, 6),
     },
@@ -122,6 +141,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(6, 5, 7),
     },
     [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(6, 4),
+    },
+    "@media (max-width: 360px)": {
       padding: theme.spacing(6, 2.5),
     },
     [theme.breakpoints.down("sm")]: {
@@ -201,10 +223,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(5),
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(8, 6),
+      padding: theme.spacing(8, 5),
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(6, 2.5),
+      padding: theme.spacing(8, 4),
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(8, 2.5),
     },
     [theme.breakpoints.down("sm")]: {
       maxWidth: "100%",

@@ -133,12 +133,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
-  rowHeader: {
-    justifyContent: "center",
-    [theme.breakpoints.only("xs")]: {
-      justifyContent: "initial",
-    },
-  },
+  rowHeader: {},
   rowText: {
     alignItems: "center",
     display: "flex",

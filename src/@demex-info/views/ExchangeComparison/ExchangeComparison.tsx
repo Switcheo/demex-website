@@ -88,7 +88,7 @@ const ExchangeComparison: React.FC = () => {
         )}>
           <Box className={classes.switchDiv}>
             <TypographyLabel
-              className={classes.switchSub}
+              className={clsx(classes.switchSub, { toggle: !dexToggle })}
               variant="subtitle1"
               onClick={() => setDexToggle(false)}
             >
@@ -102,10 +102,10 @@ const ExchangeComparison: React.FC = () => {
                 track: classes.switchTrack,
               }}
               onChange={() => setDexToggle(!dexToggle)}
-              color="secondary"
+              color="default"
             />
             <TypographyLabel
-              className={classes.switchSub}
+              className={clsx(classes.switchSub, { toggle: dexToggle })}
               variant="subtitle1"
               onClick={() => setDexToggle(true)}
             >
@@ -167,44 +167,59 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
-    padding: theme.spacing(0, 2.5),
+    maxWidth: "78rem",
+    padding: theme.spacing(0, 6),
+    width: `calc(100% - ${theme.spacing(12)}px)`,
+    zIndex: 10,
+    [theme.breakpoints.between("sm", "md")]: {
+      padding: theme.spacing(0, 5),
+      width: `calc(100% - ${theme.spacing(10)}px)`,
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 4),
+      width: `calc(100% - ${theme.spacing(8)}px)`,
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(0, 2.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
+    },
   },
   root: {
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
+    display: "flex",
     overflow: "hidden",
-    padding: theme.spacing(11, 0),
+    padding: theme.spacing(13, 0, 6.5),
     position: "relative",
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(6, 0),
+      padding: theme.spacing(8, 0, 5),
     },
   },
   sideBorder: {
-    height: "18rem",
-    right: "-15vh",
+    height: "30rem",
+    right: "-36vh",
     position: "absolute",
-    top: "-15vh",
-    width: "18rem",
-    zIndex: 1,
+    top: "-36vh",
+    width: "30rem",
+    zIndex: 0,
     transform: "rotate(180deg)",
     [theme.breakpoints.only("md")]: {
-      top: "-14vh",
-      height: "15rem",
-      right: "-14vh",
-      width: "15rem",
+      top: "-31vh",
+      height: "26rem",
+      right: "-31vh",
+      width: "26rem",
     },
-    [theme.breakpoints.down("sm")]: {
-      top: "-13vh",
-      height: "14rem",
-      right: "-13vh",
-      width: "14rem",
+    [theme.breakpoints.only("sm")]: {
+      top: "-24vh",
+      height: "20rem",
+      right: "-24vh",
+      width: "20rem",
     },
-    [theme.breakpoints.down("sm")]: {
-      top: "-20vh",
-      height: "14rem",
-      right: "-20vh",
-      width: "14rem",
+    [theme.breakpoints.only("xs")]: {
+      top: "-21vh",
+      height: "17rem",
+      right: "-21vh",
+      width: "17rem",
     },
   },
   slide: {
@@ -250,6 +265,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "&:last-child": {
       marginLeft: theme.spacing(1),
+    },
+    "&.toggle": {
+      color: theme.palette.text.secondary,
     },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "7rem",

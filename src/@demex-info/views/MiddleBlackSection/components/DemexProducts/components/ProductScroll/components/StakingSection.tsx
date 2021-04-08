@@ -59,7 +59,7 @@ const StakingSection: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Box id="staking" height="0.5rem">
+      <Box id="staking" className={classes.stakingFiller}>
         &nbsp;
       </Box>
       <div ref={stakingTxtRef} className={clsx(classes.productItem, { slideIn: stakingTxtView })}>
@@ -168,6 +168,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "32rem",
+    },
+  },
+  stakingFiller: {
+    height: "4rem",
+    "@media (max-width: 360px)": {
+      height: "3rem",
     },
   },
   stakingImg: {

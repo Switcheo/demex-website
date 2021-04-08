@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 			height: "100vh",
 		},
 		[theme.breakpoints.only("md")]: {
-			minHeight: "45rem",
+			minHeight: "40rem",
 		},
 		[theme.breakpoints.down("sm")]: {
 			minHeight: "30rem",
@@ -61,19 +61,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 	container: {
 		position: "relative",
-		margin: "-45vh -1268px",
+		margin: "-20% -50%",
 		[theme.breakpoints.down("lg")]: {
-			// margin: "-713px -1268px",
-			margin: "-42% -1268px",
+			margin: "-45% -100%",
+		},
+		"@media (max-width: 1600px)": {
+			margin: "-40% -100%",
 		},
 		[theme.breakpoints.down("md")]: {
-			margin: "-45% -897px",
+			margin: "-45% -100%",
 		},
 		[theme.breakpoints.down("sm")]: {
-			margin: "-50vh -715px",
+			margin: "-50% -100%",
 		},
 		[theme.breakpoints.down("xs")]: {
-			margin: "-15vh -397px",
+			margin: "-25% -75%",
 		},
 	},
 	padding: {

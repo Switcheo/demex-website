@@ -1,4 +1,4 @@
-import { Box, Link, Theme, makeStyles } from "@material-ui/core";
+import { Box, Hidden, Link, Theme, makeStyles } from "@material-ui/core";
 import { NavLink, Paths, StaticLinks, getDemexLink, getExplorerLink } from "@demex-info/constants";
 
 import { DemexLogo } from "@demex-info/assets/logos";
@@ -6,6 +6,7 @@ import React from "react";
 import { RootState } from "@demex-info/store/types";
 import SocialLinkBox from "./SocialLinkBox";
 import { TypographyLabel } from "@demex-info/components";
+import clsx from "clsx";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 
@@ -17,7 +18,6 @@ interface NavLinkMap {
 const NavFooter: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-
   const net = useSelector((state: RootState) => state.app.network);
 
   const FooterNavMap: NavLinkMap[] = [{
@@ -69,42 +69,125 @@ const NavFooter: React.FC = () => {
       <DemexLogo className={classes.bottomLogo} />
       <Box className={classes.footerNav}>
         <Box className={classes.navBox}>
-          {FooterNavMap.map((footerNav: NavLinkMap) => (
-            <Box className={classes.navDiv} key={footerNav.title}>
-              <TypographyLabel boxClass={classes.navTitleBox}>
-                {footerNav.title}
-              </TypographyLabel>
-              {footerNav.items.map((navItem: NavLink) => {
-                if (navItem.path) {
+          <Hidden only="xs">
+            {FooterNavMap.map((footerNav: NavLinkMap) => {
+              return (
+                <Box className={classes.navDiv} key={footerNav.title}>
+                  <TypographyLabel boxClass={classes.navTitleBox}>
+                    {footerNav.title}
+                  </TypographyLabel>
+                  {footerNav.items.map((navItem: NavLink) => {
+                    if (navItem.path) {
+                      return (
+                        <Link
+                          // className={classes.navLink}
+                          color="textPrimary"
+                          key={navItem.label}
+                          component="button"
+                          onClick={() => history.push(navItem?.path ?? "")}
+                        >
+                          {navItem.label}
+                        </Link>
+                      );
+                    }
+                    if (navItem?.href) {
+                      return (
+                        <Link
+                          // className={classes.navLink}
+                          color="textPrimary"
+                          key={navItem.label}
+                          href={navItem?.href}
+                          target="_blank"
+                        >
+                          {navItem.label}
+                        </Link>
+                      );
+                    }
+                    return null;
+                  })}
+                </Box>
+              );
+            })}
+          </Hidden>
+          <Hidden smUp>
+            <React.Fragment>
+              <Box className={classes.mobileMenu}>
+                {FooterNavMap.map((footerNav: NavLinkMap, index: number) => {
+                  if (index === 2) return null;
                   return (
-                    <Link
-                      // className={classes.navLink}
-                      color="textPrimary"
-                      key={navItem.label}
-                      component="button"
-                      onClick={() => history.push(navItem?.path ?? "")}
-                    >
-                      {navItem.label}
-                    </Link>
+                    <Box className={clsx(classes.navDiv, `child-${index}`)} key={footerNav.title}>
+                      <TypographyLabel boxClass={classes.navTitleBox}>
+                        {footerNav.title}
+                      </TypographyLabel>
+                      {footerNav.items.map((navItem: NavLink) => {
+                        if (navItem.path) {
+                          return (
+                            <Link
+                              // className={classes.navLink}
+                              color="textPrimary"
+                              key={navItem.label}
+                              component="button"
+                              onClick={() => history.push(navItem?.path ?? "")}
+                            >
+                              {navItem.label}
+                            </Link>
+                          );
+                        }
+                        if (navItem?.href) {
+                          return (
+                            <Link
+                              // className={classes.navLink}
+                              color="textPrimary"
+                              key={navItem.label}
+                              href={navItem?.href}
+                              target="_blank"
+                            >
+                              {navItem.label}
+                            </Link>
+                          );
+                        }
+                        return null;
+                      })}
+                    </Box>
                   );
-                }
-                if (navItem?.href) {
-                  return (
-                    <Link
-                      // className={classes.navLink}
-                      color="textPrimary"
-                      key={navItem.label}
-                      href={navItem?.href}
-                      target="_blank"
-                    >
-                      {navItem.label}
-                    </Link>
-                  );
-                }
-                return null;
-              })}
-            </Box>
-          ))}
+                })}
+              </Box>
+              <Box className={clsx(classes.navDiv, "standalone")} key={FooterNavMap[2].title}>
+                <TypographyLabel boxClass={classes.navTitleBox}>
+                  {FooterNavMap[2].title}
+                </TypographyLabel>
+                {FooterNavMap[2].items.map((navItem: NavLink) => {
+                  if (navItem.path) {
+                    return (
+                      <Link
+                        // className={classes.navLink}
+                        color="textPrimary"
+                        key={navItem.label}
+                        component="button"
+                        onClick={() => history.push(navItem?.path ?? "")}
+                      >
+                        {navItem.label}
+                      </Link>
+                    );
+                  }
+                  if (navItem?.href) {
+                    return (
+                      <Link
+                        // className={classes.navLink}
+                        color="textPrimary"
+                        key={navItem.label}
+                        href={navItem?.href}
+                        target="_blank"
+                      >
+                        {navItem.label}
+                      </Link>
+                    );
+                  }
+                  return null;
+                })}
+              </Box>
+            </React.Fragment>
+          </Hidden>
         </Box>
         <SocialLinkBox />
       </Box>
@@ -138,6 +221,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(4.5),
     },
   },
+  mobileMenu: {
+    display: "flex",
+    // "@media (max-width: 360px)": {
+    //   display: "block",
+    // },
+  },
   navBox: {
     display: "flex",
     [theme.breakpoints.only("xs")]: {
@@ -167,10 +256,24 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "33%",
     },
     [theme.breakpoints.only("xs")]: {
-      marginTop: theme.spacing(4.5),
-      width: "100%",
-      "&:first-child": {
-        marginTop: 0,
+      width: "50%",
+      marginRight: theme.spacing(0),
+      "&.child-0": {
+        paddingRight: theme.spacing(4.5),
+      },
+      "&.child-1": {
+        paddingLeft: theme.spacing(4.5),
+      },
+      "&.standalone": {
+        marginTop: theme.spacing(4.5),
+      },
+    },
+    "@media (max-width: 360px)": {
+      "&.child-0": {
+        paddingRight: theme.spacing(0),
+      },
+      "&.child-1": {
+        paddingLeft: theme.spacing(2.5),
       },
     },
   },
@@ -179,7 +282,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       marginBottom: 0,
     },
-    "& p": {
+    "& p, & h6": {
       color: theme.palette.text.secondary,
       fontSize: "0.8375rem",
       fontWeight: 500,

@@ -141,7 +141,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                {avgApy.decimalPlaces(1, 1).toString(10)}%
+                {avgApy.isFinite() ? `${avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>
@@ -214,9 +214,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     width: "100%",
     justifyContent: "center",
-    margin: "1rem 0",
-    paddingTop: "22vh",
-    paddingBottom: "22vh",
+    paddingTop: "14vh",
+    paddingBottom: "16vh",
     opacity: 0,
     transform: "translate(0px, 60px)",
     transition: "opacity ease-in 0.3s, transform ease-in 0.4s",

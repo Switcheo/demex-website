@@ -39,9 +39,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(11, 2.5, 5),
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(6, 2.5),
+    padding: theme.spacing(13, 2.5, 5),
+    [theme.breakpoints.only("sm")]: {
+      padding: theme.spacing(8, 4, 6),
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(8, 4, 6),
+      width: `calc(100% - ${theme.spacing(8)}px)`,
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(8, 2.5, 6),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
   slide: {
