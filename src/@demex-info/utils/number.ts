@@ -1,6 +1,7 @@
 import { ASSETS, getCoinCommonDenom } from "@demex-info/constants";
 
 import BigNumber from "bignumber.js";
+import { TokenObj } from "@demex-info/store/app/types";
 
 export const BN_ZERO = new BigNumber(0);
 export const BN_HUNDRED = new BigNumber(100);
@@ -17,10 +18,14 @@ export function parseNumber(number: string | number = "0", defaultValue?: BigNum
 	return bnNumber;
 }
 
-export function adjustGweiToHumanAmount(amountInGwei: string, assetSymbol: string): BigNumber {
+// Using ASSETS here as a fallback in case the API does not return a token list
+export function adjustGweiToHumanAmount(amountInGwei: string, tokens: TokenObj[] = [], assetSymbol: string): BigNumber {
   const commonDenom = getCoinCommonDenom(assetSymbol) ?? "-";
-  const asset = ASSETS[commonDenom];
-  const precision = asset?.precision ?? 0;
+  let precision = ASSETS[commonDenom]?.precision ?? 0;
+  if (tokens.length > 0) {
+    const asset = tokens.find((token: TokenObj) => token.denom === assetSymbol);
+    precision = asset?.decimals ?? 0;
+  }
 
   const valBN = parseNumber(amountInGwei, BN_ZERO)!;
   return valBN.shiftedBy(-precision).decimalPlaces(precision);

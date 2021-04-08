@@ -18,5 +18,6 @@ export const lightPalette: PaletteOptions = {
 	text: {
 		primary: "#363B46",
 		secondary: "#6B748B",
+		hint: "#8E939B",
 	},
 };

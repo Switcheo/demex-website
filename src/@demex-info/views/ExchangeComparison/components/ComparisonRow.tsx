@@ -2,9 +2,11 @@ import { Box, Hidden, TableCell, TableRow, Theme, Typography, fade, makeStyles }
 import { CloseIcon, TickIcon } from "@demex-info/assets";
 
 import { CexTradingRow } from "../compareConfig";
+import ListCell from "./ListCell";
 import React from "react";
 import { RenderGuard } from "@demex-info/components";
 import { Skeleton } from "@material-ui/lab";
+import SubListCell from "./SubListCell";
 import clsx from "clsx";
 
 interface Props {
@@ -26,7 +28,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
           <Skeleton height="2.25rem" width="6rem" />
         )}
         {!load && (
-          <Box height="6rem" alignItems="center" display="flex" className={classes.rowHeader}>
+          <Box height="8.5rem" alignItems="center" display="flex" className={classes.rowHeader}>
             {row.header}
           </Box>
         )}
@@ -36,28 +38,39 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
           const valueItem = row.values?.[newKey] ?? false;
           return (
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
-              <RenderGuard renderIf={!load && typeof valueItem === "string"}>
-                <Box height="6rem" display="flex" justifyContent="center">
+              <Box height="8.5rem" alignItems="center" display="flex" justifyContent="center">
+                <RenderGuard renderIf={!load && typeof valueItem === "string"}>
                   <Typography className={classes.rowText} color="textSecondary">
                     {valueItem}
                   </Typography>
-                </Box>
-              </RenderGuard>
-              <RenderGuard renderIf={!load && typeof valueItem === "boolean" && valueItem}>
-                <Box height="6rem" display="flex" justifyContent="center" alignItems="center">
+                </RenderGuard>
+                <RenderGuard renderIf={!load && typeof valueItem === "boolean" && valueItem}>
                   <TickIcon className={classes.svgIcon} />
-                </Box>
-              </RenderGuard>
-              <RenderGuard renderIf={!load && typeof valueItem === "boolean" && !valueItem}>
-                <Box height="6rem" display="flex" justifyContent="center" alignItems="center">
+                </RenderGuard>
+                <RenderGuard renderIf={!load && typeof valueItem === "boolean" && !valueItem}>
                   <CloseIcon className={clsx(classes.svgIcon, "cross")} />
-                </Box>
-              </RenderGuard>
-              <RenderGuard renderIf={load}>
-                <Box height="6rem" display="flex" justifyContent="center" alignItems="center">
+                </RenderGuard>
+                <RenderGuard renderIf={load}>
                   <Skeleton height="2.25rem" width="6rem" />
-                </Box>
-              </RenderGuard>
+                </RenderGuard>
+                <RenderGuard renderIf={!load && Array.isArray(valueItem)}>
+                  <RenderGuard renderIf={Array.isArray(valueItem) && valueItem.length > 0 && typeof valueItem[0] === "string"}>
+                    <ListCell valueItem={valueItem} newKey={newKey} />
+                  </RenderGuard>
+                </RenderGuard>
+                <RenderGuard renderIf={!load && Array.isArray(valueItem)}>
+                  <RenderGuard
+                    renderIf={
+                      Array.isArray(valueItem)
+                        && valueItem.length > 0
+                        && typeof valueItem[0] !== "string"
+                        && Boolean(valueItem[0]?.header)
+                    }
+                  >
+                      <SubListCell valueItem={valueItem}  newKey={newKey} />
+                  </RenderGuard>
+                </RenderGuard>
+              </Box>
             </TableCell>
           );
         })
@@ -72,10 +85,10 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   compareRow: {
     "& td": {
-      maxHeight: "6rem",
+      maxHeight: "8.5rem",
       "&.headerCol, &.rowCell": {
         borderBottom: `1px solid ${theme.palette.divider}`,
-        maxHeight: "6rem",
+        maxHeight: "8.5rem",
       },
       "&.demex": {
         borderBottom: `1px solid ${theme.palette.divider}`,
@@ -92,7 +105,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& td": {
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
-          maxHeight: "6rem",
+          maxHeight: "8.5rem",
         },
       },
     },
@@ -110,19 +123,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "sticky",
     left: 0,
     minWidth: "7.5rem",
-    maxHeight: "6rem",
+    maxHeight: "8.5rem",
+    maxWidth: "10rem",
     padding: theme.spacing(0, 3),
     [theme.breakpoints.only("xs")]: {
       borderRight: `1px solid ${theme.palette.divider}`,
-      minHeight: "6rem",
-      minWidth: "6rem",
+      maxWidth: "8rem",
+      minHeight: "8.5rem",
+      minWidth: "8rem",
       padding: theme.spacing(0, 1, 0, 1.5),
     },
   },
   rowCell: {
     ...theme.typography.subtitle1,
-    fontSize: "0.9rem",
-    maxHeight: "6rem",
+    fontSize: "0.8rem",
+    maxHeight: "8.5rem",
     padding: theme.spacing(0, 3),
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 3),
@@ -138,13 +153,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     textAlign: "center",
-    fontSize: "0.9rem",
+    fontSize: "0.85rem",
     maxWidth: "7.75rem",
   },
   svgIcon: {
-    height: "0.75rem",
+    height: "0.875rem",
     "&.cross": {
-      height: "0.875rem",
+      height: "0.95rem",
       "& path": {
         fill: theme.palette.error.main,
       },

@@ -30,10 +30,8 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
 
   const { list, candlesticks } = useSelector((state: RootState) => state.markets);
 
-  // const [expand, setExpand] = React.useState<boolean>(false);
-
   const marketHeaders: HeaderCell[] = [{
-    title: "Market",
+    title: widthSmDown ? "Market / 24H Vol" : "Market",
     key: "market",
   }, {
     className: classes.alignRight,
