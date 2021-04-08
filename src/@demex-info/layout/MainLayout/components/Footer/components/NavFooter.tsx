@@ -179,7 +179,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       marginBottom: 0,
     },
-    "& p": {
+    "& p, & h6": {
       color: theme.palette.text.secondary,
       fontSize: "0.8375rem",
       fontWeight: 500,

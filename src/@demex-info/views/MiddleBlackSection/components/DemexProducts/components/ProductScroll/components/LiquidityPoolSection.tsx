@@ -66,7 +66,7 @@ const LiquidityPoolSection: React.FC = () => {
     };
   }, [pools, usdPrices, tokens, totalCommitMap]);
 
-  const avgApy  = React.useMemo((): BigNumber => {
+  const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;
     let cumApy: BigNumber = BN_ZERO;
 
@@ -138,7 +138,7 @@ const LiquidityPoolSection: React.FC = () => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                {avgApy.decimalPlaces(1, 1).toString(10)}%
+                {avgApy.isFinite() ? `${avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>

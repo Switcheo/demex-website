@@ -141,7 +141,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                {avgApy.decimalPlaces(1, 1).toString(10)}%
+                {avgApy.isFinite() ? `${avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>

@@ -36,11 +36,18 @@ const DexProperties: React.FC = () => {
           <Box className={classes.titleBox}>
             <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
               <Typography variant="h3">
-                A Derivatives
-                DEX Built Right
+                A Derivatives DEX&nbsp;
+                <Hidden mdDown>
+                  <br />
+                </Hidden>
+                Built Right
               </Typography>
               <TypographyLabel color="textSecondary">
-                Demex is powered by a layer 2 blockchain solution for an unrivalled trading experience.
+                Demex is powered by a layer 2 blockchain solution for&nbsp;
+                <Hidden mdDown>
+                  <br />
+                </Hidden>
+                an unrivalled trading experience.
               </TypographyLabel>
               <Button
                 className={classes.tradeBtn}
