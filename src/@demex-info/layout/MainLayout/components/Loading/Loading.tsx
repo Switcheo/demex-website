@@ -39,10 +39,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100vh",
     justifyContent: "center",
     transition: "height ease-in 0.5s",
+    position: "fixed",
+    top: 0,
     width: "100vw",
     zIndex: 3000,
     "&.endLoad": {
       height: 0,
+      position: "initial",
     },
   },
   lottie: {

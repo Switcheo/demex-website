@@ -15,9 +15,13 @@ const MainLayout: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     startSagas();
+    const bodyEl = document.querySelector("body");
+    bodyEl?.setAttribute("style", "overflow:hidden;");
+
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+      bodyEl?.setAttribute("style", "overflow:unset;");
+    }, 1500);
   }, []);
 
 	const classes = useStyles();
