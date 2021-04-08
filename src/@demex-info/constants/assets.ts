@@ -8,6 +8,7 @@ interface Assets {
   };
 }
 
+// Fallback Assets decimals incase API calls fail
 export const ASSETS: Assets = {
   swth: {
     precision: 8,

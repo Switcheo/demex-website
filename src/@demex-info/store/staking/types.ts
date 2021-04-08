@@ -1,6 +1,7 @@
 import { BN_ZERO, adjustGweiToHumanAmount, parseNumber } from "@demex-info/utils";
 
 import BigNumber from "bignumber.js";
+import { TokenObj } from "@demex-info/store/app/types";
 
 export interface StakingState {
   avgBlockTime: string;
@@ -48,10 +49,10 @@ export interface Validator {
   bondStatus: string;
 }
 
-export const parseStakingStats = (data: any): StakingStats => {
+export const parseStakingStats = (data: any, tokens: TokenObj[]): StakingStats => {
   const stakingData = data?.result ?? {};
-  const bondedTokens = adjustGweiToHumanAmount(stakingData?.bonded_tokens, "swth");
-  const nonBondedTokens = adjustGweiToHumanAmount(stakingData?.not_bonded_tokens, "swth")!;
+  const bondedTokens = adjustGweiToHumanAmount(stakingData?.bonded_tokens, tokens, "swth");
+  const nonBondedTokens = adjustGweiToHumanAmount(stakingData?.not_bonded_tokens, tokens, "swth")!;
   return {
     bondedTokens,
     nonBondedTokens,

@@ -1,10 +1,12 @@
 import { Box, Button, Divider, Switch, Theme, fade, makeStyles } from "@material-ui/core";
 import {
+  CexFeesVal,
   CexSecurityVal,
   CexServiceVal,
   CexTableTabs,
   CexTradingVal,
   DexDecentralisationVal,
+  DexFeesVals,
   DexTableTabs,
   DexTechnologyVal,
   DexTradingVal,
@@ -48,6 +50,8 @@ const ExchangeComparison: React.FC = () => {
           return DexTradingVal;
         case "dex-decentralisation":
           return DexDecentralisationVal;
+        case "dex-fees":
+          return DexFeesVals;
         default:
           return DexTechnologyVal;
       }
@@ -57,6 +61,8 @@ const ExchangeComparison: React.FC = () => {
           return CexSecurityVal;
         case "cex-service":
           return CexServiceVal;
+        case "cex-fees":
+          return CexFeesVal;
         default:
           return CexTradingVal;
       }
@@ -65,8 +71,8 @@ const ExchangeComparison: React.FC = () => {
 
   // tabs list = 67px
   // header row = 78px
-  // each row height = 97px
-  const paperHeight = 67 + 80 + (97 * tableSelect.length);
+  // each row height = 136px
+  const paperHeight = 67 + 80 + (136 * tableSelect.length);
 
   return (
     <div ref={titleRef} className={classes.root}>
@@ -288,7 +294,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tabBtn: {
     ...theme.typography.button,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.hint,
     display: "inline-block",
     fontSize: "1.5rem",
     marginLeft: theme.spacing(2.5),
@@ -300,7 +306,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: "transparent",
     },
     "&.selected": {
-      color: theme.palette.secondary.main,
+      color: theme.palette.text.primary,
     },
     [theme.breakpoints.only("xs")]: {
       fontSize: "1.25rem",
@@ -347,7 +353,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         transform: "translate(150%, 0px)",
       },
     },
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 720px)": {
       justifyContent: "initial",
     },
   },

@@ -6,6 +6,7 @@ import BigNumber from "bignumber.js";
 import { RestClient } from "tradehub-api-js";
 import { RootState } from "@demex-info/store/types";
 import TendermintClient from "@demex-info/utils/tendermint";
+import { TokenObj } from "@demex-info/store/app/types";
 import actions from "@demex-info/store/actions";
 
 function* handleQueryStakingStats(): Generator {
@@ -16,13 +17,16 @@ function* handleQueryStakingStats(): Generator {
     const restClient: any = yield select((state: RootState): RestClient => state.app.restClient);
     if (!restClient) continue;
 
+    const tokens: any = yield select((state: RootState): TokenObj[] => state.app.tokens);
+    if (!tokens) continue;
+
     const statsUuid = uuidv4();
     if (setLoad) {
       yield put(actions.Layout.addBackgroundLoading(StakingTasks.Stats, statsUuid));
     }
 		try {
       const response: any = yield call([restClient, restClient.getStakingPool]);
-      const stakingStats: StakingStats = parseStakingStats(response);
+      const stakingStats: StakingStats = parseStakingStats(response, tokens);
       yield put(actions.Staking.setStakingStats(stakingStats));
 		} catch (err) {
       console.error(err);
