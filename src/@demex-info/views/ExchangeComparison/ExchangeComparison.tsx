@@ -353,7 +353,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         transform: "translate(150%, 0px)",
       },
     },
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 720px)": {
       justifyContent: "initial",
     },
   },

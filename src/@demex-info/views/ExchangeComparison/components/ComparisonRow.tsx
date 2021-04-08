@@ -143,8 +143,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(0, 0, 0, 3),
     },
     [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(0, 2),
       "&:last-child": {
-        padding: theme.spacing(0, 3, 0, 1.5),
+        padding: theme.spacing(0, 2, 0, 1.5),
       },
     },
   },

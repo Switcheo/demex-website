@@ -31,19 +31,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: 0,
     marginBottom: 0,
     maxWidth: "9rem",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "unset",
+      minWidth: "6rem",
+      paddingLeft: theme.spacing(1),
+    },
   },
   listItem: {
     color: theme.palette.text.secondary,
-  },
-  subList: {
-    lineHeight: "1.25rem",
-    paddingLeft: 0,
-    marginTop: theme.spacing(1.5),
-    marginBottom: 0,
-    maxWidth: "9rem",
-    "&:first-child": {
-      marginTop: 0,
-    },
   },
 }));
 
