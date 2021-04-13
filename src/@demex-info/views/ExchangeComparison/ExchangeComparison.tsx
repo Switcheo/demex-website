@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "78rem",
+    maxWidth: "84rem",
     padding: theme.spacing(0, 6),
     width: `calc(100% - ${theme.spacing(12)}px)`,
     zIndex: 10,
@@ -288,7 +288,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.button,
     color: theme.palette.text.hint,
     display: "inline-block",
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     padding: theme.spacing(2.5, 1.5),
     "&:first-child": {

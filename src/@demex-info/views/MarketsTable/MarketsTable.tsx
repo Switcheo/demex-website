@@ -446,7 +446,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "78rem",
+    maxWidth: "84rem",
     padding: theme.spacing(0, 6),
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(0, 5),
@@ -469,7 +469,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   tab: {
     ...theme.typography.button,
     color: theme.palette.text.secondary,
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     "&:first-child": {
       marginLeft: 0,

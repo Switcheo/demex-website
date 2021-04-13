@@ -28,9 +28,6 @@ const DexProperties: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box position="relative">
-        <Hidden smDown>
-          <Box className={classes.fillerBox} />
-        </Hidden>
         <Box className={classes.innerDiv}>
           <Box className={classes.titleBox}>
             <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
@@ -107,14 +104,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       paddingRight: 0,
     },
-  },
-  fillerBox: {
-    backgroundColor: theme.palette.background.default,
-    width: "25%",
-    height: "100%",
-    position: "absolute",
-    right: 0,
-    zIndex: 1,
   },
   gridItem: {
     marginBottom: theme.spacing(8),
@@ -214,7 +203,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& p": {
       ...theme.typography.subtitle1,
     },
-    [theme.breakpoints.only("lg")]: {
+    "@media (min-width: 1280px) and (max-width: 1440px)": {
       padding: theme.spacing(8, 6),
     },
     [theme.breakpoints.only("md")]: {

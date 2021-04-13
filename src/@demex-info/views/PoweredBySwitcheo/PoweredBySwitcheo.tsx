@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   leftDiv: {
-    padding: theme.spacing(0, 3, 0, 6),
+    padding: theme.spacing(0, 3, 0, 0),
     width: "calc(100% / 12 * 4)",
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 2, 0, 0),
@@ -98,14 +98,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rightDiv: {
-    padding: theme.spacing(0, 6, 0, 3),
     width: "calc(100% / 12 * 8)",
     [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(0, 0, 0, 2),
       width: "calc(100% / 12 * 7)",
     },
     [theme.breakpoints.down("sm")]: {
-      padding: 0,
       width: "100%",
     },
   },
@@ -126,7 +123,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     margin: theme.spacing(8, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(0, 6),
+    padding: 0,
     width: `calc(100% - ${theme.spacing(12)}px)`,
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 5),
