@@ -190,12 +190,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(1),
+      fontSize: "0.7rem",
+      padding: theme.spacing(1, 0.5),
       "&:first-child": {
-        padding: theme.spacing(1, 1, 1, 2),
+        padding: theme.spacing(1, 0.5, 1, 2),
       },
       "&:last-child": {
-        padding: theme.spacing(1, 2, 1, 1),
+        padding: theme.spacing(1, 2, 1, 0.5),
       },
     },
   },

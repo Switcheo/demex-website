@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "1.25rem",
   },
   mobileMenu: {
-    marginLeft: theme.spacing(2.25),
+    // marginLeft: theme.spacing(2.25),
   },
   root: {
     backgroundColor: theme.palette.background.default,
@@ -99,8 +99,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: `calc(100% - ${theme.spacing(10)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1.25, 2.5, 1.25, 0),
-      width: `calc(100% - ${theme.spacing(2.5)}px)`,
+      padding: theme.spacing(1.25, 2.5),
+      width: `calc(100% - ${theme.spacing(5)}px)`,
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1.25, 1.75),
+      width: `calc(100% - ${theme.spacing(3.5)}px)`,
     },
   },
   topLogo: {
@@ -109,7 +113,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "6rem",
       height: "unset",
-      marginLeft: theme.spacing(2.25),
+      marginLeft: theme.spacing(2),
     },
   },
 }));

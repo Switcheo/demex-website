@@ -80,6 +80,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: theme.spacing(2.5),
     width: "3rem",
     height: "3rem",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: theme.spacing(3),
+      width: "2.5rem",
+      height: "2.5rem",
+    },
   },
   pointBox: {
     alignItems: "center",
@@ -98,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
       height: "unset",
-      marginBottom: theme.spacing(1.5),
+      marginBottom: theme.spacing(2),
     },
   },
 }));

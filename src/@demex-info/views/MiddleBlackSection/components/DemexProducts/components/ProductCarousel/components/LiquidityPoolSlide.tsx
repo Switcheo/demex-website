@@ -115,7 +115,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle} mt={3.5}>
+        <TypographyLabel color="textSecondary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by committing LP tokens
         </TypographyLabel>
         <Divider className={classes.divider} />
@@ -126,7 +126,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -141,7 +141,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -156,7 +156,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -243,15 +243,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: 0,
     },
     "& h4": {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(3),
     },
     "& h6": {
-      height: "3rem",
-      overflow: "hidden",
+      // overflow: "hidden",
     },
   },
   subtitle: {
     fontSize: "1.125rem",
+    marginTop: theme.spacing(4),
   },
   title: {
     fontSize: "2.5rem",

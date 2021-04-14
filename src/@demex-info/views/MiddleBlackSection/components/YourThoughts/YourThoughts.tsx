@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
     maxWidth: "36rem",
     margin: theme.spacing(4, "auto", 0),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(2, "auto", 0),
+    },
   },
   title: {
     textAlign: "center",

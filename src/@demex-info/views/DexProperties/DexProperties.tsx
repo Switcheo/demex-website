@@ -126,12 +126,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(5),
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(6, 5, 7),
+      padding: theme.spacing(6, 4.5, 7),
+      margin: theme.spacing(0, 5),
     },
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(6, 4),
+      margin: theme.spacing(0, 4),
     },
     "@media (max-width: 360px)": {
+      margin: theme.spacing(0, 2.5),
       padding: theme.spacing(6, 2.5),
     },
     [theme.breakpoints.down("sm")]: {
@@ -198,7 +201,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "relative",
     width: "100%",
     "& h3": {
-      marginBottom: theme.spacing(1.5),
+      marginBottom: theme.spacing(4),
+      [theme.breakpoints.down("sm")]: {
+        marginBottom: theme.spacing(2),
+      },
     },
     "& p": {
       ...theme.typography.subtitle1,

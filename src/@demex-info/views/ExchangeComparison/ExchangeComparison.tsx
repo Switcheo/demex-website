@@ -349,10 +349,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tableSection: {
     marginTop: theme.spacing(6),
-    [theme.breakpoints.only("sm")]: {
-      marginTop: theme.spacing(5),
-    },
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: theme.spacing(4),
     },
   },

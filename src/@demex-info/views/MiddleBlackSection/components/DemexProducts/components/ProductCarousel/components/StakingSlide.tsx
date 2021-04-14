@@ -90,7 +90,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
           >
             Staking
           </Typography>
-          <TypographyLabel color="textSecondary" className={classes.subtitle} mt={3.5}>
+          <TypographyLabel color="textSecondary" className={classes.subtitle}>
             Accrue weekly rewards from trading fees and block rewards when you stake SWTH.
           </TypographyLabel>
           <Divider className={classes.divider} />
@@ -198,15 +198,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: 0,
     },
     "& h4": {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(3),
     },
     "& h6": {
-      height: "3rem",
-      overflow: "hidden",
+      // overflow: "hidden",
     },
   },
   subtitle: {
     fontSize: "1.125rem",
+    marginTop: theme.spacing(4),
   },
   title: {
     fontSize: "2.5rem",

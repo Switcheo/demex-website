@@ -144,7 +144,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           </RenderGuard>
 
           <RenderGuard renderIf={!load}>
-            <TypographyLabel className={classes.denomVal}>
+            <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
               {stat?.last_price.toString(10) ?? BN_ZERO.decimalPlaces(2).toString(10)}
             </TypographyLabel>
             <TypographyLabel color="textSecondary" className={classes.usdValue}>
@@ -187,7 +187,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             </RenderGuard>
 
             <RenderGuard renderIf={!load}>
-              <TypographyLabel className={classes.denomVal}>
+              <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
                 {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
               </TypographyLabel>
               <TypographyLabel color="textSecondary" className={classes.usdValue}>
@@ -247,6 +247,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       minWidth: "3.5rem",
     },
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.8rem",
+    },
   },
   chartCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -254,8 +257,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxHeight: "6rem",
     padding: theme.spacing(0.5),
   },
+  denomBox: {
+    [theme.breakpoints.only("xs")]: {
+      maxHeight: "1.3rem",
+    },
+  },
   denomVal: {
     fontWeight: 500,
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.8rem",
+    },
   },
   fillerCell: {
     borderBottom: "1px solid transparent",
@@ -403,6 +414,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: theme.spacing(3),
     },
     [theme.breakpoints.only("xs")]: {
+      fontSize: "0.8rem",
       marginLeft: theme.spacing(2.5),
     },
   },
@@ -413,6 +425,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   usdValue: {
     fontSize: "0.8rem",
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.7rem",
+    },
   },
   volumeCell: {
     minWidth: "6rem",

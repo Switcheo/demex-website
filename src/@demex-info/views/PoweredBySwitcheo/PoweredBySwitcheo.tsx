@@ -1,8 +1,9 @@
-import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
+import { ScrollingText2 } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
-  Box, Button, Hidden, Link, makeStyles, Theme, Typography,
+  Box, Button, Link, makeStyles, Theme, Typography,
+  useMediaQuery, useTheme,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Lottie from "lottie-react";
@@ -11,6 +12,8 @@ import { useInView } from "react-intersection-observer";
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [sectionRef, sectionView] = useInView({
     threshold: 0.5,
@@ -20,14 +23,14 @@ const PoweredBySwitcheo: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box className={classes.textRoot}>
-        <Hidden smUp>
+        {/* <Hidden smUp>
           <HomeBorder className={classes.homeBorder} />
-        </Hidden>
+        </Hidden> */}
         <Lottie
           { ...lottieDefaultOptions }
-          animationData={ScrollingText}
+          animationData={ScrollingText2}
           style={{
-            height: "8rem",
+            height: widthSmDown ? "6.4rem" : "8rem",
           }}
         />
       </Box>
@@ -151,6 +154,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       [theme.breakpoints.down("sm")]: {
         marginBottom: theme.spacing(2.5),
         paddingRight: 0,
+      },
+      [theme.breakpoints.only("xs")]: {
+        marginBottom: theme.spacing(2),
       },
     },
     "& p": {
