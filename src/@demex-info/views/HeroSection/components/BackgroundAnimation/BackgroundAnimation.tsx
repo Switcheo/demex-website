@@ -61,21 +61,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 	container: {
 		position: "relative",
-		margin: "-20% -50%",
+		margin: "-38% -67%",
 		[theme.breakpoints.down("lg")]: {
 			margin: "-45% -100%",
 		},
 		"@media (max-width: 1600px)": {
-			margin: "-40% -100%",
+			margin: "-56% -100%",
 		},
 		[theme.breakpoints.down("md")]: {
-			margin: "-45% -100%",
+			margin: "-57% ​-100%",
 		},
 		[theme.breakpoints.down("sm")]: {
 			margin: "-50% -100%",
 		},
 		[theme.breakpoints.down("xs")]: {
-			margin: "-25% -75%",
+			margin: "-35% -103%",
 		},
 	},
 	padding: {
