@@ -5,20 +5,14 @@ import { BackgroundAnimation } from "./components";
 import React from "react";
 import { TypographyLabel } from "@demex-info/components";
 import clsx from "clsx";
-import { useInView } from "react-intersection-observer";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 
-	const [sectionRef, sectionView] = useInView({
-		threshold: 0.8,
-		triggerOnce: true,
-	});
-
 	return (
-		<section ref={sectionRef} className={clsx(classes.root)}>
+		<Box component="section" className={clsx(classes.root)}>
 			<BackgroundAnimation />
-			<Container maxWidth="lg" className={clsx(classes.contentContainer, classes.slide, { open: sectionView })}>
+			<Container maxWidth="lg" className={classes.contentContainer}>
 				<Box className={classes.content}>
 					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
 						Powerful. Permissionless. Secure.
@@ -44,76 +38,47 @@ const HeroSection: React.FC = () => {
 					</Button>
 				</Box>
 			</Container>
-		</section>
+		</Box>
 	);
 };
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: "relative",
-		minHeight: "40rem",
 		marginBottom: "12px",
-		[theme.breakpoints.up("lg")]: {
-			height: "100vh",
-		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "480px",
+			minHeight: "400px",
 		},
 	},
 	content: {
 		fontSize: "16px",
 		display: "flex",
+		height: "calc(100vh - 270px)",
+		maxHeight: "800px",
 		flexDirection: "column",
 		alignItems: "center",
-		[theme.breakpoints.down("md")]: {
+		justifyContent: "center",
+		[theme.breakpoints.down("lg")]: {
 			fontSize: "15px",
+		},
+		[theme.breakpoints.down("md")]: {
+			fontSize: "10px",
+			minHeight: "360px",
 		},
 		[theme.breakpoints.down("sm")]: {
 			fontSize: "10px",
 		},
 	},
 	contentContainer: {
-		alignItems: "center",
-		display: "flex",
-		justifyContent: "center",
-		paddingTop: "3.375rem",
+		marginTop: "120px",
 		position: "relative",
-		[theme.breakpoints.up("lg")]: {
-			height: "100vh",
-		},
-		// [theme.breakpoints.only("md")]: {
-		// 	height: "100%",
-		// 	marginTop: 0,
-		// 	maxHeight: "45rem",
-		// 	paddingTop: "calc((50% - 200px)/2)",
-		// },
-		// [theme.breakpoints.only("sm")]: {
-		// 	marginTop: 0,
-		// 	paddingTop: "calc((50% - 108px)/2)",
-		// },
-		// [theme.breakpoints.only("xs")]: {
-		// 	display: "flex",
-		// 	alignItems: "center",
-		// 	justifyContent: "center",
-		// 	marginTop: 0,
-		// 	height: "100%",
-		// },
-		[theme.breakpoints.only("md")]: {
-			minHeight: "40rem",
+		[theme.breakpoints.down("md")]: {
+			marginTop: "70px",
 		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "480px",
+			minHeight: "48px",
 		},
 	},
-	slide: {
-    opacity: 0,
-    transform: "translate(0px, 50px)",
-		transition: "opacity ease-in 0.6s, transform ease-in 0.7s",
-    "&.open": {
-      opacity: 1,
-      transform: "translate(0px,0px)",
-    },
-  },
 	text: {
 		fontFamily: "Graphik",
 		color: "#fff",
@@ -127,12 +92,11 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "3.75em",
 		fontWeight: 600,
 		lineHeight: "1.333em",
-		marginTop: theme.spacing(5),
-		[theme.breakpoints.down("md")]: {
+		marginTop: "0.4em",
+		[theme.breakpoints.down("sm")]: {
 			fontSize: "3em",
 		},
 		[theme.breakpoints.down("sm")]: {
-			marginTop: "1em",
 			fontSize: "2.2em",
 		},
 	},
@@ -141,18 +105,12 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "1.555em",
 		maxWidth: "35.55em",
 		marginTop: "2.222em",
-		[theme.breakpoints.only("xs")]: {
-			marginTop: "1.75em",
-		},
 	},
 	button: {
 		marginTop: "4em",
 		padding: "0.8125em 1.75em",
-		[theme.breakpoints.only("sm")]: {
+		[theme.breakpoints.down("sm")]: {
 			marginTop: "2em",
-		},
-		[theme.breakpoints.only("xs")]: {
-			marginTop: "1.75em",
 		},
 		"& .MuiButton-label": {
 			[theme.breakpoints.down("sm")]: {
