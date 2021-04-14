@@ -15,6 +15,27 @@ interface Props {
   row: CexTradingRow;
 }
 
+interface BrokenProps {
+  str: string;
+}
+
+const BrokenHeader: React.FC<BrokenProps> = (props: BrokenProps) => {
+  const { str } = props;
+  const [frontStr, backStr] = str.split("\n");
+  return (
+    <React.Fragment>
+      {frontStr}
+      <Hidden smUp>
+        &nbsp;
+      </Hidden>
+      <Hidden only="xs">
+        <br />
+      </Hidden>
+      {backStr}
+    </React.Fragment>
+  );
+};
+
 const ComparisonRow: React.FC<Props> = (props: Props) => {
   const { load, row } = props;
   const classes = useStyles();
@@ -26,11 +47,16 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
       </Hidden>
       <TableCell className={clsx(classes.headerCol, "headerCol")}>
         {load && (
-          <Skeleton height="2.25rem" width="6rem" />
+          <Skeleton className={classes.headerSkeleton} />
         )}
         {!load && (
-          <Box height="8rem" alignItems="center" display="flex" className={classes.rowHeader}>
-            {row.header}
+          <Box alignItems="center" display="flex" className={classes.rowHeader}>
+            <RenderGuard renderIf={row.header.includes("\n")}>
+              <BrokenHeader str={row.header} />
+            </RenderGuard>
+            <RenderGuard renderIf={!row.header.includes("\n")}>
+              {row.header}
+            </RenderGuard>
           </Box>
         )}
       </TableCell>
@@ -39,7 +65,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
           const valueItem = row.values?.[newKey] ?? false;
           return (
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
-              <Box height="8rem" alignItems="center" display="flex" justifyContent="center">
+              <Box className={classes.rowTextBox}>
                 <RenderGuard renderIf={!load && typeof valueItem === "string"}>
                   <Typography className={classes.rowText} color="textSecondary">
                     {valueItem}
@@ -86,10 +112,10 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   compareRow: {
     "& td": {
-      maxHeight: "8rem",
+      // maxHeight: "8rem",
       "&.headerCol, &.rowCell": {
         borderBottom: `1px solid ${theme.palette.divider}`,
-        maxHeight: "8rem",
+        // maxHeight: "8rem",
       },
       "&.demex": {
         borderBottom: `1px solid ${theme.palette.divider}`,
@@ -97,6 +123,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
         position: "sticky",
         left: "10.5rem",
+        [theme.breakpoints.only("md")]: {
+          left: "9rem",
+        },
+        [theme.breakpoints.down("sm")]: {
+          left: "7rem",
+        },
         [theme.breakpoints.only("xs")]: {
           position: "initial",
         },
@@ -106,7 +138,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& td": {
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
-          maxHeight: "8rem",
+          // maxHeight: "8rem",
         },
       },
     },
@@ -119,40 +151,50 @@ const useStyles = makeStyles((theme: Theme) => ({
   headerCol: {
     ...theme.typography.subtitle1,
     backgroundColor: theme.palette.background.default,
-    fontSize: "0.9rem",
+    fontSize: "0.875rem",
     fontWeight: 600,
     position: "sticky",
     left: 0,
-    minWidth: "7.5rem",
-    maxHeight: "8rem",
-    maxWidth: "10rem",
-    padding: theme.spacing(0, 3),
+    maxWidth: "6rem",
+    minWidth: "6rem",
+    padding: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "unset",
+      padding: theme.spacing(2, 1),
+      minWidth: "6rem",
+    },
     [theme.breakpoints.only("xs")]: {
       borderRight: `1px solid ${theme.palette.divider}`,
-      maxWidth: "8rem",
-      minHeight: "8rem",
-      minWidth: "8rem",
-      padding: theme.spacing(0, 1, 0, 1.5),
+      fontSize: "0.75rem",
+      lineHeight: "1.175rem",
+      minWidth: "5rem",
+    },
+  },
+  headerSkeleton: {
+    height: "2.25rem",
+    width: "6rem",
+    [theme.breakpoints.only("xs")]: {
+      width: "4.75rem",
     },
   },
   rowCell: {
     ...theme.typography.subtitle1,
-    fontSize: "0.8rem",
-    maxHeight: "8rem",
-    padding: theme.spacing(0, 3),
+    fontSize: "0.875rem",
+    padding: theme.spacing(3, 2.5),
     "&:last-child": {
-      padding: theme.spacing(0, 0, 0, 3),
+      padding: theme.spacing(3, 0, 3, 2.5),
     },
     [theme.breakpoints.down("md")]: {
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(3, 2),
       "&:last-child": {
-        padding: theme.spacing(0, 2, 0, 1.5),
+        padding: theme.spacing(3, 2),
       },
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 1.5),
+      fontSize: "0.8rem",
+      padding: theme.spacing(2),
       "&:last-child": {
-        padding: theme.spacing(0, 1.5),
+        padding: theme.spacing(2),
       },
     },
   },
@@ -161,13 +203,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     textAlign: "center",
-    fontSize: "0.85rem",
+    fontSize: "0.875rem",
     maxWidth: "7.75rem",
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.8rem",
+    },
+  },
+  rowTextBox: {
+    minHeight: "3rem",
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    minWidth: "7.5rem",
+    [theme.breakpoints.only("xs")]: {
+      minWidth: "unset",
+    },
   },
   svgIcon: {
-    height: "0.875rem",
+    height: "1rem",
     "&.cross": {
-      height: "0.95rem",
+      height: "1rem",
       "& path": {
         fill: theme.palette.error.main,
       },

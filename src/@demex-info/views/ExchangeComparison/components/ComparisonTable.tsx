@@ -11,18 +11,18 @@ import {
 import ComparisonRow from "./ComparisonRow";
 
 interface Props {
-  dexToggle: boolean;
+  dexNum: number;
   propertyTab: PropertyTab;
   tableSelect: CexTradingRow[];
 }
 
 const ComparisonTable: React.FC<Props> = (props: Props) => {
-  const { dexToggle, propertyTab, tableSelect } = props;
+  const { dexNum, propertyTab, tableSelect } = props;
   const classes = useStyles();
 
   const [load, setLoad] = React.useState<boolean>(true);
 
-  const MarketHeaders = dexToggle ? DexMarkets : CexMarkets;
+  const MarketHeaders = dexNum === 1 ? DexMarkets : CexMarkets;
 
   useEffect(() => {
     setLoad(true);
@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(0, 1.5),
     minWidth: "calc((80% - 56px)/ 6)",
-    maxHeight: "6rem",
     height: "100%",
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 1.5),
@@ -109,12 +108,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
       position: "sticky",
       left: "10.5rem",
+      [theme.breakpoints.only("md")]: {
+        left: "9rem",
+      },
+      [theme.breakpoints.down("sm")]: {
+        left: "7rem",
+      },
       [theme.breakpoints.only("xs")]: {
         position: "initial",
       },
-    },
-    "&.dydx": {
-      padding: theme.spacing(0, 1.5),
     },
     [theme.breakpoints.down("md")]: {
       "&:last-child": {
@@ -135,7 +137,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       fill: theme.palette.secondary.main,
     },
     "&.dydx": {
-      height: "3.75rem",
+      height: "1.5rem",
     },
     "&.derivadex": {
       height: "1rem",
