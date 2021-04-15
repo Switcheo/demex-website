@@ -9,7 +9,7 @@ import {
   MarketsTable,
   MiddleBlackSection,
   PoweredBySwitcheo,
-  ReadyToTrade
+  ReadyToTrade,
 } from "@demex-info/views";
 import React from "react";
 import { Provider } from "react-redux";

@@ -2,7 +2,7 @@ import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
-  Box, Button, Hidden, Link, makeStyles, Theme, Typography
+  Box, Button, Hidden, Link, makeStyles, Theme, Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Lottie from "lottie-react";
