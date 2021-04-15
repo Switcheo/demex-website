@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(0.75),
     "& h6": {
       color: theme.palette.text.secondary,
-      fontSize: "0.8rem",
+      fontSize: "0.875rem",
       fontWeight: 500,
     },
     "&:first-child": {

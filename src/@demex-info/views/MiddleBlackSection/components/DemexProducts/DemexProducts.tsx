@@ -4,7 +4,12 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { ProductCarousel, ProductScroll, SlideCategory, SlideItem } from "./components";
 
-const DemexProducts: React.FC = () => {
+interface Props {
+  thoughtsView: boolean;
+}
+
+const DemexProducts: React.FC<Props> = (props: Props) => {
+  const { thoughtsView } = props;
   const classes = useStyles();
 
   const [slide, setSlide] = React.useState<SlideCategory | null>(null);
@@ -13,11 +18,8 @@ const DemexProducts: React.FC = () => {
     threshold: 0.3,
   });
   const [stakingRef, stakingView] = useInView({
-    threshold: 0.3,
+    threshold: 0.55,
   });
-  // const [insuranceRef, insuranceView] = useInView({
-  //   threshold: 0.3,
-  // });
 
   useEffect(() => {
     if (liquidityView) {
@@ -28,11 +30,11 @@ const DemexProducts: React.FC = () => {
       setSlide("staking");
       return;
     }
-    // if (insuranceView) {
-    //   setSlide("insuranceFund");
-    //   return;
-    // }
-  }, [liquidityView, stakingView]);
+    if (thoughtsView) {
+      setSlide("upcoming");
+      return;
+    }
+  }, [liquidityView, stakingView, thoughtsView]);
 
   useEffect(() => {
     switch (slide) {
@@ -45,18 +47,51 @@ const DemexProducts: React.FC = () => {
       case "staking":
         setSlide("staking");
         break;
+      case "upcoming":
+        setSlide("upcoming");
+        break;
       default:
         setSlide(null);
-        return;
+        break;
     }
   }, [slide]);
+
+  const goToPools = () => {
+    const poolsRef = document.querySelector("#liquidityPools");
+    poolsRef?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const goToStaking = () => {
+    const stakingRef = document.querySelector("#staking");
+    stakingRef?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const goToThoughts = () => {
+    const compareRef = document.querySelector("#exchangeCompare");
+    compareRef?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  };
 
   const SlideTabs: SlideItem[] = [{
     label: "Liquidity Pools",
     value: "liquidityPools",
+    onClick: goToPools,
   }, {
     label: "Staking",
     value: "staking",
+    onClick: goToStaking,
+  }, {
+    label: "Upcoming",
+    value: "upcoming",
+    onClick: goToThoughts,
   }];
 
   return (
@@ -69,6 +104,7 @@ const DemexProducts: React.FC = () => {
                 key={slidetab.value}
                 className={clsx(classes.tab, { selected: slide === slidetab.value })}
                 variant="text"
+                onClick={slidetab.onClick}
               >
                 {slidetab.label}
               </Button>
@@ -126,7 +162,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   tab: {
     ...theme.typography.button,
     color: theme.palette.text.secondary,
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     "&:first-child": {
       marginLeft: 0,

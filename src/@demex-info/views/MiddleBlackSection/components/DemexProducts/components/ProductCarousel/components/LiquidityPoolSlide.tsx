@@ -115,8 +115,10 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle} mt={3.5}>
-          Maximise liquidity rewards and boost earnings by committing LP tokens
+        <TypographyLabel color="textSecondary" className={classes.subtitle}>
+          Maximise liquidity rewards and boost earnings by&nbsp;
+          <br />
+          committing LP tokens
         </TypographyLabel>
         <Divider className={classes.divider} />
         <Box className={classes.poolsStats}>
@@ -126,7 +128,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -141,7 +143,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -156,7 +158,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="9rem" height="3rem" />
+                <Skeleton width="6rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -192,16 +194,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: theme.palette.text.secondary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(5),
     width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,
-    marginTop: theme.spacing(9),
+    marginTop: theme.spacing(8),
     padding: theme.spacing(1.75, 3.5),
   },
   leftGrid: {
-    maxWidth: "50%",
+    maxWidth: "30rem",
     padding: theme.spacing(0, 2.5),
     width: "100%",
   },
@@ -213,7 +215,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   poolsStats: {
     alignItems: "center",
     display: "flex",
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(5),
   },
   slideItem: {
     display: "flex",
@@ -243,15 +245,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: 0,
     },
     "& h4": {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(2),
     },
     "& h6": {
-      height: "3rem",
-      overflow: "hidden",
+      fontSize: "0.875rem",
     },
   },
   subtitle: {
-    fontSize: "1.125rem",
+    lineHeight: "1.75rem",
+    marginTop: theme.spacing(3),
   },
   title: {
     fontSize: "2.5rem",

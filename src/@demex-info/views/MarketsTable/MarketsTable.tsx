@@ -1,3 +1,6 @@
+import {
+  Backdrop, Box, Button, Theme, Typography, fade, makeStyles, useMediaQuery, useTheme,
+} from "@material-ui/core";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import {
@@ -8,16 +11,11 @@ import {
 } from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
-import {
-  Backdrop, Box, Button, makeStyles, Theme, Typography,
-} from "@material-ui/core";
-import { fade } from "@material-ui/core/styles/colorManipulator";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
-import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import {
   FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover,
@@ -26,6 +24,8 @@ import {
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
+  const theme = useTheme();
+  const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [loading] = useTaskSubscriber(MarketTasks.Stats, MarketTasks.List);
 
   const { network, usdPrices } = useSelector((state: RootState) => state.app);
@@ -120,13 +120,13 @@ const MarketsTable: React.FC = () => {
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
 
-  const [tableRef, tableView] = useInView({
-    threshold: [0.2, 0.8],
-    triggerOnce: true,
-  });
+  // const [tableRef, tableView] = useInView({
+  //   threshold: [0.2, 0.8],
+  //   triggerOnce: true,
+  // });
   
   return (
-    <div ref={tableRef} className={classes.root}>
+    <div className={classes.root}>
       <Box className={classes.innerDiv}>
         <Box className={classes.buttonDiv} display="flex" justifyContent="center">
           {MarketTabs.map((tab: MarketTab) => (
@@ -140,21 +140,14 @@ const MarketsTable: React.FC = () => {
             </Button>
           ))}
         </Box>
-        <Box
-          className={clsx(
-            classes.tableRoot,
-            classes.slide,
-            "table",
-            { open: tableView },
-          )}
-        >
+        <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
-              <TypographyLabel mb={1.5} color="textSecondary" variant="subtitle2">
+              <TypographyLabel mb={widthXs ? 1 : 1.5} color="textSecondary" variant="subtitle2">
                 Volume (24H)
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
-                <Skeleton width="80px" height="44px" />
+                <Skeleton className={classes.standardSkeleton} />
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
                 <TypographyLabel color="textPrimary" variant="h4">
@@ -174,10 +167,10 @@ const MarketsTable: React.FC = () => {
                         display="flex"
                         alignItems="center"
                         justifyContent="space-between"
-                        mt={1.5}
+                        mt={widthXs ? 1 : 1.5}
                       >
                         <RenderGuard renderIf={loading}>
-                          <Skeleton width="80px" height="44px" />
+                          <Skeleton className={classes.standardSkeleton} />
                         </RenderGuard>
                         <RenderGuard renderIf={!loading}>
                           <TypographyLabel color="textPrimary" variant="h4">
@@ -198,10 +191,10 @@ const MarketsTable: React.FC = () => {
                         Open Interest
                       </TypographyLabel>
                       <RenderGuard renderIf={loading}>
-                        <Skeleton width="80px" height="44px" />
+                        <Skeleton className={classes.standardSkeleton} />
                       </RenderGuard>
                       <RenderGuard renderIf={!loading}>
-                        <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                        <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                           ${interestCountUp}
                         </TypographyLabel>
                       </RenderGuard>
@@ -216,7 +209,7 @@ const MarketsTable: React.FC = () => {
                       <TypographyLabel color="textSecondary" variant="subtitle2">
                         Coins
                       </TypographyLabel>
-                      <Box display="flex" alignItems="center" mt={1.5} justifyContent="space-between">
+                      <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
                         <RenderGuard renderIf={loading}>
                           <Skeleton className={classes.numSkeleton} />
                         </RenderGuard>
@@ -275,7 +268,13 @@ const MarketsTable: React.FC = () => {
                           </Box>
                         </RenderGuard>
                       </Box>
-                      <Backdrop className={classes.backdrop} open={openTokens} invisible onMouseLeave={handleClose} />
+                      <Backdrop
+                        className={classes.backdrop}
+                        open={openTokens}
+                        invisible
+                        onClick={handleClose}
+                        onMouseEnter={handleClose}
+                      />
                     </React.Fragment>
                   )
                 }
@@ -289,10 +288,10 @@ const MarketsTable: React.FC = () => {
                               Delivery Futures
                             </TypographyLabel>
                             <RenderGuard renderIf={loading}>
-                              <Skeleton width="80px" height="44px" />
+                              <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
                             <RenderGuard renderIf={!loading}>
-                              <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                              <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {futuresCountUp}
                               </TypographyLabel>
                             </RenderGuard>
@@ -306,10 +305,10 @@ const MarketsTable: React.FC = () => {
                               Perpetual Swaps
                             </TypographyLabel>
                             <RenderGuard renderIf={loading}>
-                              <Skeleton width="80px" height="44px" />
+                              <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
                             <RenderGuard renderIf={!loading}>
-                              <TypographyLabel color="textPrimary" mt={1.5} variant="h4">
+                              <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {perpetualsCountUp}
                               </TypographyLabel>
                             </RenderGuard>
@@ -331,16 +330,24 @@ const MarketsTable: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   backdrop: {
-    zIndex: 0,
+    zIndex: 1,
   },
   numSkeleton: {
     width: "80px",
     height: "44px",
     [theme.breakpoints.only("xs")]: {
+      height: "40px",
       width: "40px",
     },
     "@media (max-width: 400px)": {
       width: "80px",
+    },
+  },
+  standardSkeleton: {
+    width: "80px",
+    height: "44px",
+    [theme.breakpoints.only("xs")]: {
+      height: "40px",
     },
   },
   btnLabel: {
@@ -398,7 +405,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(2.5, 2),
       "& h4": {
-        fontSize: "1.5rem",
+        fontSize: "1.625rem",
+      },
+      "& h6": {
+        fontSize: "0.75rem",
       },
     },
   },
@@ -412,8 +422,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       "&:first-child": {
         marginLeft: 0,
       },
+    },
+    [theme.breakpoints.only("xs")]: {
       "& h4": {
-        fontSize: "1.5rem",
+        fontSize: "1.625rem",
+      },
+      "& h6": {
+        fontSize: "0.75rem",
       },
     },
     "@media (max-width: 400px)": {
@@ -446,7 +461,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "78rem",
+    maxWidth: "84rem",
     padding: theme.spacing(0, 6),
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(0, 5),
@@ -469,7 +484,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   tab: {
     ...theme.typography.button,
     color: theme.palette.text.secondary,
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     "&:first-child": {
       marginLeft: 0,

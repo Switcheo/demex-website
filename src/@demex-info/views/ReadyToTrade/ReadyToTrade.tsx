@@ -148,7 +148,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   header: {
     ...theme.typography.h5,
-    fontSize: "1.75rem",
+    lineHeight: "1.15",
+    fontSize: "2rem",
     textAlign: "center",
   },
   innerDiv: {

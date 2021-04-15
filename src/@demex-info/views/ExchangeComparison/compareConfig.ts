@@ -263,7 +263,7 @@ export const CexFeesVal: CexTradingRow[] = [{
 }];
 
 export const DexTechnologyVal: CexTradingRow[] = [{
-  header: "> 10,000 Transactions/sec",
+  header: "> 10,000 Txns/sec",
   values: {
     demex: true,
     dydx: false,

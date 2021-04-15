@@ -111,7 +111,7 @@ const LiquidityPoolSection: React.FC = () => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle} mt={3.5}>
+        <TypographyLabel color="textSecondary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by committing LP tokens
         </TypographyLabel>
         <Divider className={classes.divider} />
@@ -122,7 +122,7 @@ const LiquidityPoolSection: React.FC = () => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="8rem" height="3rem" />
+                <Skeleton width="5rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -137,7 +137,7 @@ const LiquidityPoolSection: React.FC = () => {
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
               <Box>
-                <Skeleton width="8rem" height="3rem" />
+                <Skeleton width="5rem" height="3rem" />
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
@@ -153,7 +153,7 @@ const LiquidityPoolSection: React.FC = () => {
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
                 <Box>
-                  <Skeleton width="8rem" height="3rem" />
+                  <Skeleton width="5rem" height="3rem" />
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
@@ -165,7 +165,7 @@ const LiquidityPoolSection: React.FC = () => {
           </Hidden>
         </Box>
         <Hidden only="sm">
-          <Box className={classes.statsDiv}>
+          <Box className={clsx(classes.statsDiv, "alone")}>
             <TypographyLabel color="textSecondary">
               Total Committed Value
             </TypographyLabel>
@@ -252,29 +252,29 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:first-child": {
       marginLeft: 0,
     },
-    "& h6": {
-      overflow: "hidden",
-    },
     "& h4": {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(2),
     },
     [theme.breakpoints.down("sm")]: {
       "& h4": {
         fontSize: "1.75rem",
       },
+      "& h6": {
+        fontSize: "0.875rem",
+      },
     },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
+      "& h4": {
+        fontSize: "1.625rem",
+      },
       "& h6": {
-        height: "2rem",
+        fontSize: "0.75rem",
       },
     },
   },
   statsDiv: {
     marginTop: theme.spacing(4),
-    "& h6": {
-      overflow: "hidden",
-    },
     "& h4": {
       marginTop: theme.spacing(1),
     },
@@ -282,16 +282,25 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& h4": {
         fontSize: "1.75rem",
       },
+      "& h6": {
+        fontSize: "0.875rem",
+      },
     },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
+      "&.alone": {
+        width: "100%",
+      },
+      "& h4": {
+        fontSize: "1.625rem",
+      },
       "& h6": {
-        height: "2rem",
+        fontSize: "0.75rem",
       },
     },
   },
   subtitle: {
-    marginTop: theme.spacing(3.5),
+    marginTop: theme.spacing(4),
     [theme.breakpoints.down("sm")]: {
       marginTop: theme.spacing(2),
     },

@@ -6,6 +6,7 @@ import {
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import Slider from "react-slick";
 import {
   CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
   DexDecentralisationVal, DexFeesVals, DexTableTabs, DexTechnologyVal,
@@ -19,7 +20,20 @@ const dexDefault = "dex-technology";
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
 
-  const [dexToggle, setDexToggle] = React.useState<boolean>(true);
+  const sliderRef = React.useRef<any>(null);
+  const settings = {
+    arrows: false,
+    autoplay: false,
+    dots: false,
+    draggable: false,
+    initialSlide: 1,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const [dexNum, setDexNum] = React.useState<number>(1);
   const [propertyTab, setPropertyTab] = React.useState<PropertyTab>(cexDefault);
 
   const [titleRef, titleView] = useInView({
@@ -28,15 +42,27 @@ const ExchangeComparison: React.FC = () => {
   });
 
   useEffect(() => {
-    if (dexToggle) {
-      setPropertyTab(dexDefault);
-    } else {
+    if (dexNum === 0) {
       setPropertyTab(cexDefault);
+    } else {
+      setPropertyTab(dexDefault);
     }
-  }, [dexToggle]);
+  }, [dexNum]);
+
+  const handleDexToggle = () => {
+    if (dexNum === 0) {
+      const newDexNum = dexNum + 1;
+      sliderRef?.current?.slickGoTo(newDexNum);
+      setDexNum(newDexNum);
+    } else {
+      const newDexNum = dexNum - 1;
+      sliderRef?.current?.slickGoTo(newDexNum);
+      setDexNum(newDexNum);
+    }
+  };
 
   const tableSelect = React.useMemo(() => {
-    if (dexToggle) {
+    if (dexNum === 1) {
       switch (propertyTab) {
         case "dex-trading":
           return DexTradingVal;
@@ -59,15 +85,15 @@ const ExchangeComparison: React.FC = () => {
           return CexTradingVal;
       }
     }
-  }, [dexToggle, propertyTab]);
+  }, [dexNum, propertyTab]);
 
   // tabs list = 67px
   // header row = 78px
   // each row height = 128px
-  const paperHeight = 67 + 80 + (128 * tableSelect.length);
+  // const paperHeight = 67 + 80 + (128 * tableSelect.length);
 
   return (
-    <div ref={titleRef} className={classes.root}>
+    <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <HomeBorderCircle1 className={classes.sideBorder} />
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.slide, "textSection", { open: titleView })}>
@@ -86,70 +112,76 @@ const ExchangeComparison: React.FC = () => {
         )}>
           <Box className={classes.switchDiv}>
             <TypographyLabel
-              className={clsx(classes.switchSub, { toggle: !dexToggle })}
+              className={clsx(classes.switchSub, { toggle: dexNum === 0 })}
               variant="subtitle1"
-              onClick={() => setDexToggle(false)}
+              onClick={() => handleDexToggle()}
             >
               Centralised Exchanges
             </TypographyLabel>
             <Switch
-              checked={dexToggle}
+              checked={dexNum === 1}
               classes={{
                 root: classes.switchRoot,
                 thumb: classes.switchThumb,
                 track: classes.switchTrack,
               }}
-              onChange={() => setDexToggle(!dexToggle)}
+              onChange={() => handleDexToggle()}
               color="default"
             />
             <TypographyLabel
-              className={clsx(classes.switchSub, { toggle: dexToggle })}
+              className={clsx(classes.switchSub, { toggle: dexNum === 1 })}
               variant="subtitle1"
-              onClick={() => setDexToggle(true)}
+              onClick={() => handleDexToggle()}
             >
               Decentralised Exchanges
             </TypographyLabel>
           </Box>
 
-          <PaperBox height={paperHeight} className={classes.tablePaper}>
-            <Box position="relative">
-              <Box className={clsx(classes.tabSlide, "cex", { out: dexToggle })}>
-                {
-                  CexTableTabs.map((tableTab: TableTab) => (
-                    <Button
-                      className={clsx(
-                        classes.tabBtn,
-                        { selected: propertyTab === tableTab.value },
-                      )}
-                      onClick={() => setPropertyTab(tableTab.value)}
-                      variant="text"
-                      key={`cex-${tableTab.value}`}
-                    >
-                      {tableTab.label}
-                    </Button>
-                  ))
-                }
-              </Box>
-              <Box className={clsx(classes.tabSlide, "dex", { out: !dexToggle })}>
-                {
-                  DexTableTabs.map((tableTab: TableTab) => (
-                    <Button
-                      className={clsx(
-                        classes.tabBtn,
-                        { selected: propertyTab === tableTab.value },
-                      )}
-                      onClick={() => setPropertyTab(tableTab.value)}
-                      variant="text"
-                      key={tableTab.value}
-                    >
-                      {tableTab.label}
-                    </Button>
-                  ))
-                }
-              </Box>
+          <PaperBox className={classes.tablePaper}>
+            <Box>
+              <Slider ref={sliderRef} {...settings}>
+                <Box>
+                  <Box className={clsx(classes.tabSlide, "cex")}>
+                    {
+                      CexTableTabs.map((tableTab: TableTab) => (
+                        <Button
+                          className={clsx(
+                            classes.tabBtn,
+                            { selected: propertyTab === tableTab.value },
+                          )}
+                          onClick={() => setPropertyTab(tableTab.value)}
+                          variant="text"
+                          key={`cex-${tableTab.value}`}
+                        >
+                          {tableTab.label}
+                        </Button>
+                      ))
+                    }
+                  </Box>
+                </Box>
+                <Box>
+                  <Box className={clsx(classes.tabSlide, "dex")}>
+                    {
+                      DexTableTabs.map((tableTab: TableTab) => (
+                        <Button
+                          className={clsx(
+                            classes.tabBtn,
+                            { selected: propertyTab === tableTab.value },
+                          )}
+                          onClick={() => setPropertyTab(tableTab.value)}
+                          variant="text"
+                          key={tableTab.value}
+                        >
+                          {tableTab.label}
+                        </Button>
+                      ))
+                    }
+                  </Box>
+                </Box>
+              </Slider>
               <Box className={classes.tableContent}>
                 <Divider className={classes.divider} />
-                <ComparisonTable dexToggle={dexToggle} propertyTab={propertyTab} tableSelect={tableSelect} />
+                <ComparisonTable dexNum={dexNum} propertyTab={propertyTab} tableSelect={tableSelect} />
               </Box>
             </Box>
           </PaperBox>
@@ -165,7 +197,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "78rem",
+    maxWidth: "84rem",
     padding: theme.spacing(0, 6),
     width: `calc(100% - ${theme.spacing(12)}px)`,
     zIndex: 10,
@@ -281,16 +313,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.secondary.main,
   },
   switchTrack: {
-    backgroundColor: theme.palette.divider,
+    backgroundColor: "#E7EDF9",
     borderRadius: theme.spacing(7),
   },
   tabBtn: {
     ...theme.typography.button,
     color: theme.palette.text.hint,
     display: "inline-block",
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
-    padding: theme.spacing(2.5, 1.5),
+    padding: theme.spacing(3, 1.5),
     "&:first-child": {
       marginLeft: 0,
     },
@@ -300,14 +332,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.selected": {
       color: theme.palette.text.primary,
     },
-    [theme.breakpoints.only("xs")]: {
-      fontSize: "1.25rem",
-      padding: theme.spacing(2.875, 1.5),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(3, 1.5, 2),
     },
   },
   tableContent: {
-    position: "absolute",
-    top: "4.1875rem",
+    // position: "absolute",
+    // top: "4.1875rem",
     width: "100%",
   },
   tablePaper: {
@@ -318,35 +349,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tableSection: {
     marginTop: theme.spacing(6),
-    [theme.breakpoints.only("sm")]: {
-      marginTop: theme.spacing(5),
-    },
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: theme.spacing(4),
     },
   },
   tabSlide: {
-    display: "inline-flex",
+    display: "flex",
     justifyContent: "center",
-    position: "absolute",
-    top: 0,
-    transition: "transform 0.8s",
     overflowX: "auto",
     width: "100%",
     "&.cex": {
-      transform: "translate(0px, 0px)",
-      "&.out": {
-        transform: "translate(-150%, 0px)",
+      "@media (max-width: 540px)": {
+        justifyContent: "initial",
       },
     },
     "&.dex": {
-      transform: "translate(0px, 0px)",
-      "&.out": {
-        transform: "translate(150%, 0px)",
+      "@media (max-width: 640px)": {
+        justifyContent: "initial",
       },
-    },
-    "@media (max-width: 720px)": {
-      justifyContent: "initial",
     },
   },
 }));

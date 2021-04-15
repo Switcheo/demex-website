@@ -94,14 +94,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   gridItem: {
-    maxWidth: "45%",
-    [theme.breakpoints.only("md")]: {
-      maxWidth: "50%",
-    },
-    [theme.breakpoints.only("sm")]: {
-      maxWidth: "70%",
-    },
+    maxWidth: "30.5rem",
+    width: "30.5rem",
     [theme.breakpoints.only("xs")]: {
+      width: "unset",
       maxWidth: "100%",
     },
     [theme.breakpoints.down("sm")]: {
@@ -182,6 +178,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       marginTop: theme.spacing(2),
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1rem",
     },
   },
 }));

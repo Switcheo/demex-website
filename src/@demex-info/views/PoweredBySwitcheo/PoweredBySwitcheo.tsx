@@ -1,8 +1,9 @@
-import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
+import { ScrollingText2 } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
-  Box, Button, Hidden, Link, makeStyles, Theme, Typography,
+  Box, Button, Link, makeStyles, Theme, Typography,
+  useMediaQuery, useTheme,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Lottie from "lottie-react";
@@ -11,6 +12,8 @@ import { useInView } from "react-intersection-observer";
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [sectionRef, sectionView] = useInView({
     threshold: 0.5,
@@ -20,14 +23,14 @@ const PoweredBySwitcheo: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box className={classes.textRoot}>
-        <Hidden smUp>
+        {/* <Hidden smUp>
           <HomeBorder className={classes.homeBorder} />
-        </Hidden>
+        </Hidden> */}
         <Lottie
           { ...lottieDefaultOptions }
-          animationData={ScrollingText}
+          animationData={ScrollingText2}
           style={{
-            height: "8rem",
+            height: widthSmDown ? "6.4rem" : "8rem",
           }}
         />
       </Box>
@@ -86,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   leftDiv: {
-    padding: theme.spacing(0, 3, 0, 6),
+    padding: theme.spacing(0, 3, 0, 0),
     width: "calc(100% / 12 * 4)",
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 2, 0, 0),
@@ -98,14 +101,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rightDiv: {
-    padding: theme.spacing(0, 6, 0, 3),
     width: "calc(100% / 12 * 8)",
     [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(0, 0, 0, 2),
       width: "calc(100% / 12 * 7)",
     },
     [theme.breakpoints.down("sm")]: {
-      padding: 0,
       width: "100%",
     },
   },
@@ -121,12 +121,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& a": {
       cursor: "pointer",
     },
+    [theme.breakpoints.down("sm")]: {
+      "& h6": {
+        fontSize: "1rem",
+      },
+    },
   },
   tradeHubBox: {
     display: "flex",
     margin: theme.spacing(8, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(0, 6),
+    padding: 0,
     width: `calc(100% - ${theme.spacing(12)}px)`,
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 5),
@@ -154,6 +159,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       [theme.breakpoints.down("sm")]: {
         marginBottom: theme.spacing(2.5),
         paddingRight: 0,
+      },
+      [theme.breakpoints.only("xs")]: {
+        marginBottom: theme.spacing(2),
       },
     },
     "& p": {

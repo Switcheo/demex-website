@@ -34,14 +34,14 @@ const Header: React.FC = () => {
           <Hidden mdUp>
             {
               openMenu && (
-                <IconButton color="secondary" onClick={handleClose}>
+                <IconButton className={classes.mobileMenu} color="secondary" onClick={handleClose}>
                   <CloseIcon className={classes.closeIcon} />
                 </IconButton>
               )
             }
             {
               !openMenu && (
-                <IconButton color="secondary" onClick={handleOpen}>
+                <IconButton className={classes.mobileMenu} color="secondary" onClick={handleOpen}>
                   <MenuIcon className={classes.menuIcon} />
                 </IconButton>
               )
@@ -80,33 +80,40 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   loginBtn: {
     ...theme.typography.button,
-    fontSize: "0.75rem",
+    fontSize: "0.8rem",
     padding: theme.spacing(1.25, 2.5),
     textTransform: "none",
   },
   menuIcon: {
     height: "1.25rem",
   },
+  mobileMenu: {
+    // marginLeft: theme.spacing(2.25),
+  },
   root: {
     backgroundColor: theme.palette.background.default,
     minHeight: "1.75rem",
-    padding: theme.spacing(1.5, 5),
+    padding: theme.spacing(1.5, 6),
     position: "fixed",
     top: 0,
-    width: `calc(100% - ${theme.spacing(10)}px)`,
+    width: `calc(100% - ${theme.spacing(12)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(1.25, 2.5),
       width: `calc(100% - ${theme.spacing(5)}px)`,
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1.25, 1.75),
+      width: `calc(100% - ${theme.spacing(3.5)}px)`,
     },
   },
   topLogo: {
     width: "6.625rem",
     height: "1.5rem",
     [theme.breakpoints.down("sm")]: {
-      width: "5rem",
-      height: "1.125rem",
-      marginLeft: theme.spacing(1.5),
+      width: "6rem",
+      height: "unset",
+      marginLeft: theme.spacing(2),
     },
   },
 }));
