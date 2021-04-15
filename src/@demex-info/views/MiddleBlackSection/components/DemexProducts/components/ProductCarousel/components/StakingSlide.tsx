@@ -91,7 +91,9 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
             Staking
           </Typography>
           <TypographyLabel color="textSecondary" className={classes.subtitle}>
-            Accrue weekly rewards from trading fees and block rewards when you stake SWTH.
+            Accrue weekly rewards from trading fees and&nbsp;
+            <br />
+            block rewards when you stake SWTH.
           </TypographyLabel>
           <Divider className={classes.divider} />
           <Box className={classes.poolsStats}>
@@ -145,21 +147,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: theme.palette.text.secondary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(5),
     width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,
-    marginTop: theme.spacing(9),
+    marginTop: theme.spacing(8),
     padding: theme.spacing(1.75, 3.5),
   },
   poolsStats: {
     alignItems: "center",
     display: "flex",
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(5),
   },
   rightGrid: {
-    maxWidth: "50%",
+    maxWidth: "32rem",
     padding: theme.spacing(0, 2.5),
     width: "100%",
   },
@@ -198,15 +200,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: 0,
     },
     "& h4": {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(2),
     },
     "& h6": {
-      // overflow: "hidden",
+      fontSize: "0.875rem",
     },
   },
   subtitle: {
-    fontSize: "1.125rem",
-    marginTop: theme.spacing(4),
+    lineHeight: "1.75rem",
+    marginTop: theme.spacing(3),
   },
   title: {
     fontSize: "2.5rem",

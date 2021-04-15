@@ -252,15 +252,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:first-child": {
       marginLeft: 0,
     },
-    // "& h6": {
-    //   overflow: "hidden",
-    // },
     "& h4": {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(2),
     },
     [theme.breakpoints.down("sm")]: {
       "& h4": {
         fontSize: "1.75rem",
+      },
+      "& h6": {
+        fontSize: "0.875rem",
       },
     },
     [theme.breakpoints.only("xs")]: {
@@ -270,21 +270,20 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
       "& h6": {
         fontSize: "0.75rem",
-      //   height: "2rem",
       },
     },
   },
   statsDiv: {
     marginTop: theme.spacing(4),
-    // "& h6": {
-    //   overflow: "hidden",
-    // },
     "& h4": {
       marginTop: theme.spacing(1),
     },
     [theme.breakpoints.down("sm")]: {
       "& h4": {
         fontSize: "1.75rem",
+      },
+      "& h6": {
+        fontSize: "0.875rem",
       },
     },
     [theme.breakpoints.only("xs")]: {
@@ -297,7 +296,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
       "& h6": {
         fontSize: "0.75rem",
-      //   height: "2rem",
       },
     },
   },
