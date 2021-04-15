@@ -31,11 +31,7 @@ const DexProperties: React.FC = () => {
     const borderEl = document.querySelector(".homeBorder");
     if (borderEl) {
       if (window?.innerWidth > 1440) {
-        if (titleEl && titleEl?.clientWidth >= 608) {
-          borderEl.setAttribute("style", `width: ${titleEl?.clientWidth + 48}px`);
-        } else {
-          borderEl.setAttribute("style", `width: ${titleEl?.clientWidth}px`);
-        }
+        borderEl.setAttribute("style", `width: ${titleEl?.clientWidth}px`);
       } else if (window?.innerWidth <= 1440 && window?.innerWidth >= 1280) {
         borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2) - 10}px`);
       } else {
@@ -81,7 +77,7 @@ const DexProperties: React.FC = () => {
               <HomeBorder
                 className={clsx(classes.decoration, "homeBorder")}
                 style={{
-                  width: (widthSmall ? "unset" : 656),
+                  width: (widthSmall ? "unset" : 608),
                 }}
               />
             </Hidden>

@@ -3,7 +3,7 @@ import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
   Box, Button, Link, makeStyles, Theme, Typography,
-  useMediaQuery, useTheme
+  useMediaQuery, useTheme,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Lottie from "lottie-react";
