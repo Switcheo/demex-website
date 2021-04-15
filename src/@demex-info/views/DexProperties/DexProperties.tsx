@@ -2,9 +2,9 @@ import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { PropertyBox } from "./components";
@@ -12,6 +12,7 @@ import { DexProp, dexPropsArr } from "./dexPropsConfig";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
+  const widthSmall = useMediaQuery("@media (max-width: 1279px)");
 
   const network = useSelector((state: RootState) => state.app.network);
 
@@ -25,11 +26,34 @@ const DexProperties: React.FC = () => {
     triggerOnce: true,
   });
 
+  const handleResizeWindow = () => {
+    const titleEl = document.querySelector("#dexTitleBox");
+    const borderEl = document.querySelector(".homeBorder");
+    if (borderEl) {
+      if (window?.innerWidth > 1440) {
+        if (titleEl && titleEl?.clientWidth >= 608) {
+          borderEl.setAttribute("style", `width: ${titleEl?.clientWidth + 48}px`);
+        } else {
+          borderEl.setAttribute("style", `width: ${titleEl?.clientWidth}px`);
+        }
+      } else if (window?.innerWidth <= 1440 && window?.innerWidth >= 1280) {
+        borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2) - 10}px`);
+      } else {
+        borderEl.setAttribute("style", "width: unset");
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResizeWindow);
+    return () => window.removeEventListener("resize", handleResizeWindow);
+  }, []);
+
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box position="relative">
         <Box className={classes.innerDiv}>
-          <Box className={classes.titleBox}>
+          <Box id="dexTitleBox" className={classes.titleBox}>
             <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
               <Typography variant="h3">
                 A Derivatives DEX&nbsp;
@@ -54,7 +78,12 @@ const DexProperties: React.FC = () => {
               </Button>
             </Box>
             <Hidden smDown>
-              <HomeBorder className={classes.decoration} />
+              <HomeBorder
+                className={clsx(classes.decoration, "homeBorder")}
+                style={{
+                  width: (widthSmall ? "unset" : 656),
+                }}
+              />
             </Hidden>
           </Box>
           <Box className={classes.infoBox}>
@@ -96,8 +125,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   decoration: {
     position: "absolute",
     bottom: "2.25rem",
-    left: 0,
-    width: "100%",
+    right: 0,
   },
   evenItem: {
     paddingRight: theme.spacing(1.75),

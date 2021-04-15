@@ -4,20 +4,20 @@ import { StaticLinks } from "@demex-info/constants";
 import { Box, Button, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
-import { useInView } from "react-intersection-observer";
 
-const YourThoughts: React.FC = () => {
+interface Props {
+  sectionRef: () => void;
+  sectionView: boolean;
+}
+
+const YourThoughts: React.FC<Props> = (props: Props) => {
+  const { sectionRef, sectionView } = props;
   const classes = useStyles();
 
   const goToLink = (link: string) => {
     if (!link) return;
     window.open(link, "_blank");
   };
-
-  const [sectionRef, sectionView] = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
 
   return (
     <div ref={sectionRef} className={classes.innerDiv}>
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(5, 2.5, 13),
+    padding: theme.spacing(8, 2.5, 13),
     [theme.breakpoints.between("xs", "sm")]: {
       padding: theme.spacing(6, 4, 8),
     },

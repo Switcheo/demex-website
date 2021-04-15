@@ -93,7 +93,7 @@ const ExchangeComparison: React.FC = () => {
   // const paperHeight = 67 + 80 + (128 * tableSelect.length);
 
   return (
-    <div ref={titleRef} className={classes.root}>
+    <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <HomeBorderCircle1 className={classes.sideBorder} />
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.slide, "textSection", { open: titleView })}>
