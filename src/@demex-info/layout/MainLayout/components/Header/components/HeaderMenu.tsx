@@ -1,11 +1,10 @@
-import { Hidden, Link, Theme, makeStyles } from "@material-ui/core";
-import { NavLink, Paths, StaticLinks, getDemexLink, getExplorerLink } from "@demex-info/constants";
-
 import { ExternalLink } from "@demex-info/assets/icons";
-import React from "react";
+import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { useHistory } from "react-router";
+import { Hidden, Link, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();

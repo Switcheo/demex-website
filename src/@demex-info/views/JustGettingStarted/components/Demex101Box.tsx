@@ -1,10 +1,9 @@
-import { Box, Theme, fade, makeStyles } from "@material-ui/core";
-import { PaperBox, TypographyLabel } from "@demex-info/components";
-
-import InfoLinkBox from "./InfoLinkBox";
 import { Notebook } from "@demex-info/assets";
-import React from "react";
+import { PaperBox, TypographyLabel } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
+import { Box, fade, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
+import InfoLinkBox from "./InfoLinkBox";
 
 const Demex101Box: React.FC = () => {
   const classes = useStyles();

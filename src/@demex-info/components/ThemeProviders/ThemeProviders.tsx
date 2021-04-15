@@ -1,7 +1,6 @@
-import React, { ComponentType, ReactElement } from "react";
-
-import { MuiThemeProvider } from "@material-ui/core";
 import { loadTheme } from "@demex-info/theme";
+import { MuiThemeProvider } from "@material-ui/core";
+import React, { ComponentType, ReactElement } from "react";
 
 // eslint-disable-next-line no-unused-vars
 type WithComponent = <P = {}>(WrappedComponent: ComponentType<P>) => React.FunctionComponent<P>;

@@ -1,9 +1,8 @@
 import { PaperBox, withLightTheme } from "@demex-info/components";
-import { PaperProps, Theme, makeStyles } from "@material-ui/core";
-import { PartialBoxProps, extractBoxProps } from "@demex-info/utils";
-
-import React from "react";
+import { extractBoxProps, PartialBoxProps } from "@demex-info/utils";
+import { makeStyles, PaperProps, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 
 interface Props extends PartialBoxProps, PaperProps {
 

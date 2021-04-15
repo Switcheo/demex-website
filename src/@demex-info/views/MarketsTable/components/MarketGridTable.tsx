@@ -1,20 +1,20 @@
-// import { Add, Remove } from "@demex-info/assets";
-import {
-  Box, CircularProgress, Hidden, Table, TableBody, TableCell, TableHead,
-  TableRow, Theme, makeStyles, useMediaQuery, useTheme,
-} from "@material-ui/core";
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
-import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
-
+import { useTaskSubscriber } from "@demex-info/hooks";
+import {
+  MarketStatItem, MarketTasks, MarketType, MarkType,
+} from "@demex-info/store/markets/types";
+import { RootState } from "@demex-info/store/types";
 import { HeaderCell } from "@demex-info/utils";
+import {
+  Box, CircularProgress, Hidden, makeStyles, Table, TableBody,
+  TableCell, TableHead, TableRow, Theme, useMediaQuery, useTheme,
+} from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import clsx from "clsx";
+import React from "react";
+import { useSelector } from "react-redux";
 import MarketGridRow from "./MarketGridRow";
 import MarketPaper from "./MarketPaper";
-import React from "react";
-import { RootState } from "@demex-info/store/types";
-import clsx from "clsx";
-import { fade } from "@material-ui/core/styles/colorManipulator";
-import { useSelector } from "react-redux";
-import { useTaskSubscriber } from "@demex-info/hooks";
 
 interface Props {
   marketsList: MarketStatItem[];

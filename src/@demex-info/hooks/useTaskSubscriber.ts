@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-
 import { LoadingTasks } from "@demex-info/store/layout/types";
 import { RootState } from "@demex-info/store/types";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default (...tasks: string[]) => {

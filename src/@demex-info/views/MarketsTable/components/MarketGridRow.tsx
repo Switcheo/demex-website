@@ -1,17 +1,20 @@
-import { Area, AreaChart } from "recharts";
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
-import { Box, Button, Hidden, TableCell, TableRow, Theme, makeStyles, useTheme } from "@material-ui/core";
-import { CandleStickItem, MarkType, MarketListItem, MarketStatItem, MarketType } from "@demex-info/store/markets/types";
-import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
-import React, { useEffect } from "react";
-
+import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
+import { useAssetSymbol } from "@demex-info/hooks";
+import {
+  CandleStickItem, MarketListItem, MarketStatItem, MarketType, MarkType,
+} from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
+import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
+import {
+  Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, useTheme,
+} from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
 import moment from "moment";
-import { useAssetSymbol } from "@demex-info/hooks";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Area, AreaChart } from "recharts";
 
 interface Props {
   listItem: MarketListItem;

@@ -1,7 +1,5 @@
-// import { Box, makeStyles } from "@material-ui/core";
-import { LiquidityPoolSlide, StakingSlide } from "./components";
-
 import React from "react";
+import { LiquidityPoolSlide, StakingSlide } from "./components";
 
 interface Props {
   liquidityRef: () => void;

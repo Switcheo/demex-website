@@ -1,8 +1,7 @@
-import { Box, Theme, Typography, makeStyles } from "@material-ui/core";
-
-import React from "react";
 import { TypographyLabel } from "@demex-info/components";
+import { Box, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 
 const NotATrader: React.FC = () => {

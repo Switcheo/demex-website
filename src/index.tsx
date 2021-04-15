@@ -1,6 +1,6 @@
-import "./index.css";
-import "typeface-roboto";
-
+import { PreferenceThemeProvider } from "@demex-info/components";
+import { MainLayout } from "@demex-info/layout";
+import { store } from "@demex-info/store";
 import {
   DexProperties,
   ExchangeComparison,
@@ -9,16 +9,14 @@ import {
   MarketsTable,
   MiddleBlackSection,
   PoweredBySwitcheo,
-  ReadyToTrade,
+  ReadyToTrade
 } from "@demex-info/views";
-
-import { MainLayout } from "@demex-info/layout";
-import { PreferenceThemeProvider } from "@demex-info/components";
-import { Provider } from "react-redux";
 import React from "react";
+import { Provider } from "react-redux";
 import { render } from "react-snapshot";
+import "typeface-roboto";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "@demex-info/store";
 
 render(
   <Provider store={store}>

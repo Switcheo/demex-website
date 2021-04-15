@@ -1,9 +1,8 @@
 import { AllOrbitals, OrbitalGroup3, OrbitalGroup4, OrbitalGroup5 } from "@demex-info/assets";
 import { Box, Container, makeStyles } from "@material-ui/core";
-import React, { useMemo } from "react";
-
-import Lottie from "lottie-react";
 import clsx from "clsx";
+import Lottie from "lottie-react";
+import React, { useMemo } from "react";
 
 const getLottieConfig = (animationData: any, className: string) => {
 	return {

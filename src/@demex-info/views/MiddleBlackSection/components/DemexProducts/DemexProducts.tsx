@@ -1,9 +1,8 @@
-import { Box, Button, Hidden, Theme, makeStyles } from "@material-ui/core";
-import { ProductCarousel, ProductScroll, SlideCategory, SlideItem } from "./components";
-import React, { useEffect } from "react";
-
+import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { ProductCarousel, ProductScroll, SlideCategory, SlideItem } from "./components";
 
 const DemexProducts: React.FC = () => {
   const classes = useStyles();

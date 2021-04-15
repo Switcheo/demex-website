@@ -1,10 +1,9 @@
-import { Box, Divider, IconButton, Theme, fade, makeStyles } from "@material-ui/core";
-import { ExtSocialLnk, SocialLnks } from "@demex-info/constants/links";
-import { PaperBox, TypographyLabel } from "@demex-info/components";
-
 import { Dialogue } from "@demex-info/assets";
-import React from "react";
+import { PaperBox, TypographyLabel } from "@demex-info/components";
+import { ExtSocialLnk, SocialLnks } from "@demex-info/constants/links";
+import { Box, Divider, fade, IconButton, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 
 const ConversationBox: React.FC = () => {
   const classes = useStyles();

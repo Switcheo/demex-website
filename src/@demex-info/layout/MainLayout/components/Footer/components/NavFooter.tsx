@@ -1,14 +1,13 @@
-import { Box, Hidden, Link, Theme, makeStyles } from "@material-ui/core";
-import { NavLink, Paths, StaticLinks, getDemexLink, getExplorerLink } from "@demex-info/constants";
-
 import { DemexLogo } from "@demex-info/assets/logos";
-import React from "react";
-import { RootState } from "@demex-info/store/types";
-import SocialLinkBox from "./SocialLinkBox";
 import { TypographyLabel } from "@demex-info/components";
+import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { RootState } from "@demex-info/store/types";
+import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import { useHistory } from "react-router";
+import React from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import SocialLinkBox from "./SocialLinkBox";
 
 interface NavLinkMap {
   title: string;

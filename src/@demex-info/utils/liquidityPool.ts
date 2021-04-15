@@ -1,9 +1,8 @@
-import { BN_ZERO, parseNumber } from "@demex-info/utils";
-import { POOL_DECIMALS, getUsd } from "@demex-info/constants";
+import { getUsd, POOL_DECIMALS } from "@demex-info/constants";
 import { TokenObj, USDPrices } from "@demex-info/store/app/types";
-
-import BigNumber from "bignumber.js";
 import { Pool } from "@demex-info/store/pools/types";
+import { BN_ZERO, parseNumber } from "@demex-info/utils";
+import BigNumber from "bignumber.js";
 
 /**
  *

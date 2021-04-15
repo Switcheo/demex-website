@@ -1,9 +1,8 @@
 import { DefaultFallbackNetwork, LocalStorageKeys } from "@demex-info/constants";
+import { makeTendermintClient } from "@demex-info/utils";
 import { Network, RestClient } from "tradehub-api-js";
-
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
-import { makeTendermintClient } from "@demex-info/utils";
 
 const storedNetworkString = localStorage.getItem(LocalStorageKeys.Network);
 const networks: { [index: string]: Network | undefined } = Network;

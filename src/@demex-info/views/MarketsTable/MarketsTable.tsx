@@ -1,20 +1,27 @@
-import { Backdrop, Box, Button, Theme, Typography, makeStyles } from "@material-ui/core";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover } from "./components";
-import { MarkType, MarketStatItem, MarketTasks, MarketType } from "@demex-info/store/markets/types";
-import { Paths, getDemexLink, getUsd, goToLink } from "@demex-info/constants";
-import { useAssetSymbol, useRollingNum, useTaskSubscriber } from "@demex-info/hooks";
-
-import { BN_ZERO } from "@demex-info/utils";
-import BigNumber from "bignumber.js";
-import React from "react";
+import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
+import {
+  useAssetSymbol, useRollingNum, useTaskSubscriber,
+} from "@demex-info/hooks";
+import {
+  MarketStatItem, MarketTasks, MarketType, MarkType,
+} from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
-import { Skeleton } from "@material-ui/lab";
-import clsx from "clsx";
+import { BN_ZERO } from "@demex-info/utils";
+import {
+  Backdrop, Box, Button, makeStyles, Theme, Typography,
+} from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
+import { Skeleton } from "@material-ui/lab";
+import BigNumber from "bignumber.js";
+import clsx from "clsx";
 import moment from "moment";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
+import {
+  FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover,
+} from "./components";
 
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();

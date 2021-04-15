@@ -1,12 +1,11 @@
-import { Box, Divider, Drawer, Link, MenuItem, MenuList, Theme, makeStyles } from "@material-ui/core";
-import { NavLink, Paths, StaticLinks, getDemexLink, getExplorerLink } from "@demex-info/constants";
-
 import { ExternalLink } from "@demex-info/assets/icons";
-import React from "react";
-import { RootState } from "@demex-info/store/types";
 import { SwitcheoWordMark } from "@demex-info/assets/logos";
-import { useHistory } from "react-router";
+import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { RootState } from "@demex-info/store/types";
+import { Box, Divider, Drawer, Link, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
+import React from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 interface Props {
   open: boolean;

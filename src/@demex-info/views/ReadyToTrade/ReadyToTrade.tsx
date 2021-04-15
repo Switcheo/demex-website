@@ -1,12 +1,11 @@
-import { Box, Button, Theme, Typography, makeStyles } from "@material-ui/core";
 import { CaretRight, HomeBorder2 as HomeBorderLeft, HomeBorder3 as HomeBorderRight } from "@demex-info/assets/icons";
 import { EncryptedKey, Ledger, MetaMask } from "@demex-info/assets/logos";
-import { Paths, getDemexLink } from "@demex-info/constants";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
-
-import React from "react";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { Box, Button, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 

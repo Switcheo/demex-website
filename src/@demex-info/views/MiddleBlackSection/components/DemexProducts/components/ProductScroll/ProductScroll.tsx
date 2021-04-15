@@ -1,7 +1,5 @@
-import { LiquidityPoolSection, StakingSection } from "./components";
-
-// import { Box } from "@material-ui/core";
 import React from "react";
+import { LiquidityPoolSection, StakingSection } from "./components";
 
 interface Props {
 

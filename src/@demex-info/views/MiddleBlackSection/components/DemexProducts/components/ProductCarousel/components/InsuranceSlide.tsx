@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, goToLink } from "@demex-info/constants";
-
 import { InsuranceFund } from "@demex-info/assets/graphic";
-import React from "react";
-import { RootState } from "@demex-info/store/types";
 import { TypographyLabel } from "@demex-info/components";
+import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { RootState } from "@demex-info/store/types";
+import { Box, Button, Divider, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useSelector } from "react-redux";
 
 interface Props {

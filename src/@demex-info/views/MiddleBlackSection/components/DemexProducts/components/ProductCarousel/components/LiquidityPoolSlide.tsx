@@ -1,18 +1,23 @@
-import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum } from "@demex-info/utils";
-import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, getUsd, goToLink, lottieDefaultOptions } from "@demex-info/constants";
-import { Pool, PoolsTasks } from "@demex-info/store/pools/types";
-import React, { useEffect } from "react";
-import { RenderGuard, TypographyLabel } from "@demex-info/components";
-
-import BigNumber from "bignumber.js";
 import { LiquidityPools } from "@demex-info/assets";
-import Lottie from "lottie-react";
-import { RootState } from "@demex-info/store/types";
-import { Skeleton } from "@material-ui/lab";
-import clsx from "clsx";
-import { useSelector } from "react-redux";
+import { RenderGuard, TypographyLabel } from "@demex-info/components";
+import {
+  getDemexLink, getUsd, goToLink, lottieDefaultOptions, Paths,
+} from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
+import { Pool, PoolsTasks } from "@demex-info/store/pools/types";
+import { RootState } from "@demex-info/store/types";
+import {
+  BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum,
+} from "@demex-info/utils";
+import {
+  Box, Button, Divider, makeStyles, Theme, Typography,
+} from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import BigNumber from "bignumber.js";
+import clsx from "clsx";
+import Lottie from "lottie-react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 interface Props {
   liquidityRef: () => void;

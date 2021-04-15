@@ -1,10 +1,9 @@
-import { Box, Button, Container, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink } from "@demex-info/constants";
-
-import { BackgroundAnimation } from "./components";
-import React from "react";
 import { TypographyLabel } from "@demex-info/components";
+import { getDemexLink, Paths } from "@demex-info/constants";
+import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
+import { BackgroundAnimation } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();

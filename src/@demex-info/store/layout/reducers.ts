@@ -1,6 +1,6 @@
+import moment from "moment";
 import { LayoutActionTypes } from "./actions";
 import { LayoutState } from "./types";
-import moment from "moment";
 
 const initial_state: LayoutState = {
 	loadingTasks: {},

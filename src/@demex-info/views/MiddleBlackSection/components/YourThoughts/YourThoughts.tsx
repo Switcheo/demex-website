@@ -1,10 +1,9 @@
-import { Box, Button, Theme, Typography, makeStyles } from "@material-ui/core";
-
 import { CaretRight } from "@demex-info/assets/icons";
-import React from "react";
-import { StaticLinks } from "@demex-info/constants";
 import { TypographyLabel } from "@demex-info/components";
+import { StaticLinks } from "@demex-info/constants";
+import { Box, Button, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 
 const YourThoughts: React.FC = () => {

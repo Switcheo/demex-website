@@ -1,12 +1,11 @@
-import { CandleStickItem, CandleSticksMap, MarketListItem, MarketListMap, MarketStatItem, MarketTasks, parseMarketCandlesticks, parseMarketListMap, parseMarketStats } from "@demex-info/store/markets/types";
-import { SECONDS_PER_DAY, logger, uuidv4 } from "@demex-info/utils";
-import { all, call, delay, fork, put, select } from "redux-saga/effects";
-
-import { RestClient } from "tradehub-api-js";
-import { RootState } from "@demex-info/store/types";
 import actions from "@demex-info/store/actions";
-import moment from "moment";
 import { setCandleSticksMap } from "@demex-info/store/markets/actions";
+import { CandleStickItem, CandleSticksMap, MarketListItem, MarketListMap, MarketStatItem, MarketTasks, parseMarketCandlesticks, parseMarketListMap, parseMarketStats } from "@demex-info/store/markets/types";
+import { RootState } from "@demex-info/store/types";
+import { logger, SECONDS_PER_DAY, uuidv4 } from "@demex-info/utils";
+import moment from "moment";
+import { all, call, delay, fork, put, select } from "redux-saga/effects";
+import { RestClient } from "tradehub-api-js";
 
 function* handleQueryMarketStats(): Generator {
 	logger("query market stats");
