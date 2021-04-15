@@ -121,6 +121,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& a": {
       cursor: "pointer",
     },
+    [theme.breakpoints.down("sm")]: {
+      "& h6": {
+        fontSize: "1rem",
+      },
+    },
   },
   tradeHubBox: {
     display: "flex",

@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.action.hover,
     },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1rem",
+    },
     [theme.breakpoints.only("xs")]: {
       fontSize: "0.95rem",
       minHeight: "4rem",

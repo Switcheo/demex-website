@@ -47,6 +47,11 @@ const ConversationBox: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   cardSubtitle: {
     marginTop: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      "& h6": {
+        fontSize: "1rem",
+      },
+    },
     [theme.breakpoints.only("xs")]: {
       marginTop: theme.spacing(1.5),
     },

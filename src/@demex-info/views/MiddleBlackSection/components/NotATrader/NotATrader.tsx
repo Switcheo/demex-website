@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "36rem",
     margin: theme.spacing(4, "auto", 0),
     [theme.breakpoints.down("sm")]: {
+      fontSize: "1rem",
       margin: theme.spacing(2, "auto", 0),
     },
   },

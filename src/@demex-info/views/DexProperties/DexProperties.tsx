@@ -22,7 +22,7 @@ const DexProperties: React.FC = () => {
   };
 
   const [sectionRef, sectionView] = useInView({
-    threshold: 0.4,
+    threshold: [0.2, 0.4],
     triggerOnce: true,
   });
 
@@ -58,7 +58,7 @@ const DexProperties: React.FC = () => {
                 </Hidden>
                 Built Right
               </Typography>
-              <TypographyLabel color="textSecondary">
+              <TypographyLabel className={classes.subtitle} color="textSecondary">
                 Demex is powered by a layer 2 blockchain solution for&nbsp;
                 <Hidden mdDown>
                   <br />
@@ -216,6 +216,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.open": {
       opacity: 1,
       transform: "translate(0px,0px)",
+    },
+  },
+  subtitle: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1rem",
     },
   },
   titleBox: {
