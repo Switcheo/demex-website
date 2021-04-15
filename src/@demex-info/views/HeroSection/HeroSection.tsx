@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("md")]: {
 			fontSize: "10px",
-			minHeight: "360px",
+			height: "360px",
 		},
 		[theme.breakpoints.down("sm")]: {
 			fontSize: "10px",
