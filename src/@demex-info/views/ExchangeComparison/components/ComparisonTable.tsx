@@ -1,28 +1,14 @@
 import {
-  Box,
-  Hidden,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Theme,
-  fade,
-  makeStyles,
+  Box, fade, Hidden, makeStyles, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Theme,
 } from "@material-ui/core";
-import {
-  CexMarkets,
-  CexTradingRow,
-  DexMarkets,
-  LogoCell,
-  PropertyTab,
-} from "../compareConfig";
-import React, { useEffect } from "react";
-
-import ComparisonRow from "./ComparisonRow";
 import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
+import React, { useEffect } from "react";
+import {
+  CexMarkets, CexTradingRow, DexMarkets, LogoCell, PropertyTab,
+} from "../compareConfig";
+import ComparisonRow from "./ComparisonRow";
 
 interface Props {
   dexToggle: boolean;

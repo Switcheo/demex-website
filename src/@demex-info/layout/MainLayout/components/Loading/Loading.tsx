@@ -1,11 +1,10 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
-
+import { SwitcheoLoading } from "@demex-info/assets";
+import { withLightTheme } from "@demex-info/components";
+import { lottieDefaultOptions } from "@demex-info/constants";
+import { Box, makeStyles, Theme } from "@material-ui/core";
+import clsx from "clsx";
 import Lottie from "lottie-react";
 import React from "react";
-import { SwitcheoLoading } from "@demex-info/assets";
-import clsx from "clsx";
-import { lottieDefaultOptions } from "@demex-info/constants";
-import { withLightTheme } from "@demex-info/components";
 
 interface Props {
   loading: boolean;

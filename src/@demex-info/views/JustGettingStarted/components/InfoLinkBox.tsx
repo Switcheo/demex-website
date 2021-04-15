@@ -1,8 +1,7 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
-
 import { CaretRight } from "@demex-info/assets";
-import React from "react";
+import { Box, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 
 interface Props {
   href: string;

@@ -1,5 +1,4 @@
 import { Discord, Facebook, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
-
 import { Network } from "tradehub-api-js";
 
 export const Paths = {

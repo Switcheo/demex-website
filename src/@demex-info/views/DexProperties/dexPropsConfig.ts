@@ -1,4 +1,6 @@
-import { BeProtected, DeepLiquidity, HighPerformance, TakeBackControl } from "@demex-info/assets/animations";
+import {
+  BeProtected, DeepLiquidity, HighPerformance, TakeBackControl,
+} from "@demex-info/assets";
 
 export interface DexProp {
   title: string;

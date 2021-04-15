@@ -1,5 +1,5 @@
-import { Network } from "tradehub-api-js";
 import { mapValues } from "lodash";
+import { Network } from "tradehub-api-js";
 
 interface BlockEventsParams {
   height: number;

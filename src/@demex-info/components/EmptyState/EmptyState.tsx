@@ -1,9 +1,8 @@
-import { Box, PaletteType, makeStyles } from "@material-ui/core";
 import { EmptyStateDark, EmptyStateLight } from "@demex-info/assets";
-
+import { Box, makeStyles, PaletteType } from "@material-ui/core";
+import clsx from "clsx";
 import React from "react";
 import { RenderGuard } from "../RenderGuard";
-import clsx from "clsx";
 
 export interface EmptyStateProps {
   helperText: any;

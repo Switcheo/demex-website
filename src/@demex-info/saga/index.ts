@@ -1,5 +1,5 @@
-import appSaga from "./appSaga";
 import createSagaMiddleware from "redux-saga";
+import appSaga from "./appSaga";
 import marketsSaga from "./marketsSaga";
 import poolsSaga from "./poolsSaga";
 import stakingSaga from "./stakingSaga";

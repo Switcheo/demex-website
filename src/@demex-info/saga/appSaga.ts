@@ -1,10 +1,9 @@
-import { AppTasks, TokenObj, USDPrices, parseTokensArr } from "@demex-info/store/app/types";
+import actions from "@demex-info/store/actions";
+import { AppTasks, parseTokensArr, TokenObj, USDPrices } from "@demex-info/store/app/types";
+import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, logger, parseNumber, uuidv4 } from "@demex-info/utils";
 import { all, call, delay, fork, put, select } from "redux-saga/effects";
-
 import { RestClient } from "tradehub-api-js";
-import { RootState } from "@demex-info/store/types";
-import actions from "@demex-info/store/actions";
 
 function* handleQueryTokens(): Generator {
   while (true) {

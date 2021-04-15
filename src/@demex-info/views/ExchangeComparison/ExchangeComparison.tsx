@@ -1,25 +1,17 @@
-import { Box, Button, Divider, Switch, Theme, fade, makeStyles } from "@material-ui/core";
-import {
-  CexFeesVal,
-  CexSecurityVal,
-  CexServiceVal,
-  CexTableTabs,
-  CexTradingVal,
-  DexDecentralisationVal,
-  DexFeesVals,
-  DexTableTabs,
-  DexTechnologyVal,
-  DexTradingVal,
-  PropertyTab,
-  TableTab,
-} from "./compareConfig";
-import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
-import React, { useEffect } from "react";
-
-import { ComparisonTable } from "./components";
 import { HomeBorderCircle1 } from "@demex-info/assets";
+import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
+import {
+  Box, Button, Divider, fade, makeStyles, Switch, Theme,
+} from "@material-ui/core";
 import clsx from "clsx";
+import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import {
+  CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
+  DexDecentralisationVal, DexFeesVals, DexTableTabs, DexTechnologyVal,
+  DexTradingVal, PropertyTab, TableTab,
+} from "./compareConfig";
+import { ComparisonTable } from "./components";
 
 const cexDefault = "cex-trading";
 const dexDefault = "dex-technology";

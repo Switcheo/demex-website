@@ -1,7 +1,6 @@
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
-import { useEffect, useRef } from "react";
-
 import BigNumber from "bignumber.js";
+import { useEffect, useRef } from "react";
 import { useCountUp } from "react-countup";
 
 export default (value: number | BigNumber, decimals: number | undefined, duration: number = 1): string | number => {

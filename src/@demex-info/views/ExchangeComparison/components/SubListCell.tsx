@@ -1,8 +1,7 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
-import { ListItemHead } from "../compareConfig";
-
-import React from "react";
 import { TypographyLabel } from "@demex-info/components";
+import { Box, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
+import { ListItemHead } from "../compareConfig";
 
 interface Props {
   valueItem: any;

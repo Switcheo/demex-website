@@ -1,9 +1,10 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
-import { CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme } from "@demex-info/components";
-
-import React from "react";
-import { RootState } from "@demex-info/store/types";
+import {
+  CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme,
+} from "@demex-info/components";
 import { TokenObj } from "@demex-info/store/app/types";
+import { RootState } from "@demex-info/store/types";
+import { Box, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
 import { useSelector } from "react-redux";
 
 interface Props {

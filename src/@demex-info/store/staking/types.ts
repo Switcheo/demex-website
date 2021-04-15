@@ -1,7 +1,6 @@
-import { BN_ZERO, adjustGweiToHumanAmount, parseNumber } from "@demex-info/utils";
-
-import BigNumber from "bignumber.js";
 import { TokenObj } from "@demex-info/store/app/types";
+import { adjustGweiToHumanAmount, BN_ZERO, parseNumber } from "@demex-info/utils";
+import BigNumber from "bignumber.js";
 
 export interface StakingState {
   avgBlockTime: string;

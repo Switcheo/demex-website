@@ -1,8 +1,7 @@
-import { Box, IconButton, Theme, makeStyles } from "@material-ui/core";
-import { ExtSocialLnk, SocialLnks } from "@demex-info/constants";
-
-import React from "react";
 import { TypographyLabel } from "@demex-info/components";
+import { ExtSocialLnk, SocialLnks } from "@demex-info/constants";
+import { Box, IconButton, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
 
 const SocialLinkBox: React.FC = () => {
   const classes = useStyles();

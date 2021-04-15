@@ -1,6 +1,6 @@
+import { USDPrices } from "@demex-info/store/app/types";
 import { BN_ZERO } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
-import { USDPrices } from "@demex-info/store/app/types";
 
 interface Assets {
   [symbol: string]: {

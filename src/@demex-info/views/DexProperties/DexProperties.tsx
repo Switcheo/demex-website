@@ -1,15 +1,14 @@
-import { Box, Button, Grid, Hidden, Theme, Typography, makeStyles } from "@material-ui/core";
-import { DexProp, dexPropsArr } from "./dexPropsConfig";
-import { Paths, getDemexLink } from "@demex-info/constants";
-import { TypographyLabel, withLightTheme } from "@demex-info/components";
-
 import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
-import { PropertyBox } from "./components";
-import React from "react";
+import { TypographyLabel, withLightTheme } from "@demex-info/components";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
+import { PropertyBox } from "./components";
+import { DexProp, dexPropsArr } from "./dexPropsConfig";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();

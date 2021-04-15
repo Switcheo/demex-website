@@ -1,10 +1,9 @@
-import { Middleware, applyMiddleware, createStore } from "redux";
-
-import combinedReducers from "./reducers";
+import sagaMiddleware from "@demex-info/saga";
+import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
-import sagaMiddleware from "@demex-info/saga";
 import thunk from "redux-thunk";
+import combinedReducers from "./reducers";
 
 const middlewares: Middleware[] = [thunk, sagaMiddleware];
 // eslint-disable-next-line no-undef

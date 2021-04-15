@@ -1,9 +1,8 @@
-import { BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, NEO, NEX, SWTH, USD, USDC, USDT, WBTC, iUSD } from "@demex-info/assets";
-import { SvgIconProps, makeStyles } from "@material-ui/core";
-
+import { BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, iUSD, NEO, NEX, SWTH, USD, USDC, USDT, WBTC } from "@demex-info/assets";
+import { makeStyles, SvgIconProps } from "@material-ui/core";
 import { AttachMoney } from "@material-ui/icons";
-import React from "react";
 import clsx from "clsx";
+import React from "react";
 
 const symbolToIcon: { [symbol: string]: any } = {
   BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM,

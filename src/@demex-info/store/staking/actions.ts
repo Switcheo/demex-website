@@ -1,6 +1,5 @@
-import { StakingStats, Validator } from "./types";
-
 import BigNumber from "bignumber.js";
+import { StakingStats, Validator } from "./types";
 
 export const StakingActionTypes = {
 	SET_AVG_BLOCK_TIME: "SET_AVG_BLOCK_TIME",

@@ -1,13 +1,12 @@
-import { BN_ZERO, logger, uuidv4 } from "@demex-info/utils";
-import { StakingStats, StakingTasks, Validator, parseStakingStats, parseValidators } from "@demex-info/store/staking/types";
-import { all, call, delay, fork, put, select } from "redux-saga/effects";
-
-import BigNumber from "bignumber.js";
-import { RestClient } from "tradehub-api-js";
-import { RootState } from "@demex-info/store/types";
-import TendermintClient from "@demex-info/utils/tendermint";
-import { TokenObj } from "@demex-info/store/app/types";
 import actions from "@demex-info/store/actions";
+import { TokenObj } from "@demex-info/store/app/types";
+import { parseStakingStats, parseValidators, StakingStats, StakingTasks, Validator } from "@demex-info/store/staking/types";
+import { RootState } from "@demex-info/store/types";
+import { BN_ZERO, logger, uuidv4 } from "@demex-info/utils";
+import TendermintClient from "@demex-info/utils/tendermint";
+import BigNumber from "bignumber.js";
+import { all, call, delay, fork, put, select } from "redux-saga/effects";
+import { RestClient } from "tradehub-api-js";
 
 function* handleQueryStakingStats(): Generator {
 	logger("query staking stats");

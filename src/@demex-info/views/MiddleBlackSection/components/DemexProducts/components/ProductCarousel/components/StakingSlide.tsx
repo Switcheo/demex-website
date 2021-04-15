@@ -1,18 +1,24 @@
-import { BN_ZERO, SECONDS_PER_HOUR, SECONDS_PER_MINUTE, SECONDS_PER_YEAR, parseNumber, toPercentage, toShorterNum } from "@demex-info/utils";
-import { Box, Button, Divider, Theme, Typography, makeStyles } from "@material-ui/core";
-import { Paths, getDemexLink, goToLink, lottieDefaultOptions } from "@demex-info/constants";
-import React, { useEffect } from "react";
-import { RenderGuard, TypographyLabel } from "@demex-info/components";
-
-import BigNumber from "bignumber.js";
-import Lottie from "lottie-react";
-import { RootState } from "@demex-info/store/types";
-import { Skeleton } from "@material-ui/lab";
 import { Staking } from "@demex-info/assets";
-import { StakingTasks } from "@demex-info/store/staking/types";
-import clsx from "clsx";
-import { useSelector } from "react-redux";
+import { RenderGuard, TypographyLabel } from "@demex-info/components";
+import {
+  getDemexLink, goToLink, lottieDefaultOptions, Paths,
+} from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
+import { StakingTasks } from "@demex-info/store/staking/types";
+import { RootState } from "@demex-info/store/types";
+import {
+  BN_ZERO, parseNumber, SECONDS_PER_HOUR, SECONDS_PER_MINUTE,
+  SECONDS_PER_YEAR, toPercentage, toShorterNum,
+} from "@demex-info/utils";
+import {
+  Box, Button, Divider, makeStyles, Theme, Typography,
+} from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import BigNumber from "bignumber.js";
+import clsx from "clsx";
+import Lottie from "lottie-react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 interface Props {
   liquidityView: boolean;

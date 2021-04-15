@@ -1,9 +1,8 @@
-import { Box, makeStyles } from "@material-ui/core";
-import CoinIcon, { CoinIconProps } from "../CoinIcon/CoinIcon";
-import React, { Fragment } from "react";
-
-import clsx from "clsx";
 import { useAssetSymbol } from "@demex-info/hooks";
+import { Box, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
+import React, { Fragment } from "react";
+import CoinIcon, { CoinIconProps } from "../CoinIcon/CoinIcon";
 
 interface Props extends CoinIconProps {
   denomA?: string;

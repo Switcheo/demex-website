@@ -1,7 +1,6 @@
-import { PaletteType, Theme, createMuiTheme } from "@material-ui/core";
-import { darkPalette, lightPalette } from "./palettes";
-
+import { createMuiTheme, PaletteType, Theme } from "@material-ui/core";
 import _overrides from "./overrides";
+import { darkPalette, lightPalette } from "./palettes";
 import { typography } from "./typography";
 
 const applyFlavour = (overrides: any, theme: Theme) => {

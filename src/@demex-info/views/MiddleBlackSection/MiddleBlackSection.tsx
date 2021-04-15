@@ -1,7 +1,5 @@
-// import { Box, Theme, makeStyles } from "@material-ui/core";
-import { DemexProducts, NotATrader, YourThoughts } from "./components";
-
 import React from "react";
+import { DemexProducts, NotATrader, YourThoughts } from "./components";
 
 const MiddleBlackSection: React.FC = () => {
   return (

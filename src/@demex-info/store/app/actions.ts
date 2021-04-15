@@ -1,6 +1,6 @@
+import TendermintClient from "@demex-info/utils/tendermint";
 import { Network, RestClient } from "tradehub-api-js";
 import { TokenObj, USDPrices } from "./types";
-import TendermintClient from "@demex-info/utils/tendermint";
 
 export const AppActionTypes = {
 	UPDATE_NETWORK: "UPDATE_NETWORK",

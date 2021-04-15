@@ -1,9 +1,8 @@
-import { Box, Typography, makeStyles } from "@material-ui/core";
-import { PartialBoxProps, extractBoxProps } from "@demex-info/utils";
-
-import React from "react";
+import { extractBoxProps, PartialBoxProps } from "@demex-info/utils";
+import { Box, makeStyles, Typography } from "@material-ui/core";
 import { TypographyProps } from "@material-ui/core/Typography";
 import clsx from "clsx";
+import React from "react";
 
 interface Props extends TypographyProps, PartialBoxProps {
   boxClass?: string;

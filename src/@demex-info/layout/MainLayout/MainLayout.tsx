@@ -1,10 +1,8 @@
-import { BoxProps, Theme, makeStyles } from "@material-ui/core";
-import { Footer, Header, Loading } from "./components";
-import React, { useEffect } from "react";
-// import { RenderGuard } from "@demex-info/components";
-
-import clsx from "clsx";
 import { startSagas } from "@demex-info/saga";
+import { BoxProps, makeStyles, Theme } from "@material-ui/core";
+import clsx from "clsx";
+import React, { useEffect } from "react";
+import { Footer, Header, Loading } from "./components";
 
 interface Props extends BoxProps { }
 

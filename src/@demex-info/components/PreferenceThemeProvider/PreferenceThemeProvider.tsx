@@ -1,7 +1,6 @@
-import { MuiThemeProvider, PaletteType } from "@material-ui/core";
-
-import React from "react";
 import { loadTheme } from "@demex-info/theme";
+import { MuiThemeProvider, PaletteType } from "@material-ui/core";
+import React from "react";
 
 interface Props {
   children: React.ReactNode

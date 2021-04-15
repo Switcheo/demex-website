@@ -1,8 +1,7 @@
-import { Box, Paper, PaperProps, makeStyles } from "@material-ui/core";
-import { PartialBoxProps, extractBoxProps } from "@demex-info/utils";
-
-import React from "react";
+import { extractBoxProps, PartialBoxProps } from "@demex-info/utils";
+import { Box, makeStyles, Paper, PaperProps } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 
 interface Props extends PartialBoxProps, PaperProps {
   boxClass?: string

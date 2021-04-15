@@ -1,11 +1,10 @@
-import { Box, Grid, Theme, makeStyles } from "@material-ui/core";
-import { ConversationBox, Demex101Box } from "./components";
-import { TypographyLabel, withLightTheme } from "@demex-info/components";
-
 import { HomeBorderCircle1 } from "@demex-info/assets";
-import React from "react";
+import { TypographyLabel, withLightTheme } from "@demex-info/components";
+import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import React from "react";
 import { useInView } from "react-intersection-observer";
+import { ConversationBox, Demex101Box } from "./components";
 
 const JustGettingStarted: React.FC = () => {
   const classes = useStyles();

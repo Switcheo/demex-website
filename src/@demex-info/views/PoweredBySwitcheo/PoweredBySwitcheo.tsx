@@ -1,20 +1,12 @@
-import {
-  Box,
-  Button,
-  // Grid,
-  Hidden,
-  Link,
-  Theme,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
 import { HomeBorder1 as HomeBorder, ScrollingText } from "@demex-info/assets";
-import { StaticLinks, lottieDefaultOptions } from "@demex-info/constants";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
-
+import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
+import {
+  Box, Button, Hidden, Link, makeStyles, Theme, Typography,
+} from "@material-ui/core";
+import clsx from "clsx";
 import Lottie from "lottie-react";
 import React from "react";
-import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
 
 const PoweredBySwitcheo: React.FC = () => {

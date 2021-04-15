@@ -1,7 +1,6 @@
-import { Box, Divider, Theme, makeStyles } from "@material-ui/core";
-import { HomeFooter, NavFooter } from "./components";
-
+import { Box, Divider, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
+import { HomeFooter, NavFooter } from "./components";
 
 const Footer: React.FC = () => {
   const classes = useStyles();

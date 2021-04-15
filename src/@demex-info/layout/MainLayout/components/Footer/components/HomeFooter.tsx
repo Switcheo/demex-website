@@ -1,8 +1,7 @@
-import { Box, Theme, makeStyles } from "@material-ui/core";
-
-import React from "react";
 import { SwitcheoWordMark } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
+import { Box, makeStyles, Theme } from "@material-ui/core";
+import React from "react";
 
 const HomeFooter: React.FC = () => {
   const classes = useStyles();

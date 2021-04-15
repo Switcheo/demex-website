@@ -1,13 +1,14 @@
-import { Box, Hidden, TableCell, TableRow, Theme, Typography, fade, makeStyles } from "@material-ui/core";
 import { CloseIcon, TickIcon } from "@demex-info/assets";
-
+import { RenderGuard } from "@demex-info/components";
+import {
+  Box, fade, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
+} from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import clsx from "clsx";
+import React from "react";
 import { CexTradingRow } from "../compareConfig";
 import ListCell from "./ListCell";
-import React from "react";
-import { RenderGuard } from "@demex-info/components";
-import { Skeleton } from "@material-ui/lab";
 import SubListCell from "./SubListCell";
-import clsx from "clsx";
 
 interface Props {
   load: boolean;

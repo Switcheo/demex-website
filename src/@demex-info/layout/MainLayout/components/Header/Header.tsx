@@ -1,12 +1,11 @@
-import { Box, Button, Hidden, IconButton, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
-import { HeaderMenu, HeaderSlider } from "./components";
-import { Paths, getDemexLink } from "@demex-info/constants";
-
 import { DemexLogo } from "@demex-info/assets/logos";
-import React from "react";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
+import React from "react";
 import { useSelector } from "react-redux";
+import { HeaderMenu, HeaderSlider } from "./components";
 
 const Header: React.FC = () => {
   const classes = useStyles();
