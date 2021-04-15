@@ -43,6 +43,7 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
               {...lottieDefaultOptions}
               animationData={animation}
               lottieRef={lottieRef}
+              loop={false}
             />
           )
         }

@@ -268,7 +268,13 @@ const MarketsTable: React.FC = () => {
                           </Box>
                         </RenderGuard>
                       </Box>
-                      <Backdrop className={classes.backdrop} open={openTokens} invisible onMouseLeave={handleClose} />
+                      <Backdrop
+                        className={classes.backdrop}
+                        open={openTokens}
+                        invisible
+                        onClick={handleClose}
+                        onMouseEnter={handleClose}
+                      />
                     </React.Fragment>
                   )
                 }
@@ -324,7 +330,7 @@ const MarketsTable: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   backdrop: {
-    zIndex: 0,
+    zIndex: 1,
   },
   numSkeleton: {
     width: "80px",

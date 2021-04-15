@@ -7,7 +7,8 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
 import {
-  Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, useTheme,
+  Box, Button, Hidden, makeStyles, TableCell, TableRow,
+  Theme, useMediaQuery, useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
@@ -34,6 +35,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
+  const widthSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { network, usdPrices } = useSelector((state: RootState) => state.app);
 
@@ -59,6 +61,10 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
     ? (change24H.gt(0) ? theme.palette.success.light : theme.palette.error.light)
     : theme.palette.text.secondary;
 
+  const goToMarket = (market: string) => {
+    goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setLoad(false);
@@ -66,7 +72,10 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   }, []);
 
   return (
-    <TableRow className={classes.marketRow}>
+    <TableRow
+      onClick={widthSm ? () => goToMarket(stat?.market ?? "") : () => { }}
+      className={classes.marketRow}
+    >
       <Hidden smDown>
         <TableCell className={classes.fillerCell}></TableCell>
       </Hidden>
@@ -95,7 +104,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
               <Skeleton className={clsx(classes.skeletonSvg, "left")} variant="circle" />
               <Skeleton className={clsx(classes.skeletonSvg, "right")} variant="circle" />
             </Box>
-            <Box className={classes.title}>
+            <Box className={clsx(classes.title, "skeleton")}>
               <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
               <Hidden mdUp>
                 <Skeleton className={classes.skeletonSubtitle} variant="text" />
@@ -107,7 +116,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             <Box className={classes.skeletonBox}>
               <Skeleton className={classes.skeletonSvg} variant="circle" />
             </Box>
-            <Box className={classes.title}>
+            <Box className={clsx(classes.title, "skeleton")}>
               <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
               <Hidden mdUp>
                 <Skeleton className={classes.skeletonSubtitle} variant="text" />
@@ -170,7 +179,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
         </RenderGuard>
         <RenderGuard renderIf={!load}>
           <Box className={classes.change24h}>
-            {toPercentage(change24H, 2)}%
+            {change24H.gte(0) ? "+" : ""}{toPercentage(change24H, 2)}%
           </Box>
         </RenderGuard>
       </TableCell>
@@ -229,7 +238,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             className={classes.tradeBtn}
             color="secondary"
             variant="contained"
-            onClick={() => goToLink(getDemexLink(`${Paths.Trade}/${stat?.market ?? ""}`, network))}
+            onClick={() => goToMarket(stat?.market ?? "")}
             disabled={load}
           >
             Trade
@@ -254,7 +263,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   chartCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     height: "100%",
-    maxHeight: "6rem",
     padding: theme.spacing(0.5),
   },
   denomBox: {
@@ -291,8 +299,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   marketCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     height: "100%",
-    maxHeight: "6rem",
-    padding: theme.spacing(3, 2),
+    // maxHeight: "6rem",
+    padding: theme.spacing(2),
     "&.trade": {
       maxWidth: "4rem",
     },
@@ -410,6 +418,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "1.125rem",
   },
   title: {
+    "&.skeleton": {
+      marginLeft: theme.spacing(2.5),
+    },
     [theme.breakpoints.only("sm")]: {
       marginLeft: theme.spacing(3),
     },
@@ -421,7 +432,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   tradeBtn: {
     ...theme.typography.button,
     fontSize: "0.85rem",
-    padding: theme.spacing(1.5, 3),
+    padding: theme.spacing(1.25, 2.5),
   },
   usdValue: {
     fontSize: "0.8rem",

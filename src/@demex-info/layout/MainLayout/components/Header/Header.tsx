@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   loginBtn: {
     ...theme.typography.button,
-    fontSize: "0.75rem",
+    fontSize: "0.8rem",
     padding: theme.spacing(1.25, 2.5),
     textTransform: "none",
   },
@@ -93,10 +93,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     minHeight: "1.75rem",
-    padding: theme.spacing(1.5, 5),
+    padding: theme.spacing(1.5, 6),
     position: "fixed",
     top: 0,
-    width: `calc(100% - ${theme.spacing(10)}px)`,
+    width: `calc(100% - ${theme.spacing(12)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(1.25, 2.5),
