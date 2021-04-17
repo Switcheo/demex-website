@@ -35,7 +35,7 @@ render(
       </MainLayout>
     </PreferenceThemeProvider>
   </Provider>,
-	document.getElementById("root"),
+  document.getElementById("root"),
 );
 
 reportWebVitals(console.log); // eslint-disable-line no-console
