@@ -13,6 +13,7 @@ import {
 } from "@demex-info/views";
 import React from "react";
 import { Provider } from "react-redux";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { render } from "react-snapshot";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -23,16 +24,23 @@ import reportWebVitals from "./reportWebVitals";
 render(
   <Provider store={store}>
     <PreferenceThemeProvider>
-      <MainLayout>
-        <HeroSection />
-        <MarketsTable />
-        <DexProperties />
-        <PoweredBySwitcheo />
-        <MiddleBlackSection />
-        <ExchangeComparison />
-        <JustGettingStarted />
-        <ReadyToTrade />
-      </MainLayout>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <MainLayout>
+              <HeroSection />
+              <MarketsTable />
+              <DexProperties />
+              <PoweredBySwitcheo />
+              <MiddleBlackSection />
+              <ExchangeComparison />
+              <JustGettingStarted />
+              <ReadyToTrade />
+            </MainLayout>
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>
     </PreferenceThemeProvider>
   </Provider>,
   document.getElementById("root"),
