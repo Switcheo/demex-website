@@ -76,7 +76,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
       onClick={widthSm ? () => goToMarket(stat?.market ?? "") : () => { }}
       className={classes.marketRow}
     >
-      <Hidden smDown>
+      <Hidden mdDown>
         <TableCell className={classes.fillerCell}></TableCell>
       </Hidden>
       <TableCell className={classes.marketCell}>
@@ -244,6 +244,8 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             Trade
           </Button>
         </TableCell>
+      </Hidden>
+      <Hidden mdDown>
         <TableCell className={classes.fillerCell}></TableCell>
       </Hidden>
     </TableRow>
@@ -279,7 +281,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   fillerCell: {
     borderBottom: "1px solid transparent",
     padding: 0,
-    width: "1.75rem",
+    width: "2rem",
   },
   lastPriceCell: {
     minWidth: "5rem",
@@ -302,13 +304,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     // maxHeight: "6rem",
     padding: theme.spacing(2),
     "&.trade": {
-      maxWidth: "4rem",
+      maxWidth: "4.1rem",
     },
     "&.positive": {
       color: theme.palette.success.main,
     },
     "&.negative": {
       color: theme.palette.error.main,
+    },
+    [theme.breakpoints.only("md")]: {
+      "&:first-child": {
+        padding: theme.spacing(3, 2, 3, 4),
+      },
+      "&:last-child": {
+        padding: theme.spacing(3, 4, 3, 2),
+      },
     },
     [theme.breakpoints.only("sm")]: {
       "&:first-child": {

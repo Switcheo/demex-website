@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 	tagline: {
 		fontSize: "1.375em",
 		lineHeight: "1.27em",
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("xs")]: {
 			fontSize: "1em",
 		},
 	},
@@ -95,7 +95,10 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 600,
 		lineHeight: "1.333em",
 		marginTop: "0.4em",
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("sm")]: {
+			fontSize: "3em",
+		},
+		[theme.breakpoints.only("xs")]: {
 			fontSize: "2em",
 		},
 	},
@@ -104,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "1.555em",
 		maxWidth: "35.55em",
 		marginTop: "2.222em",
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("xs")]: {
 			fontSize: "1em",
 		},
 	},
