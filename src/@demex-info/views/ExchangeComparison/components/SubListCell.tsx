@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   list: {
     marginTop: theme.spacing(0.75),
     "& h6": {
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
       fontSize: "0.875rem",
       fontWeight: 500,
     },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   listItem: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
   },
   subList: {
     lineHeight: "1.25rem",

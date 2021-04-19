@@ -58,7 +58,7 @@ const DexProperties: React.FC = () => {
                 </Hidden>
                 Built Right
               </Typography>
-              <TypographyLabel className={classes.subtitle} color="textSecondary">
+              <TypographyLabel className={classes.subtitle} color="textPrimary">
                 Demex is powered by a layer 2 blockchain solution for&nbsp;
                 <Hidden mdDown>
                   <br />

@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   listItem: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
   },
 }));
 

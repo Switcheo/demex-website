@@ -176,7 +176,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   headerCell: {
     ...theme.typography.subtitle2,
     borderBottom: `1px solid ${theme.palette.divider}`,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     fontSize: "0.785rem",
     padding: theme.spacing(1, 2),
     maxHeight: "2.375rem",

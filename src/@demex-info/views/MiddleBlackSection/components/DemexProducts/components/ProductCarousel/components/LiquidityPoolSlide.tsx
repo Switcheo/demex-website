@@ -115,7 +115,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle}>
+        <TypographyLabel color="textPrimary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by&nbsp;
           <br />
           committing LP tokens
@@ -192,7 +192,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   divider: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
     marginTop: theme.spacing(5),
     width: "4rem",

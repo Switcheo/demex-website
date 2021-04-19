@@ -1,5 +1,6 @@
 import { HomeBorderCircle1 } from "@demex-info/assets";
 import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import {
   Box, Button, Divider, fade, makeStyles, Switch, Theme,
 } from "@material-ui/core";
@@ -187,6 +188,17 @@ const ExchangeComparison: React.FC = () => {
               </Box>
             </Box>
           </PaperBox>
+          <Box className={classes.btnDiv}>
+            <Button
+              className={classes.btn}
+              variant="contained"
+              color="secondary"
+              target="_blank"
+              href={getDemexLink(Paths.Trade)}
+            >
+              Start Trading
+            </Button>
+          </Box>
         </Box>
       </Box>
     </div>
@@ -194,6 +206,19 @@ const ExchangeComparison: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  btn: {
+    display: "block",
+    margin: theme.spacing(0, "auto"),
+		padding: theme.spacing(1.75, 3.5),
+  },
+  btnDiv: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: theme.spacing(8),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(5),
+    },
+  },
   divider: {
     backgroundColor: theme.palette.divider,
   },
@@ -221,10 +246,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.text.primary,
     display: "flex",
     overflow: "hidden",
-    padding: theme.spacing(13, 0, 6.5),
+    padding: theme.spacing(13, 0, 10.5),
     position: "relative",
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(8, 0, 5),
+      padding: theme.spacing(8, 0, 7.5),
     },
   },
   sideBorder: {

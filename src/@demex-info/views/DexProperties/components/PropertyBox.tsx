@@ -58,7 +58,7 @@ const PropertyBox: React.FC<Props> = (props: Props) => {
               <BulletIcon className={classes.bulletIcon} />
               <Typography
                 variant="body1"
-                color="textSecondary"
+                color="textPrimary"
               >
                 {point.statement}
               </Typography>

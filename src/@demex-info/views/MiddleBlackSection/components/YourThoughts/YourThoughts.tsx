@@ -30,7 +30,7 @@ const YourThoughts: React.FC<Props> = (props: Props) => {
           Let Us Know Your Thoughts
         </Typography>
         <TypographyLabel
-          color="textSecondary"
+          color="textPrimary"
           className={classes.subtitle}
         >
           We value your thoughts to bring Demex further. Check out our forum for community to discuss, propose, and execute ideas.

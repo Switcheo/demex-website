@@ -25,7 +25,7 @@ const JustGettingStarted: React.FC = () => {
             Just Getting Started?
           </TypographyLabel>
           <TypographyLabel
-            color="textSecondary"
+            color="textPrimary"
             align="center"
             className={classes.slideSubtitle}
             variant="subtitle1"
@@ -123,11 +123,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     display: "flex",
-    padding: theme.spacing(6.5, 0, 13),
+    padding: theme.spacing(10.5, 0, 13),
     position: "relative",
     overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(5, 0, 8),
+      padding: theme.spacing(7.5, 0, 8),
     },
   },
   sideBorder: {

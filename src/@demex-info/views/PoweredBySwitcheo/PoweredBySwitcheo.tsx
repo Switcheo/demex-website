@@ -52,11 +52,11 @@ const PoweredBySwitcheo: React.FC = () => {
               { open: sectionView },
             )}
           >
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel color="textPrimary">
               {/* eslint-disable-next-line no-trailing-spaces */}
               <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
             </TypographyLabel>
-            <TypographyLabel color="textSecondary" mt={2}>
+            <TypographyLabel color="textPrimary" mt={2}>
               The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
             </TypographyLabel>
             <Button

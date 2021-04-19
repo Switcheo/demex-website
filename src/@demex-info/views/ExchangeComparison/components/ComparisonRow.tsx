@@ -67,7 +67,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
               <Box className={classes.rowTextBox}>
                 <RenderGuard renderIf={!load && typeof valueItem === "string"}>
-                  <Typography className={classes.rowText} color="textSecondary">
+                  <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
                 </RenderGuard>
