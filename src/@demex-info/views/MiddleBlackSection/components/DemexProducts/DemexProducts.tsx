@@ -73,10 +73,10 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
   };
 
   const goToThoughts = () => {
-    const compareRef = document.querySelector("#exchangeCompare");
-    compareRef?.scrollIntoView({
+    const yourThoughtsEl = document.querySelector("#yourThoughts");
+    yourThoughtsEl?.scrollIntoView({
       behavior: "smooth",
-      block: "nearest",
+      block: "center",
     });
   };
 

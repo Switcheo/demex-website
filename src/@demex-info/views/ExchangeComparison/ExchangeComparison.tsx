@@ -122,11 +122,13 @@ const ExchangeComparison: React.FC = () => {
               checked={dexNum === 1}
               classes={{
                 root: classes.switchRoot,
+                switchBase: clsx(classes.switchBase, { checked: dexNum === 1 }),
                 thumb: classes.switchThumb,
                 track: classes.switchTrack,
               }}
               onChange={() => handleDexToggle()}
               color="default"
+              size="medium"
             />
             <TypographyLabel
               className={clsx(classes.switchSub, { toggle: dexNum === 1 })}
@@ -276,6 +278,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  switchBase: {
+    padding: theme.spacing(1.25, 0.75, 1.125, 1),
+    "&.Mui-checked + $switchTrack": {
+      opacity: 1,
+    },
+  },
   switchDiv: {
     alignItems: "center",
     display: "flex",
@@ -283,7 +291,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto", 4),
   },
   switchRoot: {
-    padding: theme.spacing(0.75),
+    height: "2.625rem",
+    padding: theme.spacing(0.75, 0.5),
   },
   switchSub: {
     cursor: "pointer",
@@ -311,10 +320,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   switchThumb: {
     color: theme.palette.secondary.main,
+    height: "1.375rem",
+    width: "1.375rem",
   },
   switchTrack: {
-    backgroundColor: "#E7EDF9",
+    backgroundColor: "#E0F0FF",
     borderRadius: theme.spacing(7),
+    opacity: 1,
   },
   tabBtn: {
     ...theme.typography.button,

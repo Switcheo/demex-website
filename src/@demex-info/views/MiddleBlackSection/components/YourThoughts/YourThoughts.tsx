@@ -20,7 +20,7 @@ const YourThoughts: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div ref={sectionRef} className={classes.innerDiv}>
+    <div id="yourThoughts" ref={sectionRef} className={classes.innerDiv}>
       <Box className={clsx(classes.slide, { open: sectionView })}>
         <Typography
           color="textPrimary"
