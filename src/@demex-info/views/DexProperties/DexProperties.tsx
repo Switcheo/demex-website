@@ -2,7 +2,7 @@ import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -12,7 +12,7 @@ import { DexProp, dexPropsArr } from "./dexPropsConfig";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
-  const widthSmall = useMediaQuery("@media (max-width: 1279px)");
+  // const widthSmall = useMediaQuery("@media (max-width: 1279px)");
 
   const network = useSelector((state: RootState) => state.app.network);
 
@@ -35,7 +35,7 @@ const DexProperties: React.FC = () => {
       } else if (window?.innerWidth <= 1440 && window?.innerWidth >= 1280) {
         borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2) - 10}px`);
       } else {
-        borderEl.setAttribute("style", "width: unset");
+        borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2)}px`);
       }
     }
   };
@@ -58,7 +58,7 @@ const DexProperties: React.FC = () => {
                 </Hidden>
                 Built Right
               </Typography>
-              <TypographyLabel className={classes.subtitle} color="textSecondary">
+              <TypographyLabel className={classes.subtitle} color="textPrimary">
                 Demex is powered by a layer 2 blockchain solution for&nbsp;
                 <Hidden mdDown>
                   <br />
@@ -77,7 +77,7 @@ const DexProperties: React.FC = () => {
               <HomeBorder
                 className={clsx(classes.decoration, "homeBorder")}
                 style={{
-                  width: (widthSmall ? "unset" : 608),
+                  width: 608,
                 }}
               />
             </Hidden>
@@ -171,10 +171,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    width: "100%",
+    width: "calc(100% - 96px)",
+    [theme.breakpoints.only("md")]: {
+      width: "calc(100% - 80px)",
+    },
     [theme.breakpoints.down("sm")]: {
       display: "block",
       maxWidth: "100%",
+      width: "100%",
     },
   },
   mobileGridItem: {
@@ -238,12 +242,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& p": {
       ...theme.typography.subtitle1,
     },
-    "@media (min-width: 1280px) and (max-width: 1440px)": {
-      padding: theme.spacing(8, 6),
-    },
     [theme.breakpoints.only("md")]: {
       maxWidth: "calc((100% / 12) * 4)",
-      padding: theme.spacing(5),
+      padding: theme.spacing(5, 5, 5, 0),
     },
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(8, 5),

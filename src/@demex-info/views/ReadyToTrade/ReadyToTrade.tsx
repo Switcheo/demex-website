@@ -33,7 +33,7 @@ const ReadyToTrade: React.FC = () => {
         <TypographyLabel
           className={classes.subtitle}
           mt={2}
-          color="textSecondary"
+          color="textPrimary"
         >
           Choose your preferred gateway to limitless markets
         </TypographyLabel>
@@ -78,36 +78,46 @@ const ReadyToTrade: React.FC = () => {
           View Live Trading
           <CaretRight className={classes.caretRight} />
         </Button>
+        <HomeBorderLeft className={classes.borderLeft} />
+        <HomeBorderRight className={classes.borderRight} />
       </Box>
-      <HomeBorderLeft className={classes.borderLeft} />
-      <HomeBorderRight className={classes.borderRight} />
     </div>
   );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
   borderLeft: {
-    height: "3.25rem",
-    maxWidth: "11.45rem",
+    height: "3rem",
+    maxWidth: "16.5rem",
     bottom: "2.25rem",
     left: 0,
     position: "absolute",
+    [theme.breakpoints.only("sm")]: {
+      height: "2.6rem",
+      maxWidth: "14.3rem",
+      bottom: "1.5rem",
+    },
     [theme.breakpoints.only("xs")]: {
-      bottom: "1.75rem",
+      bottom: "1.5rem",
       height: "2rem",
-      maxWidth: "7.05rem",
+      maxWidth: "11rem",
     },
   },
   borderRight: {
-    height: "3.25rem",
-    maxWidth: "11.45rem",
+    height: "3rem",
+    maxWidth: "16.5rem",
     top: "2.25rem",
     right: 0,
     position: "absolute",
+    [theme.breakpoints.only("sm")]: {
+      height: "2.6rem",
+      maxWidth: "14.3rem",
+      top: "1.5rem",
+    },
     [theme.breakpoints.only("xs")]: {
       height: "2rem",
-      maxWidth: "7.05rem",
-      top: "1.75rem",
+      maxWidth: "11rem",
+      top: "1.5rem",
     },
   },
   buttonGroup: {
@@ -155,17 +165,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   innerDiv: {
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(0, 6),
+    padding: theme.spacing(8, 6),
+    position: "relative",
     width: "calc(100% - 96px)",
     [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(0, 5),
+      padding: theme.spacing(8, 5),
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(0, 5),
+      padding: theme.spacing(11, 5),
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
       margin: 0,
-      padding: theme.spacing(0, 2.5),
+      padding: theme.spacing(10, 2.5),
       width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
@@ -190,11 +204,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
-    padding: theme.spacing(8, 0),
-    position: "relative",
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(10, 0),
-    },
   },
   slide: {
     opacity: 0,

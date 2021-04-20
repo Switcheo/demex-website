@@ -72,7 +72,7 @@ const StakingSection: React.FC = () => {
         >
           Staking
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle}>
+        <TypographyLabel color="textPrimary" className={classes.subtitle}>
           Accrue weekly rewards from trading fees and block rewards when you stake SWTH.
         </TypographyLabel>
         <Divider className={classes.divider} />
@@ -132,7 +132,7 @@ const StakingSection: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   divider: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
     marginTop: theme.spacing(4),
     width: "4rem",

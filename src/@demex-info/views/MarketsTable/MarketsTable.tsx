@@ -143,7 +143,7 @@ const MarketsTable: React.FC = () => {
         <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
-              <TypographyLabel mb={widthXs ? 1 : 1.5} color="textSecondary" variant="subtitle2">
+              <TypographyLabel mb={widthXs ? 1 : 1.5} color="textPrimary" variant="subtitle2">
                 Volume (24H)
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
@@ -160,7 +160,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Spot && (
                     <React.Fragment>
-                      <TypographyLabel color="textSecondary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" variant="subtitle2">
                         Market Pairs
                       </TypographyLabel>
                       <Box
@@ -187,7 +187,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Futures && (
                     <React.Fragment>
-                      <TypographyLabel color="textSecondary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" variant="subtitle2">
                         Open Interest
                       </TypographyLabel>
                       <RenderGuard renderIf={loading}>
@@ -206,7 +206,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Spot && (
                     <React.Fragment>
-                      <TypographyLabel color="textSecondary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" variant="subtitle2">
                         Coins
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
@@ -284,7 +284,7 @@ const MarketsTable: React.FC = () => {
                       {
                         futureTypes.futures > 0 && (
                           <Box>
-                            <TypographyLabel color="textSecondary" variant="subtitle2">
+                            <TypographyLabel color="textPrimary" variant="subtitle2">
                               Delivery Futures
                             </TypographyLabel>
                             <RenderGuard renderIf={loading}>
@@ -301,7 +301,7 @@ const MarketsTable: React.FC = () => {
                       {
                         futureTypes.perpetuals > 0 && (
                           <Box ml={futureTypes.futures > 0 ? 2 : 0}>
-                            <TypographyLabel color="textSecondary" variant="subtitle2">
+                            <TypographyLabel color="textPrimary" variant="subtitle2">
                               Perpetual Swaps
                             </TypographyLabel>
                             <RenderGuard renderIf={loading}>
@@ -396,14 +396,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   gridPaper: {
     maxWidth: "33%",
     width: "100%",
-    padding: theme.spacing(4, 3),
+    padding: theme.spacing(3, 4),
     [theme.breakpoints.down("sm")]: {
       marginBottom: theme.spacing(2),
       maxWidth: "100%",
       width: "unset",
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(2.5, 2),
+      padding: theme.spacing(2, 2.5),
       "& h4": {
         fontSize: "1.625rem",
       },
@@ -415,15 +415,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   gridPaperAlt: {
     marginLeft: theme.spacing(2),
     maxWidth: "50%",
-    padding: theme.spacing(4, 3),
+    padding: theme.spacing(3, 4),
     width: "100%",
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(2.5, 2),
       "&:first-child": {
         marginLeft: 0,
       },
     },
     [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(2, 2.5),
       "& h4": {
         fontSize: "1.625rem",
       },
@@ -434,7 +434,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "@media (max-width: 400px)": {
       maxWidth: "100%",
       marginLeft: 0,
-      padding: theme.spacing(2.5, 2),
       width: "unset",
       "&:first-child": {
         marginBottom: theme.spacing(2),
@@ -474,18 +473,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   root: {
-    background: `linear-gradient(180deg, ${fade(theme.palette.background.paper, 0.05)} 0%, ${fade(theme.palette.background.paper, 0.5)} 25%, ${theme.palette.background.paper} 100%)`,
+    background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${fade(theme.palette.background.default, 0.9)} 85%, ${fade(theme.palette.background.default, 0.2)} 100%)`,
     color: theme.palette.text.primary,
     padding: theme.spacing(0, 0, 11),
+    zIndex: 20,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 0, 8),
     },
   },
   tab: {
     ...theme.typography.button,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.hint,
     fontSize: "1.25rem",
-    marginLeft: theme.spacing(2.5),
+    marginLeft: theme.spacing(3),
     "&:first-child": {
       marginLeft: 0,
     },
@@ -497,21 +497,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       fontSize: "1.25rem",
-      marginLeft: theme.spacing(2),
-      "&:first-child": {
-        marginLeft: 0,
-      },
     },
   },
   tableRoot: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(3),
     position: "relative",
-    [theme.breakpoints.only("md")]: {
-      marginTop: theme.spacing(3.5),
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(2.5),
-    },
   },
   labelBox: {
     cursor: "pointer",

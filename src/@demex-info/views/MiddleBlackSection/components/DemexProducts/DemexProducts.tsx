@@ -73,10 +73,10 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
   };
 
   const goToThoughts = () => {
-    const compareRef = document.querySelector("#exchangeCompare");
-    compareRef?.scrollIntoView({
+    const yourThoughtsEl = document.querySelector("#yourThoughts");
+    yourThoughtsEl?.scrollIntoView({
       behavior: "smooth",
-      block: "nearest",
+      block: "start",
     });
   };
 
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     padding: theme.spacing("8vh", 0, 1.25),
     position: "sticky",
-    top: "4vh",
+    top: "2vh",
   },
   root: {
     maxWidth: "84rem",
@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tab: {
     ...theme.typography.button,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.hint,
     fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     "&:first-child": {

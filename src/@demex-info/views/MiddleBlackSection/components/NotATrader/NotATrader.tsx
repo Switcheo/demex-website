@@ -23,7 +23,7 @@ const NotATrader: React.FC = () => {
           Not a Trader?
         </Typography>
         <TypographyLabel
-          color="textSecondary"
+          color="textPrimary"
           className={classes.subtitle}
         >
           Let your cryptoassets work harder for you with more ways to earn.

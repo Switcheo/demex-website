@@ -71,7 +71,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
         },
       )}
     >
-      <Box maxWidth="30rem" px={2.5}>
+      <Box className={classes.animationBox}>
         <Lottie
           lottieRef={lottieRef}
           { ...lottieDefaultOptions }
@@ -90,7 +90,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
           >
             Staking
           </Typography>
-          <TypographyLabel color="textSecondary" className={classes.subtitle}>
+          <TypographyLabel color="textPrimary" className={classes.subtitle}>
             Accrue weekly rewards from trading fees and&nbsp;
             <br />
             block rewards when you stake SWTH.
@@ -144,8 +144,16 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  animationBox: {
+    maxWidth: "30rem",
+    padding: theme.spacing(0, 2.5),
+    width: "100%",
+    [theme.breakpoints.only("md")]: {
+      maxWidth: "27.8rem",
+    },
+  },
   divider: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
     marginTop: theme.spacing(5),
     width: "4rem",

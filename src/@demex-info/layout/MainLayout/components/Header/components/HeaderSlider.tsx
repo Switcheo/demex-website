@@ -2,7 +2,7 @@ import { ExternalLink } from "@demex-info/assets/icons";
 import { SwitcheoWordMark } from "@demex-info/assets/logos";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Divider, Drawer, Link, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
+import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -88,9 +88,9 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       </div>
       <Box className={classes.box}>
         <Divider />
-        <Link href={StaticLinks.SwitcheoNetwork} target="_blank">
+        <Box display="flex" alignItems="center" height="100%" px={2}>
           <SwitcheoWordMark className={classes.swthLogo} />
-        </Link>
+        </Box>
       </Box>
     </Drawer>
   );
@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   swthLogo: {
-    height: "0.75rem",
+    height: "0.8rem",
   },
 }));
 

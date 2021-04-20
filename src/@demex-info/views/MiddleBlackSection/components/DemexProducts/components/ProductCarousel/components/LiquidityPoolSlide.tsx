@@ -89,12 +89,31 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     }, 5000);
   };
 
+  const handleResizeWindow = () => {
+    const liquidityEl = document.querySelector("#rightGrid");
+    const svgEl = document.querySelector("#liquidAnimation > svg");
+    if (window.innerWidth > 1440) {
+      svgEl?.setAttribute("style", "width: 602px; height: 500px; transform: translate(12px, 0px);");
+    } else if (window.innerWidth > 1280 && window.innerWidth <= 1440) {
+      const width = (liquidityEl?.clientWidth ?? 0) - 10;
+      const height = width / 550 * 450;
+      svgEl?.setAttribute("style", `width: ${width}px; height: ${height}px; transform: translate(${(height / 10) + 2}px, 0px);`);
+    } else {
+      svgEl?.setAttribute("style", "width: 105%; height: 100%;");
+    }
+  };
+
   useEffect(() => {
     lottieRef?.current?.stop();
     if (liquidityView) {
       lottieRef?.current?.goToAndPlay(0);
     }
   }, [liquidityView]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResizeWindow);
+    return () => window.removeEventListener("resize", handleResizeWindow);
+  }, []);
 
   return (
     <div
@@ -115,7 +134,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle}>
+        <TypographyLabel color="textPrimary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by&nbsp;
           <br />
           committing LP tokens
@@ -177,13 +196,18 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
           Start Earning
         </Button>
       </Box>
-      <Box maxWidth="32rem" px={2.5}>
+      <Box id="rightGrid" maxWidth="32rem" px={2.5}>
         <Lottie
           lottieRef={lottieRef}
           { ...lottieDefaultOptions }
           animationData={LiquidityPools}
           loop={false}
           onComplete={delayAnimation}
+          id="liquidAnimation"
+          style={{
+            paddingLeft: 20,
+          }}
+          onEnterFrame={handleResizeWindow}
         />
       </Box>
     </div>
@@ -192,7 +216,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   divider: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
     marginTop: theme.spacing(5),
     width: "4rem",
@@ -206,6 +230,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "30rem",
     padding: theme.spacing(0, 2.5),
     width: "100%",
+    [theme.breakpoints.only("md")]: {
+      maxWidth: "28rem",
+    },
   },
   liquidityImg: {
     display: "block",
@@ -249,6 +276,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& h6": {
       fontSize: "0.875rem",
+      height: "2.75rem",
     },
   },
   subtitle: {

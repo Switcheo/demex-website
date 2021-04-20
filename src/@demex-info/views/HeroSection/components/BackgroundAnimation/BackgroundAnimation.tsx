@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 	},
 	position: {
+		overflow: "hidden",
 		position: "absolute",
 		top: 0,
 		left: 0,

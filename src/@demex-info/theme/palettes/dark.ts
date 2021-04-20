@@ -17,6 +17,7 @@ export const darkPalette: PaletteOptions = {
 	divider: "#262e3f",
 	text: {
 		primary: "#FFFFFF",
-		secondary: "#8E939B",
+		secondary: "#9FA4AD",
+		hint: "#8E939B",
 	},
 };

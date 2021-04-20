@@ -111,7 +111,7 @@ const LiquidityPoolSection: React.FC = () => {
         >
           Liquidity Pools
         </Typography>
-        <TypographyLabel color="textSecondary" className={classes.subtitle}>
+        <TypographyLabel color="textPrimary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by committing LP tokens
         </TypographyLabel>
         <Divider className={classes.divider} />
@@ -198,7 +198,7 @@ const LiquidityPoolSection: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   divider: {
-    backgroundColor: theme.palette.text.secondary,
+    backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
     marginTop: theme.spacing(4),
     width: "4rem",
