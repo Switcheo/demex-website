@@ -88,7 +88,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       </div>
       <Box className={classes.box}>
         <Divider />
-        <Box display="flex" alignItems="center" height="100%" px={2}>
+        <Box className={classes.footerLogo}>
           <SwitcheoWordMark className={classes.swthLogo} />
         </Box>
       </Box>
@@ -116,6 +116,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       fill: theme.palette.secondary.main,
     },
   },
+  footerLogo: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    padding: theme.spacing(0, 2.625),
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(0, 2),
+    },
+  },
   innerDiv: {
     height: "calc(100% - 3.375rem)",
     position: "absolute",
@@ -141,10 +150,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.8375rem",
     fontWeight: 500,
     minHeight: "2.8375rem",
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
+    padding: theme.spacing(1, 2.875),
     "&:hover, &:focus": {
       backgroundColor: theme.palette.action.hover,
+    },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1, 2.25),
     },
   },
   swthLogo: {
