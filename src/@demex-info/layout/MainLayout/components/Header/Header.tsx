@@ -68,6 +68,7 @@ const Header: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   closeIcon: {
     height: "1rem",
+    maxWidth: "1.25rem",
     "& path": {
       fill: theme.palette.secondary.main,
     },
@@ -83,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.8rem",
     padding: theme.spacing(1.25, 2.5),
     textTransform: "none",
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1.25, 2.25),
+    },
   },
   menuIcon: {
     height: "1.25rem",
