@@ -1,4 +1,4 @@
-import { ScrollingText2 } from "@demex-info/assets";
+import { ScrollingTextBold } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
@@ -23,14 +23,11 @@ const PoweredBySwitcheo: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box className={classes.textRoot}>
-        {/* <Hidden smUp>
-          <HomeBorder className={classes.homeBorder} />
-        </Hidden> */}
         <Lottie
           { ...lottieDefaultOptions }
-          animationData={ScrollingText2}
+          animationData={ScrollingTextBold}
           style={{
-            height: widthSmDown ? "6.4rem" : "8rem",
+            height: widthSmDown ? "6.8rem" : "8.4rem",
           }}
         />
       </Box>
