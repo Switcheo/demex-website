@@ -182,11 +182,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxHeight: "2.375rem",
     height: "100%",
     [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(1, 1.5),
       "&:first-child": {
-        padding: theme.spacing(1, 2, 1, 4),
+        padding: theme.spacing(1, 1.5, 1, 3),
       },
       "&:last-child": {
-        padding: theme.spacing(1, 4, 1, 2),
+        padding: theme.spacing(1, 3, 1, 1.5),
       },
     },
     [theme.breakpoints.only("sm")]: {

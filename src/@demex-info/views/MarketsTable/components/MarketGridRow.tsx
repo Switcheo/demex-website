@@ -313,11 +313,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.error.main,
     },
     [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(3, 1.5),
       "&:first-child": {
-        padding: theme.spacing(3, 2, 3, 4),
+        padding: theme.spacing(3, 1.5, 3, 4),
       },
       "&:last-child": {
-        padding: theme.spacing(3, 4, 3, 2),
+        padding: theme.spacing(3, 3, 3, 1.5),
       },
     },
     [theme.breakpoints.only("sm")]: {
