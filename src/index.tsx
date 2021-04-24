@@ -38,4 +38,5 @@ render(
   document.getElementById("root"),
 );
 
-reportWebVitals(console.log); // eslint-disable-line no-console
+if (process.env.NODE_ENV !== "production")
+  reportWebVitals(console.log); // eslint-disable-line no-console

@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     position: "relative",
+    maxWidth: "100%",
+    overflowX: "hidden",
   },
   filler: {
     height: "3.3125rem",
