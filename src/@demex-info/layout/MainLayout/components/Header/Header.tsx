@@ -68,6 +68,7 @@ const Header: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   closeIcon: {
     height: "1rem",
+    maxWidth: "1.25rem",
     "& path": {
       fill: theme.palette.secondary.main,
     },
@@ -83,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.8rem",
     padding: theme.spacing(1.25, 2.5),
     textTransform: "none",
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1.25, 2.25),
+    },
   },
   menuIcon: {
     height: "1.25rem",
@@ -96,15 +100,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1.5, 6),
     position: "fixed",
     top: 0,
-    width: `calc(100% - ${theme.spacing(12)}px)`,
+    width: `calc(100vw - ${theme.spacing(12)}px)`,
     zIndex: 1400,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(1.25, 2.5),
-      width: `calc(100% - ${theme.spacing(5)}px)`,
+      width: `calc(100vw - ${theme.spacing(5)}px)`,
     },
     "@media (max-width: 360px)": {
       padding: theme.spacing(1.25, 1.75),
-      width: `calc(100% - ${theme.spacing(3.5)}px)`,
+      width: `calc(100vw - ${theme.spacing(3.5)}px)`,
     },
   },
   topLogo: {

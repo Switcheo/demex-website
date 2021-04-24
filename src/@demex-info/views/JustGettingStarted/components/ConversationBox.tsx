@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   divider: {
+    backgroundColor: "#A7CBFF",
     margin: theme.spacing(4, 0),
     width: "4rem",
     [theme.breakpoints.only("xs")]: {

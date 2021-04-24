@@ -67,7 +67,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
               <Box className={classes.rowTextBox}>
                 <RenderGuard renderIf={!load && typeof valueItem === "string"}>
-                  <Typography className={classes.rowText} color="textSecondary">
+                  <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
                 </RenderGuard>
@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: 0,
     maxWidth: "6rem",
     minWidth: "6rem",
-    padding: theme.spacing(3),
+    padding: theme.spacing(2, 3),
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       padding: theme.spacing(2, 1),
@@ -180,14 +180,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowCell: {
     ...theme.typography.subtitle1,
     fontSize: "0.875rem",
-    padding: theme.spacing(3, 2.5),
+    padding: theme.spacing(2, 2.5),
     "&:last-child": {
-      padding: theme.spacing(3, 0, 3, 2.5),
+      padding: theme.spacing(2, 0, 2, 2.5),
     },
     [theme.breakpoints.down("md")]: {
-      padding: theme.spacing(3, 2),
+      padding: theme.spacing(2),
       "&:last-child": {
-        padding: theme.spacing(3, 2),
+        padding: theme.spacing(2),
       },
     },
     [theme.breakpoints.only("xs")]: {

@@ -20,7 +20,7 @@ const YourThoughts: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div ref={sectionRef} className={classes.innerDiv}>
+    <div id="yourThoughts" ref={sectionRef} className={classes.innerDiv}>
       <Box className={clsx(classes.slide, { open: sectionView })}>
         <Typography
           color="textPrimary"
@@ -30,7 +30,7 @@ const YourThoughts: React.FC<Props> = (props: Props) => {
           Let Us Know Your Thoughts
         </Typography>
         <TypographyLabel
-          color="textSecondary"
+          color="textPrimary"
           className={classes.subtitle}
         >
           We value your thoughts to bring Demex further. Check out our forum for community to discuss, propose, and execute ideas.

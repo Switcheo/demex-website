@@ -2,7 +2,7 @@ import { ExternalLink } from "@demex-info/assets/icons";
 import { SwitcheoWordMark } from "@demex-info/assets/logos";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Divider, Drawer, Link, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
+import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -88,9 +88,9 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       </div>
       <Box className={classes.box}>
         <Divider />
-        <Link href={StaticLinks.SwitcheoNetwork} target="_blank">
+        <Box className={classes.footerLogo}>
           <SwitcheoWordMark className={classes.swthLogo} />
-        </Link>
+        </Box>
       </Box>
     </Drawer>
   );
@@ -114,6 +114,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "0.75rem",
     "& path": {
       fill: theme.palette.secondary.main,
+    },
+  },
+  footerLogo: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    padding: theme.spacing(0, 2.625),
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(0, 2),
     },
   },
   innerDiv: {
@@ -141,14 +150,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.8375rem",
     fontWeight: 500,
     minHeight: "2.8375rem",
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
+    padding: theme.spacing(1, 2.875),
     "&:hover, &:focus": {
       backgroundColor: theme.palette.action.hover,
     },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(1, 2.25),
+    },
   },
   swthLogo: {
-    height: "0.75rem",
+    height: "0.8rem",
   },
 }));
 

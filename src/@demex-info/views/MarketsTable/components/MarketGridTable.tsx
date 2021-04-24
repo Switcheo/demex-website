@@ -77,7 +77,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <Hidden smDown>
+                <Hidden mdDown>
                   <TableCell className={classes.fillerCell}></TableCell>
                 </Hidden>
                 {
@@ -91,7 +91,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                     );
                   })
                 }
-                <Hidden smDown>
+                <Hidden mdDown>
                   <TableCell className={classes.fillerCell}></TableCell>
                 </Hidden>
               </TableRow>
@@ -168,7 +168,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   fillerCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     padding: 0,
-    width: "1.75rem",
+    width: "2rem",
   },
   root: {
     marginTop: theme.spacing(2),
@@ -176,11 +176,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   headerCell: {
     ...theme.typography.subtitle2,
     borderBottom: `1px solid ${theme.palette.divider}`,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     fontSize: "0.785rem",
     padding: theme.spacing(1, 2),
     maxHeight: "2.375rem",
     height: "100%",
+    [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(1, 1.5),
+      "&:first-child": {
+        padding: theme.spacing(1, 1.5, 1, 3),
+      },
+      "&:last-child": {
+        padding: theme.spacing(1, 3, 1, 1.5),
+      },
+    },
     [theme.breakpoints.only("sm")]: {
       "&:first-child": {
         padding: theme.spacing(1, 2, 1, 3.5),
