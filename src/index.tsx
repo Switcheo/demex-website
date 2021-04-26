@@ -29,7 +29,7 @@ render(
     <PreferenceThemeProvider>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/info">
+          <Route exact path="/">
             <MainLayout>
               <HeroSection />
               <MarketsTable />
@@ -41,7 +41,7 @@ render(
               <ReadyToTrade />
             </MainLayout>
           </Route>
-          <Redirect to="/info" />
+          <Redirect to="/" />
         </Switch>
       </BrowserRouter>
     </PreferenceThemeProvider>
