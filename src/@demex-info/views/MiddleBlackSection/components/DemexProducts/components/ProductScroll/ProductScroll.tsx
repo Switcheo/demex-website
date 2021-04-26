@@ -10,7 +10,6 @@ const ProductScroll: React.FC<Props> = () => {
     <React.Fragment>
       <LiquidityPoolSection />
       <StakingSection />
-      {/* <InsuranceSection /> */}
     </React.Fragment>
   );
 };

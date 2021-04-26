@@ -6,8 +6,6 @@ export { default as LiquidityPools } from "./LiquidityPools.json";
 export { default as OrbitalGroup3 } from "./Orbit03_Group.json";
 export { default as OrbitalGroup4 } from "./Orbit04_Group.json";
 export { default as OrbitalGroup5 } from "./Orbit05_Group.json";
-export { default as ScrollingText } from "./ScrollingText.json";
-export { default as ScrollingText2 } from "./ScrollingText2.json";
 export { default as ScrollingTextBold } from "./ScrollingTextBold.json";
 export { default as Staking } from "./Staking.json";
 export { default as SwitcheoLoading } from "./SwitcheoLoading.json";

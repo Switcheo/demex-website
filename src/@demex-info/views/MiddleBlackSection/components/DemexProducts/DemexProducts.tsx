@@ -41,9 +41,6 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
       case "liquidityPools":
         setSlide("liquidityPools");
         break;
-      // case "insuranceFund":
-      //   setSlide("insuranceFund");
-      //   break;
       case "staking":
         setSlide("staking");
         break;
@@ -115,10 +112,8 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
           <ProductCarousel
             liquidityRef={liquidityRef}
             stakingRef={stakingRef}
-            // insuranceRef={insuranceRef}
             liquidityView={liquidityView}
             stakingView={stakingView}
-            // insuranceView={insuranceView}
           />
         </Hidden>
         <Hidden mdUp>

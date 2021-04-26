@@ -139,10 +139,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.dydx": {
       height: "1.5rem",
     },
-    "&.derivadex": {
-      height: "1rem",
-      maxWidth: "9rem",
-    },
   },
 }));
 

@@ -88,11 +88,6 @@ const ExchangeComparison: React.FC = () => {
     }
   }, [dexNum, propertyTab]);
 
-  // tabs list = 67px
-  // header row = 78px
-  // each row height = 128px
-  // const paperHeight = 67 + 80 + (128 * tableSelect.length);
-
   return (
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <HomeBorderCircle1 className={classes.sideBorder} />

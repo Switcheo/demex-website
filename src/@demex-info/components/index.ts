@@ -4,6 +4,5 @@ export * from "./EmptyState";
 export * from "./PaperBox";
 export * from "./PreferenceThemeProvider";
 export * from "./RenderGuard";
-export * from "./SampleComponent";
 export * from "./ThemeProviders";
 export * from "./TypographyLabel";
