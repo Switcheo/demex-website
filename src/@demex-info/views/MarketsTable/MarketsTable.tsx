@@ -6,6 +6,7 @@ import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import {
   useAssetSymbol, useRollingNum, useTaskSubscriber,
 } from "@demex-info/hooks";
+import { startSagas } from "@demex-info/saga";
 import {
   MarketStatItem, MarketTasks, MarketType, MarkType,
 } from "@demex-info/store/markets/types";
@@ -15,11 +16,26 @@ import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import moment from "moment";
-import React from "react";
+import React, { useEffect, Suspense } from "react";
 import { useSelector } from "react-redux";
 import {
-  FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover,
+  FuturesTypes, MarketPaper, MarketTab,
 } from "./components";
+
+const MarketGridTable = React.lazy(() => {
+  return Promise.all([
+    import("./components/MarketGridTable"),
+    new Promise(resolve => setTimeout(resolve, 400)),
+  ])
+  .then(([moduleExports]) => moduleExports);
+});
+const TokenPopover = React.lazy(() => {
+  return Promise.all([
+    import("./components/TokenPopover"),
+    new Promise(resolve => setTimeout(resolve, 800)),
+  ])
+  .then(([moduleExports]) => moduleExports);
+});
 
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();
@@ -33,6 +49,10 @@ const MarketsTable: React.FC = () => {
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    startSagas();
+  }, []);
 
   const MarketTabs: MarketTab[] = [{
     label: "Spot",
@@ -119,11 +139,6 @@ const MarketsTable: React.FC = () => {
   const interestCountUp = useRollingNum(openInterest, 2, 2);
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
-
-  // const [tableRef, tableView] = useInView({
-  //   threshold: [0.2, 0.8],
-  //   triggerOnce: true,
-  // });
   
   return (
     <div className={classes.root}>
@@ -256,7 +271,9 @@ const MarketsTable: React.FC = () => {
                             <Box className={classes.dropdownContainer}>
                               {
                                 openTokens && (
-                                  <TokenPopover tokens={coinsList} />
+                                  <Suspense fallback={null}>
+                                    <TokenPopover tokens={coinsList} />
+                                  </Suspense>
                                 )
                               }
                             </Box>
@@ -321,7 +338,9 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable marketsList={marketsList} marketOption={marketOption} />
+          <Suspense fallback={<Box />}>
+            <MarketGridTable marketsList={marketsList} marketOption={marketOption} />
+          </Suspense>
         </Box>
       </Box>
     </div>

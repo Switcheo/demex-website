@@ -4,11 +4,18 @@ import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
-import { PropertyBox } from "./components";
 import { DexProp, dexPropsArr } from "./dexPropsConfig";
+
+const PropertyBox = React.lazy(() => {
+  return Promise.all([
+    import("./components/PropertyBox"),
+    new Promise(resolve => setTimeout(resolve, 1100)),
+  ])
+  .then(([moduleExports]) => moduleExports);
+});
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
@@ -101,11 +108,13 @@ const DexProperties: React.FC = () => {
                     xs={12}
                     sm={6}
                   >
-                    <PropertyBox
-                      index={index}
-                      sectionView={sectionView}
-                      {...dexProp}
-                    />
+                    <Suspense fallback={<Box />}>
+                      <PropertyBox
+                        index={index}
+                        sectionView={sectionView}
+                        {...dexProp}
+                      />
+                    </Suspense>
                   </Grid>
                 ))
               }

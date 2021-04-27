@@ -1,17 +1,21 @@
-import { startSagas } from "@demex-info/saga";
 import { BoxProps, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
-import { Footer, Header } from "./components";
+import React from "react";
+import Loadable from "react-loadable";
+import Header from "./components/Header";
 
 interface Props extends BoxProps { }
 
+const Footer = Loadable({
+  loader: () => import("./components/Footer"),
+  loading() {
+    return null;
+  },
+  delay: 3000,
+});
+
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
-
-  useEffect(() => {
-    startSagas();
-  }, []);
 
 	const classes = useStyles();
 	return (

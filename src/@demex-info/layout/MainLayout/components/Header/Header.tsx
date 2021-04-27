@@ -3,9 +3,17 @@ import { DemexLogo } from "@demex-info/assets/logos";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
-import React from "react";
+import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
-import { HeaderMenu, HeaderSlider } from "./components";
+import { HeaderMenu } from "./components";
+
+const HeaderSlider = React.lazy(() => {
+  return Promise.all([
+    import("./components/HeaderSlider"),
+    new Promise(resolve => setTimeout(resolve, 800)),
+  ])
+  .then(([moduleExports]) => moduleExports);
+});
 
 const Header: React.FC = () => {
   const classes = useStyles();
@@ -60,7 +68,9 @@ const Header: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      <HeaderSlider open={openMenu} onClose={handleClose} />
+      <Suspense fallback={null}>
+        <HeaderSlider open={openMenu} onClose={handleClose} />
+      </Suspense>
     </Box>
   );
 };

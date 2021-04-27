@@ -27,7 +27,7 @@ function* handleQueryMarketStats(): Generator {
         yield put(actions.Layout.removeBackgroundLoading(marketUuid));
         startLoad = false;
       }
-			yield delay(15000);
+			yield delay(30000);
 		}
 	}
 }
@@ -54,7 +54,7 @@ function* handleQueryMarketListMap(): Generator {
         yield put(actions.Layout.removeBackgroundLoading(marketListUuid));
         startLoad = false;
       }
-			yield delay(15000);
+			yield delay(30000);
 		}
   }
 }
