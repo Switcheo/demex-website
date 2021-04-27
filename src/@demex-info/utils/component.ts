@@ -35,8 +35,10 @@ export interface PartialBoxProps {
 
   height?: string | number
   width?: string | number
-  maxHeight?: string | number
+  minWidth?: string | number
   maxWidth?: string | number
+  minHeight?: string | number
+  maxHeight?: string | number
 }
 
 export const extractBoxProps = (props: any) => {
@@ -73,7 +75,9 @@ export const extractBoxProps = (props: any) => {
     height,
     width,
     maxHeight,
+    minWidth,
     maxWidth,
+    minHeight,
     ...restProps
   } = props;
 
@@ -112,7 +116,9 @@ export const extractBoxProps = (props: any) => {
     height,
     width,
     maxHeight,
+    minWidth,
     maxWidth,
+    minHeight,
   };
 
   for (const key of Object.keys(boxProps)) {

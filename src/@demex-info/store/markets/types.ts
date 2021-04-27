@@ -5,7 +5,6 @@ import moment from "moment";
 export interface MarketsState {
   stats: MarketStatItem[];
   list: MarketListMap;
-  candlesticks: CandleSticksMap;
 }
 
 export interface CandleStickItem {
@@ -20,10 +19,6 @@ export interface CandleStickItem {
   volume: number;
   quoteVolume: number;
   timestamp: number;
-}
-
-export interface CandleSticksMap {
-  [key: string]: CandleStickItem[];
 }
 
 export interface MarketListItem {
