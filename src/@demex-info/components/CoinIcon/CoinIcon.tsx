@@ -1,6 +1,5 @@
-import { BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, iUSD, NEO, NEX, SWTH, USD, USDC, USDT, WBTC } from "@demex-info/assets";
+import { AttachMoney, BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, iUSD, NEO, NEX, SWTH, USD, USDC, USDT, WBTC } from "@demex-info/assets";
 import { makeStyles, SvgIconProps } from "@material-ui/core";
-import { AttachMoney } from "@material-ui/icons";
 import clsx from "clsx";
 import React from "react";
 
