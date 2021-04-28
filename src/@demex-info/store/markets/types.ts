@@ -209,8 +209,3 @@ export function parseMarketCandlesticks(candlesticks: any[]): CandleStickItem[] 
     };
   });
 }
-
-export const MarketTasks: { [key: string]: string } = {
-  List: "@markets/marketListMap",
-  Stats: "@markets/marketStats",
-};

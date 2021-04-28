@@ -89,10 +89,17 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
         display: false,
       },
     },
-    tooltips: false,
+    tooltips: {
+      custom : function(tooltipModel: any) {
+        tooltipModel.opacity = 0;
+      },
+    },
     plugins: {
       legend: {
         display: false,
+      },
+      tooltip: {
+        enabled: false,
       },
     },
   };
@@ -277,42 +284,44 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           </Box>
         </TableCell>
         <TableCell className={classes.chartCell} align="right">
-          <Box display="flex" justifyContent="flex-end" maxWidth={240}>
-            <RenderGuard renderIf={(loading && Boolean(!candleSticks)) || load}>
-              <Skeleton variant="rect" width={240} height={88} />
-            </RenderGuard>
-            {
-              (!loading && candleSticks && !load) && (
-                <Line
-                  type="line"
-                  data={(canvas: HTMLCanvasElement) => {
-                    const ctx = canvas.getContext("2d");
-                    const gradient = ctx?.createLinearGradient(0, 0, 0, 100);
-                    gradient?.addColorStop(0, fade(graphLightColor, 0.6));
-                    gradient?.addColorStop(0.2, fade(graphLightColor, 0.3));
-                    gradient?.addColorStop(1, fade(graphLightColor, 0));
-                    return {
-                      labels: candleSticks.map((candle: CandleStickItem) => candle.timestamp),
-                      datasets: [{
-                        backgroundColor: gradient ?? graphLightColor,
-                        borderColor: graphMainColor,
-                        borderWidth: 1,
-                        data: candleSticks,
-                        fill: "start",
-                        parsing: {
-                          xAxisKey: "timestamp",
-                          yAxisKey: "close",
-                        },
-                        pointRadius: 0,
-                      }],
-                    };
-                  }}
-                  width={240}
-                  height={88}
-                  options={graphOptions}
-                />
-              )
-            }
+          <Box display="flex" justifyContent="flex-end">
+            <Box maxWidth={240}>
+              <RenderGuard renderIf={(loading && Boolean(!candleSticks)) || load}>
+                <Skeleton variant="rect" width={240} height={88} />
+              </RenderGuard>
+              {
+                (!loading && candleSticks && !load) && (
+                  <Line
+                    type="line"
+                    data={(canvas: HTMLCanvasElement) => {
+                      const ctx = canvas.getContext("2d");
+                      const gradient = ctx?.createLinearGradient(0, 0, 0, 100);
+                      gradient?.addColorStop(0, fade(graphLightColor, 0.6));
+                      gradient?.addColorStop(0.5, fade(graphLightColor, 0.3));
+                      gradient?.addColorStop(1, fade(graphLightColor, 0));
+                      return {
+                        labels: candleSticks.map((candle: CandleStickItem) => candle.timestamp),
+                        datasets: [{
+                          backgroundColor: gradient ?? graphLightColor,
+                          borderColor: graphMainColor,
+                          borderWidth: 1,
+                          data: candleSticks,
+                          fill: "start",
+                          parsing: {
+                            xAxisKey: "timestamp",
+                            yAxisKey: "close",
+                          },
+                          pointRadius: 0,
+                        }],
+                      };
+                    }}
+                    width={240}
+                    height={88}
+                    options={graphOptions}
+                  />
+                )
+              }
+            </Box>
           </Box>
         </TableCell>
         <TableCell className={clsx(classes.marketCell, "trade")} align="right">

@@ -1,7 +1,7 @@
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
 import { useTaskSubscriber } from "@demex-info/hooks";
 import {
-  MarketStatItem, MarketTasks, MarketType, MarkType,
+  MarketStatItem, MarketType, MarkType,
 } from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { HeaderCell } from "@demex-info/utils";
@@ -26,7 +26,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const [loading] = useTaskSubscriber(MarketTasks.List, MarketTasks.Stats);
+  const [loading] = useTaskSubscriber("runMarkets");
 
   const { list } = useSelector((state: RootState) => state.markets);
 
