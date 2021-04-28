@@ -1,4 +1,3 @@
-import { mapValues } from "lodash";
 import { Network } from "tradehub-api-js";
 
 interface BlockEventsParams {
@@ -62,9 +61,10 @@ export default class TendermintClient {
     const parseEvents = (evts: ReadonlyArray<any>) => {
       return evts.map((e: Event) => ({
         type: e.type,
-        attributes: e.attributes.map((a: EventAttribute) =>
-          mapValues(a, (v: string) => window.atob(v)),
-        ),
+        attributes: e.attributes.map((a: EventAttribute) => ({
+          key: window.atob(a.key),
+          value: window.atob(a.value),
+        })),
       }));
     };
 
