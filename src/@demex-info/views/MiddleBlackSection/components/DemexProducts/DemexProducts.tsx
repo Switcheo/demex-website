@@ -2,7 +2,7 @@ import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { ProductCarousel, ProductScroll, SlideCategory, SlideItem } from "./components";
+import { LiquidityPool, SlideCategory, SlideItem, Staking } from "./components";
 
 interface Props {
   thoughtsView: boolean;
@@ -108,17 +108,8 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
             ))}
           </div>
         </Hidden>
-        <Hidden smDown>
-          <ProductCarousel
-            liquidityRef={liquidityRef}
-            stakingRef={stakingRef}
-            liquidityView={liquidityView}
-            stakingView={stakingView}
-          />
-        </Hidden>
-        <Hidden mdUp>
-          <ProductScroll />
-        </Hidden>
+        <LiquidityPool liquidityRef={liquidityRef} liquidityView={liquidityView} stakingView={stakingView} />
+        <Staking stakingRef={stakingRef} stakingView={stakingView} />
       </Box>
     </div>
   );

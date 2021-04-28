@@ -51,7 +51,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && react-snap",
+    "build": "react-scripts build",
     "compress": "sh dist/scripts/release.sh",
     "release": "yarn build && yarn compress",
     "serve": "yarn build && http-server ./build",

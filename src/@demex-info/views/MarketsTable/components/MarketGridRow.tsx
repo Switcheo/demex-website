@@ -69,12 +69,12 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     const currentDate = moment().unix();
-    const monthAgo = currentDate - (SECONDS_PER_DAY * 14);
+    const monthAgo = currentDate - (SECONDS_PER_DAY * 7);
     runCandleSticks(async () => {
       try {
         const candlesticksResponse: any = await restClient.getCandlesticks({
           market: stat.market,
-          resolution: 360,
+          resolution: 30,
           from: monthAgo,
           to: currentDate,
         });

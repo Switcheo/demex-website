@@ -22,42 +22,42 @@ const DexProperties = Loadable({
   loading() {
     return null;
   },
-  delay: 300,
+  delay: window.innerWidth <= 960 ? 500 : 300,
 });
 const PoweredBySwitcheo = Loadable({
   loader: () => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"),
   loading() {
     return null;
   },
-  delay: 600,
+  delay: window.innerWidth <= 960 ? 1000 : 600,
 });
 const MiddleBlackSection = Loadable({
   loader: () => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"),
   loading() {
     return null;
   },
-  delay: 900,
+  delay: window.innerWidth <= 960 ? 1500 : 900,
 });
 const ExchangeComparison = Loadable({
   loader: () => import("@demex-info/views/ExchangeComparison/ExchangeComparison"),
   loading() {
     return null;
   },
-  delay: 1200,
+  delay: window.innerWidth <= 960 ? 2000 : 1200,
 });
 const JustGettingStarted = Loadable({
   loader: () => import("@demex-info/views/JustGettingStarted/JustGettingStarted"),
   loading() {
     return null;
   },
-  delay: 1500,
+  delay: window.innerWidth <= 960 ? 2500 : 1500,
 });
 const ReadyToTrade = Loadable({
   loader: () => import("@demex-info/views/ReadyToTrade/ReadyToTrade"),
   loading() {
     return null;
   },
-  delay: 1800,
+  delay: window.innerWidth <= 960 ? 3000 : 1500,
 });
 
 

@@ -1,14 +1,9 @@
 import { LiquidityPools } from "@demex-info/assets";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
-import {
-  getDemexLink, getUsd, goToLink, lottieDefaultOptions, Paths,
-} from "@demex-info/constants";
+import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
-import { Pool, PoolsTasks } from "@demex-info/store/pools/types";
 import { RootState } from "@demex-info/store/types";
-import {
-  BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum,
-} from "@demex-info/utils";
+import { toShorterNum } from "@demex-info/utils";
 import {
   Box, Button, Divider, makeStyles, Theme, Typography,
 } from "@material-ui/core";
@@ -19,68 +14,28 @@ import Lottie from "lottie-react";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
+interface DataProps {
+  avgApy: BigNumber;
+  totalCommit: BigNumber;
+  totalLiquidity: BigNumber;
+}
+
 interface Props {
+  data: DataProps;
   liquidityRef: () => void;
   liquidityView: boolean;
   stakingView: boolean;
 }
 
 const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
-  const { liquidityRef, liquidityView } = props;
+  const { data, liquidityRef, liquidityView } = props;
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
 
-  const [loading] = useTaskSubscriber(PoolsTasks.List, PoolsTasks.Rewards);
+  const [loading] = useTaskSubscriber("runPools");
 
-  const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
-  const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
-
-  const { totalLiquidity, totalCommit } = React.useMemo((): {
-    totalLiquidity: BigNumber;
-    totalCommit: BigNumber;
-  } => {
-    let totalUsd = BN_ZERO;
-    let totalCommit = BN_ZERO;
-    pools.forEach((pool: Pool) => {
-      const { denom, denomA, amountA, denomB, amountB } = pool;
-      const tokenAUsd = getUsd(usdPrices, denomA);
-      const tokenBUsd = getUsd(usdPrices, denomB);
-      totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
-
-      const commitToken = totalCommitMap?.[denom];
-      if (!commitToken) {
-        totalCommit = totalCommit.plus(BN_ZERO);
-      } else {
-        const [tokenAAmt, tokenBAmt] = getBreakdownToken(
-          commitToken,
-          pool,
-          BN_HUNDRED,
-          commitToken,
-          tokens,
-        );
-        totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
-      }
-    });
-    return {
-      totalLiquidity: totalUsd,
-      totalCommit,
-    };
-  }, [pools, usdPrices, tokens, totalCommitMap]);
-
-  const avgApy  = React.useMemo((): BigNumber => {
-    let weightTotal: BigNumber = BN_ZERO;
-    let cumApy: BigNumber = BN_ZERO;
-
-    pools.forEach((p: Pool) => {
-      weightTotal = weightTotal.plus(p?.rewardsWeight ?? BN_ZERO);
-    });
-    pools.forEach((pool: Pool) => {
-      const indivApy = calculateAPY(usdPrices, pool, weeklyRewards, weightTotal);
-      cumApy = cumApy.plus(indivApy);
-    });
-    return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
-  }, [pools, weeklyRewards, usdPrices]);
+  const network = useSelector((state: RootState) => state.app.network);
 
   const delayAnimation = () => {
     lottieRef?.current?.pause();
@@ -121,9 +76,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
       id="liquidityPools"
       className={clsx(
         classes.slideItem,
-        {
-          slideIn: liquidityView,
-        },
+        { slideIn: liquidityView },
       )}
     >
       <Box className={classes.leftGrid}>
@@ -152,7 +105,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                ${toShorterNum(totalLiquidity)}
+                ${toShorterNum(data.totalLiquidity)}
               </Typography>
             </RenderGuard>
           </Box>
@@ -167,7 +120,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                {avgApy.isFinite() ? `${avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
+                {data.avgApy.isFinite() ? `${data.avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>
@@ -182,7 +135,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
               <Typography variant="h4" color="textPrimary">
-                ${toShorterNum(totalCommit)}
+                ${toShorterNum(data.totalCommit)}
               </Typography>
             </RenderGuard>
           </Box>

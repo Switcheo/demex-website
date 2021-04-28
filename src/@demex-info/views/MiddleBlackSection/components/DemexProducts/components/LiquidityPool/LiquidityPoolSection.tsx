@@ -1,14 +1,9 @@
 import { LiquidityPools } from "@demex-info/assets";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
-import {
-  getDemexLink, getUsd, goToLink, lottieDefaultOptions, Paths,
-} from "@demex-info/constants";
+import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
-import { Pool, PoolsTasks } from "@demex-info/store/pools/types";
 import { RootState } from "@demex-info/store/types";
-import {
-  BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, toShorterNum,
-} from "@demex-info/utils";
+import { toShorterNum } from "@demex-info/utils";
 import {
   Box, Button, Divider, Hidden, makeStyles, Theme, Typography,
 } from "@material-ui/core";
@@ -20,7 +15,14 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
-const LiquidityPoolSection: React.FC = () => {
+interface DataProps {
+  avgApy: BigNumber;
+  totalCommit: BigNumber;
+  totalLiquidity: BigNumber;
+}
+
+const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
+  const { avgApy, totalCommit, totalLiquidity } = props;
   const classes = useStyles();
 
   const [liquidityTextRef, liquidityTxtView] = useInView({
@@ -33,56 +35,9 @@ const LiquidityPoolSection: React.FC = () => {
   });
   const lottieRef = React.useRef<any>();
 
-  const [loading] = useTaskSubscriber(PoolsTasks.List, PoolsTasks.Rewards);
+  const [loading] = useTaskSubscriber("runPools");
 
-  const { network, tokens, usdPrices } = useSelector((state: RootState) => state.app);
-  const { pools, totalCommitMap, weeklyRewards } = useSelector((state: RootState) => state.pools);
-
-  const { totalLiquidity, totalCommit } = React.useMemo((): {
-    totalLiquidity: BigNumber;
-    totalCommit: BigNumber;
-  } => {
-    let totalUsd = BN_ZERO;
-    let totalCommit = BN_ZERO;
-    pools.forEach((pool: Pool) => {
-      const { denom, denomA, amountA, denomB, amountB } = pool;
-      const tokenAUsd = getUsd(usdPrices, denomA);
-      const tokenBUsd = getUsd(usdPrices, denomB);
-      totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
-
-      const commitToken = totalCommitMap?.[denom];
-      if (!commitToken) {
-        totalCommit = totalCommit.plus(BN_ZERO);
-      } else {
-        const [tokenAAmt, tokenBAmt] = getBreakdownToken(
-          commitToken,
-          pool,
-          BN_HUNDRED,
-          commitToken,
-          tokens,
-        );
-        totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
-      }
-    });
-    return {
-      totalLiquidity: totalUsd,
-      totalCommit,
-    };
-  }, [pools, usdPrices, tokens, totalCommitMap]);
-
-  const avgApy = React.useMemo((): BigNumber => {
-    let weightTotal: BigNumber = BN_ZERO;
-    let cumApy: BigNumber = BN_ZERO;
-
-    pools.forEach((p: Pool) => {
-      weightTotal = weightTotal.plus(p?.rewardsWeight ?? BN_ZERO);
-    });
-    pools.forEach((pool: Pool) => {
-      const indivApy = calculateAPY(usdPrices, pool, weeklyRewards, weightTotal);
-      cumApy = cumApy.plus(indivApy);
-    });
-    return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
-  }, [pools, weeklyRewards, usdPrices]);
+  const network = useSelector((state: RootState) => state.app.network);
 
   const delayAnimation = () => {
     lottieRef?.current?.pause();

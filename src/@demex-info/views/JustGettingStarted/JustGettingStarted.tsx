@@ -11,14 +11,14 @@ const ConversationBox = Loadable({
   loading() {
     return (<Box />);
   },
-  delay: 1600,
+  delay: window.innerWidth <= 960 ? 2600 : 1600,
 });
 const Demex101Box = Loadable({
   loader: () => import("./components/Demex101Box"),
   loading() {
     return (<Box />);
   },
-  delay: 1600,
+  delay: window.innerWidth <= 960 ? 2600 : 1600,
 });
 
 const JustGettingStarted: React.FC = () => {

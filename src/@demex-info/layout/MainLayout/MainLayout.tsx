@@ -11,7 +11,7 @@ const Footer = Loadable({
   loading() {
     return null;
   },
-  delay: 1800,
+  delay: window.innerWidth <= 960 ? 3000 : 1800,
 });
 
 const MainLayout: React.FC<Props> = (props: Props) => {
