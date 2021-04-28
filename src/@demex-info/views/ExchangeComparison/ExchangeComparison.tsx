@@ -7,7 +7,7 @@ import {
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import Slider from "react-slick";
+import { Carousel } from "react-responsive-carousel";
 import {
   CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
   DexDecentralisationVal, DexFeesVals, DexTableTabs, DexTechnologyVal,
@@ -21,17 +21,16 @@ const dexDefault = "dex-technology";
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
 
-  const sliderRef = React.useRef<any>(null);
   const settings = {
-    arrows: false,
-    autoplay: false,
+    autoPlay: false,
     dots: false,
     draggable: false,
-    initialSlide: 1,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    infiniteLoop: false,
+    showArrows: false,
+    showIndicators: false,
+    showStatus: false,
+    showThumbs: false,
+    swipeable: false,
   };
 
   const [dexNum, setDexNum] = React.useState<number>(1);
@@ -52,13 +51,9 @@ const ExchangeComparison: React.FC = () => {
 
   const handleDexToggle = () => {
     if (dexNum === 0) {
-      const newDexNum = dexNum + 1;
-      sliderRef?.current?.slickGoTo(newDexNum);
-      setDexNum(newDexNum);
+      setDexNum(dexNum + 1);
     } else {
-      const newDexNum = dexNum - 1;
-      sliderRef?.current?.slickGoTo(newDexNum);
-      setDexNum(newDexNum);
+      setDexNum(dexNum - 1);
     }
   };
 
@@ -118,7 +113,7 @@ const ExchangeComparison: React.FC = () => {
               checked={dexNum === 1}
               classes={{
                 root: classes.switchRoot,
-                switchBase: clsx(classes.switchBase, { checked: dexNum === 1 }),
+                switchBase: clsx(classes.switchBase, { checked: dexNum === 0 }),
                 thumb: classes.switchThumb,
                 track: classes.switchTrack,
               }}
@@ -137,7 +132,7 @@ const ExchangeComparison: React.FC = () => {
 
           <PaperBox className={classes.tablePaper}>
             <Box>
-              <Slider ref={sliderRef} {...settings}>
+              <Carousel selectedItem={dexNum} {...settings}>
                 <Box>
                   <Box className={clsx(classes.tabSlide, "cex")}>
                     {
@@ -176,7 +171,7 @@ const ExchangeComparison: React.FC = () => {
                     }
                   </Box>
                 </Box>
-              </Slider>
+              </Carousel>
               <Box className={classes.tableContent}>
                 <Divider className={classes.divider} />
                 <ComparisonTable dexNum={dexNum} propertyTab={propertyTab} tableSelect={tableSelect} />
@@ -315,6 +310,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0.75, 0.5),
   },
   switchSub: {
+    color: theme.palette.text.secondary,
     cursor: "pointer",
     fontWeight: "bold",
     lineHeight: "1.125rem",
@@ -326,7 +322,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginLeft: theme.spacing(1),
     },
     "&.toggle": {
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
     },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "7rem",
