@@ -8,7 +8,7 @@ import {
 } from "@demex-info/hooks";
 import { startSagas } from "@demex-info/saga";
 import {
-  MarketStatItem, MarketTasks, MarketType, MarkType,
+ MarketStatItem, MarketTasks, MarketType, MarkType,
 } from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
@@ -19,23 +19,23 @@ import moment from "moment";
 import React, { useEffect, Suspense } from "react";
 import { useSelector } from "react-redux";
 import {
-  FuturesTypes, MarketPaper, MarketTab,
+  FuturesTypes, MarketPaper, MarketTab, MarketGridTable, TokenPopover,
 } from "./components";
 
-const MarketGridTable = React.lazy(() => {
-  return Promise.all([
-    import("./components/MarketGridTable"),
-    new Promise(resolve => setTimeout(resolve, 400)),
-  ])
-  .then(([moduleExports]) => moduleExports);
-});
-const TokenPopover = React.lazy(() => {
-  return Promise.all([
-    import("./components/TokenPopover"),
-    new Promise(resolve => setTimeout(resolve, 800)),
-  ])
-  .then(([moduleExports]) => moduleExports);
-});
+// const MarketGridTable = React.lazy(() => {
+//   return Promise.all([
+//     import("./components/MarketGridTable"),
+//     new Promise(resolve => setTimeout(resolve, 100)),
+//   ])
+//   .then(([moduleExports]) => moduleExports);
+// });
+// const TokenPopover = React.lazy(() => {
+//   return Promise.all([
+//     import("./components/TokenPopover"),
+//     new Promise(resolve => setTimeout(resolve, 400)),
+//   ])
+//   .then(([moduleExports]) => moduleExports);
+// });
 
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();

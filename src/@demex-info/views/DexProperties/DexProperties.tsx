@@ -12,7 +12,7 @@ import { DexProp, dexPropsArr } from "./dexPropsConfig";
 const PropertyBox = React.lazy(() => {
   return Promise.all([
     import("./components/PropertyBox"),
-    new Promise(resolve => setTimeout(resolve, 1100)),
+    new Promise(resolve => setTimeout(resolve, 600)),
   ])
   .then(([moduleExports]) => moduleExports);
 });

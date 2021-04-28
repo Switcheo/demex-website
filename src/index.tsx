@@ -11,7 +11,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "typeface-roboto";
-// import "./index.css";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const rootElement = document.getElementById("root");
@@ -22,42 +22,42 @@ const DexProperties = Loadable({
   loading() {
     return null;
   },
-  delay: 1000,
+  delay: 300,
 });
 const PoweredBySwitcheo = Loadable({
   loader: () => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"),
   loading() {
     return null;
   },
-  delay: 1400,
+  delay: 600,
 });
 const MiddleBlackSection = Loadable({
   loader: () => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"),
   loading() {
     return null;
   },
-  delay: 1800,
+  delay: 900,
 });
 const ExchangeComparison = Loadable({
   loader: () => import("@demex-info/views/ExchangeComparison/ExchangeComparison"),
   loading() {
     return null;
   },
-  delay: 2200,
+  delay: 1200,
 });
 const JustGettingStarted = Loadable({
   loader: () => import("@demex-info/views/JustGettingStarted/JustGettingStarted"),
   loading() {
     return null;
   },
-  delay: 2600,
+  delay: 1500,
 });
 const ReadyToTrade = Loadable({
   loader: () => import("@demex-info/views/ReadyToTrade/ReadyToTrade"),
   loading() {
     return null;
   },
-  delay: 3000,
+  delay: 1800,
 });
 
 

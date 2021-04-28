@@ -10,7 +10,7 @@ import { HeaderMenu } from "./components";
 const HeaderSlider = React.lazy(() => {
   return Promise.all([
     import("./components/HeaderSlider"),
-    new Promise(resolve => setTimeout(resolve, 800)),
+    new Promise(resolve => setTimeout(resolve, 300)),
   ])
   .then(([moduleExports]) => moduleExports);
 });

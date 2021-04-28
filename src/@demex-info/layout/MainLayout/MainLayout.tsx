@@ -11,7 +11,7 @@ const Footer = Loadable({
   loading() {
     return null;
   },
-  delay: 3000,
+  delay: 1800,
 });
 
 const MainLayout: React.FC<Props> = (props: Props) => {
