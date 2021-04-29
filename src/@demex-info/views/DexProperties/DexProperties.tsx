@@ -108,7 +108,7 @@ const DexProperties: React.FC = () => {
                     xs={12}
                     sm={6}
                   >
-                    <Suspense fallback={<Box />}>
+                    <Suspense fallback={null}>
                       <PropertyBox
                         index={index}
                         sectionView={sectionView}

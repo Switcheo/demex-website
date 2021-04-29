@@ -1,4 +1,4 @@
-import { Network } from "tradehub-api-js";
+import { Network } from "@demex-info/utils/restClient";
 
 interface BlockEventsParams {
   height: number;

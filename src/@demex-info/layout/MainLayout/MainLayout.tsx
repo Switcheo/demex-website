@@ -11,7 +11,7 @@ const Footer = Loadable({
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 3000 : 1800,
+  delay: 1800,
 });
 
 const MainLayout: React.FC<Props> = (props: Props) => {
@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     position: "relative",
     maxWidth: "100%",
-    overflowX: "hidden",
   },
   filler: {
     height: "3.3125rem",

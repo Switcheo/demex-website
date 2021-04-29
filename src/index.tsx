@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "typeface-roboto";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const rootElement = document.getElementById("root");
@@ -21,42 +20,42 @@ const DexProperties = Loadable({
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 500 : 300,
+  delay:300,
 });
 const PoweredBySwitcheo = Loadable({
   loader: () => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"),
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 1000 : 600,
+  delay: 600,
 });
 const MiddleBlackSection = Loadable({
   loader: () => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"),
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 1500 : 900,
+  delay: 900,
 });
 const ExchangeComparison = Loadable({
   loader: () => import("@demex-info/views/ExchangeComparison/ExchangeComparison"),
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 2000 : 1200,
+  delay: 1200,
 });
 const JustGettingStarted = Loadable({
   loader: () => import("@demex-info/views/JustGettingStarted/JustGettingStarted"),
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 2500 : 1500,
+  delay: 1500,
 });
 const ReadyToTrade = Loadable({
   loader: () => import("@demex-info/views/ReadyToTrade/ReadyToTrade"),
   loading() {
     return null;
   },
-  delay: window.innerWidth <= 960 ? 3000 : 1500,
+  delay: 1800,
 });
 
 

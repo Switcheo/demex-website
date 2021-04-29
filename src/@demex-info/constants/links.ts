@@ -1,5 +1,5 @@
 import { Discord, Facebook, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
-import { Network } from "tradehub-api-js";
+import { Network } from "@demex-info/utils/restClient";
 
 export const Paths = {
   Home: "/",

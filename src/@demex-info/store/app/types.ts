@@ -1,7 +1,7 @@
-import { BN_ZERO, parseNumber } from "@demex-info/utils";
+import { BN_ZERO, Network, parseNumber } from "@demex-info/utils";
+import RestClient from "@demex-info/utils/restClient";
 import TendermintClient from "@demex-info/utils/tendermint";
 import BigNumber from "bignumber.js";
-import { Network, RestClient } from "tradehub-api-js";
 
 export interface AppState {
   network: Network;

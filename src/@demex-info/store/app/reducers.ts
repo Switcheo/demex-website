@@ -1,5 +1,5 @@
-import { makeTendermintClient } from "@demex-info/utils";
-import { Network, RestClient } from "tradehub-api-js";
+import { makeRestClient, makeTendermintClient } from "@demex-info/utils";
+import { Network } from "@demex-info/utils/restClient";
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
 
@@ -9,7 +9,7 @@ const storedNetwork = networks[storedNetworkString || ""] || Network.MainNet;
 
 const initial_state: AppState = {
 	network: storedNetwork,
-  restClient: new RestClient({ network: storedNetwork }),
+  restClient: makeRestClient(storedNetwork),
   tendermintClient: makeTendermintClient(storedNetwork),
   tokens: [],
   usdPrices: {},
