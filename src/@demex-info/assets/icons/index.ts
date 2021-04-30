@@ -1,4 +1,5 @@
 export { ReactComponent as Add } from "./Add.svg";
+export { ReactComponent as AttachMoney } from "./AttachMoney.svg";
 export { ReactComponent as Bullet } from "./Bullet.svg";
 export { ReactComponent as CaretRight } from "./CaretRight.svg";
 export { ReactComponent as CloseIcon } from "./Cross.svg";

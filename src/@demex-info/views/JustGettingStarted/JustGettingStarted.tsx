@@ -4,7 +4,22 @@ import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useInView } from "react-intersection-observer";
-import { ConversationBox, Demex101Box } from "./components";
+import Loadable from "react-loadable";
+
+const ConversationBox = Loadable({
+  loader: () => import("./components/ConversationBox"),
+  loading() {
+    return (<Box />);
+  },
+  delay: 1600,
+});
+const Demex101Box = Loadable({
+  loader: () => import("./components/Demex101Box"),
+  loading() {
+    return (<Box />);
+  },
+  delay: 1600,
+});
 
 const JustGettingStarted: React.FC = () => {
   const classes = useStyles();

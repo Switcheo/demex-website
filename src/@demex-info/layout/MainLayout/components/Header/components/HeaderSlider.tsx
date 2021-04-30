@@ -147,6 +147,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1.625),
   },
   menuItem: {
+    fontFamily: "Roboto, sans-serif",
     fontSize: "0.8375rem",
     fontWeight: 500,
     minHeight: "2.8375rem",

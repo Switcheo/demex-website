@@ -4,11 +4,9 @@ import {
   getDemexLink, goToLink, lottieDefaultOptions, Paths,
 } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
-import { StakingTasks } from "@demex-info/store/staking/types";
 import { RootState } from "@demex-info/store/types";
 import {
-  BN_ZERO, parseNumber, SECONDS_PER_HOUR, SECONDS_PER_MINUTE,
-  SECONDS_PER_YEAR, toPercentage, toShorterNum,
+  BN_ZERO, toPercentage, toShorterNum, StakingStats,
 } from "@demex-info/utils";
 import {
   Box, Button, Divider, makeStyles, Theme, Typography,
@@ -20,32 +18,26 @@ import Lottie from "lottie-react";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
+interface DataProps {
+  apr: BigNumber;
+  stats: StakingStats;
+}
+
 interface Props {
-  liquidityView: boolean;
+  data: DataProps
   stakingRef: () => void;
   stakingView: boolean;
 }
 
 const StakingSlide: React.FC<Props> = (props: Props) => {
-  const { stakingRef, stakingView } = props;
+  const { data, stakingRef, stakingView } = props;
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
 
-  const [statsLoading] = useTaskSubscriber(StakingTasks.Stats);
-  const [aprLoading] = useTaskSubscriber(StakingTasks.Blocks, StakingTasks.AvgBlockTime, StakingTasks.Validators);
+  const [loading] = useTaskSubscriber("runStaking");
 
   const network = useSelector((state: RootState) => state.app.network);
-  const { avgBlockTime, avgReward, stats, totalBonded } = useSelector((state: RootState) => state.staking);
-
-  const timeArray: any = avgBlockTime.split(":");
-  const hours: BigNumber = parseNumber(timeArray[0], BN_ZERO)!.times(SECONDS_PER_HOUR);
-  const minutes: BigNumber = parseNumber(timeArray[1], BN_ZERO)!.times(SECONDS_PER_MINUTE);
-  const seconds: BigNumber = parseNumber(timeArray[2], BN_ZERO)!;
-  const blockTimeBN: BigNumber = hours.plus(minutes).plus(seconds);
-  const blocksInYear = new BigNumber(SECONDS_PER_YEAR).div(blockTimeBN);
-  const rewardsInYear = blocksInYear.times(avgReward);
-  const apr = totalBonded.isZero() ? BN_ZERO : rewardsInYear.div(totalBonded);
 
   const delayAnimation = () => {
     lottieRef?.current?.pause();
@@ -101,14 +93,14 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
               <TypographyLabel color="textSecondary">
                 Total Staked
               </TypographyLabel>
-              <RenderGuard renderIf={statsLoading}>
+              <RenderGuard renderIf={loading}>
                 <Box>
                   <Skeleton width="10rem" height="3rem" />
                 </Box>
               </RenderGuard>
-              <RenderGuard renderIf={!statsLoading}>
+              <RenderGuard renderIf={!loading}>
                 <Typography variant="h4" color="textPrimary">
-                  {toShorterNum(stats.totalStaked ?? BN_ZERO)} SWTH
+                  {toShorterNum(data.stats.totalStaked ?? BN_ZERO)} SWTH
                 </Typography>
               </RenderGuard>
             </Box>
@@ -117,14 +109,14 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
                 Staking APR
               </TypographyLabel>
 
-              <RenderGuard renderIf={aprLoading}>
+              <RenderGuard renderIf={loading}>
                 <Box>
                   <Skeleton width="10rem" height="3rem" />
                 </Box>
               </RenderGuard>
-              <RenderGuard renderIf={!aprLoading}>
+              <RenderGuard renderIf={!loading}>
                 <Typography variant="h4" color="textPrimary">
-                  {toPercentage(apr, 2)}%
+                  {toPercentage(data.apr, 2)}%
                 </Typography>
               </RenderGuard>
             </Box>

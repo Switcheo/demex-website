@@ -1,1 +1,1 @@
-export * from "./BackgroundAnimation";
+export { default as BackgroundAnimation } from "./BackgroundAnimation";

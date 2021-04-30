@@ -5,18 +5,3 @@ export const uuidv4 = () => {
 		return v.toString(16);
 	});
 };
-
-export function truncateStr(str: string = "", frontNum: number = 8, backNum: number = 8, ellipsis: string = "...") {
-	// Check if numbers are negative or zero
-	// If negative, get absolute value. If zero, assign default value.
-	const frontLimit = frontNum === 0 ? 8 : Math.abs(frontNum);
-	const backLimit = backNum === 0 ? 8 : Math.abs(backNum);
-
-	if (str.length > 0) {
-		if (str.length > frontLimit + backLimit) {
-			return `${str.substr(0, frontLimit)}${ellipsis}${str.substr(-backLimit)}`;
-		}
-		return str;
-	}
-	return "";
-}

@@ -3,7 +3,6 @@ export { ReactComponent as Bitmex } from "./Bitmex.svg";
 export { ReactComponent as Bybit } from "./Bybit.svg";
 export { ReactComponent as DemexLogo } from "./DemexLogo.svg";
 export { ReactComponent as Deribit } from "./Deribit.svg";
-export { ReactComponent as DerivaDex } from "./DerivaDex.svg";
 export { ReactComponent as Discord } from "./Discord.svg";
 export { ReactComponent as Dydx } from "./Dydx.svg";
 export { ReactComponent as Facebook } from "./Facebook.svg";

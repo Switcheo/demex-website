@@ -1,26 +1,36 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
-import { useAssetSymbol } from "@demex-info/hooks";
+import { useAssetSymbol, useAsyncTask } from "@demex-info/hooks";
 import {
-  CandleStickItem, MarketListItem, MarketStatItem, MarketType, MarkType,
+  CandleStickItem,
+  MarketListItem, MarketStatItem, MarketType, MarkType, parseMarketCandlesticks,
 } from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, formatUsdPrice, toPercentage } from "@demex-info/utils";
+import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
 import {
-  Box, Button, Hidden, makeStyles, TableCell, TableRow,
+  Box, Button, Hidden, fade, makeStyles, TableCell, TableRow,
   Theme, useMediaQuery, useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
 import moment from "moment";
 import React, { useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
-import { Area, AreaChart } from "recharts";
+
+interface Bounds {
+  min: number;
+  max: number;
+}
+
+const defaultBounds: Bounds = {
+  min: 0,
+  max: 0,
+};
 
 interface Props {
   listItem: MarketListItem;
   stat: MarketStatItem;
-  candlesticks: CandleStickItem[] | undefined;
   marketOption: MarketType;
 }
 
@@ -31,14 +41,17 @@ const COIN_OVERRIDE: {
 };
 
 const MarketGridRow: React.FC<Props> = (props: Props) => {
-  const { candlesticks, listItem, marketOption, stat } = props;
+  const { listItem, marketOption, stat } = props;
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
   const widthSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const [runCandleSticks, loading] = useAsyncTask("runCandleSticks");
 
-  const { network, usdPrices } = useSelector((state: RootState) => state.app);
+  const { network, restClient, usdPrices } = useSelector((state: RootState) => state.app);
 
+  const [candleSticks, setCandleSticks] = React.useState<CandleStickItem[] | null>(null);
+  const [yBounds, setYBounds] = React.useState<Bounds>(defaultBounds);
   const [load, setLoad] = React.useState<boolean>(true);
 
   const baseSymbol = assetSymbol(listItem?.base, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
@@ -61,15 +74,80 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
     ? (change24H.gt(0) ? theme.palette.success.light : theme.palette.error.light)
     : theme.palette.text.secondary;
 
+  const graphOptions = {
+    animation: false,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        display: false,
+        ticks: {
+          suggestedMin: yBounds.min,
+          suggestedMax: yBounds.max,
+        },
+      },
+      x: {
+        display: false,
+      },
+    },
+    tooltips: {
+      custom : function(tooltipModel: any) {
+        tooltipModel.opacity = 0;
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+  };
+
   const goToMarket = (market: string) => {
     goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
   useEffect(() => {
+    const currentDate = moment().unix();
+    const monthAgo = currentDate - (SECONDS_PER_DAY * 7);
+    runCandleSticks(async () => {
+      const yBounds: Bounds = defaultBounds;
+      
+      try {
+        const candlesticksResponse: any = await restClient.getCandlesticks({
+          market: stat.market,
+          resolution: 30,
+          from: monthAgo,
+          to: currentDate,
+        });
+        const candlestickArr: CandleStickItem[] = parseMarketCandlesticks(candlesticksResponse);
+        
+        if (candlestickArr.length > 0) {
+          candlestickArr.forEach((candle: CandleStickItem) => {
+            if (candle.close > yBounds.max) {
+              yBounds.max = candle.close;
+            } else if (candle.close < yBounds.min) {
+              yBounds.min = candle.close;
+            }
+          });
+        }
+        if (candlestickArr.length > 0) {
+          setCandleSticks(candlestickArr);
+        }
+        setYBounds(yBounds);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }, [stat.market]);
+
+  useEffect(() => {
+    setLoad(true);
     setTimeout(() => {
       setLoad(false);
     }, 1500);
-  }, []);
+  }, [marketOption]);
 
   return (
     <TableRow
@@ -207,30 +285,43 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
         </TableCell>
         <TableCell className={classes.chartCell} align="right">
           <Box display="flex" justifyContent="flex-end">
-            <RenderGuard renderIf={Boolean(!candlesticks)}>
-              <Skeleton variant="rect" width={240} height={88} />
-            </RenderGuard>
-            <RenderGuard renderIf={Boolean(candlesticks)}>
-              <AreaChart width={240} height={88} data={candlesticks}>
-                <defs>
-                  <linearGradient id={`graphGradient-${stat.market}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={graphLightColor} stopOpacity={0.6}/>
-                    <stop offset="20%" stopColor={graphLightColor} stopOpacity={0.3}/>
-                    <stop offset="100%" stopColor={graphLightColor} stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <Area
-                  strokeWidth={1.5}
-                  dot={false}
-                  type="monotone"
-                  dataKey="close"
-                  xAxisId="timestamp"
-                  yAxisId="close"
-                  stroke={graphMainColor}
-                  fill={`url(#graphGradient-${stat.market})`}
-                />
-              </AreaChart>
-            </RenderGuard>
+            <Box maxWidth={240}>
+              <RenderGuard renderIf={(loading && Boolean(!candleSticks)) || load}>
+                <Skeleton variant="rect" width={240} height={88} />
+              </RenderGuard>
+              {
+                (!loading && candleSticks && !load) && (
+                  <Line
+                    type="line"
+                    data={(canvas: HTMLCanvasElement) => {
+                      const ctx = canvas.getContext("2d");
+                      const gradient = ctx?.createLinearGradient(0, 0, 0, 100);
+                      gradient?.addColorStop(0, fade(graphLightColor, 0.6));
+                      gradient?.addColorStop(0.5, fade(graphLightColor, 0.3));
+                      gradient?.addColorStop(1, fade(graphLightColor, 0));
+                      return {
+                        labels: candleSticks.map((candle: CandleStickItem) => candle.timestamp),
+                        datasets: [{
+                          backgroundColor: gradient ?? graphLightColor,
+                          borderColor: graphMainColor,
+                          borderWidth: 1,
+                          data: candleSticks,
+                          fill: "start",
+                          parsing: {
+                            xAxisKey: "timestamp",
+                            yAxisKey: "close",
+                          },
+                          pointRadius: 0,
+                        }],
+                      };
+                    }}
+                    width={240}
+                    height={88}
+                    options={graphOptions}
+                  />
+                )
+              }
+            </Box>
           </Box>
         </TableCell>
         <TableCell className={clsx(classes.marketCell, "trade")} align="right">

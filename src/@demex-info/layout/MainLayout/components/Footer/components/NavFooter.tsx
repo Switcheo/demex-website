@@ -79,7 +79,7 @@ const NavFooter: React.FC = () => {
                     if (navItem.path) {
                       return (
                         <Link
-                          // className={classes.navLink}
+                          className={classes.navLink}
                           color="textPrimary"
                           key={navItem.label}
                           component="button"
@@ -92,7 +92,7 @@ const NavFooter: React.FC = () => {
                     if (navItem?.href) {
                       return (
                         <Link
-                          // className={classes.navLink}
+                          className={classes.navLink}
                           color="textPrimary"
                           key={navItem.label}
                           href={navItem?.href}
@@ -122,7 +122,7 @@ const NavFooter: React.FC = () => {
                         if (navItem.path) {
                           return (
                             <Link
-                              // className={classes.navLink}
+                              className={classes.navLink}
                               color="textPrimary"
                               key={navItem.label}
                               component="button"
@@ -135,7 +135,7 @@ const NavFooter: React.FC = () => {
                         if (navItem?.href) {
                           return (
                             <Link
-                              // className={classes.navLink}
+                              className={classes.navLink}
                               color="textPrimary"
                               key={navItem.label}
                               href={navItem?.href}
@@ -159,7 +159,7 @@ const NavFooter: React.FC = () => {
                   if (navItem.path) {
                     return (
                       <Link
-                        // className={classes.navLink}
+                        className={classes.navLink}
                         color="textPrimary"
                         key={navItem.label}
                         component="button"
@@ -172,7 +172,7 @@ const NavFooter: React.FC = () => {
                   if (navItem?.href) {
                     return (
                       <Link
-                        // className={classes.navLink}
+                        className={classes.navLink}
                         color="textPrimary"
                         key={navItem.label}
                         href={navItem?.href}
@@ -275,6 +275,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingLeft: theme.spacing(2.5),
       },
     },
+  },
+  navLink: {
+    fontFamily: "Roboto, sans-serif",
   },
   navTitleBox: {
     marginBottom: theme.spacing(2.5),

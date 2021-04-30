@@ -1,7 +1,7 @@
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
 import { useTaskSubscriber } from "@demex-info/hooks";
 import {
-  MarketStatItem, MarketTasks, MarketType, MarkType,
+  MarketStatItem, MarketType, MarkType,
 } from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { HeaderCell } from "@demex-info/utils";
@@ -26,9 +26,9 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const [loading] = useTaskSubscriber(MarketTasks.List, MarketTasks.Stats);
+  const [loading] = useTaskSubscriber("runMarkets");
 
-  const { list, candlesticks } = useSelector((state: RootState) => state.markets);
+  const { list } = useSelector((state: RootState) => state.markets);
 
   const marketHeaders: HeaderCell[] = [{
     title: widthSmDown ? "Market / 24H Vol" : "Market",
@@ -58,22 +58,10 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
     showCol: widthSmDown ? false : true,
   }];
 
-  let marketPaperHeight: string | number = 0;
-  let tableHeight: string | number = 0;
-  if (marketsList.length > 4) {
-    //   if (marketsList.length > 4 && expand) {
-    tableHeight = "100%";
-    marketPaperHeight = "100%";
-  } else {
-    tableHeight = 38 + (4 * 98);
-    // marketPaperHeight = tableHeight + 56;
-    marketPaperHeight = tableHeight;
-  }
-
   return (
     <Box className={classes.root}>
-      <MarketPaper className={classes.marketPaper} height={marketPaperHeight}>
-        <Box className={classes.tableContainer} height={tableHeight}>
+      <MarketPaper className={classes.marketPaper}>
+        <Box className={classes.tableContainer}>
           <Table>
             <TableHead>
               <TableRow>
@@ -100,20 +88,17 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
               <TableBody>
                 {
                   marketsList.map((stat: MarketStatItem, index: number) => {
-                    const listItem = list?.[stat.market] ?? {};
-                    const candleSticksArr = candlesticks?.[stat.market] ?? undefined;
                     if (index <= 3) {
+                      const listItem = list?.[stat.market] ?? {};
                       return (
                         <MarketGridRow
                           key={stat.market}
                           stat={stat}
                           listItem={listItem}
-                          candlesticks={candleSticksArr}
                           marketOption={marketOption}
                         />
                       );
                     }
-                    return null;
                   })
                 }
               </TableBody>
@@ -121,18 +106,13 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
           </Table>
           <RenderGuard renderIf={!loading && marketsList.length === 0}>
             <EmptyState
+              className={classes.emptyState}
               helperText={`No ${marketOption === MarkType.Spot ? "Spot" : "Futures"} found at the moment`}
               theme="light"
             />
           </RenderGuard>
           <RenderGuard renderIf={loading}>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              height="100%"
-              width="100%"
-            >
+            <Box className={classes.loadingState}>
               <CircularProgress color="secondary" size="3rem" />
             </Box>
           </RenderGuard>
@@ -164,6 +144,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   alignRight: {
     textAlign: "right",
+  },
+  emptyState: {
+    minHeight: "25rem",
+  },
+  loadingState: {
+    minHeight: "25rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+    marginTop: theme.spacing(5),
   },
   fillerCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -214,6 +206,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     transition: "height 0.6s ease",
   },
   tableContainer: {
+    height: "100%",
     transition: "height 0.8s ease",
     overflowX: "auto",
     overflowY: "hidden",

@@ -1,5 +1,3 @@
-import TendermintClient from "@demex-info/utils/tendermint";
-import { Network, RestClient } from "tradehub-api-js";
 import { TokenObj, USDPrices } from "./types";
 
 export const AppActionTypes = {
@@ -9,27 +7,6 @@ export const AppActionTypes = {
   SET_TOKENS: "SET_TOKENS",
   SET_USD_PRICES: "SET_USD_PRICES",
 };
-
-export function updateNetwork(network: Network) {
-	return {
-		type: AppActionTypes.UPDATE_NETWORK,
-		network,
-	};
-}
-
-export function setRestClient(restClient: RestClient) {
-	return {
-		type: AppActionTypes.SET_REST_CLIENT,
-		restClient,
-	};
-}
-
-export function setTendermintClient(tendermintClient: TendermintClient) {
-  return {
-    type: AppActionTypes.SET_TENDERMINT_CLIENT,
-    tendermintClient,
-  };
-}
 
 export function setTokens(tokens: TokenObj[]) {
   return {

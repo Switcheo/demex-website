@@ -1,3 +1,3 @@
-export * from "./ProductCarousel";
-export * from "./ProductScroll";
+export * from "./LiquidityPool";
+export * from "./Staking";
 export * from "./slideConfig";

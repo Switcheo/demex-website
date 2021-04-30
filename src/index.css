@@ -1,35 +1,20 @@
 @font-face {
   font-family: "Graphik";
-  font-weight: 700;
-  src: url("./@demex-info/assets/fonts/Graphik-Bold.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Graphik";
   font-weight: 600;
   src: url("./@demex-info/assets/fonts/Graphik-Semibold.ttf") format("truetype");
+  font-display: swap;
 }
 @font-face {
   font-family: "Graphik";
   font-weight: 500;
   src: url("./@demex-info/assets/fonts/Graphik-Medium.ttf") format("truetype");
+  font-display: swap;
 }
 @font-face {
   font-family: "Graphik";
   font-weight: 400;
   src: url("./@demex-info/assets/fonts/Graphik-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Roboto Bold";
-  font-weight: 700;
-  src: url("./@demex-info/assets/fonts/Roboto-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Roboto Mono";
-  font-style: normal;
-  font-weight: 500;
-  src: url("./@demex-info/assets/fonts/RobotoMono-Latin-500.woff") format("woff"); 
+  font-display: swap;
 }
 
 body {

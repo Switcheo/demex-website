@@ -1,16 +1,15 @@
-import { DefaultFallbackNetwork, LocalStorageKeys } from "@demex-info/constants";
-import { makeTendermintClient } from "@demex-info/utils";
-import { Network, RestClient } from "tradehub-api-js";
+import { makeRestClient, makeTendermintClient } from "@demex-info/utils";
+import { Network } from "@demex-info/utils/restClient";
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
 
-const storedNetworkString = localStorage.getItem(LocalStorageKeys.Network);
+const storedNetworkString = localStorage.getItem(AppActionTypes.UPDATE_NETWORK);
 const networks: { [index: string]: Network | undefined } = Network;
-const storedNetwork = networks[storedNetworkString || ""] || DefaultFallbackNetwork;
+const storedNetwork = networks[storedNetworkString || ""] || Network.MainNet;
 
 const initial_state: AppState = {
 	network: storedNetwork,
-  restClient: new RestClient({ network: storedNetwork }),
+  restClient: makeRestClient(storedNetwork),
   tendermintClient: makeTendermintClient(storedNetwork),
   tokens: [],
   usdPrices: {},
@@ -19,7 +18,7 @@ const initial_state: AppState = {
 const reducer = (state: AppState = initial_state, actions: any) => {
 	switch (actions.type) {
 	case AppActionTypes.UPDATE_NETWORK:
-		localStorage.setItem(LocalStorageKeys.Network, actions.network);
+		localStorage.setItem(AppActionTypes.UPDATE_NETWORK, actions.network);
 		return {
 			...state,
 			network: actions.network,
