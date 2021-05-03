@@ -1,14 +1,14 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import { useAssetSymbol, useAsyncTask } from "@demex-info/hooks";
-import {
-  CandleStickItem,
-  MarketListItem, MarketStatItem, MarketType, MarkType, parseMarketCandlesticks,
-} from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
 import {
-  Box, Button, Hidden, fade, makeStyles, TableCell, TableRow,
+  CandleStickItem,
+  MarketListItem, MarketStatItem, MarketType, MarkType, parseMarketCandlesticks,
+} from "@demex-info/utils/markets";
+import {
+  Box, Button, fade, Hidden, makeStyles, TableCell, TableRow,
   Theme, useMediaQuery, useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";

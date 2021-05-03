@@ -1,4 +1,4 @@
-import { BN_ZERO, parseNumber } from "@demex-info/utils";
+import { BN_ZERO, parseNumber } from "./number";
 import BigNumber from "bignumber.js";
 import moment from "moment";
 

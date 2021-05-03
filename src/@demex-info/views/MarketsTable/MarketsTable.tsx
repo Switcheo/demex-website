@@ -1,26 +1,24 @@
-import {
-  Backdrop, Box, Button, Theme, Typography, fade, makeStyles, useMediaQuery, useTheme,
-} from "@material-ui/core";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAssetSymbol, useAsyncTask, useRollingNum,
+  useAssetSymbol, useAsyncTask, useInitApp, useRollingNum,
 } from "@demex-info/hooks";
-import { startSagas } from "@demex-info/saga";
-import actions from "@demex-info/store/actions";
-import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
-} from "@demex-info/store/markets/types";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
+import {
+  MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
+} from "@demex-info/utils/markets";
+import {
+  Backdrop, Box, Button, fade, makeStyles, Theme, Typography, useMediaQuery, useTheme,
+} from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import moment from "moment";
-import React, { useEffect, Suspense } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Suspense, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
-  FuturesTypes, MarketPaper, MarketTab, MarketGridTable, TokenPopover,
+  FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover,
 } from "./components";
 
 let leaderboardInterval: any;
@@ -29,34 +27,35 @@ const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();
   const [runMarkets, loading] = useAsyncTask("runMarkets");
   const classes = useStyles();
-  const dispatch = useDispatch();
   const theme = useTheme();
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
 
   const { network, restClient, usdPrices } = useSelector((state: RootState) => state.app);
-  const { list, stats } = useSelector((state: RootState) => state.markets);
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
+  const [list, setList] = React.useState<MarketListMap>({});
+  const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
   const reloadMarkets = () => {
     runMarkets(async () => {
       try {
         const statsResponse: any = await restClient.getMarketStats();
         const statsData: MarketStatItem[] = parseMarketStats(statsResponse);
-        dispatch(actions.Markets.setMarketStats(statsData));
+        setStats(statsData);
 
         const listResponse: any = await restClient.getMarkets();
         const listData: MarketListMap = parseMarketListMap(listResponse);
-        dispatch(actions.Markets.setMarketListMap(listData));
+        setList(listData);
       } catch (err) {
         console.error(err);
       }
     });
   };
 
+  useInitApp();
+
   useEffect(() => {
-    startSagas();
     reloadMarkets();
     leaderboardInterval = setInterval(() => {
       reloadMarkets();
@@ -349,7 +348,7 @@ const MarketsTable: React.FC = () => {
             </Box>
           </Box>
           <Suspense fallback={<Box />}>
-            <MarketGridTable marketsList={marketsList} marketOption={marketOption} />
+            <MarketGridTable list={list} marketsList={marketsList} marketOption={marketOption} />
           </Suspense>
         </Box>
       </Box>

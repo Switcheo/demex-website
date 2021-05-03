@@ -97,3 +97,19 @@ export const lottieDefaultOptions = {
     preserveAspectRatio: "xMidYMid slice",
   },
 };
+
+export const COIN_GEKO_PRICES = {
+  swth: "switcheo",
+  btc: "bitcoin",
+  dai: "dai",
+  nneo: "neo",
+  eth: "ethereum",
+  flm: "flamingo-finance",
+  usdc: "usd-coin",
+  cel: "celsius-degree-token",
+  nex: "neon-exchange",
+  wbtc: "wrapped-bitcoin",
+  bnb: "binancecoin",
+  busd: "binance-usd",
+  btcb: "binance-bitcoin",
+} as { [index: string]: string };

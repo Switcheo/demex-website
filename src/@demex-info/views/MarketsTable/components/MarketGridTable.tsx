@@ -1,10 +1,7 @@
 import { EmptyState, RenderGuard, withLightTheme } from "@demex-info/components";
 import { useTaskSubscriber } from "@demex-info/hooks";
-import {
-  MarketStatItem, MarketType, MarkType,
-} from "@demex-info/store/markets/types";
-import { RootState } from "@demex-info/store/types";
 import { HeaderCell } from "@demex-info/utils";
+import { MarketListMap, MarketStatItem, MarketType, MarkType } from "@demex-info/utils/markets";
 import {
   Box, CircularProgress, Hidden, makeStyles, Table, TableBody,
   TableCell, TableHead, TableRow, Theme, useMediaQuery, useTheme,
@@ -12,23 +9,21 @@ import {
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import clsx from "clsx";
 import React from "react";
-import { useSelector } from "react-redux";
 import MarketGridRow from "./MarketGridRow";
 import MarketPaper from "./MarketPaper";
 
 interface Props {
+  list: MarketListMap;
   marketsList: MarketStatItem[];
   marketOption: MarketType;
 }
 
 const MarketGridTable: React.FC<Props> = (props: Props) => {
-  const { marketsList, marketOption } = props;
+  const { list, marketsList, marketOption } = props;
   const classes = useStyles();
   const theme = useTheme();
   const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading] = useTaskSubscriber("runMarkets");
-
-  const { list } = useSelector((state: RootState) => state.markets);
 
   const marketHeaders: HeaderCell[] = [{
     title: widthSmDown ? "Market / 24H Vol" : "Market",
