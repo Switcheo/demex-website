@@ -1,3 +1,4 @@
+import { default as Staking } from "@demex-info/assets/animations/Staking.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import {
   getDemexLink, goToLink, lottieDefaultOptions, Paths,
@@ -26,10 +27,6 @@ interface Props {
   stakingRef: () => void;
   stakingView: boolean;
 }
-
-const Staking = React.lazy(() => fetch(
-  "@demex-info/assets/animations/Staking.json",
-).then((res) => res.json()));
 
 const Lottie = React.lazy(() => import("lottie-react"));
 

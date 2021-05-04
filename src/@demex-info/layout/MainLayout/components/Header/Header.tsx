@@ -7,13 +7,7 @@ import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
 
-const HeaderSlider = React.lazy(() => {
-  return Promise.all([
-    import("./components/HeaderSlider"),
-    new Promise(resolve => setTimeout(resolve, 300)),
-  ])
-  .then(([moduleExports]) => moduleExports);
-});
+const HeaderSlider = React.lazy(() => import("./components/HeaderSlider"));
 
 const Header: React.FC = () => {
   const classes = useStyles();

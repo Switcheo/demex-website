@@ -1,3 +1,4 @@
+import { default as ScrollingTextBold } from "@demex-info/assets/animations/ScrollingTextBold.json";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
@@ -7,10 +8,6 @@ import {
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useInView } from "react-intersection-observer";
-
-const ScrollingTextBold = React.lazy(() => fetch(
-  "@demex-info/assets/animations/ScrollingTextBold.json",
-).then((res) => res.json()));
 
 const Lottie = React.lazy(() => import("lottie-react"));
 

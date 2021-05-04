@@ -1,3 +1,4 @@
+import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
@@ -18,10 +19,6 @@ interface DataProps {
   totalCommit: BigNumber;
   totalLiquidity: BigNumber;
 }
-
-const LiquidityPools = React.lazy(() => fetch(
-  "@demex-info/assets/animations/LiquidityPools.json",
-).then((res) => res.json()));
 
 const Lottie = React.lazy(() => import("lottie-react"));
 

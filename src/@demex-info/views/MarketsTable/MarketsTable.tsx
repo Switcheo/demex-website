@@ -18,8 +18,11 @@ import moment from "moment";
 import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
-  FuturesTypes, MarketGridTable, MarketPaper, MarketTab, TokenPopover,
+  FuturesTypes, MarketPaper, MarketTab,
 } from "./components";
+
+const MarketGridTable = React.lazy(() => import("./components/MarketGridTable"));
+const TokenPopover = React.lazy(() => import("./components/TokenPopover"));
 
 let leaderboardInterval: any;
 
