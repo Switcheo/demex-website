@@ -28,6 +28,7 @@ jobs:
           name: build ReactJS project
           command: |
             yarn build
+            sudo apt-get install yum
             yarn run-snap
 
       - run:
