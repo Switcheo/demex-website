@@ -1,4 +1,4 @@
-import { LiquidityPools } from "@demex-info/assets";
+import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
@@ -10,8 +10,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
-import Lottie from "lottie-react";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 
@@ -20,6 +19,8 @@ interface DataProps {
   totalCommit: BigNumber;
   totalLiquidity: BigNumber;
 }
+
+const Lottie = React.lazy(() => import("lottie-react"));
 
 const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
   const { avgApy, totalCommit, totalLiquidity } = props;
@@ -72,7 +73,7 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
         <Divider className={classes.divider} />
         <Box className={classes.poolsStats}>
           <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statBoxH6}>
               Total Liquidity
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
@@ -81,13 +82,13 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
-              <Typography variant="h4" color="textPrimary">
+              <Typography className={classes.statBoxH4} variant="h4">
                 ${toShorterNum(totalLiquidity)}
               </Typography>
             </RenderGuard>
           </Box>
           <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statBoxH6}>
               Avg APR
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
@@ -96,14 +97,14 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
-              <Typography variant="h4" color="textPrimary">
+              <Typography className={classes.statBoxH4} variant="h4">
                 {avgApy.isFinite() ? `${avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>
           <Hidden only="xs">
             <Box className={classes.statsBox}>
-              <TypographyLabel color="textSecondary">
+              <TypographyLabel className={classes.statBoxH6}>
                 Total Committed Value
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
@@ -112,7 +113,7 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
-                <Typography variant="h4" color="textPrimary">
+                <Typography className={classes.statBoxH4} variant="h4">
                   ${toShorterNum(totalCommit)}
                 </Typography>
               </RenderGuard>
@@ -121,10 +122,10 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
         </Box>
         <Hidden only="sm">
           <Box className={clsx(classes.statsDiv, "alone")}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statBoxH6}>
               Total Committed Value
             </TypographyLabel>
-            <Typography variant="h4" color="textPrimary">
+            <Typography className={classes.statsDivH4} variant="h4">
               ${toShorterNum(totalCommit)}
             </Typography>
           </Box>
@@ -139,13 +140,15 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
         </Button>
       </div>
       <div ref={liquidityImgRef} className={clsx(classes.productItem, { slideIn: liquidityImgView })}>
-        <Lottie
-          lottieRef={lottieRef}
-          { ...lottieDefaultOptions }
-          animationData={LiquidityPools}
-          loop={false}
-          onComplete={delayAnimation}
-        />
+        <Suspense fallback={null}>
+          <Lottie
+            lottieRef={lottieRef}
+            { ...lottieDefaultOptions }
+            animationData={LiquidityPools}
+            loop={false}
+            onComplete={delayAnimation}
+          />
+        </Suspense>
       </div>
     </React.Fragment>
   );
@@ -174,10 +177,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   poolsStats: {
     display: "flex",
-    marginTop: theme.spacing(5),
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4),
-    },
+    marginTop: theme.spacing(4),
   },
   productItem: {
     margin: theme.spacing(5, "auto", 0),
@@ -190,14 +190,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       opacity: 1,
       transform: "translate(0px,0px)",
     },
-    "&.slideOutTop": {
-      opacity: 0,
-      transform: "translate(0px,-60px)",
-    },
-    "&.slideOutBottom": {
-      opacity: 0,
-      transform: "translate(0px, 60px)",
-    },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "32rem",
     },
@@ -207,58 +199,45 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:first-child": {
       marginLeft: 0,
     },
-    "& h4": {
-      marginTop: theme.spacing(2),
-    },
-    [theme.breakpoints.down("sm")]: {
-      "& h4": {
-        fontSize: "1.75rem",
-      },
-      "& h6": {
-        fontSize: "0.875rem",
-      },
-    },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
-      "& h4": {
-        fontSize: "1.625rem",
-      },
-      "& h6": {
-        fontSize: "0.75rem",
-      },
+    },
+  },
+  statBoxH4: {
+    color: theme.palette.text.primary,
+    fontSize: "1.75rem",
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1.625rem",
+    },
+  },
+  statBoxH6: {
+    color: theme.palette.text.secondary,
+    fontSize: "0.875rem",
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.75rem",
     },
   },
   statsDiv: {
     marginTop: theme.spacing(4),
-    "& h4": {
-      marginTop: theme.spacing(1),
-    },
-    [theme.breakpoints.down("sm")]: {
-      "& h4": {
-        fontSize: "1.75rem",
-      },
-      "& h6": {
-        fontSize: "0.875rem",
-      },
-    },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
       "&.alone": {
         width: "100%",
       },
-      "& h4": {
-        fontSize: "1.625rem",
-      },
-      "& h6": {
-        fontSize: "0.75rem",
-      },
+    },
+  },
+  statsDivH4: {
+    color: theme.palette.text.primary,
+    fontSize: "1.75rem",
+    marginTop: theme.spacing(1),
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1.625rem",
     },
   },
   subtitle: {
-    marginTop: theme.spacing(4),
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(2),
-    },
+    marginTop: theme.spacing(2),
   },
   title: {},
 }));

@@ -20,8 +20,6 @@ const Staking: React.FC<Props> = (props: Props) => {
   const [runStaking] = useAsyncTask("runStaking");
 
   const [stats, setStats] = React.useState<StakingStats>({
-    bondedTokens: BN_ZERO,
-    nonBondedTokens: BN_ZERO,
     totalStaked: BN_ZERO,
   });
   const [avgBlockTime, setAvgBlockTime] = React.useState<string>("0.00");

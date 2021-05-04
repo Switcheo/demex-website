@@ -1,4 +1,4 @@
-import { MarketType } from "@demex-info/store/markets/types";
+import { MarketType } from "@demex-info/utils/markets";
 
 export interface MarketTab {
   label: string;

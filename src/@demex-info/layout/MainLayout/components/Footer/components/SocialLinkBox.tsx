@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   navDiv: {
     marginRight: theme.spacing(7),
     minWidth: "10rem",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.only("md")]: {
       marginTop: theme.spacing(9),
       marginRight: 0,
     },

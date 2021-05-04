@@ -40,6 +40,7 @@ const ReadyToTrade: React.FC = () => {
         <Box className={classes.buttonGroup}>
           <Button
             classes={{
+              root: clsx(classes.buttonEach, "first"),
               label: classes.buttonLbl,
             }}
             color="secondary"
@@ -50,6 +51,7 @@ const ReadyToTrade: React.FC = () => {
           </Button>
           <Button
             classes={{
+              root: classes.buttonEach,
               label: classes.buttonLbl,
             }}
             color="secondary"
@@ -60,6 +62,7 @@ const ReadyToTrade: React.FC = () => {
           </Button>
           <Button
             classes={{
+              root: classes.buttonEach,
               label: classes.buttonLbl,
             }}
             color="secondary"
@@ -120,28 +123,28 @@ const useStyles = makeStyles((theme: Theme) => ({
       top: "1.5rem",
     },
   },
+  buttonEach: {
+    ...theme.typography.button,
+    margin: theme.spacing(0, 0, 0, 1.75),
+    minHeight: "3rem",
+    padding: theme.spacing(1.5, 2),
+    width: "11rem",
+    "&.first": {
+      margin: 0,
+    },
+    [theme.breakpoints.down("sm")]: {
+      display: "block",
+      margin: theme.spacing(2, "auto", 0),
+      width: "13rem",
+      "&.first": {
+        margin: theme.spacing(0, "auto"),
+      },
+    },
+  },
   buttonGroup: {
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(3),
-    "& button": {
-      ...theme.typography.button,
-      margin: theme.spacing(0, 0, 0, 1.75),
-      minHeight: "3rem",
-      padding: theme.spacing(1.5, 2),
-      width: "11rem",
-      "&:first-child": {
-        margin: 0,
-        [theme.breakpoints.down("sm")]: {
-          margin: theme.spacing(0, "auto"),
-        },
-      },
-      [theme.breakpoints.down("sm")]: {
-        display: "block",
-        margin: theme.spacing(2, "auto", 0),
-        width: "13rem",
-      },
-    },
     [theme.breakpoints.down("sm")]: {
       display: "block",
     },
@@ -170,11 +173,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "calc(100% - 96px)",
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(8, 5),
+      width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(11, 5),
-    },
-    [theme.breakpoints.between("sm", "md")]: {
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {

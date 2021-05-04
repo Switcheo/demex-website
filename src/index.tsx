@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "typeface-roboto";
+import "./app.css";
 import reportWebVitals from "./reportWebVitals";
 
 const rootElement = document.getElementById("root");
