@@ -3,7 +3,7 @@ jobs:
   deploy:
     docker:
       # image with node, npm and yarn installed
-      - image: circleci/node:14.9.0-buster
+      - image: circleci/node:latest-browsers
     steps:
 
       # checkout workspace to repo code
@@ -19,13 +19,6 @@ jobs:
           name: yarn install
           command: yarn install --frozen-lockfile --network-concurrency 1
 
-      - run:
-          name: install additional packages
-          command: /
-            sudo apt-get update
-            sudo apt-get install yum
-            curl https://intoli.com/install-google-chrome.sh | bash
-
       - save_cache:
           paths:
             - node_modules
@@ -39,6 +32,7 @@ jobs:
       - run:
           name: install AWS CLI
           command: |
+            sudo apt-get update
             sudo apt-get install awscli
 
       - run:
