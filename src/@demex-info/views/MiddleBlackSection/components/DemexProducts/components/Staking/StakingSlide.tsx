@@ -1,4 +1,3 @@
-import { Staking } from "@demex-info/assets";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import {
   getDemexLink, goToLink, lottieDefaultOptions, Paths,
@@ -14,8 +13,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
-import Lottie from "lottie-react";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 interface DataProps {
@@ -28,6 +26,12 @@ interface Props {
   stakingRef: () => void;
   stakingView: boolean;
 }
+
+const Staking = React.lazy(() => fetch(
+  "@demex-info/assets/animations/Staking.json",
+).then((res) => res.json()));
+
+const Lottie = React.lazy(() => import("lottie-react"));
 
 const StakingSlide: React.FC<Props> = (props: Props) => {
   const { data, stakingRef, stakingView } = props;
@@ -64,13 +68,15 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
       )}
     >
       <Box className={classes.animationBox}>
-        <Lottie
-          lottieRef={lottieRef}
-          { ...lottieDefaultOptions }
-          animationData={Staking}
-          loop={false}
-          onComplete={delayAnimation}
-        />
+        <Suspense fallback={null}>
+          <Lottie
+            lottieRef={lottieRef}
+            { ...lottieDefaultOptions }
+            animationData={Staking}
+            loop={false}
+            onComplete={delayAnimation}
+          />
+        </Suspense>
       </Box>
 
       <Box className={classes.rightGrid}>
@@ -90,7 +96,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
           <Divider className={classes.divider} />
           <Box className={classes.poolsStats}>
             <Box className={classes.statsBox}>
-              <TypographyLabel color="textSecondary">
+              <TypographyLabel className={classes.statsH6}>
                 Total Staked
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
@@ -99,13 +105,13 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
-                <Typography variant="h4" color="textPrimary">
+                <Typography className={classes.statsH4} variant="h4">
                   {toShorterNum(data.stats.totalStaked ?? BN_ZERO)} SWTH
                 </Typography>
               </RenderGuard>
             </Box>
             <Box className={classes.statsBox}>
-              <TypographyLabel color="textSecondary">
+              <TypographyLabel className={classes.statsH6}>
                 Staking APR
               </TypographyLabel>
 
@@ -115,7 +121,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
-                <Typography variant="h4" color="textPrimary">
+                <Typography className={classes.statsH4} variant="h4">
                   {toPercentage(data.apr, 2)}%
                 </Typography>
               </RenderGuard>
@@ -199,12 +205,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:first-child": {
       marginLeft: 0,
     },
-    "& h4": {
-      marginTop: theme.spacing(2),
-    },
-    "& h6": {
-      fontSize: "0.875rem",
-    },
+  },
+  statsH4: {
+    color: theme.palette.text.primary,
+    marginTop: theme.spacing(2),
+  },
+  statsH6: {
+    color: theme.palette.text.secondary,
+    fontSize: "0.875rem",
   },
   subtitle: {
     lineHeight: "1.75rem",

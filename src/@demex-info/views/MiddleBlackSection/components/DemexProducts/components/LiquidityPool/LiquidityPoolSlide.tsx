@@ -1,4 +1,3 @@
-import { LiquidityPools } from "@demex-info/assets";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
@@ -10,9 +9,14 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
-import Lottie from "lottie-react";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
+
+const LiquidityPools = React.lazy(() => fetch(
+  "@demex-info/assets/animations/LiquidityPools.json",
+).then((res) => res.json()));
+
+const Lottie = React.lazy(() => import("lottie-react"));
 
 interface DataProps {
   avgApy: BigNumber;
@@ -95,7 +99,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         <Divider className={classes.divider} />
         <Box className={classes.poolsStats}>
           <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statsH6}>
               Total Liquidity
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
@@ -104,13 +108,13 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
-              <Typography variant="h4" color="textPrimary">
+              <Typography className={classes.statsH4} variant="h4">
                 ${toShorterNum(data.totalLiquidity)}
               </Typography>
             </RenderGuard>
           </Box>
           <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statsH6}>
               Avg APR
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
@@ -119,13 +123,13 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
-              <Typography variant="h4" color="textPrimary">
+              <Typography className={classes.statsH4} variant="h4">
                 {data.avgApy.isFinite() ? `${data.avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
               </Typography>
             </RenderGuard>
           </Box>
           <Box className={classes.statsBox}>
-            <TypographyLabel color="textSecondary">
+            <TypographyLabel className={classes.statsH6}>
               Total Committed Value
             </TypographyLabel>
             <RenderGuard renderIf={loading}>
@@ -134,7 +138,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
               </Box>
             </RenderGuard>
             <RenderGuard renderIf={!loading}>
-              <Typography variant="h4" color="textPrimary">
+              <Typography className={classes.statsH4} variant="h4">
                 ${toShorterNum(data.totalCommit)}
               </Typography>
             </RenderGuard>
@@ -150,18 +154,20 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         </Button>
       </Box>
       <Box id="rightGrid" maxWidth="32rem" px={2.5}>
-        <Lottie
-          lottieRef={lottieRef}
-          { ...lottieDefaultOptions }
-          animationData={LiquidityPools}
-          loop={false}
-          onComplete={delayAnimation}
-          id="liquidAnimation"
-          style={{
-            paddingLeft: 20,
-          }}
-          onEnterFrame={handleResizeWindow}
-        />
+        <Suspense fallback={null}>
+          <Lottie
+            lottieRef={lottieRef}
+            { ...lottieDefaultOptions }
+            animationData={LiquidityPools}
+            loop={false}
+            onComplete={delayAnimation}
+            id="liquidAnimation"
+            style={{
+              paddingLeft: 20,
+            }}
+            onEnterFrame={handleResizeWindow}
+          />
+        </Suspense>
       </Box>
     </div>
   );
@@ -210,27 +216,21 @@ const useStyles = makeStyles((theme: Theme) => ({
       opacity: 1,
       transform: "translate(0px,0px)",
     },
-    "&.slideOutTop": {
-      opacity: 0,
-      transform: "translate(0px,-60px)",
-    },
-    "&.slideOutBottom": {
-      opacity: 0,
-      transform: "translate(0px, 60px)",
-    },
   },
   statsBox: {
     marginLeft: theme.spacing(5),
     "&:first-child": {
       marginLeft: 0,
     },
-    "& h4": {
-      marginTop: theme.spacing(2),
-    },
-    "& h6": {
-      fontSize: "0.875rem",
-      height: "2.75rem",
-    },
+  },
+  statsH4: {
+    color: theme.palette.text.primary,
+    marginTop: theme.spacing(2),
+  },
+  statsH6: {
+    color: theme.palette.text.secondary,
+    fontSize: "0.875rem",
+    height: "2.75rem",
   },
   subtitle: {
     lineHeight: "1.75rem",

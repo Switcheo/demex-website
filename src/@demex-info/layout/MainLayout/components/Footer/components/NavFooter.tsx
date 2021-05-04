@@ -72,7 +72,7 @@ const NavFooter: React.FC = () => {
             {FooterNavMap.map((footerNav: NavLinkMap) => {
               return (
                 <Box className={classes.navDiv} key={footerNav.title}>
-                  <TypographyLabel boxClass={classes.navTitleBox}>
+                  <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
                     {footerNav.title}
                   </TypographyLabel>
                   {footerNav.items.map((navItem: NavLink) => {
@@ -115,7 +115,7 @@ const NavFooter: React.FC = () => {
                   if (index === 2) return null;
                   return (
                     <Box className={clsx(classes.navDiv, `child-${index}`)} key={footerNav.title}>
-                      <TypographyLabel boxClass={classes.navTitleBox}>
+                      <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
                         {footerNav.title}
                       </TypographyLabel>
                       {footerNav.items.map((navItem: NavLink) => {
@@ -152,7 +152,7 @@ const NavFooter: React.FC = () => {
                 })}
               </Box>
               <Box className={clsx(classes.navDiv, "standalone")} key={FooterNavMap[2].title}>
-                <TypographyLabel boxClass={classes.navTitleBox}>
+                <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
                   {FooterNavMap[2].title}
                 </TypographyLabel>
                 {FooterNavMap[2].items.map((navItem: NavLink) => {
@@ -222,9 +222,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   mobileMenu: {
     display: "flex",
-    // "@media (max-width: 360px)": {
-    //   display: "block",
-    // },
   },
   navBox: {
     display: "flex",
@@ -238,25 +235,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:last-child": {
       marginRight: 0,
     },
-    "& a, & button": {
-      display: "block",
-      fontSize: "0.8375rem",
-      fontWeight: "bold",
-      marginTop: theme.spacing(2),
-      "&:hover": {
-        color: theme.palette.secondary.main,
-        textDecoration: "none",
-      },
-    },
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "unset",
-    },
     [theme.breakpoints.only("sm")]: {
+      minWidth: "unset",
       width: "33%",
     },
     [theme.breakpoints.only("xs")]: {
       width: "50%",
       marginRight: theme.spacing(0),
+      minWidth: "unset",
       "&.child-0": {
         paddingRight: theme.spacing(4.5),
       },
@@ -277,18 +263,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   navLink: {
+    display: "block",
     fontFamily: "Roboto, sans-serif",
+    fontSize: "0.8375rem",
+    fontWeight: "bold",
+    marginTop: theme.spacing(2),
+    "&:hover": {
+      color: theme.palette.secondary.main,
+      textDecoration: "none",
+    },
   },
   navTitleBox: {
     marginBottom: theme.spacing(2.5),
     [theme.breakpoints.only("xs")]: {
       marginBottom: 0,
     },
-    "& p, & h6": {
-      color: theme.palette.text.secondary,
-      fontSize: "0.8375rem",
-      fontWeight: 500,
-    },
+  },
+  navTxt: {
+    color: theme.palette.text.secondary,
+    fontSize: "0.8375rem",
+    fontWeight: 500,
   },
 }));
 

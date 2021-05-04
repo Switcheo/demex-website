@@ -57,8 +57,8 @@ const DexProperties: React.FC = () => {
       <Box position="relative">
         <Box className={classes.innerDiv}>
           <Box id="dexTitleBox" className={classes.titleBox}>
-            <Box className={clsx(classes.slide, "leftBox", { open: sectionView })}>
-              <Typography variant="h3">
+            <Box className={clsx(classes.leftSlideBox, { open: sectionView })}>
+              <Typography className={classes.titleH3} variant="h3">
                 A Derivatives DEX&nbsp;
                 <Hidden mdDown>
                   <br />
@@ -90,7 +90,7 @@ const DexProperties: React.FC = () => {
             </Hidden>
           </Box>
           <Box className={classes.infoBox}>
-            <Grid className={clsx(classes.slide, "rightBox", { open: sectionView })} container>
+            <Grid className={clsx(classes.slide, { open: sectionView })} container>
               {
                 dexPropsArr.map((dexProp: DexProp, index: number) => (
                   <Grid
@@ -161,18 +161,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(6, 4.5, 7),
       margin: theme.spacing(0, 5),
+      maxWidth: "100%",
+      width: "unset",
     },
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(6, 4),
       margin: theme.spacing(0, 4),
+      maxWidth: "100%",
+      width: "unset",
     },
     "@media (max-width: 360px)": {
       margin: theme.spacing(0, 2.5),
       padding: theme.spacing(6, 2.5),
-    },
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "100%",
-      width: "unset",
     },
   },
   innerDiv: {
@@ -212,12 +212,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: 0,
     },
   },
+  leftSlideBox: {
+    opacity: 0,
+    transform: "translate(0px, 20px)",
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+  },
   slide: {
     opacity: 0,
     transform: "translate(0px, 20px)",
-    "&.leftBox": {
-      transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
-    },
     "&.rightFirst": {
       transform: "translate(0px, 30px)",
       transition: "opacity ease-in 0.6s, transform ease-in 0.7s",
@@ -232,6 +238,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   subtitle: {
+    ...theme.typography.subtitle1,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1rem",
     },
@@ -242,31 +249,28 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(8, 6, 8, 0),
     position: "relative",
     width: "100%",
-    "& h3": {
-      marginBottom: theme.spacing(4),
-      [theme.breakpoints.down("sm")]: {
-        marginBottom: theme.spacing(2),
-      },
-    },
-    "& p": {
-      ...theme.typography.subtitle1,
-    },
     [theme.breakpoints.only("md")]: {
       maxWidth: "calc((100% / 12) * 4)",
       padding: theme.spacing(5, 5, 5, 0),
     },
     [theme.breakpoints.only("sm")]: {
+      maxWidth: "100%",
+      width: "unset",
       padding: theme.spacing(8, 5),
     },
     [theme.breakpoints.only("xs")]: {
+      maxWidth: "100%",
+      width: "unset",
       padding: theme.spacing(8, 4),
     },
     "@media (max-width: 360px)": {
       padding: theme.spacing(8, 2.5),
     },
+  },
+  titleH3: {
+    marginBottom: theme.spacing(4),
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "100%",
-      width: "unset",
+      marginBottom: theme.spacing(2),
     },
   },
   tradeBtn: {

@@ -87,7 +87,7 @@ const ExchangeComparison: React.FC = () => {
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <HomeBorderCircle1 className={classes.sideBorder} />
       <Box className={classes.innerDiv}>
-        <Box className={clsx(classes.slide, "textSection", { open: titleView })}>
+        <Box className={clsx(classes.textSecSlide, { open: titleView })}>
           <TypographyLabel
             align="center"
             variant="h3"
@@ -96,9 +96,8 @@ const ExchangeComparison: React.FC = () => {
           </TypographyLabel>
         </Box>
         <Box className={clsx(
-          classes.slide,
+          classes.tableSecSlide,
           classes.tableSection,
-          "tableSection",
           { open: titleView },
         )}>
           <Box className={classes.switchDiv}>
@@ -269,16 +268,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "17rem",
     },
   },
-  slide: {
+  tableSecSlide: {
+    opacity: 0,
+    transform: "translate(0px, 60px)",
+    transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
+    "&.open": {
+      opacity: 1,
+      transform: "translate(0px,0px)",
+    },
+  },
+  textSecSlide: {
     opacity: 0,
     transform: "translate(0px, 30px)",
-    "&.tableSection": {
-      transform: "translate(0px, 60px)",
-      transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
-    },
-    "&.textSection": {
-      transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
-    },
+    transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
     "&.open": {
       opacity: 1,
       transform: "translate(0px,0px)",
@@ -365,8 +367,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tableContent: {
-    // position: "absolute",
-    // top: "4.1875rem",
     width: "100%",
   },
   tablePaper: {

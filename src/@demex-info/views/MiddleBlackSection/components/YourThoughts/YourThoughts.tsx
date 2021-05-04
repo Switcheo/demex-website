@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
     padding: theme.spacing(8, 2.5, 13),
-    [theme.breakpoints.between("xs", "sm")]: {
+    [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(6, 4, 8),
     },
     "@media (max-width: 360px)": {

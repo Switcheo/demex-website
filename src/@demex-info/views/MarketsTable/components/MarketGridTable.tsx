@@ -112,20 +112,6 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
             </Box>
           </RenderGuard>
         </Box>
-        {/* {
-          !loading && marketsList?.length > 4 && (
-            <Box className={clsx(classes.viewBtn, { expand })} onClick={() => setExpand(!expand)}>
-              {
-                expand ? (
-                  <Remove className={classes.addIcon} />
-                ) : (
-                  <Add className={classes.addIcon} />
-                )
-              }
-              View { expand ? "Less" : "More" }
-            </Box>
-          )
-        } */}
       </MarketPaper>
     </Box>
   );

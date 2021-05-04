@@ -159,7 +159,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.selected": {
       color: theme.palette.text.primary,
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
       fontSize: "1.25rem",
     },
     [theme.breakpoints.only("xs")]: {

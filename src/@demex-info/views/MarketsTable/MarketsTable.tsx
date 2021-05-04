@@ -201,7 +201,12 @@ const MarketsTable: React.FC = () => {
                             {spotCountUp}
                           </TypographyLabel>
                         </RenderGuard>
-                        <Button onClick={() => goToLink(getDemexLink(Paths.Trade, network))} className={classes.viewAll} variant="text" color="secondary">
+                        <Button
+                          onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                          className={classes.viewAll}
+                          variant="text"
+                          color="secondary"
+                        >
                           View All
                         </Button>
                       </Box>
@@ -544,17 +549,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   plusLabel: {
     fontSize: "1rem",
     marginLeft: theme.spacing(0.75),
-  },
-  slide: {
-    opacity: 0,
-    transform: "translate(0px, 60px)",
-    "&.table": {
-      transition: "opacity ease-in 0.4s, transform ease-in 0.5s",
-    },
-    "&.open": {
-      opacity: 1,
-      transform: "translate(0px,0px)",
-    },
   },
   viewAll: {
     padding: theme.spacing(1),

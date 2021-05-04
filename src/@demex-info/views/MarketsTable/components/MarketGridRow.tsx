@@ -179,11 +179,11 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
           <RenderGuard renderIf={load && marketType === MarkType.Spot}>
             <Box className={classes.skeletonBox}>
-              <Skeleton className={clsx(classes.skeletonSvg, "left")} variant="circle" />
-              <Skeleton className={clsx(classes.skeletonSvg, "right")} variant="circle" />
+              <Skeleton className={classes.skelLeft} variant="circle" />
+              <Skeleton className={classes.skelRight} variant="circle" />
             </Box>
             <Box className={clsx(classes.title, "skeleton")}>
-              <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
+              <Skeleton className={classes.nextText} variant="text" />
               <Hidden mdUp>
                 <Skeleton className={classes.skeletonSubtitle} variant="text" />
               </Hidden>
@@ -195,7 +195,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
               <Skeleton className={classes.skeletonSvg} variant="circle" />
             </Box>
             <Box className={clsx(classes.title, "skeleton")}>
-              <Skeleton className={clsx(classes.nextText, "noMargin")} variant="text" />
+              <Skeleton className={classes.nextText} variant="text" />
               <Hidden mdUp>
                 <Skeleton className={classes.skeletonSubtitle} variant="text" />
               </Hidden>
@@ -240,23 +240,22 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           </RenderGuard>
         </Box>
       </TableCell>
-      <TableCell
-        className={clsx(
-          classes.marketCell,
-          {
-            positive: change24H.gt(0),
-            negative: change24H.lt(0),
-          },
-        )}
-        align="right"
-      >
+      <TableCell className={classes.marketCell} align="right">
         <RenderGuard renderIf={load}>
           <Box display="flex" justifyContent="flex-end">
             <Skeleton className={classes.skeletonTitle} variant="text" />
           </Box>
         </RenderGuard>
         <RenderGuard renderIf={!load}>
-          <Box className={classes.change24h}>
+          <Box
+            className={clsx(
+              classes.change24h,
+              {
+                [classes.positive]: change24H.gt(0),
+                [classes.negative]: change24H.lt(0),
+              },
+            )}
+          >
             {change24H.gte(0) ? "+" : ""}{toPercentage(change24H, 2)}%
           </Box>
         </RenderGuard>
@@ -324,7 +323,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             </Box>
           </Box>
         </TableCell>
-        <TableCell className={clsx(classes.marketCell, "trade")} align="right">
+        <TableCell className={clsx(classes.marketCell, classes.tradeCell)} align="right">
           <Button
             className={classes.tradeBtn}
             color="secondary"
@@ -389,20 +388,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       transform: "translate(-0.75em, 0) rotate(-45deg)",
     },
   },
+  tradeCell: {
+    maxWidth: "4.1rem",
+  },
   marketCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     height: "100%",
-    // maxHeight: "6rem",
     padding: theme.spacing(2),
-    "&.trade": {
-      maxWidth: "4.1rem",
-    },
-    "&.positive": {
-      color: theme.palette.success.main,
-    },
-    "&.negative": {
-      color: theme.palette.error.main,
-    },
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(3, 1.5),
       "&:first-child": {
@@ -432,6 +424,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
+  positive: {
+    color: theme.palette.success.main,
+  },
+  negative: {
+    color: theme.palette.error.main,
+  },
   marketRow: {
     "& td": {
       fontSize: "0.95rem",
@@ -439,12 +437,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   nextText: {
-    marginLeft: theme.spacing(2.5),
+    marginLeft: 0,
     width: "8rem",
     height: "1.5rem",
-    "&.noMargin": {
-      marginLeft: 0,
-    },
     [theme.breakpoints.down("sm")]: {
       width: "5rem",
     },
@@ -494,21 +489,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: 0,
     width: "100%",
     height: "100%",
-    "&.left": {
-      width: "1.75rem",
-      height: "1.75rem",
-      transform: "translate(-0.75em, 0)",
-      [theme.breakpoints.down("sm")]: {
-        transform: "translate(-0.75em, 0) rotate(-45deg)",
-      },
+  },
+  skelLeft: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "1.75rem",
+    height: "1.75rem",
+    transform: "translate(-0.75em, 0)",
+    [theme.breakpoints.down("sm")]: {
+      transform: "translate(-0.75em, 0) rotate(-45deg)",
     },
-    "&.right": {
-      width: "1.75rem",
-      height: "1.75rem",
-      transform: "translate(0.75em, 0)",
-      [theme.breakpoints.down("sm")]: {
-        transform: "translate(0.75em, 0) rotate(-45deg)",
-      },
+  },
+  skelRight: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "1.75rem",
+    height: "1.75rem",
+    transform: "translate(0.75em, 0)",
+    [theme.breakpoints.down("sm")]: {
+      transform: "translate(0.75em, 0) rotate(-45deg)",
     },
   },
   skeletonTitle: {

@@ -1,4 +1,3 @@
-import { ScrollingTextBold } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
 import {
@@ -6,9 +5,14 @@ import {
   useMediaQuery, useTheme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import Lottie from "lottie-react";
-import React from "react";
+import React, { Suspense } from "react";
 import { useInView } from "react-intersection-observer";
+
+const ScrollingTextBold = React.lazy(() => fetch(
+  "@demex-info/assets/animations/ScrollingTextBold.json",
+).then((res) => res.json()));
+
+const Lottie = React.lazy(() => import("lottie-react"));
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
@@ -23,18 +27,20 @@ const PoweredBySwitcheo: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box className={classes.textRoot}>
-        <Lottie
-          { ...lottieDefaultOptions }
-          animationData={ScrollingTextBold}
-          style={{
-            height: widthSmDown ? "6.8rem" : "8.4rem",
-          }}
-        />
+        <Suspense fallback={null}>
+          <Lottie
+            { ...lottieDefaultOptions }
+            animationData={ScrollingTextBold}
+            style={{
+              height: widthSmDown ? "6.8rem" : "8.4rem",
+            }}
+          />
+        </Suspense>
       </Box>
       <Box className={classes.tradeHubBox}>
         <Box className={classes.leftDiv}>
           <Typography
-            className={clsx(classes.slide, "title", { open: sectionView })}
+            className={clsx(classes.slide, classes.tradehubH3, "title", { open: sectionView })}
             variant="h3"
           >
             Powered by Switcheo TradeHub
@@ -49,11 +55,11 @@ const PoweredBySwitcheo: React.FC = () => {
               { open: sectionView },
             )}
           >
-            <TypographyLabel color="textPrimary">
+            <TypographyLabel className={classes.tradeH6}>
               {/* eslint-disable-next-line no-trailing-spaces */}
               <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
             </TypographyLabel>
-            <TypographyLabel color="textPrimary" mt={2}>
+            <TypographyLabel className={classes.tradeH6} mt={2}>
               The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
             </TypographyLabel>
             <Button
@@ -118,11 +124,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& a": {
       cursor: "pointer",
     },
-    [theme.breakpoints.down("sm")]: {
-      "& h6": {
-        fontSize: "1rem",
-      },
-    },
   },
   tradeHubBox: {
     display: "flex",
@@ -135,36 +136,36 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(0, 5, 9),
-      width: `calc(100% - ${theme.spacing(10)}px)`,
-    },
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 4, 8),
-      width: `calc(100% - ${theme.spacing(8)}px)`,
-    },
-    "@media (max-width: 360px)": {
-      padding: theme.spacing(0, 2.5, 8),
-      width: `calc(100% - ${theme.spacing(5)}px)`,
-    },
-    [theme.breakpoints.down("sm")]: {
       display: "block",
       margin: theme.spacing(5, "auto", 0),
       maxWidth: "100%",
       width: "unset",
+      padding: theme.spacing(0, 5, 9),
     },
-    "& h3": {
-      [theme.breakpoints.down("sm")]: {
-        marginBottom: theme.spacing(2.5),
-        paddingRight: 0,
-      },
-      [theme.breakpoints.only("xs")]: {
-        marginBottom: theme.spacing(2),
-      },
+    [theme.breakpoints.only("xs")]: {
+      display: "block",
+      margin: theme.spacing(5, "auto", 0),
+      maxWidth: "100%",
+      width: "unset",
+      padding: theme.spacing(0, 4, 8),
     },
-    "& p": {
-      "&:first-child": {
-        marginBottom: theme.spacing(2),
-      },
+    "@media (max-width: 360px)": {
+      padding: theme.spacing(0, 2.5, 8),
+    },
+  },
+  tradehubH3: {
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: theme.spacing(2.5),
+      paddingRight: 0,
+    },
+    [theme.breakpoints.only("xs")]: {
+      marginBottom: theme.spacing(2),
+    },
+  },
+  tradeH6: {
+    color: theme.palette.text.primary,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1rem",
     },
   },
   homeBorder: {
