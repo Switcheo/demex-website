@@ -38,6 +38,7 @@ jobs:
       - run:
           name: deploy to aws
           command: |
+            aws configure set preview.cloudfront true
             if [ "${CIRCLE_BRANCH}" = "staging" ]; then
               aws s3 sync build s3://demex-site/staging/ --delete
               aws cloudfront create-invalidation --distribution-id="E1BX9CZRIQU7CR" --paths=/*
