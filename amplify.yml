@@ -4,3 +4,6 @@ frontend:
     preBuild:
       commands:
         - curl https://intoli.com/install-google-chrome.sh | bash
+    build:
+      commands:
+        - yarn build
