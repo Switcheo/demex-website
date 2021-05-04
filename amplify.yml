@@ -1,0 +1,6 @@
+version: 0.1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - curl https://intoli.com/install-google-chrome.sh | bash
