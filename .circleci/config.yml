@@ -27,6 +27,7 @@ jobs:
       - run:
           name: build ReactJS project
           command: |
+            curl https://intoli.com/install-google-chrome.sh | bash
             yarn build
 
       - run:
