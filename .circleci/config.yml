@@ -19,6 +19,13 @@ jobs:
           name: yarn install
           command: yarn install --frozen-lockfile --network-concurrency 1
 
+      - run:
+          name: install additional packages
+          command: /
+            sudo apt-get update
+            sudo apt-get install yum
+            curl https://intoli.com/install-google-chrome.sh | bash
+
       - save_cache:
           paths:
             - node_modules
@@ -28,13 +35,10 @@ jobs:
           name: build ReactJS project
           command: |
             yarn build
-            sudo apt-get install yum
-            yarn run-snap
 
       - run:
           name: install AWS CLI
           command: |
-            sudo apt-get update
             sudo apt-get install awscli
 
       - run:

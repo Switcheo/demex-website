@@ -46,12 +46,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && react-snap",
     "compress": "sh dist/scripts/release.sh",
     "release": "yarn build && yarn compress",
     "serve": "yarn build && http-server ./build",
-    "lint": "yarn run eslint . --ext .ts,.tsx",
-    "run-snap": "curl https://intoli.com/install-google-chrome.sh | bash && react-snap"
+    "lint": "yarn run eslint . --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
