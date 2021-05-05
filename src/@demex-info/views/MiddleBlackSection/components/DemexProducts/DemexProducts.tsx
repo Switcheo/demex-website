@@ -1,12 +1,28 @@
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { LiquidityPool, SlideCategory, SlideItem, Staking } from "./components";
+import Loadable from "react-loadable";
+import { SlideCategory, SlideItem } from "./components";
 
 interface Props {
   thoughtsView: boolean;
 }
+
+const LiquidityPool = Loadable({
+  loader: () => import("./components/LiquidityPool/LiquidityPool"),
+  loading() {
+    return null;
+  },
+  delay: 1000,
+});
+const Staking = Loadable({
+  loader: () => import("./components/Staking/Staking"),
+  loading() {
+    return null;
+  },
+  delay: 1100,
+});
 
 const DemexProducts: React.FC<Props> = (props: Props) => {
   const { thoughtsView } = props;
@@ -108,8 +124,16 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
             ))}
           </div>
         </Hidden>
-        <LiquidityPool liquidityRef={liquidityRef} liquidityView={liquidityView} stakingView={stakingView} />
-        <Staking stakingRef={stakingRef} stakingView={stakingView} />
+        <Suspense fallback={null}>
+          <LiquidityPool
+            liquidityRef={liquidityRef}
+            liquidityView={liquidityView}
+            stakingView={stakingView}
+          />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Staking stakingRef={stakingRef} stakingView={stakingView} />
+        </Suspense>
       </Box>
     </div>
   );

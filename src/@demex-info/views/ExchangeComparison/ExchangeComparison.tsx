@@ -5,15 +5,23 @@ import {
   Box, Button, Divider, fade, makeStyles, Switch, Theme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import Loadable from "react-loadable";
 import { Carousel } from "react-responsive-carousel";
 import {
   CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
   DexDecentralisationVal, DexFeesVals, DexTableTabs, DexTechnologyVal,
   DexTradingVal, PropertyTab, TableTab,
 } from "./compareConfig";
-import { ComparisonTable } from "./components";
+
+const ComparisonTable = Loadable({
+  loader: () => import("./components/ComparisonTable"),
+  loading() {
+    return null;
+  },
+  delay: 1300,
+});
 
 const cexDefault = "cex-trading";
 const dexDefault = "dex-technology";
@@ -173,7 +181,9 @@ const ExchangeComparison: React.FC = () => {
               </Carousel>
               <Box className={classes.tableContent}>
                 <Divider className={classes.divider} />
-                <ComparisonTable dexNum={dexNum} propertyTab={propertyTab} tableSelect={tableSelect} />
+                <Suspense fallback={null}>
+                  <ComparisonTable dexNum={dexNum} propertyTab={propertyTab} tableSelect={tableSelect} />
+                </Suspense>
               </Box>
             </Box>
           </PaperBox>
