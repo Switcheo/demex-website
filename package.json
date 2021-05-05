@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && react-snap",
+    "build": "react-scripts build && presite ./build --minify",
     "compress": "sh dist/scripts/release.sh",
     "release": "yarn build && yarn compress",
     "serve": "yarn build && http-server ./build",
@@ -72,16 +72,6 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "eslint-plugin-react": "^7.22.0",
-    "react-snap": "^1.23.0"
-  },
-  "reactSnap": {
-    "source": "build",
-    "inlineCss": true,
-    "fixWebpackChunksIssue": false,
-    "puppeteerArgs": [
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-    "puppeteerExecutablePath": "/opt/google/chrome/google-chrome"
+    "presite": "^2.1.2"
   }
 }
