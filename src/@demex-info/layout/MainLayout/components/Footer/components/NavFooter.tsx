@@ -2,7 +2,7 @@ import { DemexLogo } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Hidden, Link, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -153,7 +153,7 @@ const NavFooter: React.FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",

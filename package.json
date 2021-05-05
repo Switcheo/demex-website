@@ -75,6 +75,8 @@
     "react-snap": "^1.23.0"
   },
   "reactSnap": {
+    "source": "build",
+    "inlineCss": true,
     "fixWebpackChunksIssue": false,
     "puppeteerArgs": [
       "--no-sandbox",

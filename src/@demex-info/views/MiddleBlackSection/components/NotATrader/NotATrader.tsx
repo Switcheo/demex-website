@@ -1,5 +1,5 @@
 import { TypographyLabel } from "@demex-info/components";
-import { Box, createStyles, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Box, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useInView } from "react-intersection-observer";
@@ -33,7 +33,7 @@ const NotATrader: React.FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   innerDiv: {
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(0, "auto"),
