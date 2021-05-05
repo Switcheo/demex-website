@@ -87,4 +87,4 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default React.memo(BackgroundAnimation);
+export default BackgroundAnimation;

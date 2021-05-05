@@ -126,4 +126,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default React.memo(Header);
+export default Header;
