@@ -4,11 +4,9 @@ import { RootState } from "@demex-info/store/types";
 import { Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();
-  const history = useHistory();
   const net = useSelector((state: RootState) => state.app.network);
 
   const navLinksArr: NavLink[] = [
@@ -42,19 +40,6 @@ const HeaderMenu: React.FC = () => {
   return (
     <Hidden smDown>
       {navLinksArr.map((navLink: NavLink) => {
-        if (navLink.path) {
-          return (
-            <Link
-              color="textPrimary"
-              className={classes.navLink}
-              component="button"
-              key={navLink.label}
-              onClick={() => history.push(navLink?.path ?? "")}
-            >
-              {navLink.label}
-            </Link>
-          );
-        }
         if (navLink?.href) {
           return (
             <Link

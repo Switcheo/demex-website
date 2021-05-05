@@ -7,7 +7,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Loadable from "react-loadable";
 import { Provider } from "react-redux";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "typeface-roboto";
 import "./app.css";
@@ -59,28 +58,20 @@ const ReadyToTrade = Loadable({
   delay: 1800,
 });
 
-
 render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <PreferenceThemeProvider>
-            <MainLayout>
-              <HeroSection />
-              <MarketsTable />
-              <DexProperties />
-              <PoweredBySwitcheo />
-              <MiddleBlackSection />
-              <ExchangeComparison />
-              <JustGettingStarted />
-              <ReadyToTrade />
-            </MainLayout>
-          </PreferenceThemeProvider>
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    </BrowserRouter>
+    <PreferenceThemeProvider>
+      <MainLayout>
+        <HeroSection />
+        <MarketsTable />
+        <DexProperties />
+        <PoweredBySwitcheo />
+        <MiddleBlackSection />
+        <ExchangeComparison />
+        <JustGettingStarted />
+        <ReadyToTrade />
+      </MainLayout>
+    </PreferenceThemeProvider>
   </Provider>,
   document.getElementById("root"),
 );

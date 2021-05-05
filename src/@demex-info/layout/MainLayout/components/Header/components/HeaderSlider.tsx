@@ -5,7 +5,6 @@ import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 
 interface Props {
   open: boolean;
@@ -15,7 +14,6 @@ interface Props {
 const HeaderSlider: React.FC<Props> = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
-  const history = useHistory();
 
   const net = useSelector((state: RootState) => state.app.network);
 
@@ -48,11 +46,6 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
   ];
 
   const goToLink = (item: NavLink) => {
-    if (item?.path) {
-      onClose();
-      history.push(item.path);
-      return;
-    }
     if (item?.href) {
       window.open(item.href, "_blank");
     }

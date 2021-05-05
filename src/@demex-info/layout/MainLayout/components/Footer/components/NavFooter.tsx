@@ -6,7 +6,6 @@ import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import SocialLinkBox from "./SocialLinkBox";
 
 interface NavLinkMap {
@@ -16,7 +15,6 @@ interface NavLinkMap {
 
 const NavFooter: React.FC = () => {
   const classes = useStyles();
-  const history = useHistory();
   const net = useSelector((state: RootState) => state.app.network);
 
   const FooterNavMap: NavLinkMap[] = [{
@@ -76,19 +74,6 @@ const NavFooter: React.FC = () => {
                     {footerNav.title}
                   </TypographyLabel>
                   {footerNav.items.map((navItem: NavLink) => {
-                    if (navItem.path) {
-                      return (
-                        <Link
-                          className={classes.navLink}
-                          color="textPrimary"
-                          key={navItem.label}
-                          component="button"
-                          onClick={() => history.push(navItem?.path ?? "")}
-                        >
-                          {navItem.label}
-                        </Link>
-                      );
-                    }
                     if (navItem?.href) {
                       return (
                         <Link
@@ -119,19 +104,6 @@ const NavFooter: React.FC = () => {
                         {footerNav.title}
                       </TypographyLabel>
                       {footerNav.items.map((navItem: NavLink) => {
-                        if (navItem.path) {
-                          return (
-                            <Link
-                              className={classes.navLink}
-                              color="textPrimary"
-                              key={navItem.label}
-                              component="button"
-                              onClick={() => history.push(navItem?.path ?? "")}
-                            >
-                              {navItem.label}
-                            </Link>
-                          );
-                        }
                         if (navItem?.href) {
                           return (
                             <Link
@@ -156,19 +128,6 @@ const NavFooter: React.FC = () => {
                   {FooterNavMap[2].title}
                 </TypographyLabel>
                 {FooterNavMap[2].items.map((navItem: NavLink) => {
-                  if (navItem.path) {
-                    return (
-                      <Link
-                        className={classes.navLink}
-                        color="textPrimary"
-                        key={navItem.label}
-                        component="button"
-                        onClick={() => history.push(navItem?.path ?? "")}
-                      >
-                        {navItem.label}
-                      </Link>
-                    );
-                  }
                   if (navItem?.href) {
                     return (
                       <Link
