@@ -15,14 +15,27 @@ import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import moment from "moment";
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Loadable from "react-loadable";
 import {
   FuturesTypes, MarketPaper, MarketTab,
 } from "./components";
 
-const MarketGridTable = React.lazy(() => import("./components/MarketGridTable"));
-const TokenPopover = React.lazy(() => import("./components/TokenPopover"));
+const MarketGridTable = Loadable({
+  loader: () => import("./components/MarketGridTable"),
+  loading() {
+    return null;
+  },
+  delay: 300,
+});
+const TokenPopover = Loadable({
+  loader: () => import("./components/TokenPopover"),
+  loading() {
+    return null;
+  },
+  delay: 500,
+});
 
 let leaderboardInterval: any;
 
@@ -288,9 +301,7 @@ const MarketsTable: React.FC = () => {
                             <Box className={classes.dropdownContainer}>
                               {
                                 openTokens && (
-                                  <Suspense fallback={null}>
-                                    <TokenPopover tokens={coinsList} />
-                                  </Suspense>
+                                  <TokenPopover tokens={coinsList} />
                                 )
                               }
                             </Box>
@@ -355,9 +366,7 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <Suspense fallback={<Box />}>
-            <MarketGridTable list={list} marketsList={marketsList} marketOption={marketOption} />
-          </Suspense>
+          <MarketGridTable list={list} marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
     </div>
