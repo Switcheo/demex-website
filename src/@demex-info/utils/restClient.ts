@@ -39,8 +39,9 @@ export interface Props {
 export interface MarketOnlyGetterParams {
   market: string
 }
-export interface TokenOnlyGetterParams {
+export interface RichListParams {
   token: string
+  limit: number
 }
 export interface PageOnlyGetterParams {
   page: number
@@ -162,9 +163,9 @@ export default class RestClient {
     return this.fetchJson(PATHS.POOLS);
   }
 
-  public async getRichList(params: TokenOnlyGetterParams) {
-    const { token } = params;
-    return this.fetchJson(`${PATHS.RICHLIST}?token=${token}`);
+  public async getRichList(params: RichListParams) {
+    const { token, limit } = params;
+    return this.fetchJson(`${PATHS.RICHLIST}?token=${token}&limit=${limit}`);
   }
 
   public async getRewardCurve(): Promise<any> {

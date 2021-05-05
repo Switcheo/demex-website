@@ -36,7 +36,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
         const totalCommitMap: TotalCommitmentMap = {};
         for (const pool of poolsData) {
           if (!pool.denom) continue;
-          const richListResponse: any = await restClient.getRichList({ token: pool.denom });
+          const richListResponse: any = await restClient.getRichList({ token: pool.denom, limit: 1 });
           const totalCommitment = parseNumber(richListResponse?.[0]?.amount, BN_ZERO)!;
           totalCommitMap[pool.denom] = totalCommitment;
         }

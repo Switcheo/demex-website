@@ -117,7 +117,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
       try {
         const candlesticksResponse: any = await restClient.getCandlesticks({
           market: stat.market,
-          resolution: 30,
+          resolution: 360,
           from: monthAgo,
           to: currentDate,
         });

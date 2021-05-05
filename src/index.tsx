@@ -20,7 +20,7 @@ const DexProperties = Loadable({
   loading() {
     return null;
   },
-  delay:300,
+  delay: 300,
 });
 const PoweredBySwitcheo = Loadable({
   loader: () => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"),
