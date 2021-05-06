@@ -14,12 +14,13 @@ import MarketPaper from "./MarketPaper";
 
 interface Props {
   list: MarketListMap;
+  load: boolean;
   marketsList: MarketStatItem[];
   marketOption: MarketType;
 }
 
 const MarketGridTable: React.FC<Props> = (props: Props) => {
-  const { list, marketsList, marketOption } = props;
+  const { list, load, marketsList, marketOption } = props;
   const classes = useStyles();
   const theme = useTheme();
   const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
@@ -90,6 +91,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                           key={stat.market}
                           stat={stat}
                           listItem={listItem}
+                          load={load}
                           marketOption={marketOption}
                         />
                       );

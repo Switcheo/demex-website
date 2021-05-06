@@ -37,8 +37,6 @@ const TokenPopover = Loadable({
   delay: 500,
 });
 
-let leaderboardInterval: any;
-
 const MarketsTable: React.FC = () => {
   const assetSymbol = useAssetSymbol();
   const [runMarkets, loading] = useAsyncTask("runMarkets");
@@ -51,9 +49,11 @@ const MarketsTable: React.FC = () => {
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
+  const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
   const reloadMarkets = () => {
+    setLoad(true);
     runMarkets(async () => {
       try {
         const statsResponse: any = await restClient.getMarketStats();
@@ -65,6 +65,8 @@ const MarketsTable: React.FC = () => {
         setList(listData);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoad(false);
       }
     });
   };
@@ -73,10 +75,6 @@ const MarketsTable: React.FC = () => {
 
   useEffect(() => {
     reloadMarkets();
-    leaderboardInterval = setInterval(() => {
-      reloadMarkets();
-    }, 30000);
-    return () => clearInterval(leaderboardInterval);
   }, []);
 
   const MarketTabs: MarketTab[] = [{
@@ -366,7 +364,7 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable list={list} marketsList={marketsList} marketOption={marketOption} />
+          <MarketGridTable list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
     </div>

@@ -30,6 +30,7 @@ const defaultBounds: Bounds = {
 
 interface Props {
   listItem: MarketListItem;
+  load: boolean;
   stat: MarketStatItem;
   marketOption: MarketType;
 }
@@ -41,7 +42,7 @@ const COIN_OVERRIDE: {
 };
 
 const MarketGridRow: React.FC<Props> = (props: Props) => {
-  const { listItem, marketOption, stat } = props;
+  const { listItem, load, marketOption, stat } = props;
   const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
@@ -52,7 +53,6 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const [candleSticks, setCandleSticks] = React.useState<CandleStickItem[] | null>(null);
   const [yBounds, setYBounds] = React.useState<Bounds>(defaultBounds);
-  const [load, setLoad] = React.useState<boolean>(true);
 
   const baseSymbol = assetSymbol(listItem?.base, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
   const quoteSymbol = assetSymbol(listItem?.quote, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
@@ -142,13 +142,6 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
     });
   }, [stat.market]);
 
-  useEffect(() => {
-    setLoad(true);
-    setTimeout(() => {
-      setLoad(false);
-    }, 1500);
-  }, [marketOption]);
-
   return (
     <TableRow
       onClick={widthSm ? () => goToMarket(stat?.market ?? "") : () => { }}
@@ -159,7 +152,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
       </Hidden>
       <TableCell className={classes.marketCell}>
         <Box className={classes.spotCell} display="flex" alignItems="center">
-          <RenderGuard renderIf={!load && marketType === MarkType.Spot}>
+          <RenderGuard renderIf={marketType === MarkType.Spot}>
             <AssetIcon
               className={classes.svgBox}
               leftSvgClass={classes.leftSvgClass}
@@ -177,32 +170,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
             </Box>
           </RenderGuard>
 
-          <RenderGuard renderIf={load && marketType === MarkType.Spot}>
-            <Box className={classes.skeletonBox}>
-              <Skeleton className={classes.skelLeft} variant="circle" />
-              <Skeleton className={classes.skelRight} variant="circle" />
-            </Box>
-            <Box className={clsx(classes.title, "skeleton")}>
-              <Skeleton className={classes.nextText} variant="text" />
-              <Hidden mdUp>
-                <Skeleton className={classes.skeletonSubtitle} variant="text" />
-              </Hidden>
-            </Box>
-          </RenderGuard>
-
-          <RenderGuard renderIf={load && marketType === MarkType.Futures}>
-            <Box className={classes.skeletonBox}>
-              <Skeleton className={classes.skeletonSvg} variant="circle" />
-            </Box>
-            <Box className={clsx(classes.title, "skeleton")}>
-              <Skeleton className={classes.nextText} variant="text" />
-              <Hidden mdUp>
-                <Skeleton className={classes.skeletonSubtitle} variant="text" />
-              </Hidden>
-            </Box>
-          </RenderGuard>
-
-          <RenderGuard renderIf={!load && marketType === MarkType.Futures}>
+          <RenderGuard renderIf={marketType === MarkType.Futures}>
             <AssetIcon
               className={clsx(classes.svgBox, "futures")}
               svgClass={classes.normalSvg}
@@ -220,76 +188,52 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
         </Box>
       </TableCell>
       <TableCell className={classes.marketCell} align="right">
-        <Box className={clsx(classes.lastPriceCell, { load })}>
-          <RenderGuard renderIf={load}>
-            <Box flexDirection="column" flexWrap="wrap">
-              <Skeleton className={classes.skeletonTitle} variant="text" />
-              <Box display="flex" justifyContent="flex-end">
-                <Skeleton className={classes.skeletonSubtitle} variant="text" />
-              </Box>
-            </Box>
-          </RenderGuard>
-
-          <RenderGuard renderIf={!load}>
-            <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
-              {stat?.last_price.toString(10) ?? BN_ZERO.decimalPlaces(2).toString(10)}
-            </TypographyLabel>
-            <TypographyLabel color="textSecondary" className={classes.usdValue}>
-              {formatUsdPrice(lastPriceUsd)}
-            </TypographyLabel>
-          </RenderGuard>
+        <Box className={classes.lastPriceCell}>
+          <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
+            {stat?.last_price.toString(10) ?? BN_ZERO.decimalPlaces(2).toString(10)}
+          </TypographyLabel>
+          <TypographyLabel color="textSecondary" className={classes.usdValue}>
+            {formatUsdPrice(lastPriceUsd)}
+          </TypographyLabel>
         </Box>
       </TableCell>
       <TableCell className={classes.marketCell} align="right">
-        <RenderGuard renderIf={load}>
-          <Box display="flex" justifyContent="flex-end">
-            <Skeleton className={classes.skeletonTitle} variant="text" />
-          </Box>
-        </RenderGuard>
-        <RenderGuard renderIf={!load}>
-          <Box
-            className={clsx(
-              classes.change24h,
-              {
-                [classes.positive]: change24H.gt(0),
-                [classes.negative]: change24H.lt(0),
-              },
-            )}
-          >
-            {change24H.gte(0) ? "+" : ""}{toPercentage(change24H, 2)}%
-          </Box>
-        </RenderGuard>
+        <Box
+          className={clsx(
+            classes.change24h,
+            {
+              [classes.positive]: change24H.gt(0),
+              [classes.negative]: change24H.lt(0),
+            },
+          )}
+        >
+          {change24H.gte(0) ? "+" : ""}{toPercentage(change24H, 2)}%
+        </Box>
       </TableCell>
       <Hidden smDown>
         <TableCell className={classes.marketCell} align="right">
-          <Box className={clsx(classes.volumeCell, { load })}>
-            <RenderGuard renderIf={load}>
-              <Box flexDirection="column" flexWrap="wrap">
-                <Skeleton className={classes.skeletonTitle} variant="text" />
-                <Box display="flex" justifyContent="flex-end">
-                  <Skeleton className={classes.skeletonSubtitle} variant="text" />
-                </Box>
-              </Box>
-            </RenderGuard>
-
-            <RenderGuard renderIf={!load}>
-              <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
-                {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
-              </TypographyLabel>
-              <TypographyLabel color="textSecondary" className={classes.usdValue}>
-                {formatUsdPrice(usdVolume)}
-              </TypographyLabel>
-            </RenderGuard>
+          <Box className={classes.volumeCell}>
+            <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
+              {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
+            </TypographyLabel>
+            <TypographyLabel color="textSecondary" className={classes.usdValue}>
+              {formatUsdPrice(usdVolume)}
+            </TypographyLabel>
           </Box>
         </TableCell>
         <TableCell className={classes.chartCell} align="right">
           <Box display="flex" justifyContent="flex-end">
             <Box maxWidth={240}>
-              <RenderGuard renderIf={(loading && Boolean(!candleSticks)) || load}>
+              <RenderGuard renderIf={loading && Boolean(!candleSticks)}>
                 <Skeleton variant="rect" width={240} height={88} />
               </RenderGuard>
               {
-                (!loading && candleSticks && !load) && (
+                (!loading && !candleSticks) && (
+                  <Box width={240} height={88} />
+                )
+              }
+              {
+                (!loading && candleSticks) && (
                   <Line
                     type="line"
                     data={(canvas: HTMLCanvasElement) => {
@@ -375,10 +319,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   lastPriceCell: {
     minWidth: "5rem",
-    "&.load": {
-      display: "flex",
-      justifyContent: "flex-end",
-    },
   },
   leftSvgClass: {
     width: "1.75rem",
@@ -545,10 +485,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   volumeCell: {
     minWidth: "6rem",
-    "&.load": {
-      display: "flex",
-      justifyContent: "flex-end",
-    },
   },
 }));
 

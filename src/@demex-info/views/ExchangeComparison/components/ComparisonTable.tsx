@@ -2,7 +2,6 @@ import {
   Box, fade, Hidden, makeStyles, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Theme,
 } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import {
@@ -28,7 +27,7 @@ const ComparisonTable: React.FC<Props> = (props: Props) => {
     setLoad(true);
     setTimeout(() => {
       setLoad(false);
-    }, 1500);
+    }, 400);
   }, [propertyTab]);
 
   return (
@@ -50,12 +49,7 @@ const ComparisonTable: React.FC<Props> = (props: Props) => {
                     key={`cex-${cex.value}`}
                   >
                     <Box className={classes.iconBox}>
-                      {!load && (
-                        <Component className={clsx(classes.iconClass, cex.value)} />
-                      )}
-                      {load && (
-                        <Skeleton height="3rem" width="6rem" />
-                      )}
+                      <Component className={clsx(classes.iconClass, cex.value)} />
                     </Box>
                   </TableCell>
                 );
