@@ -2,7 +2,7 @@ import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -20,7 +20,8 @@ const PropertyBox = Loadable({
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
-  // const widthSmall = useMediaQuery("@media (max-width: 1279px)");
+  const widthMedium = useMediaQuery("@media (max-width: 1439px) and (min-width: 1280px)");
+  const widthSmall = useMediaQuery("@media (max-width: 1279px)");
 
   const network = useSelector((state: RootState) => state.app.network);
 
@@ -35,15 +36,14 @@ const DexProperties: React.FC = () => {
   });
 
   const handleResizeWindow = () => {
-    const titleEl = document.querySelector("#dexTitleBox");
     const borderEl = document.querySelector(".homeBorder");
     if (borderEl) {
       if (window?.innerWidth > 1440) {
-        borderEl.setAttribute("style", `width: ${titleEl?.clientWidth}px`);
+        borderEl.setAttribute("style", "width: 540px");
       } else if (window?.innerWidth <= 1440 && window?.innerWidth >= 1280) {
-        borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2) - 10}px`);
+        borderEl.setAttribute("style", "width: calc(43% - 40px)");
       } else {
-        borderEl.setAttribute("style", `width: ${(window?.innerWidth / 2)}px`);
+        borderEl.setAttribute("style", "width: calc(100% / 12 * 4.2)");
       }
     }
   };
@@ -85,7 +85,9 @@ const DexProperties: React.FC = () => {
               <HomeBorder
                 className={clsx(classes.decoration, "homeBorder")}
                 style={{
-                  width: 608,
+                  width: widthSmall
+                    ? "calc(100% / 12 * 4.2)"
+                    : (widthMedium ? "calc(43% - 40px)" : 540),
                 }}
               />
             </Hidden>
@@ -129,7 +131,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   decoration: {
     position: "absolute",
     bottom: "2.25rem",
-    right: 0,
+    left: 0,
   },
   evenItem: {
     paddingRight: theme.spacing(1.75),
@@ -248,9 +250,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(8, 6, 8, 0),
     position: "relative",
     width: "100%",
+    "@media (max-width: 1439px) and (min-width: 1280px)": {
+      position: "initial",
+    },
     [theme.breakpoints.only("md")]: {
       maxWidth: "calc((100% / 12) * 4)",
       padding: theme.spacing(5, 5, 5, 0),
+      position: "initial",
     },
     [theme.breakpoints.only("sm")]: {
       maxWidth: "100%",
