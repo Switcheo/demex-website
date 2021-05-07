@@ -138,7 +138,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     height: "100%",
     width: "100%",
-    marginTop: theme.spacing(5),
   },
   fillerCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,

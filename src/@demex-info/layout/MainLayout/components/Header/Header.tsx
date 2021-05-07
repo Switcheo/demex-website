@@ -85,15 +85,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   loginBtn: {
     ...theme.typography.button,
-    fontSize: "0.8rem",
-    padding: theme.spacing(1.25, 2.5),
+    fontSize: "1rem",
+    padding: theme.spacing(1.25, 2),
     textTransform: "none",
-    "@media (max-width: 360px)": {
-      padding: theme.spacing(1.25, 2.25),
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "0.85rem",
+      padding: theme.spacing(1, 2),
     },
   },
   menuIcon: {
-    height: "1.25rem",
+    height: "1.5rem",
   },
   mobileMenu: {
     // marginLeft: theme.spacing(2.25),
@@ -101,17 +102,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
     minHeight: "1.75rem",
-    padding: theme.spacing(1.5, 6),
+    padding: theme.spacing(2.5, 6),
     position: "fixed",
     top: 0,
     width: `calc(100vw - ${theme.spacing(12)}px)`,
     zIndex: 1400,
+    [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(2.25, 6),
+    },
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1.25, 2.5),
+      padding: theme.spacing(2, 2.5),
       width: `calc(100vw - ${theme.spacing(5)}px)`,
     },
     "@media (max-width: 360px)": {
-      padding: theme.spacing(1.25, 1.75),
+      padding: theme.spacing(2, 1.75),
       width: `calc(100vw - ${theme.spacing(3.5)}px)`,
     },
   },

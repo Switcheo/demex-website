@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   externalSvg: {
     marginBottom: theme.spacing(0.25),
     marginLeft: theme.spacing(0.75),
-    width: "0.75rem",
-    height: "0.75rem",
+    width: "0.8rem",
+    height: "0.8rem",
     "& path": {
       fill: theme.palette.secondary.main,
     },
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   innerDiv: {
     height: "calc(100% - 3.375rem)",
     position: "absolute",
-    top: "3.25rem",
+    top: "4.375rem",
     width: "100%",
     overflowY: "auto",
   },
@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   menuItem: {
     fontFamily: "Roboto, sans-serif",
-    fontSize: "0.8375rem",
+    fontSize: "1rem",
     fontWeight: 500,
     minHeight: "2.8375rem",
     padding: theme.spacing(1, 2.875),

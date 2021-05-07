@@ -64,13 +64,14 @@ const HeaderMenu: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   externalLinkIcon: {
-    height: "1rem",
+    height: "0.9rem",
     marginLeft: theme.spacing(0.75),
+    width: "0.9rem",
   },
   navLink: {
     display: "flex",
     fontFamily: "Roboto, sans-serif",
-    fontSize: "0.8375rem",
+    fontSize: "1rem",
     fontWeight: 600,
     marginRight: theme.spacing(3.5),
     "&:hover": {
