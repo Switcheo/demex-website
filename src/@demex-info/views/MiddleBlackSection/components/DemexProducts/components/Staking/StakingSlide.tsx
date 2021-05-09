@@ -1,12 +1,10 @@
 import { default as Staking } from "@demex-info/assets/animations/Staking.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
-import {
-  getDemexLink, goToLink, lottieDefaultOptions, Paths,
-} from "@demex-info/constants";
+import { defaultStakingOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import {
-  BN_ZERO, toPercentage, toShorterNum, StakingStats,
+  BN_ZERO, StakingStats, toPercentage, toShorterNum,
 } from "@demex-info/utils";
 import {
   Box, Button, Divider, makeStyles, Theme, Typography,
@@ -68,7 +66,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
         <Suspense fallback={null}>
           <Lottie
             lottieRef={lottieRef}
-            { ...lottieDefaultOptions }
+            { ...defaultStakingOpts }
             animationData={Staking}
             loop={false}
             onComplete={delayAnimation}

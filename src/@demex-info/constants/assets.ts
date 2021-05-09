@@ -98,6 +98,34 @@ export const lottieDefaultOptions = {
   },
 };
 
+export const defaultLiquidityOpts = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+    filterSize: {
+      width: "200%",
+      height: "200%",
+      x: "-50%",
+      y: "-25%",
+    },
+  },
+};
+
+export const defaultStakingOpts = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+    filterSize: {
+      width: "200%",
+      height: "200%",
+      x: "-100%",
+      y: "-25%",
+    },
+  },
+};
+
 export const COIN_GEKO_PRICES = {
   swth: "switcheo",
   btc: "bitcoin",

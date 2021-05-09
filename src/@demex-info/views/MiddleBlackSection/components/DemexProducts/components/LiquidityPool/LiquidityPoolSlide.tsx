@@ -1,6 +1,6 @@
 import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
-import { getDemexLink, goToLink, lottieDefaultOptions, Paths } from "@demex-info/constants";
+import { defaultLiquidityOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { useTaskSubscriber } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { toShorterNum } from "@demex-info/utils";
@@ -154,7 +154,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
         <Suspense fallback={null}>
           <Lottie
             lottieRef={lottieRef}
-            { ...lottieDefaultOptions }
+            { ...defaultLiquidityOpts }
             animationData={LiquidityPools}
             loop={false}
             onComplete={delayAnimation}
