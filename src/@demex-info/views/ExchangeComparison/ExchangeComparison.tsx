@@ -2,7 +2,7 @@ import { HomeBorderCircle1 } from "@demex-info/assets";
 import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import {
-  Box, Button, Divider, fade, makeStyles, Switch, Theme,
+  Box, Button, Divider, fade, makeStyles, Switch, Theme, useMediaQuery,
 } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
@@ -28,6 +28,7 @@ const dexDefault = "dex-technology";
 
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
+  const widthSm = useMediaQuery("@media (max-width: 720px)");
 
   const settings = {
     autoPlay: false,
@@ -100,7 +101,9 @@ const ExchangeComparison: React.FC = () => {
             align="center"
             variant="h3"
           >
-            Comparison with Other Exchanges
+            Comparison with&nbsp;
+            { widthSm && (<br />) }
+            Other Exchanges
           </TypographyLabel>
         </Box>
         <Box className={clsx(
@@ -252,30 +255,33 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   sideBorder: {
-    height: "30rem",
-    right: "-36vh",
+    height: "22rem",
+    right: "-12.5rem",
     position: "absolute",
-    top: "-36vh",
-    width: "30rem",
+    top: "-12.5rem",
+    width: "22rem",
     zIndex: 0,
     transform: "rotate(180deg)",
     [theme.breakpoints.only("md")]: {
-      top: "-31vh",
-      height: "26rem",
-      right: "-31vh",
-      width: "26rem",
+      top: "-10.25rem",
+      height: "18rem",
+      right: "-10.25rem",
+      width: "18rem",
     },
     [theme.breakpoints.only("sm")]: {
-      top: "-24vh",
-      height: "20rem",
-      right: "-24vh",
-      width: "20rem",
+      top: "-10rem",
+      height: "18rem",
+      right: "-10rem",
+      width: "18rem",
     },
     [theme.breakpoints.only("xs")]: {
-      top: "-21vh",
-      height: "17rem",
-      right: "-21vh",
-      width: "17rem",
+      top: "-7rem",
+      height: "13rem",
+      right: "-7rem",
+      width: "13rem",
+    },
+    "@media (max-width: 400px)": {
+      display: "none",
     },
   },
   tableSecSlide: {

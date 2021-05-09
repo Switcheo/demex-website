@@ -29,7 +29,7 @@ const PoweredBySwitcheo: React.FC = () => {
             { ...lottieDefaultOptions }
             animationData={ScrollingTextBold}
             style={{
-              height: widthSmDown ? "8.8rem" : "10rem",
+              height: widthSmDown ? "7.6rem" : "10rem",
             }}
           />
         </Suspense>
@@ -146,10 +146,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.only("xs")]: {
       display: "block",
-      margin: theme.spacing(8, "auto", 0),
+      margin: theme.spacing(5.5, "auto", 0),
       maxWidth: "100%",
       width: "unset",
-      padding: theme.spacing(0, 4, 8),
+      padding: theme.spacing(0, 4, 9),
     },
     "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5, 8),
