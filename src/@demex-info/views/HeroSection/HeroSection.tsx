@@ -1,6 +1,6 @@
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { Box, Button, Container, makeStyles } from "@material-ui/core";
+import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 
@@ -8,6 +8,7 @@ const BackgroundAnimation = React.lazy(() => import("./components/BackgroundAnim
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
+	const widthXxs = useMediaQuery("@media(max-width: 359px)");
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
@@ -20,8 +21,8 @@ const HeroSection: React.FC = () => {
 						Powerful. Permissionless. Secure.
 					</TypographyLabel>
 					<TypographyLabel className={clsx(classes.text, classes.headline)}>
-						Decentralized Trading for
-						<br />
+						Decentralized Trading for&nbsp;
+						{ !widthXxs && (<br />) }
 						Any Financial Asset Imaginable
 					</TypographyLabel>
 
@@ -73,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("sm")]: {
 			fontSize: "10px",
 		},
+		"@media (max-width: 319px)": {
+			height: "400px",
+		},
 	},
 	contentContainer: {
 		marginTop: "120px",
@@ -93,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "1.375em",
 		lineHeight: "1.27em",
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "1em",
+			fontSize: "1.4em",
 		},
 	},
 	headline: {
@@ -105,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: "3em",
 		},
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "2em",
+			fontSize: "2.6em",
 		},
 	},
 	description: {
@@ -114,7 +118,8 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: "35.55em",
 		marginTop: "2.222em",
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "1em",
+			fontSize: "1.3em",
+			marginTop: "2em",
 		},
 	},
 	button: {

@@ -73,8 +73,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("sm")]: {
 			margin: "-50% -100%",
 		},
-		[theme.breakpoints.down("xs")]: {
+		[theme.breakpoints.only("xs")]: {
 			margin: "-35% -103%",
+		},
+		"@media (max-width: 319px)": {
+			margin: "-20% -106%",
 		},
 	},
 	padding: {
