@@ -168,20 +168,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   innerDiv: {
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(8, 6),
+    padding: theme.spacing(13.75, 6),
     position: "relative",
     width: "calc(100% - 96px)",
     [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(8, 5),
+      padding: theme.spacing(13, 5),
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(11, 5),
+      padding: theme.spacing(12, 5),
       width: `calc(100% - ${theme.spacing(10)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
       margin: 0,
-      padding: theme.spacing(10, 2.5),
+      padding: theme.spacing(11.5, 2.5),
       width: `calc(100% - ${theme.spacing(5)}px)`,
     },
   },
