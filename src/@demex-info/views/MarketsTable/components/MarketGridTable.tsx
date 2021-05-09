@@ -34,7 +34,7 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
     title: "Last Price",
     key: "lastPrice",
   }, {
-    className: classes.alignRight,
+    className: clsx(classes.alignRight, classes.changeCell),
     title: "24H Change",
     key: "24hChange",
   }, {
@@ -218,6 +218,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         fill: theme.palette.secondary.main,
       },
     },
+  },
+  changeCell: {
+    minWidth: "5.375rem",
   },
 }));
 

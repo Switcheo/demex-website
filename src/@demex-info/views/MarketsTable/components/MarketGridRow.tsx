@@ -176,7 +176,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
               svgClass={classes.normalSvg}
               denom={baseSymbol}
             />
-            <Box className={classes.title}>
+            <Box className={clsx(classes.title, "futures")}>
               {baseSymbol} - {expiryTime.unix() > 0 ? expiryTime.format("DD MMM YYYY") : "PERP"}
               <Hidden mdUp>
                 <TypographyLabel color="textSecondary" className={classes.usdValue}>
@@ -470,6 +470,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       fontSize: "0.8rem",
       marginLeft: theme.spacing(2.5),
+      "&.futures": {
+        marginLeft: theme.spacing(1.5),
+      },
     },
   },
   tradeBtn: {
