@@ -86,7 +86,7 @@ const DemexProducts: React.FC<Props> = () => {
   }];
 
   return (
-    <div className={classes.root}>
+    <div id="demex-products" className={classes.root}>
       <Hidden smDown>
         <div className={classes.buttonDiv}>
           {SlideTabs.map((slidetab: SlideItem) => (
@@ -132,6 +132,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {
     padding: theme.spacing(0, 2.5),
+    "@media (min-width: 1280px) and (max-width: 1600px)": {
+      padding: theme.spacing(0, 5),
+    },
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(0, 5, 8),
     },

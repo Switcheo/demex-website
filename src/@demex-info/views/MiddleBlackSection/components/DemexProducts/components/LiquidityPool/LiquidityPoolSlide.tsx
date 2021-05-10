@@ -48,7 +48,9 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   const handleResizeWindow = () => {
     const liquidityEl = document.querySelector("#rightGrid");
     const svgEl = document.querySelector("#liquidAnimation > svg");
-    if (window.innerWidth > 1440) {
+    if (window.innerWidth > 1601) {
+      svgEl?.setAttribute("style", "width: 662.2px; height: 550px; transform: translate(12px, 0px);");
+    } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
       svgEl?.setAttribute("style", "width: 602px; height: 500px; transform: translate(12px, 0px);");
     } else if (window.innerWidth > 1280 && window.innerWidth <= 1440) {
       const width = (liquidityEl?.clientWidth ?? 0) - 10;
@@ -81,76 +83,78 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
       )}
     >
       <Box className={classes.leftGrid}>
-        <Typography
-          variant="h3"
-          color="textPrimary"
-          className={classes.title}
-        >
-          Liquidity Pools
-        </Typography>
-        <TypographyLabel color="textPrimary" className={classes.subtitle}>
-          Maximise liquidity rewards and boost earnings by&nbsp;
-          <br />
-          committing LP tokens
-        </TypographyLabel>
-        <Divider className={classes.divider} />
-        <Box className={classes.poolsStats}>
-          <Box className={classes.statsBox}>
-            <TypographyLabel className={classes.statsH6}>
-              Total Liquidity
-            </TypographyLabel>
-            <RenderGuard renderIf={loading}>
-              <Box>
-                <Skeleton width="6rem" height="3rem" />
-              </Box>
-            </RenderGuard>
-            <RenderGuard renderIf={!loading}>
-              <Typography className={classes.statsH4} variant="h4">
-                ${toShorterNum(data.totalLiquidity)}
-              </Typography>
-            </RenderGuard>
+        <Box>
+          <Typography
+            variant="h3"
+            color="textPrimary"
+            className={classes.title}
+          >
+            Liquidity Pools
+          </Typography>
+          <TypographyLabel color="textPrimary" className={classes.subtitle}>
+            Maximise liquidity rewards and boost earnings by&nbsp;
+            <br />
+            committing LP tokens
+          </TypographyLabel>
+          <Divider className={classes.divider} />
+          <Box className={classes.poolsStats}>
+            <Box className={classes.statsBox}>
+              <TypographyLabel className={classes.statsH6}>
+                Total Liquidity
+              </TypographyLabel>
+              <RenderGuard renderIf={loading}>
+                <Box>
+                  <Skeleton className={classes.skeleton} />
+                </Box>
+              </RenderGuard>
+              <RenderGuard renderIf={!loading}>
+                <Typography className={classes.statsH4} variant="h4">
+                  ${toShorterNum(data.totalLiquidity)}
+                </Typography>
+              </RenderGuard>
+            </Box>
+            <Box className={classes.statsBox}>
+              <TypographyLabel className={classes.statsH6}>
+                Avg APR
+              </TypographyLabel>
+              <RenderGuard renderIf={loading}>
+                <Box>
+                  <Skeleton className={classes.skeleton} />
+                </Box>
+              </RenderGuard>
+              <RenderGuard renderIf={!loading}>
+                <Typography className={classes.statsH4} variant="h4">
+                  {data.avgApy.isFinite() ? `${data.avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
+                </Typography>
+              </RenderGuard>
+            </Box>
+            <Box className={classes.statsBox}>
+              <TypographyLabel className={classes.statsH6}>
+                Total Committed Value
+              </TypographyLabel>
+              <RenderGuard renderIf={loading}>
+                <Box>
+                  <Skeleton className={classes.skeleton} />
+                </Box>
+              </RenderGuard>
+              <RenderGuard renderIf={!loading}>
+                <Typography className={classes.statsH4} variant="h4">
+                  ${toShorterNum(data.totalCommit)}
+                </Typography>
+              </RenderGuard>
+            </Box>
           </Box>
-          <Box className={classes.statsBox}>
-            <TypographyLabel className={classes.statsH6}>
-              Avg APR
-            </TypographyLabel>
-            <RenderGuard renderIf={loading}>
-              <Box>
-                <Skeleton width="6rem" height="3rem" />
-              </Box>
-            </RenderGuard>
-            <RenderGuard renderIf={!loading}>
-              <Typography className={classes.statsH4} variant="h4">
-                {data.avgApy.isFinite() ? `${data.avgApy.decimalPlaces(1, 1).toString(10)}%` : "-"}
-              </Typography>
-            </RenderGuard>
-          </Box>
-          <Box className={classes.statsBox}>
-            <TypographyLabel className={classes.statsH6}>
-              Total Committed Value
-            </TypographyLabel>
-            <RenderGuard renderIf={loading}>
-              <Box>
-                <Skeleton width="6rem" height="3rem" />
-              </Box>
-            </RenderGuard>
-            <RenderGuard renderIf={!loading}>
-              <Typography className={classes.statsH4} variant="h4">
-                ${toShorterNum(data.totalCommit)}
-              </Typography>
-            </RenderGuard>
-          </Box>
+          <Button
+            className={classes.earningBtn}
+            variant="contained"
+            color="secondary"
+            onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+          >
+            Start Earning
+          </Button>
         </Box>
-        <Button
-          className={classes.earningBtn}
-          variant="contained"
-          color="secondary"
-          onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
-        >
-          Start Earning
-        </Button>
       </Box>
-      <Box id="rightGrid" maxWidth="32rem" px={2.5}>
+      <Box className={classes.rightGrid} id="rightGrid">
         <Suspense fallback={null}>
           <Lottie
             lottieRef={lottieRef}
@@ -175,16 +179,29 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: theme.spacing(0.25),
     marginTop: theme.spacing(5),
     width: "4rem",
+    "@media (min-width: 1601px)": {
+      marginTop: theme.spacing(7),
+    },
   },
   earningBtn: {
     ...theme.typography.button,
     marginTop: theme.spacing(8),
     padding: theme.spacing(1.75, 3.5),
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+      padding: theme.spacing(2.5, 5),
+      marginTop: theme.spacing(9),
+    },
   },
   leftGrid: {
-    maxWidth: "30rem",
-    padding: theme.spacing(0, 2.5),
+    alignItems: "flex-end",
+    display: "flex",
+    maxWidth: "42rem",
     width: "100%",
+    "@media (min-width: 1280px) and (max-width: 1600px)": {
+      maxWidth: "30rem",
+      padding: theme.spacing(0, 2.5),
+    },
     [theme.breakpoints.only("md")]: {
       maxWidth: "28rem",
     },
@@ -198,6 +215,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     marginTop: theme.spacing(5),
+    "@media (min-width: 1601px)": {
+      marginTop: theme.spacing(7),
+    },
+  },
+  rightGrid: {
+    maxWidth: "42rem",
+    "@media (min-width: 960px) and (max-width: 1600px)": {
+      maxWidth: "32rem",
+      padding: theme.spacing(0, 2.5),
+    },
+  },
+  skeleton: {
+    width: "6rem",
+    height: "3rem",
+    "@media (min-width: 1601px)": {
+      height: "4rem",
+    },
   },
   slideItem: {
     display: "flex",
@@ -222,18 +256,33 @@ const useStyles = makeStyles((theme: Theme) => ({
   statsH4: {
     color: theme.palette.text.primary,
     marginTop: theme.spacing(2),
+    "@media (min-width: 1601px)": {
+      fontSize: "2.5rem",
+      marginTop: theme.spacing(2.5),
+    },
   },
   statsH6: {
     color: theme.palette.text.secondary,
     fontSize: "0.875rem",
     height: "2.75rem",
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+      height: "unset",
+    },
   },
   subtitle: {
     lineHeight: "1.75rem",
     marginTop: theme.spacing(3),
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+      lineHeight: "2rem",
+    },
   },
   title: {
     fontSize: "2.5rem",
+    "@media (min-width: 1601px)": {
+      fontSize: "3rem",
+    },
   },
 }));
 

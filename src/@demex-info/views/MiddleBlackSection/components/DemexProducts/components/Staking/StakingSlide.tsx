@@ -95,7 +95,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
                 <Box>
-                  <Skeleton width="10rem" height="3rem" />
+                  <Skeleton className={classes.skeleton} />
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
@@ -111,7 +111,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
 
               <RenderGuard renderIf={loading}>
                 <Box>
-                  <Skeleton width="10rem" height="3rem" />
+                  <Skeleton className={classes.skeleton} />
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
@@ -137,9 +137,13 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   animationBox: {
-    maxWidth: "30rem",
-    padding: theme.spacing(0, 2.5),
+    maxWidth: "42rem",
+    padding: 0,
     width: "100%",
+    "@media (min-width: 1280px) and (max-width: 1600px)": {
+      maxWidth: "30rem",
+      padding: theme.spacing(0, 2.5),
+    },
     [theme.breakpoints.only("md")]: {
       maxWidth: "27.8rem",
     },
@@ -149,23 +153,45 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: theme.spacing(0.25),
     marginTop: theme.spacing(5),
     width: "4rem",
+    "@media (min-width: 1601px)": {
+      marginTop: theme.spacing(7),
+    },
   },
   earningBtn: {
     ...theme.typography.button,
     marginTop: theme.spacing(8),
     padding: theme.spacing(1.75, 3.5),
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+      padding: theme.spacing(2.5, 5),
+      marginTop: theme.spacing(9),
+    },
   },
   poolsStats: {
     alignItems: "center",
     display: "flex",
     marginTop: theme.spacing(5),
+    "@media (min-width: 1601px)": {
+      marginTop: theme.spacing(7),
+    },
   },
   rightGrid: {
     display: "flex",
     justifyContent: "center",
-    maxWidth: "32rem",
-    padding: theme.spacing(0, 2.5),
+    maxWidth: "42rem",
     width: "100%",
+    padding: 0,
+    "@media (max-width: 1600px)": {
+      maxWidth: "32rem",
+      padding: theme.spacing(0, 2.5),
+    },
+  },
+  skeleton: {
+    width: "7rem",
+    height: "3rem",
+    "@media (min-width: 1601px)": {
+      height: "4rem",
+    },
   },
   slideItem: {
     display: "flex",
@@ -203,17 +229,31 @@ const useStyles = makeStyles((theme: Theme) => ({
   statsH4: {
     color: theme.palette.text.primary,
     marginTop: theme.spacing(2),
+    "@media (min-width: 1601px)": {
+      fontSize: "2.5rem",
+      marginTop: theme.spacing(2.5),
+    },
   },
   statsH6: {
     color: theme.palette.text.secondary,
     fontSize: "0.875rem",
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+    },
   },
   subtitle: {
     lineHeight: "1.75rem",
     marginTop: theme.spacing(3),
+    "@media (min-width: 1601px)": {
+      fontSize: "1.25rem",
+      lineHeight: "2rem",
+    },
   },
   title: {
     fontSize: "2.5rem",
+    "@media (min-width: 1601px)": {
+      fontSize: "3rem",
+    },
   },
 }));
 
