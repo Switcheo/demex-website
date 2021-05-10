@@ -1,3 +1,4 @@
+import { DemexCircleLogo } from "@demex-info/assets";
 import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { defaultLiquidityOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
@@ -32,6 +33,8 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   const { data, liquidityRef, slide } = props;
   const classes = useStyles();
 
+  const [jiggle, setJiggle] = React.useState<boolean>(false);
+
   const lottieRef = React.useRef<any>();
 
   const [loading] = useTaskSubscriber("runPools");
@@ -43,6 +46,14 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
     }, 10000);
+  };
+
+  const onEnterLogo = () => {
+    setJiggle(true);
+  };
+
+  const onLeaveLogo = () => {
+    setJiggle(false);
   };
 
   const handleResizeWindow = () => {
@@ -96,7 +107,14 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             <br />
             committing LP tokens
           </TypographyLabel>
-          <Divider className={classes.divider} />
+          <Box className={classes.divBox}>
+            <Divider className={classes.divider} />
+            <DemexCircleLogo
+              className={clsx(classes.demexLogo, { jiggle })}
+              onMouseEnter={onEnterLogo}
+              onMouseLeave={onLeaveLogo}
+            />
+          </Box>
           <Box className={classes.poolsStats}>
             <Box className={classes.statsBox}>
               <TypographyLabel className={classes.statsH6}>
@@ -174,14 +192,30 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  divider: {
-    backgroundColor: theme.palette.text.primary,
-    height: theme.spacing(0.25),
+  demexLogo: {
+    height: "1.5rem",
+    marginLeft: theme.spacing(1.5),
+    width: "1.5rem",
+    "&.jiggle": {
+      animation: "jiggleMove 0.2s infinite",
+      "-webkit-animation": "jiggleMove 0.2s infinite",
+      "-moz-animation-duration": "0.2s",
+      "-moz-animation-name": "jiggleMove",
+      "-moz-animation-iteration-count": "infinite",
+    },
+  },
+  divBox: {
+    alignItems: "center",
+    display: "flex",
     marginTop: theme.spacing(5),
-    width: "4rem",
     "@media (min-width: 1601px)": {
       marginTop: theme.spacing(7),
     },
+  },
+  divider: {
+    backgroundColor: theme.palette.text.primary,
+    height: theme.spacing(0.25),
+    width: "4rem",
   },
   earningBtn: {
     ...theme.typography.button,

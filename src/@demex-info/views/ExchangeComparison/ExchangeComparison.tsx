@@ -1,4 +1,4 @@
-import { HomeBorderCircle1 } from "@demex-info/assets";
+import { DemexCircleLogo, HomeBorderCircle1 } from "@demex-info/assets";
 import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import {
@@ -130,6 +130,7 @@ const ExchangeComparison: React.FC = () => {
               onChange={() => handleDexToggle()}
               color="default"
               size="medium"
+              icon={(<DemexCircleLogo className={classes.demexLogo} />)}
             />
             <TypographyLabel
               className={clsx(classes.switchSub, { toggle: dexNum === 1 })}
@@ -220,6 +221,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       marginTop: theme.spacing(5),
     },
+  },
+  demexLogo: {
+    height: "1.375rem",
+    width: "1.375rem",
   },
   divider: {
     backgroundColor: theme.palette.divider,

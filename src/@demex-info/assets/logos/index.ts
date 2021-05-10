@@ -1,6 +1,7 @@
 export { ReactComponent as BinanceFutures } from "./BinanceFutures.svg";
 export { ReactComponent as Bitmex } from "./Bitmex.svg";
 export { ReactComponent as Bybit } from "./Bybit.svg";
+export { ReactComponent as DemexCircleLogo } from "./DemexCircleLogo.svg";
 export { ReactComponent as DemexLogo } from "./DemexLogo.svg";
 export { ReactComponent as Deribit } from "./Deribit.svg";
 export { ReactComponent as Discord } from "./Discord.svg";

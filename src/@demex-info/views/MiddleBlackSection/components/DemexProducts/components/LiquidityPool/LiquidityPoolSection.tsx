@@ -1,3 +1,4 @@
+import { DemexCircleLogo } from "@demex-info/assets";
 import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { defaultLiquidityOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
@@ -27,6 +28,8 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
   const classes = useStyles();
   const widthXxs = useMediaQuery("@media (max-width: 480px)");
 
+  const [jiggle, setJiggle] = React.useState<boolean>(false);
+
   const [liquidityTextRef, liquidityTxtView] = useInView({
     threshold: 0.2,
     triggerOnce: true,
@@ -46,6 +49,14 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
     }, 10000);
+  };
+
+  const onEnterLogo = () => {
+    setJiggle(true);
+  };
+
+  const onLeaveLogo = () => {
+    setJiggle(false);
   };
 
   useEffect(() => {
@@ -71,7 +82,14 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
         <TypographyLabel color="textPrimary" className={classes.subtitle}>
           Maximise liquidity rewards and boost earnings by committing LP tokens
         </TypographyLabel>
-        <Divider className={classes.divider} />
+        <Box className={classes.divBox}>
+          <Divider className={classes.divider} />
+          <DemexCircleLogo
+            className={clsx(classes.demexLogo, { jiggle })}
+            onMouseEnter={onEnterLogo}
+            onMouseLeave={onLeaveLogo}
+          />
+        </Box>
         <Box className={classes.poolsStats}>
           <Box className={classes.statsBox}>
             <TypographyLabel className={classes.statBoxH6}>
@@ -159,10 +177,30 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  demexLogo: {
+    height: "1.5rem",
+    marginLeft: theme.spacing(1.5),
+    width: "1.5rem",
+    "&.jiggle": {
+      animation: "jiggleMove 0.2s infinite",
+      "-webkit-animation": "jiggleMove 0.2s infinite",
+      "-moz-animation-duration": "0.2s",
+      "-moz-animation-name": "jiggleMove",
+      "-moz-animation-iteration-count": "infinite",
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "1.375rem",
+      width: "1.375rem",
+    },
+  },
+  divBox: {
+    alignItems: "center",
+    display: "flex",
+    marginTop: theme.spacing(4),
+  },
   divider: {
     backgroundColor: theme.palette.text.primary,
     height: theme.spacing(0.25),
-    marginTop: theme.spacing(4),
     width: "4rem",
   },
   earningBtn: {
@@ -218,7 +256,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   statBoxH6: {
     color: theme.palette.text.secondary,
     fontSize: "0.875rem",
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     [theme.breakpoints.only("xs")]: {
       fontSize: "0.75rem",
     },

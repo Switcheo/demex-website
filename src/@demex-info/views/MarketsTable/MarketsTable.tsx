@@ -1,3 +1,4 @@
+import { DemexCircleLogo } from "@demex-info/assets";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import {
@@ -51,6 +52,7 @@ const MarketsTable: React.FC = () => {
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
+  const [jiggle, setJiggle] = React.useState<boolean>(false);
 
   const reloadMarkets = () => {
     setLoad(true);
@@ -163,6 +165,14 @@ const MarketsTable: React.FC = () => {
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
   
+  const onEnterLogo = () => {
+    setJiggle(true);
+  };
+
+  const onLeaveLogo = () => {
+    setJiggle(false);
+  };
+
   return (
     <div className={classes.root}>
       <Box className={classes.innerDiv}>
@@ -181,9 +191,20 @@ const MarketsTable: React.FC = () => {
         <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
-              <TypographyLabel mb={widthXs ? 1 : 1.5} color="textPrimary" variant="subtitle2">
-                Volume (24H)
-              </TypographyLabel>
+              <Box
+                display="flex"
+                alignItems="center"
+                mb={widthXs ? 1 : 1.5}
+              >
+                <Typography color="textPrimary" variant="subtitle2">
+                  Volume (24H)
+                </Typography>
+                <DemexCircleLogo
+                  onMouseEnter={onEnterLogo}
+                  onMouseLeave={onLeaveLogo}
+                  className={clsx(classes.demexLogo, { jiggle })}
+                />
+              </Box>
               <RenderGuard renderIf={loading}>
                 <Skeleton className={classes.standardSkeleton} />
               </RenderGuard>
@@ -372,8 +393,50 @@ const MarketsTable: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  "@global": {
+    "@keyframes jiggleMove": {
+      "0%": {
+        transform: "rotate(-20deg)",
+      },
+      "50%": {
+        transform: "rotate(20deg)",
+      },
+    },
+    "@-moz-keyframes jiggleMove": {
+      "0%": {
+        "-moz-transform": "rotate(-20deg)",
+      },
+      "50%": {
+        "-moz-transform": "rotate(20deg)",
+      },
+    },
+    "@-webkit-keyframes jiggleMove": {
+      "0%": {
+        "-webkit-transform": "rotate(-20deg)",
+      },
+      "50%": {
+        "-webkit-transform": "rotate(20deg)",
+      },
+    },
+  },
   backdrop: {
     zIndex: 1,
+  },
+  demexLogo: {
+    height: "1.5rem",
+    marginLeft: theme.spacing(1.25),
+    width: "1.5rem",
+    "&.jiggle": {
+      animation: "jiggleMove 0.2s infinite",
+      "-webkit-animation": "jiggleMove 0.2s infinite",
+      "-moz-animation-duration": "0.2s",
+      "-moz-animation-name": "jiggleMove",
+      "-moz-animation-iteration-count": "infinite",
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "1.35rem",
+      width: "1.35rem",
+    },
   },
   numSkeleton: {
     width: "80px",
