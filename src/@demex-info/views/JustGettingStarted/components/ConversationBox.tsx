@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       marginTop: theme.spacing(1.5),
     },
+    "@media (min-width: 1601px)": {
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
+    },
   },
   cardSvg: {
     width: "2.5rem",

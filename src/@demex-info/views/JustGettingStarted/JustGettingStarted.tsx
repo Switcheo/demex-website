@@ -197,6 +197,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       fontSize: "1rem",
     },
+    "@media (min-width: 1601px)": {
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
+    },
   },
 }));
 

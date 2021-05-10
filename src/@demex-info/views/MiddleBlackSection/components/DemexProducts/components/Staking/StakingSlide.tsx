@@ -238,15 +238,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.text.secondary,
     fontSize: "0.875rem",
     "@media (min-width: 1601px)": {
-      fontSize: "1.25rem",
+      fontSize: "1.125rem",
     },
   },
   subtitle: {
     lineHeight: "1.75rem",
     marginTop: theme.spacing(3),
     "@media (min-width: 1601px)": {
-      fontSize: "1.25rem",
-      lineHeight: "2rem",
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
     },
   },
   title: {

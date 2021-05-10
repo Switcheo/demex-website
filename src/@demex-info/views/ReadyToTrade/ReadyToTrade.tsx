@@ -219,6 +219,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   subtitle: {
     ...theme.typography.subtitle1,
     textAlign: "center",
+    "@media (min-width: 1601px)": {
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
+    },
   },
   tradingBtn: {
     display: "block",

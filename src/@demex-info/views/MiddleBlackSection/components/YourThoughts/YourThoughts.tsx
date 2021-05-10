@@ -97,6 +97,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
     maxWidth: "36rem",
     margin: theme.spacing(4, "auto", 0),
+    "@media (min-width: 1601px)": {
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
+    },
     [theme.breakpoints.down("sm")]: {
       fontSize: "1rem",
       margin: theme.spacing(2, "auto", 0),

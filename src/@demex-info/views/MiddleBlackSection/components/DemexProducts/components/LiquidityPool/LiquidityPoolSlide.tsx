@@ -266,7 +266,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.875rem",
     height: "2.75rem",
     "@media (min-width: 1601px)": {
-      fontSize: "1.25rem",
+      fontSize: "1.125rem",
       height: "unset",
     },
   },
@@ -274,8 +274,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     lineHeight: "1.75rem",
     marginTop: theme.spacing(3),
     "@media (min-width: 1601px)": {
-      fontSize: "1.25rem",
-      lineHeight: "2rem",
+      fontSize: "1.125rem",
+      lineHeight: "1.555em",
     },
   },
   title: {
