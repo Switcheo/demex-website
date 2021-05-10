@@ -40,7 +40,7 @@ const StakingSection: React.FC<DataProps> = (props: DataProps) => {
     lottieRef?.current?.pause();
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
-    }, 5000);
+    }, 10000);
   };
 
   useEffect(() => {
@@ -114,7 +114,6 @@ const StakingSection: React.FC<DataProps> = (props: DataProps) => {
             lottieRef={lottieRef}
             { ...defaultStakingOpts }
             animationData={Staking}
-            loop={false}
             onComplete={delayAnimation}
           />
         </Suspense>
@@ -167,11 +166,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   statsBox: {
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(5),
     "&:first-child": {
       marginLeft: 0,
     },
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 480px)": {
       width: "50%",
     },
   },

@@ -99,7 +99,7 @@ export const lottieDefaultOptions = {
 };
 
 export const defaultLiquidityOpts = {
-  loop: true,
+  loop: false,
   autoplay: true,
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
@@ -113,7 +113,7 @@ export const defaultLiquidityOpts = {
 };
 
 export const defaultStakingOpts = {
-  loop: true,
+  loop: false,
   autoplay: true,
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
@@ -121,7 +121,7 @@ export const defaultStakingOpts = {
       width: "200%",
       height: "200%",
       x: "-100%",
-      y: "-25%",
+      y: "-75%",
     },
   },
 };

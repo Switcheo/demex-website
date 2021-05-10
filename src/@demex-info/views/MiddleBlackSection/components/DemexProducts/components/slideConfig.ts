@@ -1,4 +1,4 @@
-export type SlideCategory = "liquidityPools" | "staking" | "upcoming";
+export type SlideCategory = "liquidityPools" | "staking";
 
 export interface SlideItem {
   label: string;

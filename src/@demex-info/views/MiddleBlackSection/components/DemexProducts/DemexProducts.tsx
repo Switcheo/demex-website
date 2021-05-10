@@ -1,3 +1,4 @@
+import { FuncArgs, debounce } from "@demex-info/utils";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
@@ -6,7 +7,6 @@ import Loadable from "react-loadable";
 import { SlideCategory, SlideItem } from "./components";
 
 interface Props {
-  thoughtsView: boolean;
 }
 
 const LiquidityPool = Loadable({
@@ -24,50 +24,38 @@ const Staking = Loadable({
   delay: 1100,
 });
 
-const DemexProducts: React.FC<Props> = (props: Props) => {
-  const { thoughtsView } = props;
+const DemexProducts: React.FC<Props> = () => {
   const classes = useStyles();
 
   const [slide, setSlide] = React.useState<SlideCategory | null>(null);
 
-  const [liquidityRef, liquidityView] = useInView({
-    threshold: 0.3,
+  // eslint-disable-next-line no-unused-vars
+  const [liquidityRef, liquidityView, liquidityEntry] = useInView({
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5],
   });
   const [stakingRef, stakingView] = useInView({
-    threshold: 0.55,
+    threshold: 0.2,
   });
 
-  useEffect(() => {
-    if (liquidityView) {
+  const changeSlide = (args: FuncArgs) => {
+    const intersect = args?.intersectionRatio ?? 0;
+    if (intersect <= 0.15 && !stakingView) {
+      setSlide(null);
+      return;
+    }
+    if (intersect > 0.35) {
       setSlide("liquidityPools");
-      return;
-    }
-    if (stakingView) {
+    } else if (intersect <= 0.35 && intersect > 0.15 && stakingView) {
       setSlide("staking");
-      return;
     }
-    if (thoughtsView) {
-      setSlide("upcoming");
-      return;
-    }
-  }, [liquidityView, stakingView, thoughtsView]);
+  };
 
   useEffect(() => {
-    switch (slide) {
-      case "liquidityPools":
-        setSlide("liquidityPools");
-        break;
-      case "staking":
-        setSlide("staking");
-        break;
-      case "upcoming":
-        setSlide("upcoming");
-        break;
-      default:
-        setSlide(null);
-        break;
-    }
-  }, [slide]);
+    const debounceSlide = debounce(changeSlide, 500, {
+      intersectionRatio: liquidityEntry?.intersectionRatio,
+    });
+    debounceSlide();
+  }, [liquidityEntry?.intersectionRatio]);
 
   const goToPools = () => {
     const poolsRef = document.querySelector("#liquidityPools");
@@ -75,6 +63,7 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
       behavior: "smooth",
       block: "center",
     });
+    setSlide("liquidityPools");
   };
 
   const goToStaking = () => {
@@ -83,14 +72,7 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
       behavior: "smooth",
       block: "center",
     });
-  };
-
-  const goToThoughts = () => {
-    const yourThoughtsEl = document.querySelector("#yourThoughts");
-    yourThoughtsEl?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    setSlide("staking");
   };
 
   const SlideTabs: SlideItem[] = [{
@@ -101,38 +83,36 @@ const DemexProducts: React.FC<Props> = (props: Props) => {
     label: "Staking",
     value: "staking",
     onClick: goToStaking,
-  }, {
-    label: "Upcoming",
-    value: "upcoming",
-    onClick: goToThoughts,
   }];
 
   return (
     <div className={classes.root}>
-      <Box>
-        <Hidden smDown>
-          <div className={classes.buttonDiv}>
-            {SlideTabs.map((slidetab: SlideItem) => (
-              <Button
-                key={slidetab.value}
-                className={clsx(classes.tab, { selected: slide === slidetab.value })}
-                variant="text"
-                onClick={slidetab.onClick}
-              >
-                {slidetab.label}
-              </Button>
-            ))}
-          </div>
-        </Hidden>
+      <Hidden smDown>
+        <div className={classes.buttonDiv}>
+          {SlideTabs.map((slidetab: SlideItem) => (
+            <Button
+              key={slidetab.value}
+              className={clsx(classes.tab, { selected: slide === slidetab.value })}
+              variant="text"
+              onClick={slidetab.onClick}
+            >
+              {slidetab.label}
+            </Button>
+          ))}
+        </div>
+      </Hidden>
+      <Box maxWidth="84rem" mx="auto" my="0px">
         <Suspense fallback={null}>
           <LiquidityPool
             liquidityRef={liquidityRef}
-            liquidityView={liquidityView}
-            stakingView={stakingView}
+            slide={slide}
           />
         </Suspense>
         <Suspense fallback={null}>
-          <Staking stakingRef={stakingRef} stakingView={stakingView} />
+          <Staking
+            stakingRef={stakingRef}
+            stakingView={stakingView}
+          />
         </Suspense>
       </Box>
     </div>
@@ -146,17 +126,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     zIndex: 40,
     width: "100%",
-    padding: theme.spacing("8vh", 0, 1.25),
+    padding: theme.spacing("6rem", 0, 1.25),
     position: "sticky",
-    top: "2vh",
+    top: "2rem",
   },
   root: {
-    maxWidth: "84rem",
-    padding: theme.spacing(5, 2.5, 1.25),
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: theme.spacing(0, "auto"),
+    padding: theme.spacing(0, 2.5),
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(0, 5, 8),
     },

@@ -42,7 +42,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
     lottieRef?.current?.pause();
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
-    }, 5000);
+    }, 10000);
   };
 
   useEffect(() => {
@@ -68,14 +68,13 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
             lottieRef={lottieRef}
             { ...defaultStakingOpts }
             animationData={Staking}
-            loop={false}
             onComplete={delayAnimation}
           />
         </Suspense>
       </Box>
 
       <Box className={classes.rightGrid}>
-        <Box pl={2.5}>
+        <Box>
           <Typography
             variant="h3"
             color="textPrimary"
@@ -162,6 +161,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(5),
   },
   rightGrid: {
+    display: "flex",
+    justifyContent: "center",
     maxWidth: "32rem",
     padding: theme.spacing(0, 2.5),
     width: "100%",
@@ -170,10 +171,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     width: "100%",
     justifyContent: "center",
-    // height: "52vh",
-    // margin: "1rem 0",
-    paddingTop: "16vh",
-    paddingBottom: "16vh",
+    paddingTop: "6rem",
+    paddingBottom: "6rem",
     opacity: 0,
     transform: "translate(0px, 60px)",
     transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
@@ -196,7 +195,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   statsBox: {
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(5),
     "&:first-child": {
       marginLeft: 0,
     },

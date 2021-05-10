@@ -5,7 +5,7 @@ import { useTaskSubscriber } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { toShorterNum } from "@demex-info/utils";
 import {
-  Box, Button, Divider, Hidden, makeStyles, Theme, Typography,
+  Box, Button, Divider, makeStyles, Theme, Typography, useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -25,6 +25,7 @@ const Lottie = React.lazy(() => import("lottie-react"));
 const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
   const { avgApy, totalCommit, totalLiquidity } = props;
   const classes = useStyles();
+  const widthXxs = useMediaQuery("@media (max-width: 480px)");
 
   const [liquidityTextRef, liquidityTxtView] = useInView({
     threshold: 0.2,
@@ -44,7 +45,7 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
     lottieRef?.current?.pause();
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
-    }, 5000);
+    }, 10000);
   };
 
   useEffect(() => {
@@ -102,34 +103,38 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
               </Typography>
             </RenderGuard>
           </Box>
-          <Hidden only="xs">
-            <Box className={classes.statsBox}>
+          {
+            !widthXxs && (
+              <Box className={classes.statsBox}>
+                <TypographyLabel className={classes.statBoxH6}>
+                  Total Committed Value
+                </TypographyLabel>
+                <RenderGuard renderIf={loading}>
+                  <Box>
+                    <Skeleton width="5rem" height="3rem" />
+                  </Box>
+                </RenderGuard>
+                <RenderGuard renderIf={!loading}>
+                  <Typography className={classes.statBoxH4} variant="h4">
+                    ${toShorterNum(totalCommit)}
+                  </Typography>
+                </RenderGuard>
+              </Box>
+            )
+          }
+        </Box>
+        {
+          widthXxs && (
+            <Box className={clsx(classes.statsDiv, "alone")}>
               <TypographyLabel className={classes.statBoxH6}>
                 Total Committed Value
               </TypographyLabel>
-              <RenderGuard renderIf={loading}>
-                <Box>
-                  <Skeleton width="5rem" height="3rem" />
-                </Box>
-              </RenderGuard>
-              <RenderGuard renderIf={!loading}>
-                <Typography className={classes.statBoxH4} variant="h4">
-                  ${toShorterNum(totalCommit)}
-                </Typography>
-              </RenderGuard>
+              <Typography className={classes.statsDivH4} variant="h4">
+                ${toShorterNum(totalCommit)}
+              </Typography>
             </Box>
-          </Hidden>
-        </Box>
-        <Hidden only="sm">
-          <Box className={clsx(classes.statsDiv, "alone")}>
-            <TypographyLabel className={classes.statBoxH6}>
-              Total Committed Value
-            </TypographyLabel>
-            <Typography className={classes.statsDivH4} variant="h4">
-              ${toShorterNum(totalCommit)}
-            </Typography>
-          </Box>
-        </Hidden>
+          )
+        }
         <Button
           className={classes.earningBtn}
           variant="contained"
@@ -145,7 +150,6 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
             lottieRef={lottieRef}
             { ...defaultLiquidityOpts }
             animationData={LiquidityPools}
-            loop={false}
             onComplete={delayAnimation}
           />
         </Suspense>
@@ -195,11 +199,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   statsBox: {
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(5),
     "&:first-child": {
       marginLeft: 0,
     },
-    [theme.breakpoints.only("xs")]: {
+    "@media (max-width: 480px)": {
       width: "50%",
     },
   },

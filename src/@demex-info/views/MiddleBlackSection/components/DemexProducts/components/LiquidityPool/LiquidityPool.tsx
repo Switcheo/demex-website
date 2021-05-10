@@ -8,17 +8,17 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import LiquidityPoolSection from "./LiquidityPoolSection";
 import LiquidityPoolSlide from "./LiquidityPoolSlide";
+import { SlideCategory } from "../slideConfig";
 
 interface Props {
   liquidityRef: () => void;
-  liquidityView: boolean;
-  stakingView: boolean;
+  slide: SlideCategory | null;
 }
 
 let poolsInterval: any;
 
 const LiquidityPool: React.FC<Props> = (props: Props) => {
-  const { liquidityRef, liquidityView, stakingView } = props;
+  const { liquidityRef, slide } = props;
   const [runPools] = useAsyncTask("runPools");
 
   const [pools, setPools] = React.useState<Pool[]>([]);
@@ -111,8 +111,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
       <Hidden smDown>
         <LiquidityPoolSlide
           liquidityRef={liquidityRef}
-          liquidityView={liquidityView}
-          stakingView={stakingView}
+          slide={slide}
           data={{ avgApy, totalCommit, totalLiquidity }}
         />
       </Hidden>

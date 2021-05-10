@@ -12,6 +12,7 @@ import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { SlideCategory } from "../slideConfig";
 
 const Lottie = React.lazy(() => import("lottie-react"));
 
@@ -24,12 +25,11 @@ interface DataProps {
 interface Props {
   data: DataProps;
   liquidityRef: () => void;
-  liquidityView: boolean;
-  stakingView: boolean;
+  slide: SlideCategory | null;
 }
 
 const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
-  const { data, liquidityRef, liquidityView } = props;
+  const { data, liquidityRef, slide } = props;
   const classes = useStyles();
 
   const lottieRef = React.useRef<any>();
@@ -42,7 +42,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     lottieRef?.current?.pause();
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
-    }, 5000);
+    }, 10000);
   };
 
   const handleResizeWindow = () => {
@@ -61,10 +61,10 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     lottieRef?.current?.stop();
-    if (liquidityView) {
+    if (slide === "liquidityPools") {
       lottieRef?.current?.goToAndPlay(0);
     }
-  }, [liquidityView]);
+  }, [slide]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResizeWindow);
@@ -77,7 +77,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
       id="liquidityPools"
       className={clsx(
         classes.slideItem,
-        { slideIn: liquidityView },
+        { slideIn: slide === "liquidityPools" },
       )}
     >
       <Box className={classes.leftGrid}>
@@ -156,7 +156,6 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
             lottieRef={lottieRef}
             { ...defaultLiquidityOpts }
             animationData={LiquidityPools}
-            loop={false}
             onComplete={delayAnimation}
             id="liquidAnimation"
             style={{
@@ -204,8 +203,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     width: "100%",
     justifyContent: "center",
-    paddingTop: "14vh",
-    paddingBottom: "16vh",
+    paddingTop: "6rem",
+    paddingBottom: "6rem",
     opacity: 0,
     transform: "translate(0px, 60px)",
     transition: "opacity ease-in 0.3s, transform ease-in 0.4s",

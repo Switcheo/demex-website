@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(0, "auto"),
     maxWidth: "84rem",
-    padding: theme.spacing(13, 2.5, 5),
+    padding: theme.spacing(13, 2.5, 0),
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(8, 4, 6),
     },
