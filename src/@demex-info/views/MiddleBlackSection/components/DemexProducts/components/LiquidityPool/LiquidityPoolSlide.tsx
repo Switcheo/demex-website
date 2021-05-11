@@ -45,7 +45,7 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     lottieRef?.current?.pause();
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
-    }, 10000);
+    }, 12500);
   };
 
   const onEnterLogo = () => {
@@ -193,9 +193,9 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   demexLogo: {
-    height: "1.5rem",
+    height: "1.3rem",
     marginLeft: theme.spacing(1.5),
-    width: "1.5rem",
+    width: "1.3rem",
     "&.jiggle": {
       animation: "jiggleMove 0.2s infinite",
       "-webkit-animation": "jiggleMove 0.2s infinite",
@@ -257,7 +257,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "42rem",
     "@media (min-width: 960px) and (max-width: 1600px)": {
       maxWidth: "32rem",
-      padding: theme.spacing(0, 2.5),
     },
   },
   skeleton: {

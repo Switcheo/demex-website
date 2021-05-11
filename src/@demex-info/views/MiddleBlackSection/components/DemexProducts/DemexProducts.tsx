@@ -132,7 +132,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   root: {
     padding: theme.spacing(0, 2.5),
-    "@media (min-width: 1280px) and (max-width: 1600px)": {
+    "@media (min-width: 960px) and (max-width: 1600px)": {
       padding: theme.spacing(0, 5),
     },
     [theme.breakpoints.only("sm")]: {

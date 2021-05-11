@@ -65,6 +65,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
       <Box className={classes.animationBox}>
         <Suspense fallback={null}>
           <Lottie
+            className={classes.lottieBox}
             lottieRef={lottieRef}
             { ...defaultStakingOpts }
             animationData={Staking}
@@ -95,7 +96,7 @@ const StakingSlide: React.FC<Props> = (props: Props) => {
               </TypographyLabel>
               <RenderGuard renderIf={loading}>
                 <Box>
-                  <Skeleton className={classes.skeleton} />
+                  <Skeleton className={clsx(classes.skeleton, "total")} />
                 </Box>
               </RenderGuard>
               <RenderGuard renderIf={!loading}>
@@ -167,6 +168,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(9),
     },
   },
+  lottieBox: {
+    maxWidth: "35.4rem",
+  },
   poolsStats: {
     alignItems: "center",
     display: "flex",
@@ -176,12 +180,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rightGrid: {
-    display: "flex",
-    justifyContent: "center",
     maxWidth: "42rem",
     width: "100%",
-    padding: 0,
+    padding: "0 0 0 8rem",
     "@media (max-width: 1600px)": {
+      display: "flex",
+      justifyContent: "center",
       maxWidth: "32rem",
       padding: theme.spacing(0, 2.5),
     },
@@ -189,6 +193,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   skeleton: {
     width: "7rem",
     height: "3rem",
+    "&.total": {
+      width: "10rem",
+    },
     "@media (min-width: 1601px)": {
       height: "4rem",
     },

@@ -423,9 +423,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 1,
   },
   demexLogo: {
-    height: "1.5rem",
+    height: "1.3rem",
     marginLeft: theme.spacing(1.25),
-    width: "1.5rem",
+    width: "1.3rem",
     "&.jiggle": {
       animation: "jiggleMove 0.2s infinite",
       "-webkit-animation": "jiggleMove 0.2s infinite",
@@ -434,8 +434,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       "-moz-animation-iteration-count": "infinite",
     },
     [theme.breakpoints.only("xs")]: {
-      height: "1.35rem",
-      width: "1.35rem",
+      height: "1.15rem",
+      width: "1.15rem",
     },
   },
   numSkeleton: {

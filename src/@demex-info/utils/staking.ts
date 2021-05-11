@@ -12,6 +12,7 @@ export interface Validator {
   delegatorShares: BigNumber;
   walletAddress: string
   bondStatus: string;
+  tokens: BigNumber;
 }
 
 export const parseStakingStats = (data: any, tokens: TokenObj[]): StakingStats => {
@@ -34,6 +35,7 @@ export const parseValidators = (data: any): Validator[] => {
       DelegatorShares: delegatorShares = "0",
       OperatorAddress: operatorAddress = "",
       WalletAddress: walletAddress = "",
+      Tokens: tokens = "0",
     } = validator;
 
     return {
@@ -41,6 +43,7 @@ export const parseValidators = (data: any): Validator[] => {
       delegatorShares: parseNumber(delegatorShares, BN_ZERO)!,
       operatorAddress,
       walletAddress,
+      tokens: parseNumber(tokens, BN_ZERO)!,
     };
   });
 };
