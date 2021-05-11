@@ -402,22 +402,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         transform: "rotate(20deg)",
       },
     },
-    "@-moz-keyframes jiggleMove": {
-      "0%": {
-        "-moz-transform": "rotate(-20deg)",
-      },
-      "50%": {
-        "-moz-transform": "rotate(20deg)",
-      },
-    },
-    "@-webkit-keyframes jiggleMove": {
-      "0%": {
-        "-webkit-transform": "rotate(-20deg)",
-      },
-      "50%": {
-        "-webkit-transform": "rotate(20deg)",
-      },
-    },
   },
   backdrop: {
     zIndex: 1,
