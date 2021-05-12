@@ -42,7 +42,7 @@ const ExchangeComparison: React.FC = () => {
     swipeable: false,
   };
 
-  const [dexNum, setDexNum] = React.useState<number>(1);
+  const [dexNum, setDexNum] = React.useState<number>(0);
   const [propertyTab, setPropertyTab] = React.useState<PropertyTab>(cexDefault);
 
   const [titleRef, titleView] = useInView({
@@ -130,7 +130,7 @@ const ExchangeComparison: React.FC = () => {
               onChange={() => handleDexToggle()}
               color="default"
               size="medium"
-              icon={(<DemexCircleLogo className={classes.demexLogo} />)}
+              checkedIcon={(<DemexCircleLogo className={classes.demexLogo} />)}
             />
             <TypographyLabel
               className={clsx(classes.switchSub, { toggle: dexNum === 1 })}

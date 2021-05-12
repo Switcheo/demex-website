@@ -147,24 +147,24 @@ export const CexTradingVal: CexTradingRow[] = [{
 }];
 
 export const CexSecurityVal: CexTradingRow[] = [{
-  header: "User Verification",
+  header: "No Private Info Required",
   values: {
-    demex: false,
-    kraken: true,
-    deribit: true,
-    bybit: true,
-    bitmex: true,
-    binance: true,
+    demex: true,
+    kraken: false,
+    deribit: false,
+    bybit: false,
+    bitmex: false,
+    binance: false,
   },
 }, {
-  header: "Account Creation Needed",
+  header: "No Registration Required",
   values: {
-    demex: false,
-    kraken: true,
-    deribit: true,
-    bybit: true,
-    bitmex: true,
-    binance: true,
+    demex: true,
+    kraken: false,
+    deribit: false,
+    bybit: false,
+    bitmex: false,
+    binance: false,
   },
 }, {
   header: "Login Methods",
