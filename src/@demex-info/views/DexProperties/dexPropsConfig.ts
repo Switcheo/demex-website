@@ -43,7 +43,7 @@ export const dexPropsArr: DexProp[] = [{
   title: "Be Protected",
   points: [{
     label: "insuranceFund",
-    statement: "Robust insurance fund that mitigates socialized losses",
+    statement: "Robust insurance fund that mitigates socialized losses (coming soon)",
   }, {
     label: "censorshipResistent",
     statement: "Censorship-resistant",
@@ -62,7 +62,7 @@ export const dexPropsArr: DexProp[] = [{
     statement: "Anyone can market-make using our liquidity pools",
   }, {
     label: "liquidityBackstops",
-    statement: "Multiple liquidity backstops through Uniswap and Kyber Network",
+    statement: "Multiple liquidity backstops through Uniswap and Kyber Network (coming soon)",
   }],
   animation: DeepLiquidity,
 }];
