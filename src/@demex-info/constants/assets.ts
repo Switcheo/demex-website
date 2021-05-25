@@ -70,6 +70,13 @@ export const COMMON_ASSET_NAME: {
   bnb2: "bnb",
   busd1: "busd",
   btcb1: "btcb",
+  busdt1: "busdt",
+  bbelt1: "bbelt",
+  elink1: "elink",
+  elink2: "elink",
+  euni1: "euni",
+  euni2: "euni",
+  ncgas1: "ncgas",
 };
 
 export const FuturesDenomOverride = {

@@ -1,11 +1,16 @@
-import { AttachMoney, BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, iUSD, NEO, NEX, SWTH, USD, USDC, USDT, WBTC } from "@demex-info/assets";
+import {
+  AttachMoney, ASA, BELT, BNB, BTC, BUSD, CEL, DAI, DBC, EOS,
+  ETH, FLM, GAS, GRT, HELMET, iUSD, INCH, LINK, NEO, NEX, SWTH,
+  TRB, TRU, UNI, USD, USDC, USDT, WBTC, YAM,
+} from "@demex-info/assets";
 import { makeStyles, SvgIconProps } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
 const symbolToIcon: { [symbol: string]: any } = {
-  BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM,
-  GAS, NEO, NEX, SWTH, USD, USDC, USDT, WBTC, iUSD,
+  "1INCH": INCH, ASA, BELT, BNB, BTC, BUSD, CEL, DAI, DBC,
+  EOS, ETH, FLM, GAS, GRT, HELMET, LINK, NEO, NEX, SWTH, TRB,
+  TRU, UNI, USD, USDC, USDT, WBTC, YAM, iUSD,
 };
 
 const tokenNameMap: {
