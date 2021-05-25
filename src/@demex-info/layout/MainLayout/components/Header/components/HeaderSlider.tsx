@@ -35,7 +35,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
     //   href: Paths.Leaderboard,
     // },
     {
-      label: "Tradescan",
+      label: "Explorer",
       href: getExplorerLink(net),
     },
     {

@@ -41,7 +41,7 @@ const NavFooter: React.FC = () => {
       label: "API",
       href: StaticLinks.Api.Home,
     }, {
-      label: "Tradescan",
+      label: "Explorer",
       href: getExplorerLink(net),
     }, {
       label: "Docs",

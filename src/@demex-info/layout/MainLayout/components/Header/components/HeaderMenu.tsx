@@ -27,7 +27,7 @@ const HeaderMenu: React.FC = () => {
     //   href: Paths.Leaderboard,
     // },
     {
-      label: "Tradescan",
+      label: "Explorer",
       href: getExplorerLink(net),
     },
     {
