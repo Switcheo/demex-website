@@ -1,4 +1,3 @@
-import { DemexCircleLogo } from "@demex-info/assets";
 import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { defaultLiquidityOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
@@ -33,8 +32,6 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
   const { data, liquidityRef, slide } = props;
   const classes = useStyles();
 
-  const [jiggle, setJiggle] = React.useState<boolean>(false);
-
   const lottieRef = React.useRef<any>();
 
   const [loading] = useTaskSubscriber("runPools");
@@ -46,14 +43,6 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
     }, 12500);
-  };
-
-  const onEnterLogo = () => {
-    setJiggle(true);
-  };
-
-  const onLeaveLogo = () => {
-    setJiggle(false);
   };
 
   const handleResizeWindow = () => {
@@ -109,11 +98,6 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
           </TypographyLabel>
           <Box className={classes.divBox}>
             <Divider className={classes.divider} />
-            <DemexCircleLogo
-              className={clsx(classes.demexLogo, { jiggle })}
-              onMouseEnter={onEnterLogo}
-              onMouseLeave={onLeaveLogo}
-            />
           </Box>
           <Box className={classes.poolsStats}>
             <Box className={classes.statsBox}>
@@ -192,18 +176,6 @@ const LiquidityPoolSlide: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  demexLogo: {
-    height: "1.3rem",
-    marginLeft: theme.spacing(1.5),
-    width: "1.3rem",
-    "&.jiggle": {
-      animation: "jiggleMove 0.2s infinite",
-      "-webkit-animation": "jiggleMove 0.2s infinite",
-      "-moz-animation-duration": "0.2s",
-      "-moz-animation-name": "jiggleMove",
-      "-moz-animation-iteration-count": "infinite",
-    },
-  },
   divBox: {
     alignItems: "center",
     display: "flex",

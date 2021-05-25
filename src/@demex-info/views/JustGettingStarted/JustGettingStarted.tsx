@@ -1,4 +1,4 @@
-import { DemexCircleLogo, HomeBorderCircle1 } from "@demex-info/assets";
+import { HomeBorderCircle1 } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
@@ -24,20 +24,10 @@ const Demex101Box = Loadable({
 const JustGettingStarted: React.FC = () => {
   const classes = useStyles();
 
-  const [jiggle, setJiggle] = React.useState<boolean>(false);
-
   const [titleRef, titleView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-
-  const onEnterLogo = () => {
-    setJiggle(true);
-  };
-
-  const onLeaveLogo = () => {
-    setJiggle(false);
-  };
 
   return (
     <div ref={titleRef} className={classes.root}>
@@ -71,11 +61,6 @@ const JustGettingStarted: React.FC = () => {
         </Box>
       </Box>
       <HomeBorderCircle1 className={classes.sideBorder} />
-      <DemexCircleLogo
-        onMouseEnter={onEnterLogo}
-        onMouseLeave={onLeaveLogo}
-        className={clsx(classes.demexLogo, { jiggle })}
-      />
     </div>
   );
 };
@@ -88,32 +73,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   cardTitle: {
     fontSize: "1.75rem",
     fontWeight: 500,
-  },
-  demexLogo: {
-    height: "1.2rem",
-    width: "1.2rem",
-    position: "absolute",
-    bottom: "1.05rem",
-    left: "4.85rem",
-    [theme.breakpoints.only("md")]: {
-      bottom: "1rem",
-      left: "3.65rem",
-    },
-    [theme.breakpoints.only("sm")]: {
-      bottom: "1rem",
-      left: "4.05rem",
-    },
-    [theme.breakpoints.only("xs")]: {
-      bottom: "1rem",
-      left: "3.05rem",
-    },
-    "&.jiggle": {
-      animation: "jiggleMove 0.2s infinite",
-      "-webkit-animation": "jiggleMove 0.2s infinite",
-      "-moz-animation-duration": "0.2s",
-      "-moz-animation-name": "jiggleMove",
-      "-moz-animation-iteration-count": "infinite",
-    },
   },
   gridBox: {
     backgroundColor: theme.palette.background.default,

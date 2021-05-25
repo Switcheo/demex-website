@@ -1,4 +1,3 @@
-import { DemexCircleLogo } from "@demex-info/assets";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
 import {
@@ -52,7 +51,6 @@ const MarketsTable: React.FC = () => {
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
-  const [jiggle, setJiggle] = React.useState<boolean>(false);
 
   const reloadMarkets = () => {
     setLoad(true);
@@ -164,14 +162,6 @@ const MarketsTable: React.FC = () => {
   const interestCountUp = useRollingNum(openInterest, 2, 2);
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
-  
-  const onEnterLogo = () => {
-    setJiggle(true);
-  };
-
-  const onLeaveLogo = () => {
-    setJiggle(false);
-  };
 
   return (
     <div className={classes.root}>
@@ -199,11 +189,6 @@ const MarketsTable: React.FC = () => {
                 <Typography color="textPrimary" variant="subtitle2">
                   Volume (24H)
                 </Typography>
-                <DemexCircleLogo
-                  onMouseEnter={onEnterLogo}
-                  onMouseLeave={onLeaveLogo}
-                  className={clsx(classes.demexLogo, { jiggle })}
-                />
               </Box>
               <RenderGuard renderIf={loading}>
                 <Skeleton className={classes.standardSkeleton} />
@@ -393,34 +378,8 @@ const MarketsTable: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  "@global": {
-    "@keyframes jiggleMove": {
-      "0%": {
-        transform: "rotate(-20deg)",
-      },
-      "50%": {
-        transform: "rotate(20deg)",
-      },
-    },
-  },
   backdrop: {
     zIndex: 1,
-  },
-  demexLogo: {
-    height: "1.3rem",
-    marginLeft: theme.spacing(1.25),
-    width: "1.3rem",
-    "&.jiggle": {
-      animation: "jiggleMove 0.2s infinite",
-      "-webkit-animation": "jiggleMove 0.2s infinite",
-      "-moz-animation-duration": "0.2s",
-      "-moz-animation-name": "jiggleMove",
-      "-moz-animation-iteration-count": "infinite",
-    },
-    [theme.breakpoints.only("xs")]: {
-      height: "1.15rem",
-      width: "1.15rem",
-    },
   },
   numSkeleton: {
     width: "80px",
