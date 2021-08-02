@@ -1,5 +1,5 @@
 import { CaretRight, HomeBorder2 as HomeBorderLeft, HomeBorder3 as HomeBorderRight } from "@demex-info/assets/icons";
-import { EncryptedKey, Ledger, MetaMask } from "@demex-info/assets/logos";
+import { EncryptedKey, Keplr, Ledger, MetaMask } from "@demex-info/assets/logos";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
@@ -48,6 +48,17 @@ const ReadyToTrade: React.FC = () => {
           >
             <Ledger className={classes.ledgerIcon} />
             Ledger
+          </Button>
+          <Button
+            classes={{
+              root: classes.buttonEach,
+              label: classes.buttonLbl,
+            }}
+            color="secondary"
+            onClick={() => goToLink(getDemexLink(Paths.Login.Keplr, network))}
+          >
+            <Keplr className={classes.keyIcon} />
+            Keplr
           </Button>
           <Button
             classes={{
