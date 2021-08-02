@@ -49,6 +49,27 @@ export const ASSETS: Assets = {
   nneo: {
     precision: 8,
   },
+  busdt: {
+    precision: 18,
+  },
+  bbelt: {
+    precision: 18,
+  },
+  elink: {
+    precision: 18,
+  },
+  euni: {
+    precision: 18,
+  },
+  inch: {
+    precision: 18,
+  },
+  ncgas: {
+    precision: 8,
+  },
+  trb: {
+    precision: 18,
+  },
 };
 
 export const COMMON_ASSET_NAME: {
