@@ -8,6 +8,7 @@ export { ReactComponent as Discord } from "./Discord.svg";
 export { ReactComponent as Dydx } from "./Dydx.svg";
 export { ReactComponent as Facebook } from "./Facebook.svg";
 export { ReactComponent as Injective } from "./Injective.svg";
+export { ReactComponent as Keplr } from "./Keplr.svg";
 export { ReactComponent as EncryptedKey } from "./Key.svg";
 export { ReactComponent as Kraken } from "./Kraken.svg";
 export { ReactComponent as Ledger } from "./Ledger.svg";
