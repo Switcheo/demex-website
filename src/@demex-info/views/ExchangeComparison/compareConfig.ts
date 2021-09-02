@@ -169,7 +169,7 @@ export const CexSecurityVal: CexTradingRow[] = [{
 }, {
   header: "Login Methods",
   values: {
-    demex: ["Encrypted Key", "Metamask", "Ledger"],
+    demex: ["Encrypted Key", "Metamask", "Keplr", "Ledger"],
     kraken: ["Email", "KYC"],
     deribit: ["Email", "KYC"],
     bybit: ["Email", "KYC"],
