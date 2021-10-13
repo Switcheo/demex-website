@@ -54,7 +54,7 @@ const NavFooter: React.FC = () => {
     title: "About Demex",
     items: [{
       label: "Ecosystem",
-      href: StaticLinks.SwitcheoNetwork,
+      href: StaticLinks.CarbonNetwork,
     }, {
       label: "T&C",
       href: StaticLinks.TermsConditions,

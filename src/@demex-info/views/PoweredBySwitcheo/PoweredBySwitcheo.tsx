@@ -44,7 +44,7 @@ const PoweredBySwitcheo: React.FC = () => {
             <Hidden smDown>
               <br />
             </Hidden>
-            Switcheo TradeHub
+            Carbon Protocol
           </Typography>
         </Box>
         <Box className={classes.rightDiv}>
@@ -58,7 +58,7 @@ const PoweredBySwitcheo: React.FC = () => {
           >
             <TypographyLabel className={classes.tradeH6}>
               {/* eslint-disable-next-line no-trailing-spaces */}
-              <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Switcheo TradeHub</Link> is a custom layer 2 sidechain built for trading sophisticated financial instruments at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange order books.  
+              <Link color="secondary" href={StaticLinks.Api.Home} target="_blank">Carbon</Link> is a Layer 2 trading protocol powering cross-chain financial markets and infrastructures. As a custom-built sidechain, Carbon is designed specifically for trading sophisticated financial instruments such as options, bonds and futures at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order matching engine</Link> and liquidity pool protocol that can simulate AMM liquidity on exchange orderbooks.  
             </TypographyLabel>
             <TypographyLabel className={classes.tradeH6} mt={2}>
               The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
@@ -67,7 +67,7 @@ const PoweredBySwitcheo: React.FC = () => {
               className={classes.ecosystemBtn}
               color="secondary"
               component={Link}
-              href={StaticLinks.SwitcheoNetwork}
+              href={StaticLinks.CarbonNetwork}
               target="_blank"
             >
               See Our Ecosystem

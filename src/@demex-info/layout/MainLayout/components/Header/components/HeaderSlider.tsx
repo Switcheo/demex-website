@@ -41,7 +41,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
     {
       showIcon: true,
       label: "Ecosystem",
-      href: StaticLinks.SwitcheoNetwork,
+      href: StaticLinks.CarbonNetwork,
     },
   ];
 

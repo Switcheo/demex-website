@@ -33,7 +33,7 @@ const HeaderMenu: React.FC = () => {
     {
       showIcon: true,
       label: "Ecosystem",
-      href: StaticLinks.SwitcheoNetwork,
+      href: StaticLinks.CarbonNetwork,
     },
   ];
 
