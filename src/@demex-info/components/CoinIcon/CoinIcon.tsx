@@ -14,6 +14,7 @@ const tokenNameMap: {
   IUSD: "USD",
   NNEO: "NEO",
   BTCB: "BTC",
+  BCFX: "CFX",
 };
 
 export interface CoinIconProps extends SvgIconProps {
