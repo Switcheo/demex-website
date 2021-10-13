@@ -1,5 +1,5 @@
 import { ExternalLink } from "@demex-info/assets/icons";
-import { SwitcheoWordMark } from "@demex-info/assets/logos";
+import { PoweredByCarbon } from "@demex-info/assets/logos";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
@@ -82,7 +82,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       <Box className={classes.box}>
         <Divider />
         <Box className={classes.footerLogo}>
-          <SwitcheoWordMark className={classes.swthLogo} />
+          <PoweredByCarbon className={classes.swthLogo} />
         </Box>
       </Box>
     </Drawer>
@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   swthLogo: {
-    height: "0.8rem",
+    height: "0.875rem",
   },
 }));
 

@@ -16,6 +16,7 @@ export { ReactComponent as LinkedIn } from "./LinkedIn.svg";
 export { ReactComponent as Loopring } from "./Loopring.svg";
 export { ReactComponent as Medium } from "./Medium.svg";
 export { ReactComponent as MetaMask } from "./MetaMask.svg";
+export { ReactComponent as PoweredByCarbon } from "./PoweredByCarbon.svg";
 export { ReactComponent as Reddit } from "./Reddit.svg";
 export { ReactComponent as Serum } from "./Serum.svg";
 export { ReactComponent as SwitcheoWordMark } from "./SwitcheoTradehubOnDark.svg";
