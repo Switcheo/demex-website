@@ -62,11 +62,13 @@ export const DemexHosts: { [key: string]: string } = {
 export const StaticLinks = {
   JoinValidator: "https://github.com/Switcheo/tradehub",
   SwitcheoTokenArticle: "https://blog.switcheo.network/a-brave-new-chapter/",
-  SwitcheoNetwork: "https://www.switcheo.network/",
-  TermsConditions: "https://switcheo.network/terms-of-use",
+  CarbonNetwork: "https://carbon.network/",
+  // TermsConditions: "https://switcheo.network/terms-of-use",
   Api: {
-    Home: "https://docs.switcheo.org/",
-    MatchingEngine: "https://docs.switcheo.org/#/?id=matching-engine",
+    Home: "https://docs.carbon.network/",
+    Guide: "https://guide.carbon.network/",
+    MatchingEngine: "https://guide.carbon.network/features/decentralized-orderbooks",
+    LiquidityPool: "https://guide.carbon.network/features/liquidity-pools",
   },
   ContactUs: "https://support.switcheo.network/en/",
   Feedback: "https://ideas.dem.exchange/",
@@ -138,8 +140,6 @@ export function goToLink(link: string) {
   if (!link) return;
   window.open(link, "_blank");
 }
-
-export const BUY_SWITCHEO_LINK: string = "https://switcheo.exchange/markets/SWTH_NEO";
 
 export interface NavLink {
   showIcon?: boolean | undefined;

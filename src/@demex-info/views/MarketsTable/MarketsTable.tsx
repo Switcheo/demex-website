@@ -467,6 +467,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(3, 4),
     width: "100%",
     [theme.breakpoints.down("sm")]: {
+      "& h6": {
+        lineHeight: "1.375rem",
+      },
       "&:first-child": {
         marginLeft: 0,
       },
@@ -478,6 +481,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
       "& h6": {
         fontSize: "0.75rem",
+        lineHeight: "1.35rem",
       },
     },
     "@media (max-width: 400px)": {
