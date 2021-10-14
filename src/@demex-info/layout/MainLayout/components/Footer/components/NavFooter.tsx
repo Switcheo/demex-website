@@ -55,10 +55,10 @@ const NavFooter: React.FC = () => {
     items: [{
       label: "Ecosystem",
       href: StaticLinks.CarbonNetwork,
-    }, {
+    }, /* {
       label: "T&C",
       href: StaticLinks.TermsConditions,
-    }],
+    } */],
   }];
 
   return (

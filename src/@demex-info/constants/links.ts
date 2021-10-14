@@ -63,7 +63,7 @@ export const StaticLinks = {
   JoinValidator: "https://github.com/Switcheo/tradehub",
   SwitcheoTokenArticle: "https://blog.switcheo.network/a-brave-new-chapter/",
   CarbonNetwork: "https://carbon.network/",
-  TermsConditions: "https://switcheo.network/terms-of-use",
+  // TermsConditions: "https://switcheo.network/terms-of-use",
   Api: {
     Home: "https://docs.carbon.network/",
     Guide: "https://guide.carbon.network/",
@@ -140,8 +140,6 @@ export function goToLink(link: string) {
   if (!link) return;
   window.open(link, "_blank");
 }
-
-export const BUY_SWITCHEO_LINK: string = "https://switcheo.exchange/markets/SWTH_NEO";
 
 export interface NavLink {
   showIcon?: boolean | undefined;
