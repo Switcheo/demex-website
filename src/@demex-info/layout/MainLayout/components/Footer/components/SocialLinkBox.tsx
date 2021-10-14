@@ -7,14 +7,13 @@ const SocialLinkBox: React.FC = () => {
   const classes = useStyles();
 
   const socialLnks: ExtSocialLnk[] = [
-    SocialLnks.Telegram,
-    SocialLnks.Facebook,
     SocialLnks.Twitter,
-    SocialLnks.Reddit,
-    SocialLnks.LinkedIn,
-    SocialLnks.Medium,
-    SocialLnks.Youtube,
+    SocialLnks.Telegram,
     SocialLnks.Discord,
+    SocialLnks.Medium,
+    SocialLnks.Reddit,
+    SocialLnks.GitHub,
+    SocialLnks.LinkedIn,
   ];
 
   return (

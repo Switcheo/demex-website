@@ -1,4 +1,4 @@
-import { Discord, Facebook, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
+import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 import { Network } from "@demex-info/utils/restClient";
 
 export const Paths = {
@@ -64,6 +64,7 @@ export const StaticLinks = {
   SwitcheoTokenArticle: "https://blog.switcheo.network/a-brave-new-chapter/",
   CarbonNetwork: "https://carbon.network/",
   // TermsConditions: "https://switcheo.network/terms-of-use",
+  Blog: "https://blog.switcheo.com/",
   Api: {
     Home: "https://docs.carbon.network/",
     Guide: "https://guide.carbon.network/",
@@ -82,6 +83,7 @@ export const StaticLinks = {
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
     Medium: "https://medium.com/switcheo",
     Discord: "https://discord.gg/SPh62Hf",
+    GitHub: "https://github.com/switcheo",
   },
   ExternalBlockchains: {
     Eth: "https://etherscan.io/tx/",
@@ -91,19 +93,19 @@ export const StaticLinks = {
     BscTestnet: "https://testnet.bscscan.com/tx/",
   },
   DemexDocs: {
-    Home: "https://docs.dem.exchange",
+    Home: "https://guide.dem.exchange/",
     Start: {
-      CreateAccount: "https://docs.dem.exchange/getting-started/creating-a-demex-account",
+      CreateAccount: "https://guide.dem.exchange/getting-started/creating-a-demex-account",
     },
     LiquidityPools: {
-      Instructions: "https://docs.dem.exchange/getting-started/committing-liquidity-pool-tokens",
-      Faqs: "https://docs.dem.exchange/products/what-is-liquidity-pooling/faqs",
+      Instructions: "https://guide.dem.exchange/products/what-is-liquidity-pooling/providing-liquidity-on-demex",
+      Faqs: "https://guide.dem.exchange/products/what-is-liquidity-pooling/faqs",
     },
     Trade: {
-      Spot: "https://docs.dem.exchange/products/trading-spot-markets",
-      Futures: "https://docs.dem.exchange/products/futures/trading-futures-on-demex",
+      Spot: "https://guide.dem.exchange/products/trading-spot-markets",
+      Futures: "https://guide.dem.exchange/products/futures/trading-futures-on-demex",
     },
-    Fees: "https://docs.dem.exchange/getting-started/fees",
+    Fees: "https://guide.dem.exchange/getting-started/fees",
   },
   Tendermint: "https://tendermint.com/core/",
 };
@@ -195,5 +197,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "discord",
     href: StaticLinks.Socials.Discord,
     component: Discord,
+  },
+  GitHub: {
+    label: "github",
+    href: StaticLinks.Socials.GitHub,
+    component: GitHub,
   },
 };
