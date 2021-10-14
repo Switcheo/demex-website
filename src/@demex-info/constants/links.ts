@@ -65,8 +65,10 @@ export const StaticLinks = {
   CarbonNetwork: "https://carbon.network/",
   TermsConditions: "https://switcheo.network/terms-of-use",
   Api: {
-    Home: "https://docs.switcheo.org/",
-    MatchingEngine: "https://docs.switcheo.org/#/?id=matching-engine",
+    Home: "https://docs.carbon.network/",
+    Guide: "https://guide.carbon.network/",
+    MatchingEngine: "https://guide.carbon.network/features/decentralized-orderbooks",
+    LiquidityPool: "https://guide.carbon.network/features/liquidity-pools",
   },
   ContactUs: "https://support.switcheo.network/en/",
   Feedback: "https://ideas.dem.exchange/",
