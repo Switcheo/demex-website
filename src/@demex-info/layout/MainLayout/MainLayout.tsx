@@ -30,7 +30,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    let wsConnect: WSConnector | undefined;
+    // let wsConnect: WSConnector | undefined;
 
     const initWsSDK = async () => {
       try {
@@ -45,7 +45,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
         });
         await wsConnector.connect();
 
-        wsConnect = wsConnector;
+        // wsConnect = wsConnector;
         dispatch(actions.App.setSDK(sdk));
         dispatch(actions.App.setWsConnector(wsConnector));
       } catch (err) {
@@ -54,13 +54,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
     };
     initWsSDK();
 
-    return () => {
-      (async () => {
-        const newWs = wsConnect as WSConnector;
-        await newWs.disconnect();
-        dispatch(actions.App.setWsConnector(newWs));
-      })();
-    };
+    return () => {};
   }, [net]);
 
 	const classes = useStyles();

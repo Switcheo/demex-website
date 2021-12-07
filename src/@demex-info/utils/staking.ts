@@ -1,6 +1,7 @@
-import { TokenObj } from "@demex-info/store/app/types";
-import { adjustGweiToHumanAmount, BN_ZERO, parseNumber } from "@demex-info/utils";
+import { toBase64 } from "@cosmjs/encoding";
+import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
+import { CarbonSDK, Models } from "carbon-js-sdk";
 
 export interface StakingStats {
   totalStaked: BigNumber;
@@ -8,44 +9,47 @@ export interface StakingStats {
 // "1970-01-01T00:00:00Z"
 
 export interface Validator {
-  operatorAddress: string
+  operatorAddress: string;
   delegatorShares: BigNumber;
-  walletAddress: string
-  bondStatus: string;
+  status: Models.Staking.BondStatus;
   tokens: BigNumber;
 }
 
-export const parseStakingStats = (data: any, tokens: TokenObj[]): StakingStats => {
-  const stakingData = data?.result ?? {};
-  const bondedTokens = adjustGweiToHumanAmount(stakingData?.bonded_tokens, tokens, "swth");
-  const nonBondedTokens = adjustGweiToHumanAmount(stakingData?.not_bonded_tokens, tokens, "swth")!;
+export const parseStakingStats = (data: Models.Staking.Pool | undefined, sdk: CarbonSDK | undefined): StakingStats => {
+  if (!sdk?.token || !data) {
+    return { totalStaked: BN_ZERO };
+  }
+  const bondedTokens = sdk.token.toHuman("swth", parseNumber(data.bondedTokens, BN_ZERO)!);
+  const nonBondedTokens = sdk.token.toHuman("swth", parseNumber(data.notBondedTokens, BN_ZERO)!);
   return {
     totalStaked: bondedTokens.plus(nonBondedTokens),
   };
 };
 
-export const parseValidators = (data: any): Validator[] => {
+export const parseValidators = (data: Models.Staking.Validator[]): Validator[] => {
   if (typeof data !== "object" || data.length <= 0) {
     return [];
   }
 
-  return data.map((validator: any) => {
+  return data.map((validator: Models.Staking.Validator) => {
     const {
-      BondStatus: bondStatus = "",
-      DelegatorShares: delegatorShares = "0",
-      OperatorAddress: operatorAddress = "",
-      WalletAddress: walletAddress = "",
-      Tokens: tokens = "0",
+      status = Models.Staking.BondStatus.BOND_STATUS_UNSPECIFIED,
+      delegatorShares = "0",
+      operatorAddress = "",
+      tokens = "0",
     } = validator;
 
     return {
-      bondStatus,
+      status,
       delegatorShares: parseNumber(delegatorShares, BN_ZERO)!,
       operatorAddress,
-      walletAddress,
       tokens: parseNumber(tokens, BN_ZERO)!,
     };
   });
+};
+
+export const parseEventAttr = (a: Uint8Array) => {
+  return window.atob(toBase64(a));
 };
 
 export interface BlockSummary {
