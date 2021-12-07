@@ -1,12 +1,11 @@
-import { BN_ZERO, Network, parseNumber } from "@demex-info/utils";
-import RestClient from "@demex-info/utils/restClient";
-import TendermintClient from "@demex-info/utils/tendermint";
+import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
+import { CarbonSDK, WSConnector } from "carbon-js-sdk";
 
 export interface AppState {
-  network: Network;
-  restClient: RestClient;
-  tendermintClient: TendermintClient;
+  network: CarbonSDK.Network;
+  sdk: CarbonSDK | undefined;
+  ws: WSConnector | undefined;
   tokens: TokenObj[];
   usdPrices: USDPrices;
 }

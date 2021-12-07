@@ -1,7 +1,11 @@
+import actions from "@demex-info/store/actions";
+import { RootState } from "@demex-info/store/types";
 import { BoxProps, makeStyles, Theme } from "@material-ui/core";
+import { CarbonSDK, WSConnector } from "carbon-js-sdk";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import Loadable from "react-loadable";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
 
 interface Props extends BoxProps { }
@@ -16,12 +20,48 @@ const Footer = Loadable({
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
+  const dispatch = useDispatch();
+  const net = useSelector((store: RootState) => store.app.network);
 
   useEffect(() => {
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       window.location.href = "/";
     }
   }, []);
+
+  useEffect(() => {
+    let wsConnect: WSConnector | undefined
+
+    const initWsSDK = async () => {
+      try {
+        const sdk = await CarbonSDK.instance({
+          network: net,
+        });
+        const wsConnector = new WSConnector({
+          endpoint: sdk.networkConfig.wsUrl,
+          timeoutConnect: 5000,
+          // mainnet not updated with heartbeat support
+          disableHeartbeat: net === CarbonSDK.Network.MainNet,
+        });
+        await wsConnector.connect();
+
+        wsConnect = wsConnector;
+        dispatch(actions.App.setSDK(sdk));
+        dispatch(actions.App.setWsConnector(wsConnector));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    initWsSDK();
+
+    return () => {
+      (async () => {
+        const newWs = wsConnect as WSConnector
+        await newWs.disconnect();
+        dispatch(actions.App.setWsConnector(newWs));
+      })()
+    };
+  }, [net])
 
 	const classes = useStyles();
 	return (
