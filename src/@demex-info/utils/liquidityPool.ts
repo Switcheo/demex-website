@@ -1,7 +1,8 @@
-import { getUsd, POOL_DECIMALS } from "@demex-info/constants";
-import { TokenObj, USDPrices } from "@demex-info/store/app/types";
+import { POOL_DECIMALS } from "@demex-info/constants";
+import { TokenObj } from "@demex-info/store/app/types";
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
+import { CarbonSDK, Models } from "carbon-js-sdk";
 
 export interface Pool {
   denom: string;
@@ -18,23 +19,23 @@ export interface TotalCommitmentMap {
   [denom: string]: BigNumber;
 }
 
-export const parseLiquidityPools = (data: any): Pool[] => {
-  if (!data || data.length <= 0) return [];
-  return data.map((pool: any) => {
+export const parseLiquidityPools = (data: Models.ExtendedPool[], sdk: CarbonSDK): Pool[] => {
+  if (!data || data.length <= 0 || !sdk) return [];
+  return data.map((extendedPool: Models.ExtendedPool) => {
     const {
-      denom = "",
-      denom_a: denomA = "",
-      amount_a: amountA = 0,
-      denom_b: denomB = "",
-      amount_b: amountB = 0,
-      rewards_weight: rewardsWeight = 0,
-    } = pool;
+      pool,
+      rewardsWeight = 0,
+    } = extendedPool;
+    const amtA = parseNumber(pool?.amountA, BN_ZERO)!;
+    const amtB = parseNumber(pool?.amountB, BN_ZERO)!;
+    const adjustedAmtA = sdk.token.toHuman(pool?.denomA ?? "", amtA);
+    const adjustedAmtB = sdk.token.toHuman(pool?.denomB ?? "", amtB);
     return {
-      denom,
-      denomA,
-      amountA: parseNumber(amountA, BN_ZERO)!,
-      denomB,
-      amountB: parseNumber(amountB, BN_ZERO)!,
+      denom: pool?.denom ?? "",
+      denomA: pool?.denomA ?? "",
+      amountA: adjustedAmtA,
+      denomB: pool?.denomB ?? "",
+      amountB: adjustedAmtB,
       rewardsWeight: parseNumber(rewardsWeight, BN_ZERO)!,
     };
   });
@@ -104,11 +105,14 @@ export function getBreakdownToken(
  * @param totalWeight total rewards weight for all pools
  */
  export function calculateAPY(
-  usdPrices: USDPrices,
+  sdk: CarbonSDK | undefined,
   pool: Pool,
-  poolsRewards: number = 0,
+  poolsRewards: BigNumber = BN_ZERO,
   totalWeight: BigNumber,
 ): BigNumber {
+  if (!sdk) {
+    return BN_ZERO;
+  }
   const {
     amountA = "0", amountB = "0", denomA, denomB,
     rewardsWeight = "0",
@@ -120,18 +124,18 @@ export function getBreakdownToken(
 
   const poolWeightFactor = rewardsWeightBN.div(totalWeight);
 
-  const swthUSD = usdPrices.swth || BN_ZERO;
+  const swthUSD = sdk.token.getUSDValue("swth") ?? BN_ZERO;
   const notionalWeeklyRewards = poolWeightFactor.times(swthUSD.times(weeklyRewards));
 
-  const tokenAUSD = getUsd(usdPrices, denomA);
+  const tokenAUSD = sdk.token.getUSDValue(denomA) ?? BN_ZERO;
   const notionalTokenA = denomA ? amountABN.times(tokenAUSD) : BN_ZERO;
 
-  const tokenBUSD = getUsd(usdPrices, denomB);
+  const tokenBUSD = sdk.token.getUSDValue(denomB) ?? BN_ZERO;
   const notionalTokenB = denomB ? amountBBN.times(tokenBUSD) : BN_ZERO;
 
   const notionalAB = notionalTokenA.plus(notionalTokenB);
 
   const apy = notionalWeeklyRewards.dividedBy(notionalAB).times(52).shiftedBy(2);
 
-  return apy;
+  return apy.isFinite() && !apy.isZero() ? apy : BN_ZERO;
 }
