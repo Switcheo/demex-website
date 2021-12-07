@@ -1,5 +1,5 @@
 import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
-import { Network } from "@demex-info/utils/restClient";
+import { CarbonSDK } from "carbon-js-sdk";
 
 export const Paths = {
   Home: "/",
@@ -53,10 +53,10 @@ export const Paths = {
 };
 
 export const DemexHosts: { [key: string]: string } = {
-  [Network.MainNet]: "https://app.dem.exchange",
-  [Network.TestNet]: "https://beta-app.dem.exchange",
-  [Network.DevNet]: "https://dev-app.dem.exchange",
-  [Network.LocalHost]: "http://127.0.0.1:3000",
+  [CarbonSDK.Network.MainNet]: "https://app.dem.exchange",
+  [CarbonSDK.Network.TestNet]: "https://beta-app.dem.exchange",
+  [CarbonSDK.Network.DevNet]: "https://dev-app.dem.exchange",
+  [CarbonSDK.Network.LocalHost]: "http://127.0.0.1:3000",
 };
 
 export const StaticLinks = {
@@ -110,31 +110,31 @@ export const StaticLinks = {
   Tendermint: "https://tendermint.com/core/",
 };
 
-export function getNetworkQueryParam(net: Network) {
-  if (net === Network.LocalHost) {
+export function getNetworkQueryParam(net: CarbonSDK.Network) {
+  if (net === CarbonSDK.Network.LocalHost) {
     return `net=${net.toLowerCase().replace(/host$/, "")}`;
   }
   return `net=${net.toLowerCase().replace(/net$/, "")}`;
 }
-export function getExplorerHost(net: Network) {
-  if (net === Network.MainNet) {
-    return "https://switcheo.org";
+export function getExplorerHost(net: CarbonSDK.Network) {
+  if (net === CarbonSDK.Network.MainNet) {
+    return "https://scan.carbon.network/";
   }
-  return "https://staging.switcheo.org";
+  return "https://beta-scan.carbon.network/";
 }
 
-export function getDemexHost(net: Network) {
+export function getDemexHost(net: CarbonSDK.Network) {
   if (net) {
     return DemexHosts[net];
   }
   return "";
 }
 
-export function getDemexLink(path: string, net: Network = Network.MainNet) {
+export function getDemexLink(path: string, net: CarbonSDK.Network = CarbonSDK.Network.MainNet) {
   return `${getDemexHost(net)}${path}`;
 }
 
-export function getExplorerLink(net: Network) {
+export function getExplorerLink(net: CarbonSDK.Network) {
   return `${getExplorerHost(net)}?${getNetworkQueryParam(net)}`;
 }
 

@@ -1,6 +1,8 @@
-import { BN_ZERO, parseNumber } from "./number";
+import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
+import { CarbonSDK, Models, WSModels } from "carbon-js-sdk";
 import moment from "moment";
+import { BN_ZERO, parseNumber } from "./number";
 
 export interface MarketsState {
   stats: MarketStatItem[];
@@ -8,7 +10,7 @@ export interface MarketsState {
 }
 
 export interface CandleStickItem {
-  time: string;
+  time: Date;
   close: number;
   timestamp: number;
 }
@@ -18,7 +20,7 @@ export interface MarketListItem {
   marketType: string;
   base: string
   quote: string;
-  expiryTime: string; // string representation of timestamp;
+  expiryTime: Date;
 }
 
 export interface MarketListMap {
@@ -42,19 +44,19 @@ export const MarkType: { [key: string]: MarketType } = {
 
 export type MarketType = "spot" | "futures";
 
-export function parseMarketListMap(marketList: any[]): MarketListMap {
+export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
   if (typeof marketList !== "object" || marketList.length <= 0) {
     return {};
   }
 
   const listMarket: MarketListMap = {};
-  marketList.forEach((market: any) => {
+  marketList.forEach((market: Models.Market) => {
     const {
       name = "",
-      market_type: marketType = "",
+      marketType = "",
       base = "",
       quote = "",
-      expiry_time: expiryTime = "1970-01-01T00:00:00Z",
+      expiryTime = new Date("1970-01-01T00:00:00"),
     } = market;
     listMarket[name] = {
       name,
@@ -67,33 +69,52 @@ export function parseMarketListMap(marketList: any[]): MarketListMap {
   return listMarket;
 }
 
-export function parseMarketStats(marketStats: any[]): MarketStatItem[] {
-  if (typeof marketStats !== "object" || marketStats.length <= 0) {
-    return [];
-  }
-  return marketStats.map((marketStat: any) => ({
-    ...marketStat,
-    day_open: parseNumber(marketStat.day_open, BN_ZERO)!,
-    day_close: parseNumber(marketStat.day_close, BN_ZERO)!,
-    day_volume: parseNumber(marketStat.day_volume, BN_ZERO)!,
-    last_price: parseNumber(marketStat.last_price, BN_ZERO)!,
-    open_interest: parseNumber(marketStat.open_interest, BN_ZERO)!,
-  }));
+export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatItem {
+  return {
+    ...marketStats,
+    day_open: parseNumber(marketStats.day_open, BN_ZERO)!,
+    day_close: parseNumber(marketStats.day_close, BN_ZERO)!,
+    day_volume: parseNumber(marketStats.day_volume, BN_ZERO)!,
+    last_price: parseNumber(marketStats.last_price, BN_ZERO)!,
+    // open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
+    open_interest: BN_ZERO,
+    market_type: marketStats.market_type as MarketType,
+  };
 }
 
-export function parseMarketCandlesticks(candlesticks: any[]): CandleStickItem[] {
-  if (typeof candlesticks !== "object" || candlesticks.length <= 0) {
+export function parseMarketCandlesticks(candlesticks: Models.Candlestick[], market: MarketListItem, sdk: CarbonSDK | undefined): CandleStickItem[] {
+  if (typeof candlesticks !== "object" || candlesticks.length <= 0 || !sdk) {
     return [];
   }
-  return candlesticks.map((candlestick: any) => {
+
+  return candlesticks.map((candlestick: Models.Candlestick) => {
     const {
-      time = "1970-01-01T00:00:00Z",
+      time = new Date("1970-01-01T00:00:00"),
       close = "0",
     } = candlestick;
+    const closeBN = parseNumber(close, BN_ZERO)!.shiftedBy(-DEC_SHIFT);
+    const adjustedClose = shiftByDiffDp(market, sdk, closeBN);
     return {
       time,
-      close: parseFloat(close),
+      close: adjustedClose.toNumber(),
       timestamp: moment(time).unix(),
     };
   });
 }
+
+export const shiftByDiffDp = (
+  market: MarketListItem,
+  sdk: CarbonSDK | undefined,
+  value: BigNumber | undefined,
+): BigNumber => {
+  if (!market || !sdk?.token || !value) {
+    return BN_ZERO;
+  }
+  const baseDp = sdk.token.getDecimals(market.base) ?? 0;
+  const quoteDp = sdk.token.getDecimals(market.quote) ?? 0;
+  const diffDp = quoteDp - baseDp;
+  if (value.isNaN() || !value.isFinite) {
+    return BN_ZERO;
+  }
+  return value.shiftedBy(-diffDp);
+};

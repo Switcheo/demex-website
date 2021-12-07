@@ -1,8 +1,9 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAssetSymbol, useAsyncTask, useInitApp, useRollingNum,
+  useAsyncTask, useInitApp, useRollingNum,
 } from "@demex-info/hooks";
+import useCheckSDK from "@demex-info/hooks/useCheckSDK";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
+import { Models, TokenUtils, WSConnectorTypes, WSModels } from "carbon-js-sdk";
 import clsx from "clsx";
 import moment from "moment";
 import React, { useEffect } from "react";
@@ -38,13 +40,13 @@ const TokenPopover = Loadable({
 });
 
 const MarketsTable: React.FC = () => {
-  const assetSymbol = useAssetSymbol();
+  const [checkSDK] = useCheckSDK();
   const [runMarkets, loading] = useAsyncTask("runMarkets");
   const classes = useStyles();
   const theme = useTheme();
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const { network, restClient, usdPrices } = useSelector((state: RootState) => state.app);
+  const { network, sdk, ws } = useSelector((state: RootState) => state.app);
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
@@ -53,16 +55,24 @@ const MarketsTable: React.FC = () => {
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
   const reloadMarkets = () => {
+    if (!sdk?.query || !ws) return;
+
     setLoad(true);
     runMarkets(async () => {
       try {
-        const statsResponse: any = await restClient.getMarketStats();
-        const statsData: MarketStatItem[] = parseMarketStats(statsResponse);
-        setStats(statsData);
-
-        const listResponse: any = await restClient.getMarkets();
-        const listData: MarketListMap = parseMarketListMap(listResponse);
+        const listResponse: Models.QueryAllMarketResponse = await sdk.query.market.MarketAll({});
+        const listData: MarketListMap = parseMarketListMap(listResponse.markets);
+        const listKeys = Object.keys(listData);
         setList(listData);
+
+        const statsData: MarketStatItem[] = [];
+        for (let ii = 0; ii < listKeys.length; ii++) {
+          const statsResponse: any = await ws.request<{ result: WSModels.MarketStat }>(WSConnectorTypes.WSRequest.MarketStats, {
+            market: listKeys[ii],
+          });
+          statsData.push(parseMarketStats(statsResponse.data.result));
+        }
+        setStats(statsData);
       } catch (err) {
         console.error(err);
       } finally {
@@ -74,8 +84,10 @@ const MarketsTable: React.FC = () => {
   useInitApp();
 
   useEffect(() => {
-    reloadMarkets();
-  }, []);
+    if (checkSDK) {
+      reloadMarkets();
+    }
+  }, [checkSDK]);
 
   const MarketTabs: MarketTab[] = [{
     label: "Spot",
@@ -116,14 +128,19 @@ const MarketsTable: React.FC = () => {
 
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market] ?? {};
-      const symbolUsd = getUsd(usdPrices, marketItem?.base);
-      const usdVolume = symbolUsd.times(market.day_volume);
+      const baseDenom = marketItem?.base ?? "";
+      const quoteDenom = marketItem?.quote ?? "";
+
+      const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
+      const adjustedVolume = sdk?.token.toHuman(baseDenom, market.day_volume) ?? BN_ZERO;
+      const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
 
-      const baseToken = assetSymbol(marketItem.base);
-      const quoteToken = assetSymbol(marketItem.quote);
+      const symbolOverride = marketItem.marketType === MarkType.Spot ? undefined : TokenUtils.FuturesDenomOverride;
+      const baseToken = sdk?.token.getTokenName(baseDenom, symbolOverride).toUpperCase() ?? "";
+      const quoteToken = sdk?.token.getTokenName(quoteDenom, symbolOverride).toUpperCase() ?? "";
       if (!coinsList.includes(baseToken) && baseToken.length > 0) {
         coinsList.push(baseToken);
       }
@@ -137,7 +154,7 @@ const MarketsTable: React.FC = () => {
       volume24H,
       coinsList,
     };
-  }, [marketsList, list, usdPrices]);
+  }, [marketsList, list, sdk?.token]);
 
   const futureTypes = React.useMemo((): FuturesTypes => {
     const futureTypes: FuturesTypes = {

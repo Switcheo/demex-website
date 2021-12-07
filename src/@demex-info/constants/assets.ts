@@ -2,6 +2,8 @@ import { USDPrices } from "@demex-info/store/app/types";
 import { BN_ZERO } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
 
+export const DEC_SHIFT = 18;
+
 interface Assets {
   [symbol: string]: {
     [precision: string]: number;
