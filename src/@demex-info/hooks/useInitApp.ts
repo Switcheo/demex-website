@@ -4,14 +4,11 @@ import { Models } from "carbon-js-sdk";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import useCheckSDK from "./useCheckSDK";
-
 let initInterval: any;
 
 export default (): void => {
   const dispatch = useDispatch();
   const sdk = useSelector((state: RootState) => state.app.sdk);
-  const [checkSDK, setCheckSDK] = useCheckSDK();
 
   const handleQueryTokens = async () => {
     try {
@@ -24,15 +21,15 @@ export default (): void => {
   };
 
   useEffect(() => {
-    if (checkSDK) {
+    if (sdk) {
       handleQueryTokens();
       initInterval = setInterval(() => {
         handleQueryTokens();
       }, 60000);
       return () => {
-        setCheckSDK(false);
         clearInterval(initInterval);
       };
     }
-  }, [checkSDK]);
+    return () => { };
+  }, [sdk]);
 };

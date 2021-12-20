@@ -1,7 +1,6 @@
 import { Block } from "@cosmjs/stargate";
 import { Attribute, BlockResultsResponse, Event } from "@cosmjs/tendermint-rpc";
 import { useAsyncTask } from "@demex-info/hooks";
-import useCheckSDK from "@demex-info/hooks/useCheckSDK";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, parseEventAttr, parseNumber, parseStakingStats, parseValidators, SECONDS_PER_YEAR, StakingStats, Validator } from "@demex-info/utils";
 import { Hidden } from "@material-ui/core";
@@ -22,7 +21,6 @@ let stakingInterval: any;
 const Staking: React.FC<Props> = (props: Props) => {
   const { stakingRef, stakingView } = props;
   const [runStaking] = useAsyncTask("runStaking");
-  const [checkSDK] = useCheckSDK();
 
   const [stats, setStats] = React.useState<StakingStats>({
     totalStaked: BN_ZERO,
@@ -31,7 +29,7 @@ const Staking: React.FC<Props> = (props: Props) => {
   const [avgReward, setAvgReward] = React.useState<BigNumber>(BN_ZERO);
   const [totalBonded, setTotalBonded] = React.useState<BigNumber>(BN_ZERO);
 
-  const { sdk } = useSelector((state: RootState) => state.app);
+  const sdk = useSelector((state: RootState) => state.app.sdk);
 
   const blocksInYear = new BigNumber(SECONDS_PER_YEAR).div(avgBlockTime);
   const rewardsInYear = blocksInYear.times(avgReward);
@@ -94,16 +92,17 @@ const Staking: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (checkSDK) {
+    if (sdk) {
       reloadStaking();
       stakingInterval = setInterval(() => {
         reloadStaking();
       }, 60000);
+      return () => {
+        clearInterval(stakingInterval);
+      };
     }
-    return () => {
-      clearInterval(stakingInterval);
-    };
-  }, [checkSDK]);
+    return () => { };
+  }, [sdk]);
 
   return (
     <React.Fragment>

@@ -3,7 +3,6 @@ import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useInitApp, useRollingNum,
 } from "@demex-info/hooks";
-import useCheckSDK from "@demex-info/hooks/useCheckSDK";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
@@ -40,13 +39,13 @@ const TokenPopover = Loadable({
 });
 
 const MarketsTable: React.FC = () => {
-  const [checkSDK] = useCheckSDK();
   const [runMarkets, loading] = useAsyncTask("runMarkets");
   const classes = useStyles();
   const theme = useTheme();
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const { network, sdk, ws } = useSelector((state: RootState) => state.app);
+  const { network, ws } = useSelector((state: RootState) => state.app);
+  const sdk = useSelector((store: RootState) => store.app.sdk);
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
@@ -84,10 +83,11 @@ const MarketsTable: React.FC = () => {
   useInitApp();
 
   useEffect(() => {
-    if (checkSDK) {
+    if (sdk) {
       reloadMarkets();
     }
-  }, [checkSDK]);
+    return () => { };
+  }, [sdk]);
 
   const MarketTabs: MarketTab[] = [{
     label: "Spot",

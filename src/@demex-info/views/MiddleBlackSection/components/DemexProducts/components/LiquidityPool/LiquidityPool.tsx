@@ -1,5 +1,4 @@
 import { useAsyncTask } from "@demex-info/hooks";
-import useCheckSDK from "@demex-info/hooks/useCheckSDK";
 import { RootState } from "@demex-info/store/types";
 import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, parseNumber, Pool, TotalCommitmentMap, parseLiquidityPools } from "@demex-info/utils";
 import { Hidden } from "@material-ui/core";
@@ -21,13 +20,13 @@ let poolsInterval: any;
 const LiquidityPool: React.FC<Props> = (props: Props) => {
   const { liquidityRef, slide } = props;
   const [runPools] = useAsyncTask("runPools");
-  const [checkSDK] = useCheckSDK();
 
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [totalCommitMap, setTotalCommitMap] = React.useState<TotalCommitmentMap>({});
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
 
-  const { tokens, sdk } = useSelector((state: RootState) => state.app);
+  const tokens = useSelector((state: RootState) => state.app.tokens);
+  const sdk = useSelector((store: RootState) => store.app.sdk);
 
   const reloadPools = () => {
     runPools(async () => {
@@ -66,7 +65,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (checkSDK) {
+    if (sdk) {
       reloadPools();
       poolsInterval = setInterval(() => {
         reloadPools();
@@ -75,7 +74,8 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
         clearInterval(poolsInterval);
       };
     }
-  }, [checkSDK]);
+    return () => { };
+  }, [sdk]);
 
   const { totalLiquidity, totalCommit } = React.useMemo((): {
     totalLiquidity: BigNumber;
