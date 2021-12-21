@@ -89,11 +89,21 @@ const MarketsTable: React.FC = () => {
     setMarketOption(value);
   };
 
-  const marketsList = stats?.filter((stat: MarketStatItem) => {
-    return marketOption === MarkType.Spot
-      ? (stat.market_type === MarkType.Spot)
-      : (stat.market_type === MarkType.Futures);
-  });
+  const marketsList = React.useMemo(() => {
+    return stats?.filter((stat: MarketStatItem) => {
+      return marketOption === MarkType.Spot
+        ? (stat.market_type === MarkType.Spot)
+        : (stat.market_type === MarkType.Futures);
+    }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
+      const marketItemA = list?.[marketA.market] ?? {};
+      const marketItemB = list?.[marketB.market] ?? {};
+      const symbolUsdA = getUsd(usdPrices, marketItemA?.base);
+      const symbolUsdB = getUsd(usdPrices, marketItemB?.base);
+      const usdVolumeA = symbolUsdA.times(marketA.day_volume);
+      const usdVolumeB = symbolUsdB.times(marketB.day_volume);
+      return usdVolumeB.minus(usdVolumeA).toNumber();
+    });
+  }, [stats, usdPrices, list, marketOption]);
 
   const { openInterest, volume24H, coinsList } = React.useMemo((): {
     openInterest: BigNumber,
