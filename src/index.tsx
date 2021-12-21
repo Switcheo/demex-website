@@ -3,74 +3,44 @@ import { MainLayout } from "@demex-info/layout";
 import { store } from "@demex-info/store";
 import HeroSection from "@demex-info/views/HeroSection/HeroSection";
 import MarketsTable from "@demex-info/views/MarketsTable/MarketsTable";
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import Loadable from "react-loadable";
 import { Provider } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "typeface-roboto";
 import "./index.css";
 import "./app.css";
 import reportWebVitals from "./reportWebVitals";
+import { lazy } from "@loadable/component";
 
 const rootElement = document.getElementById("root");
 const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
 
-const DexProperties = Loadable({
-  loader: () => import("@demex-info/views/DexProperties/DexProperties"),
-  loading() {
-    return null;
-  },
-  delay: 300,
-});
-const PoweredBySwitcheo = Loadable({
-  loader: () => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"),
-  loading() {
-    return null;
-  },
-  delay: 600,
-});
-const MiddleBlackSection = Loadable({
-  loader: () => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"),
-  loading() {
-    return null;
-  },
-  delay: 900,
-});
-const ExchangeComparison = Loadable({
-  loader: () => import("@demex-info/views/ExchangeComparison/ExchangeComparison"),
-  loading() {
-    return null;
-  },
-  delay: 1200,
-});
-const JustGettingStarted = Loadable({
-  loader: () => import("@demex-info/views/JustGettingStarted/JustGettingStarted"),
-  loading() {
-    return null;
-  },
-  delay: 1500,
-});
-const ReadyToTrade = Loadable({
-  loader: () => import("@demex-info/views/ReadyToTrade/ReadyToTrade"),
-  loading() {
-    return null;
-  },
-  delay: 1800,
-});
+const DexProperties = lazy(() => import("@demex-info/views/DexProperties/DexProperties"));
+const PoweredBySwitcheo = lazy(() => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"));
+const MiddleBlackSection = lazy(() => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"));
+const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
+const JustGettingStarted = lazy(() => import("@demex-info/views/JustGettingStarted/JustGettingStarted"));
+const ReadyToTrade = lazy(() => import("@demex-info/views/ReadyToTrade/ReadyToTrade"));
+const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
 render(
   <Provider store={store}>
     <PreferenceThemeProvider>
       <MainLayout>
         <HeroSection />
-        <MarketsTable />
-        <DexProperties />
-        <PoweredBySwitcheo />
-        <MiddleBlackSection />
-        <ExchangeComparison />
-        <JustGettingStarted />
-        <ReadyToTrade />
+        <Suspense fallback={null}>
+          <MarketsTable />
+          <DexProperties />
+          <PoweredBySwitcheo />
+          <MiddleBlackSection />
+          <ExchangeComparison />
+          <JustGettingStarted />
+          <ReadyToTrade />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+        </Suspense>
       </MainLayout>
     </PreferenceThemeProvider>
   </Provider>,

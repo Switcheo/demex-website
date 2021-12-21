@@ -1,10 +1,11 @@
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
+import { lazy } from "@loadable/component";
 import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 
-const BackgroundAnimation = React.lazy(() => import("./components/BackgroundAnimation"));
+const BackgroundAnimation = lazy(() => import("./components/BackgroundAnimation"));
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();

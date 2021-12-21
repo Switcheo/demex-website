@@ -4,19 +4,10 @@ import { BoxProps, makeStyles, Theme } from "@material-ui/core";
 import { CarbonSDK } from "carbon-js-sdk";
 import clsx from "clsx";
 import React, { useEffect } from "react";
-import Loadable from "react-loadable";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
 
 interface Props extends BoxProps { }
-
-const Footer = Loadable({
-  loader: () => import("./components/Footer"),
-  loading() {
-    return null;
-  },
-  delay: 1800,
-});
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
@@ -50,7 +41,6 @@ const MainLayout: React.FC<Props> = (props: Props) => {
     <main className={clsx(classes.app, className)} {...rest}>
       <Header />
       {children}
-      <Footer />
     </main>
 	);
 };

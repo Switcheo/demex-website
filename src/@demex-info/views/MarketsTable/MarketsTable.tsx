@@ -8,6 +8,7 @@ import { BN_ZERO } from "@demex-info/utils";
 import {
   MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
+import { lazy } from "@loadable/component";
 import {
   Backdrop, Box, Button, fade, makeStyles, Theme, Typography, useMediaQuery, useTheme,
 } from "@material-ui/core";
@@ -18,25 +19,12 @@ import clsx from "clsx";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Loadable from "react-loadable";
 import {
   FuturesTypes, MarketPaper, MarketTab,
 } from "./components";
 
-const MarketGridTable = Loadable({
-  loader: () => import("./components/MarketGridTable"),
-  loading() {
-    return null;
-  },
-  delay: 300,
-});
-const TokenPopover = Loadable({
-  loader: () => import("./components/TokenPopover"),
-  loading() {
-    return null;
-  },
-  delay: 500,
-});
+const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
+const TokenPopover = lazy(() => import("./components/TokenPopover"));
 
 const MarketsTable: React.FC = () => {
   const [runMarkets, loading] = useAsyncTask("runMarkets");

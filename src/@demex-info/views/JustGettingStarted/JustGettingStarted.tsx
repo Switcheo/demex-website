@@ -1,25 +1,13 @@
 import { HomeBorderCircle1 } from "@demex-info/assets";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
+import { lazy } from "@loadable/component";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 import { useInView } from "react-intersection-observer";
-import Loadable from "react-loadable";
 
-const ConversationBox = Loadable({
-  loader: () => import("./components/ConversationBox"),
-  loading() {
-    return (<Box />);
-  },
-  delay: 1600,
-});
-const Demex101Box = Loadable({
-  loader: () => import("./components/Demex101Box"),
-  loading() {
-    return (<Box />);
-  },
-  delay: 1600,
-});
+const ConversationBox = lazy(() => import("./components/ConversationBox"));
+const Demex101Box = lazy(() => import("./components/Demex101Box"));
 
 const JustGettingStarted: React.FC = () => {
   const classes = useStyles();
@@ -51,11 +39,15 @@ const JustGettingStarted: React.FC = () => {
         <Box className={clsx(classes.slide, "paperBox", { open: titleView }, classes.gridDiv)}>
           <Grid className={classes.gridContainer} container justify="center">
             <Grid item className={classes.gridItem} sm={12} md={6}>
-              <Demex101Box />
+              <Suspense fallback={<Box />}>
+                <Demex101Box />
+              </Suspense>
             </Grid>
 
             <Grid item className={classes.gridItem} sm={12} md={6}>
-              <ConversationBox />
+              <Suspense fallback={<Box />}>
+                <ConversationBox />
+              </Suspense>
             </Grid>
           </Grid>
         </Box>
