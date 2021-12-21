@@ -25,6 +25,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
 
   const tokens = useSelector((state: RootState) => state.app.tokens);
   const sdk = useSelector((store: RootState) => store.app.sdk);
+  const tokenClient = sdk?.token;
 
   const reloadPools = () => {
     if (!sdk?.query || !ws) return;
@@ -32,7 +33,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
     runPools(async () => {
       try {
         const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
-        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!);
+        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
 
         const poolsRewards = await sdk!.lp.getWeeklyRewards();
 
@@ -59,8 +60,8 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
     let totalCommit = BN_ZERO;
     pools.forEach((pool: Pool) => {
       const { denomA, amountA, denomB, amountB } = pool;
-      const tokenAUsd = sdk?.token.getUSDValue(denomA) ?? BN_ZERO;
-      const tokenBUsd = sdk?.token.getUSDValue(denomB) ?? BN_ZERO;
+      const tokenAUsd = tokenClient?.getUSDValue(denomA) ?? BN_ZERO;
+      const tokenBUsd = tokenClient?.getUSDValue(denomB) ?? BN_ZERO;
       totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
 
       const commitToken = pool.totalCommitment;
@@ -81,7 +82,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
       totalLiquidity: totalUsd,
       totalCommit,
     };
-  }, [pools, sdk?.token, tokens]);
+  }, [pools, tokenClient, tokens]);
 
   const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;

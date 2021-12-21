@@ -14,7 +14,9 @@ export default (): WsResponse => {
     const runConnect = async () => {
       try {
         await ws.connect();
-        return ws;
+        if (ws.connected) {
+          setWs(ws);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -22,16 +24,16 @@ export default (): WsResponse => {
     runConnect();
   };
 
-  // const disconnectWs = (ws: WSConnector) => {
-  //   const runDisconnect = async () => {
-  //     try {
-  //       await ws.disconnect();
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  //   runDisconnect();
-  // };
+  const disconnectWs = (ws: WSConnector) => {
+    const runDisconnect = async () => {
+      try {
+        await ws.disconnect();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    runDisconnect();
+  };
 
   useEffect(() => {
     if (sdk) {
@@ -41,10 +43,9 @@ export default (): WsResponse => {
         disableHeartbeat: false,
       });
       connectWs(wsConnector);
-      setWs(wsConnector);
       return () => {
-        if (ws) {
-          // disconnectWs(ws);
+        if (ws && ws.connected) {
+          disconnectWs(ws);
         }
       };
     }

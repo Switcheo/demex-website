@@ -47,6 +47,7 @@ const MarketsTable: React.FC = () => {
 
   const { network } = useSelector((state: RootState) => state.app);
   const sdk = useSelector((store: RootState) => store.app.sdk);
+  const tokenClient = sdk?.token;
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
@@ -55,7 +56,7 @@ const MarketsTable: React.FC = () => {
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
   const reloadMarkets = () => {
-    if (!sdk?.query || !ws) return;
+    if (!sdk?.query || !ws || !ws.connected) return;
 
     setLoad(true);
     runMarkets(async () => {
@@ -84,7 +85,7 @@ const MarketsTable: React.FC = () => {
   useInitApp();
 
   useEffect(() => {
-    if (sdk && ws) {
+    if (sdk && ws && ws?.connected) {
       reloadMarkets();
     }
     return () => { };
@@ -110,13 +111,15 @@ const MarketsTable: React.FC = () => {
     }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
-      const symbolUsdA = getUsd(usdPrices, marketItemA?.base);
-      const symbolUsdB = getUsd(usdPrices, marketItemB?.base);
-      const usdVolumeA = symbolUsdA.times(marketA.day_volume);
-      const usdVolumeB = symbolUsdB.times(marketB.day_volume);
+      const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.base ?? "") ?? BN_ZERO;
+      const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.base ?? "") ?? BN_ZERO;
+      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.base ?? "", marketA.day_volume) ?? BN_ZERO;
+      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.base ?? "", marketB.day_volume) ?? BN_ZERO;
+      const usdVolumeA = symbolUsdA.times(dailyVolumeA);
+      const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
     });
-  }, [stats, usdPrices, list, marketOption]);
+  }, [stats, tokenClient, list, marketOption]);
 
   const { openInterest, volume24H, coinsList } = React.useMemo((): {
     openInterest: BigNumber,

@@ -3,6 +3,7 @@ import { TokenObj } from "@demex-info/store/app/types";
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, WSModels } from "carbon-js-sdk";
+import { TokenClient } from "carbon-js-sdk/lib/clients";
 
 export interface Pool {
   denom: string;
@@ -16,13 +17,18 @@ export interface Pool {
   amountB: BigNumber;
 }
 
+export interface WSPools {
+  [key: number]: WSModels.Pool;
+}
+
 export interface TotalCommitmentMap {
   [denom: string]: BigNumber;
 }
 
-export const parseLiquidityPools = (data: WSModels.Pool[], sdk: CarbonSDK): Pool[] => {
-  if (!data || data.length <= 0 || !sdk) return [];
-  return data.map((extendedPool: WSModels.Pool) => {
+export const parseLiquidityPools = (data: WSPools, tokenClient: TokenClient): Pool[] => {
+  const poolsArr = (Object.values(data) ?? []) as WSModels.Pool[];
+  if (!poolsArr || poolsArr.length <= 0 || !tokenClient) return [];
+  return poolsArr.map((extendedPool: WSModels.Pool) => {
     const {
       pool,
       rewards_weight = "0",
@@ -30,10 +36,10 @@ export const parseLiquidityPools = (data: WSModels.Pool[], sdk: CarbonSDK): Pool
     } = extendedPool;
     const amtA = parseNumber(pool?.amount_a, BN_ZERO)!;
     const amtB = parseNumber(pool?.amount_b, BN_ZERO)!;
-    const adjustedAmtA = sdk.token.toHuman(pool?.denom_a ?? "", amtA);
-    const adjustedAmtB = sdk.token.toHuman(pool?.denom_b ?? "", amtB);
+    const adjustedAmtA = tokenClient.toHuman(pool?.denom_a ?? "", amtA);
+    const adjustedAmtB = tokenClient.toHuman(pool?.denom_b ?? "", amtB);
     const totalCommitBN = parseNumber(total_commitment, BN_ZERO)!;
-    const adjustedCommit = sdk.token.toHuman(pool?.denom ?? "", totalCommitBN);
+    const adjustedCommit = tokenClient.toHuman(pool?.denom ?? "", totalCommitBN);
     return {
       denom: pool?.denom ?? "",
       denomA: pool?.denom_a ?? "",

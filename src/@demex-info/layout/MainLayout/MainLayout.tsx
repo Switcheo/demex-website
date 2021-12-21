@@ -1,7 +1,7 @@
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BoxProps, makeStyles, Theme } from "@material-ui/core";
-import { CarbonSDK, WSConnector } from "carbon-js-sdk";
+import { CarbonSDK } from "carbon-js-sdk";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import Loadable from "react-loadable";
@@ -30,24 +30,12 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    // let wsConnect: WSConnector | undefined;
-
     const initWsSDK = async () => {
       try {
         const sdk = await CarbonSDK.instance({
           network: net,
         });
-        const wsConnector = new WSConnector({
-          endpoint: sdk.networkConfig.wsUrl,
-          timeoutConnect: 5000,
-          // mainnet not updated with heartbeat support
-          disableHeartbeat: net === CarbonSDK.Network.MainNet,
-        });
-        await wsConnector.connect();
-
-        // wsConnect = wsConnector;
         dispatch(actions.App.setSDK(sdk));
-        dispatch(actions.App.setWsConnector(wsConnector));
       } catch (err) {
         console.error(err);
       }
