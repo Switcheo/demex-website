@@ -11,6 +11,12 @@ interface Props {
   tokens: string[];
 }
 
+const NameOverride: {
+  [key: string]: string;
+} = {
+  "lkt.bep20.c5a4937a": "Locklet (BEP-20)",
+};
+
 const TokenPopover: React.FC<Props> = (props: Props) => {
   const { tokens } = props; // eslint-disable-line no-unused-vars
   const classes = useStyles();
@@ -27,7 +33,7 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
               <Box display="flex" key={token}>
                 <CoinIcon className={classes.coinSvg} denom={token.toLowerCase()} />
                 <TypographyLabel className={classes.tokenName} variant="subtitle1" ml={1} color="textSecondary">
-                  {tokenObj?.name ?? "-"}
+                  {NameOverride[tokenObj?.denom ?? ""] ?? tokenObj?.name ?? "-"}
                 </TypographyLabel>
               </Box>
             );
