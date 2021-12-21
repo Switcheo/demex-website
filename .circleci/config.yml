@@ -3,7 +3,7 @@ jobs:
   deploy:
     docker:
       # image with node, npm and yarn installed
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:15.14.0-buster
     steps:
 
       # checkout workspace to repo code
@@ -27,8 +27,6 @@ jobs:
       - run:
           name: build ReactJS project
           command: |
-            nvm uninstall v17.2.0
-            nvm install --lts
             yarn build
 
       - run:
