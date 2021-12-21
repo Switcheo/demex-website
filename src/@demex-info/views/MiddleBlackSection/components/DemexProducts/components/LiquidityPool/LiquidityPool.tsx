@@ -1,9 +1,9 @@
-import { useAsyncTask } from "@demex-info/hooks";
+import { useAsyncTask, useWebsocket } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
-import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, parseNumber, Pool, TotalCommitmentMap, parseLiquidityPools } from "@demex-info/utils";
+import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, Pool, parseLiquidityPools } from "@demex-info/utils";
 import { Hidden } from "@material-ui/core";
 import BigNumber from "bignumber.js";
-import { Insights, Models } from "carbon-js-sdk";
+import { WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import LiquidityPoolSection from "./LiquidityPoolSection";
@@ -15,48 +15,28 @@ interface Props {
   slide: SlideCategory | null;
 }
 
-let poolsInterval: any;
-
 const LiquidityPool: React.FC<Props> = (props: Props) => {
   const { liquidityRef, slide } = props;
   const [runPools] = useAsyncTask("runPools");
+  const [ws] = useWebsocket();
 
   const [pools, setPools] = React.useState<Pool[]>([]);
-  const [totalCommitMap, setTotalCommitMap] = React.useState<TotalCommitmentMap>({});
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
 
   const tokens = useSelector((state: RootState) => state.app.tokens);
   const sdk = useSelector((store: RootState) => store.app.sdk);
 
   const reloadPools = () => {
+    if (!sdk?.query || !ws) return;
+
     runPools(async () => {
       try {
-        const response: Models.QueryAllPoolResponse = await sdk!.query.liquiditypool.PoolAll({});
-        const poolsData: Pool[] = parseLiquidityPools(response.extendedPools, sdk!);
-
-        const totalCommitMap: TotalCommitmentMap = {};
-        for (const pool of poolsData) {
-          if (!pool.denom) continue;
-          const richListResponse: Insights.InsightsQueryResponse<Insights.QueryGetBalanceListResponse> = await sdk!.insights.BalanceList({
-            denom: pool.denom,
-            location: "available",
-          });
-
-          const richListArr: Insights.BalanceDetails[] = richListResponse.result.models ?? [];
-          let commitBN = BN_ZERO;
-          richListArr.forEach((richList: Insights.BalanceDetails) => {
-            const totalCommitment = parseNumber(richList.balance, BN_ZERO)!;
-            const adjustedCommit = sdk?.token.toHuman(richList.denom, totalCommitment) ?? BN_ZERO;
-            commitBN = commitBN.plus(adjustedCommit);
-          });
-
-          totalCommitMap[pool.denom] = commitBN;
-        }
+        const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
+        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!);
 
         const poolsRewards = await sdk!.lp.getWeeklyRewards();
 
         setPools(poolsData);
-        setTotalCommitMap(totalCommitMap);
         setWeeklyRewards(poolsRewards ?? BN_ZERO);
       } catch (err) {
         console.error(err);
@@ -65,17 +45,11 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (sdk) {
+    if (sdk && ws) {
       reloadPools();
-      poolsInterval = setInterval(() => {
-        reloadPools();
-      }, 60000);
-      return () => {
-        clearInterval(poolsInterval);
-      };
     }
     return () => { };
-  }, [sdk]);
+  }, [sdk, ws]);
 
   const { totalLiquidity, totalCommit } = React.useMemo((): {
     totalLiquidity: BigNumber;
@@ -84,12 +58,12 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
     let totalUsd = BN_ZERO;
     let totalCommit = BN_ZERO;
     pools.forEach((pool: Pool) => {
-      const { denom, denomA, amountA, denomB, amountB } = pool;
+      const { denomA, amountA, denomB, amountB } = pool;
       const tokenAUsd = sdk?.token.getUSDValue(denomA) ?? BN_ZERO;
       const tokenBUsd = sdk?.token.getUSDValue(denomB) ?? BN_ZERO;
       totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
 
-      const commitToken = totalCommitMap?.[denom];
+      const commitToken = pool.totalCommitment;
       if (!commitToken) {
         totalCommit = totalCommit.plus(BN_ZERO);
       } else {
@@ -107,7 +81,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
       totalLiquidity: totalUsd,
       totalCommit,
     };
-  }, [pools, sdk?.token, tokens, totalCommitMap]);
+  }, [pools, sdk?.token, tokens]);
 
   const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;

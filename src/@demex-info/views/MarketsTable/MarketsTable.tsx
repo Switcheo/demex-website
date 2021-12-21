@@ -1,7 +1,7 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAsyncTask, useInitApp, useRollingNum,
+  useAsyncTask, useInitApp, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Models, TokenUtils, WSConnectorTypes, WSModels } from "carbon-js-sdk";
+import { Models, TokenUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
 import moment from "moment";
 import React, { useEffect } from "react";
@@ -43,8 +43,9 @@ const MarketsTable: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
+  const [ws] = useWebsocket();
 
-  const { network, ws } = useSelector((state: RootState) => state.app);
+  const { network } = useSelector((state: RootState) => state.app);
   const sdk = useSelector((store: RootState) => store.app.sdk);
 
   const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
@@ -66,9 +67,9 @@ const MarketsTable: React.FC = () => {
 
         const statsData: MarketStatItem[] = [];
         for (let ii = 0; ii < listKeys.length; ii++) {
-          const statsResponse: any = await ws.request<{ result: WSModels.MarketStat }>(WSConnectorTypes.WSRequest.MarketStats, {
+          const statsResponse = await ws.request<{ result: WSModels.MarketStat }>(WSConnectorTypes.WSRequest.MarketStats, {
             market: listKeys[ii],
-          });
+          }) as WSResult<{ result: WSModels.MarketStat }>;
           statsData.push(parseMarketStats(statsResponse.data.result));
         }
         setStats(statsData);
@@ -83,11 +84,11 @@ const MarketsTable: React.FC = () => {
   useInitApp();
 
   useEffect(() => {
-    if (sdk) {
+    if (sdk && ws) {
       reloadMarkets();
     }
     return () => { };
-  }, [sdk]);
+  }, [sdk, ws]);
 
   const MarketTabs: MarketTab[] = [{
     label: "Spot",

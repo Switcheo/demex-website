@@ -77,7 +77,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     day_volume: parseNumber(marketStats.day_volume, BN_ZERO)!,
     last_price: parseNumber(marketStats.last_price, BN_ZERO)!,
     // open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
-    open_interest: BN_ZERO,
+    open_interest: BN_ZERO, // TODO: Check on market open_interest
     market_type: marketStats.market_type as MarketType,
   };
 }

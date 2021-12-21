@@ -2,11 +2,12 @@ import { POOL_DECIMALS } from "@demex-info/constants";
 import { TokenObj } from "@demex-info/store/app/types";
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models } from "carbon-js-sdk";
+import { CarbonSDK, WSModels } from "carbon-js-sdk";
 
 export interface Pool {
   denom: string;
   rewardsWeight: BigNumber;
+  totalCommitment: BigNumber;
 
   denomA: string;
   amountA: BigNumber;
@@ -19,24 +20,28 @@ export interface TotalCommitmentMap {
   [denom: string]: BigNumber;
 }
 
-export const parseLiquidityPools = (data: Models.ExtendedPool[], sdk: CarbonSDK): Pool[] => {
+export const parseLiquidityPools = (data: WSModels.Pool[], sdk: CarbonSDK): Pool[] => {
   if (!data || data.length <= 0 || !sdk) return [];
-  return data.map((extendedPool: Models.ExtendedPool) => {
+  return data.map((extendedPool: WSModels.Pool) => {
     const {
       pool,
-      rewardsWeight = 0,
+      rewards_weight = "0",
+      total_commitment = "0",
     } = extendedPool;
-    const amtA = parseNumber(pool?.amountA, BN_ZERO)!;
-    const amtB = parseNumber(pool?.amountB, BN_ZERO)!;
-    const adjustedAmtA = sdk.token.toHuman(pool?.denomA ?? "", amtA);
-    const adjustedAmtB = sdk.token.toHuman(pool?.denomB ?? "", amtB);
+    const amtA = parseNumber(pool?.amount_a, BN_ZERO)!;
+    const amtB = parseNumber(pool?.amount_b, BN_ZERO)!;
+    const adjustedAmtA = sdk.token.toHuman(pool?.denom_a ?? "", amtA);
+    const adjustedAmtB = sdk.token.toHuman(pool?.denom_b ?? "", amtB);
+    const totalCommitBN = parseNumber(total_commitment, BN_ZERO)!;
+    const adjustedCommit = sdk.token.toHuman(pool?.denom ?? "", totalCommitBN);
     return {
       denom: pool?.denom ?? "",
-      denomA: pool?.denomA ?? "",
+      denomA: pool?.denom_a ?? "",
       amountA: adjustedAmtA,
-      denomB: pool?.denomB ?? "",
+      denomB: pool?.denom_b ?? "",
       amountB: adjustedAmtB,
-      rewardsWeight: parseNumber(rewardsWeight, BN_ZERO)!,
+      rewardsWeight: parseNumber(rewards_weight, BN_ZERO)!,
+      totalCommitment: adjustedCommit,
     };
   });
 };
