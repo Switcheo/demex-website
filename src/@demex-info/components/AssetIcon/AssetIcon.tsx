@@ -1,7 +1,8 @@
-import { useAssetSymbol } from "@demex-info/hooks";
+import { RootState } from "@demex-info/store/types";
 import { Box, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 import CoinIcon, { CoinIconProps } from "../CoinIcon/CoinIcon";
 
 interface Props extends CoinIconProps {
@@ -19,15 +20,16 @@ const AssetIcon: React.FunctionComponent<Props> = (
     className, denom, svgClass,
     denomA: inputDenomA, denomB: inputDenomB,
     rightSvgClass, leftSvgClass, ...rest } = props;
-  const assetSymbol = useAssetSymbol();
   const classes = useStyles();
+  const sdk = useSelector((store: RootState) => store.app.sdk);
 
   let denomA = inputDenomA;
   let denomB = inputDenomB;
-  const poolNameMatch = denom?.match(/^([a-z\d]+)-\d+-([a-z\d]+)-\d+-lp\d+$/i);
-  if (poolNameMatch) {
-    denomA = assetSymbol(poolNameMatch[1]); // eslint-disable-line prefer-destructuring
-    denomB = assetSymbol(poolNameMatch[2]); // eslint-disable-line prefer-destructuring
+
+  const symbols = sdk?.token.getTokenName(denom ?? "").split("-") ?? [];
+  if (symbols.length > 1) {
+    denomA = symbols[0];
+    denomB = symbols[1];
   }
 
   return (
