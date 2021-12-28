@@ -83,7 +83,7 @@ export const StaticLinks = {
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
     Medium: "https://medium.com/switcheo",
     Discord: "https://discord.gg/SPh62Hf",
-    GitHub: "https://github.com/switcheo",
+    GitHub: "https://github.com/Switcheo/carbon-js-sdk",
   },
   ExternalBlockchains: {
     Eth: "https://etherscan.io/tx/",

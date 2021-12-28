@@ -8,12 +8,12 @@ const SocialLinkBox: React.FC = () => {
 
   const socialLnks: ExtSocialLnk[] = [
     SocialLnks.Twitter,
-    SocialLnks.Telegram,
+    // SocialLnks.Telegram,
     SocialLnks.Discord,
-    SocialLnks.Medium,
-    SocialLnks.Reddit,
+    // SocialLnks.Medium,
+    // SocialLnks.Reddit,
     SocialLnks.GitHub,
-    SocialLnks.LinkedIn,
+    // SocialLnks.LinkedIn,
   ];
 
   return (
