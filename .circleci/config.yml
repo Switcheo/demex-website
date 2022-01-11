@@ -4,7 +4,7 @@ jobs:
     docker:
       # image with node, npm and yarn installed
       - image: circleci/node:14.18.2-buster
-    resource_class: xlarge
+    resource_class: large
     steps:
 
       # checkout workspace to repo code
