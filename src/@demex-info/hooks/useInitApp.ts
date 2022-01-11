@@ -12,8 +12,8 @@ export default (): void => {
 
   const handleQueryTokens = async () => {
     try {
-      const response: Models.QueryAllTokenResponse = await sdk!.query.coin.TokenAll({});
-      dispatch(actions.App.setTokens(response.tokens));
+      const response: Models.Token[] = await sdk!.token.getAllTokens();
+      dispatch(actions.App.setTokens(response));
     } catch (err) {
       dispatch(actions.App.setTokens([]));
       console.error(err);

@@ -14,8 +14,9 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Models, TokenUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models, TokenUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
+import Long from "long";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -43,14 +44,51 @@ const MarketsTable: React.FC = () => {
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
+  const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
+    const limit = new Long(100)
+    const offset = Long.UZERO
+    const countTotal = true
+    const reverse = false
+  
+    let allMarkets: Models.Market[] = []
+    let key = new Uint8Array()
+  
+    const initMarkets = await sdk.query.market.MarketAll({
+      pagination: {
+        limit, offset, countTotal, reverse, key,
+      },
+    })
+    const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0
+    key = initMarkets.pagination?.nextKey ?? new Uint8Array()
+    allMarkets = allMarkets.concat(initMarkets.markets)
+  
+    if (initMarkets.markets.length === grandTotal) {
+      return allMarkets
+    }
+  
+    const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1
+    for (let ii = 0; ii < iterations; ii++) {
+      // eslint-disable-next-line no-await-in-loop
+      const markets = await sdk.query.market.MarketAll({
+        pagination: {
+          limit, offset, countTotal, reverse, key,
+        },
+      })
+      key = markets.pagination?.nextKey ?? new Uint8Array()
+      allMarkets = allMarkets.concat(markets.markets ?? [])
+    }
+  
+    return allMarkets
+  }
+
   const reloadMarkets = () => {
     if (!sdk?.query || !ws || !ws.connected) return;
 
     setLoad(true);
     runMarkets(async () => {
       try {
-        const listResponse: Models.QueryAllMarketResponse = await sdk.query.market.MarketAll({});
-        const listData: MarketListMap = parseMarketListMap(listResponse.markets);
+        const listResponse: Models.Market[] = await getAllMarkets(sdk);
+        const listData: MarketListMap = parseMarketListMap(listResponse);
         const listKeys = Object.keys(listData);
         setList(listData);
 
