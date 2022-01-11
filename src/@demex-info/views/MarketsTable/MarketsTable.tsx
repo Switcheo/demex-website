@@ -45,41 +45,41 @@ const MarketsTable: React.FC = () => {
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
 
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
-    const limit = new Long(100)
-    const offset = Long.UZERO
-    const countTotal = true
-    const reverse = false
+    const limit = new Long(100);
+    const offset = Long.UZERO;
+    const countTotal = true;
+    const reverse = false;
   
-    let allMarkets: Models.Market[] = []
-    let key = new Uint8Array()
+    let allMarkets: Models.Market[] = [];
+    let key = new Uint8Array();
   
     const initMarkets = await sdk.query.market.MarketAll({
       pagination: {
         limit, offset, countTotal, reverse, key,
       },
-    })
-    const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0
-    key = initMarkets.pagination?.nextKey ?? new Uint8Array()
-    allMarkets = allMarkets.concat(initMarkets.markets)
+    });
+    const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
+    key = initMarkets.pagination?.nextKey ?? new Uint8Array();
+    allMarkets = allMarkets.concat(initMarkets.markets);
   
     if (initMarkets.markets.length === grandTotal) {
-      return allMarkets
+      return allMarkets;
     }
   
-    const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1
+    const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1;
     for (let ii = 0; ii < iterations; ii++) {
       // eslint-disable-next-line no-await-in-loop
       const markets = await sdk.query.market.MarketAll({
         pagination: {
           limit, offset, countTotal, reverse, key,
         },
-      })
-      key = markets.pagination?.nextKey ?? new Uint8Array()
-      allMarkets = allMarkets.concat(markets.markets ?? [])
+      });
+      key = markets.pagination?.nextKey ?? new Uint8Array();
+      allMarkets = allMarkets.concat(markets.markets ?? []);
     }
   
-    return allMarkets
-  }
+    return allMarkets;
+  };
 
   const reloadMarkets = () => {
     if (!sdk?.query || !ws || !ws.connected) return;
