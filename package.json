@@ -48,7 +48,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max-old-space-size=8192 build",
     "compress": "sh dist/scripts/release.sh",
     "release": "yarn build && yarn compress",
     "serve": "yarn build && http-server ./build",
