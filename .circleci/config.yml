@@ -3,7 +3,7 @@ jobs:
   deploy:
     docker:
       # image with node, npm and yarn installed
-      - image: circleci/node:13.7.0-buster
+      - image: circleci/node:14.18.3-buster
     steps:
 
       # checkout workspace to repo code
