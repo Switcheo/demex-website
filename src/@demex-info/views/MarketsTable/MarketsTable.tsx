@@ -20,8 +20,12 @@ import Long from "long";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+// TODO: Uncomment when futures markets are launched on Carbonated Demex
+// import {
+//   FuturesTypes, MarketPaper, MarketTab,
+// } from "./components";
 import {
-  FuturesTypes, MarketPaper, MarketTab,
+  FuturesTypes, MarketPaper,
 } from "./components";
 
 const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
@@ -38,7 +42,8 @@ const MarketsTable: React.FC = () => {
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
 
-  const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
+  // TODO: Add setMarketOption when futures markets are launched on Carbonated Demex
+  const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
@@ -117,17 +122,19 @@ const MarketsTable: React.FC = () => {
     return () => { };
   }, [sdk, ws]);
 
-  const MarketTabs: MarketTab[] = [{
-    label: "Spot",
-    value: MarkType.Spot,
-  }, {
-    label: "Futures",
-    value: MarkType.Futures,
-  }];
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const MarketTabs: MarketTab[] = [{
+  //   label: "Spot",
+  //   value: MarkType.Spot,
+  // }, {
+  //   label: "Futures",
+  //   value: MarkType.Futures,
+  // }];
 
-  const handleChangeTab = (value: MarketType) => {
-    setMarketOption(value);
-  };
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const handleChangeTab = (value: MarketType) => {
+  //   setMarketOption(value);
+  // };
 
   const marketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
@@ -224,7 +231,8 @@ const MarketsTable: React.FC = () => {
   return (
     <div className={classes.root}>
       <Box className={classes.innerDiv}>
-        <Box className={classes.buttonDiv} display="flex" justifyContent="center">
+        {/* TODO: Uncomment when futures markets are launched on Carbonated Demex */}
+        {/* <Box className={classes.buttonDiv} display="flex" justifyContent="center">
           {MarketTabs.map((tab: MarketTab) => (
             <Button
               className={clsx(classes.tab, { selected: marketOption === tab.value })}
@@ -235,7 +243,7 @@ const MarketsTable: React.FC = () => {
               {tab.label}
             </Button>
           ))}
-        </Box>
+        </Box> */}
         <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
