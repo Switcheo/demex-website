@@ -82,6 +82,11 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
   };
 }
 
+export function isExpired(market: MarketListItem): boolean {
+  const expiryTime = moment(market.expiryTime);
+  return !moment().isBefore(expiryTime);
+}
+
 export function parseMarketCandlesticks(candlesticks: Models.Candlestick[], market: MarketListItem, sdk: CarbonSDK | undefined): CandleStickItem[] {
   if (typeof candlesticks !== "object" || candlesticks.length <= 0 || !sdk) {
     return [];

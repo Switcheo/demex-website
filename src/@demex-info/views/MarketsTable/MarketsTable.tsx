@@ -6,7 +6,7 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TokenUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models, TokenUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -89,17 +89,17 @@ const MarketsTable: React.FC = () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
         const listData: MarketListMap = parseMarketListMap(listResponse);
-        const listKeys = Object.keys(listData);
         setList(listData);
 
-        const statsData: MarketStatItem[] = [];
-        for (let ii = 0; ii < listKeys.length; ii++) {
-          const statsResponse = await ws.request<{ result: WSModels.MarketStat }>(WSConnectorTypes.WSRequest.MarketStats, {
-            market: listKeys[ii],
-          }) as WSResult<{ result: WSModels.MarketStat }>;
-          statsData.push(parseMarketStats(statsResponse.data.result));
-        }
-        setStats(statsData);
+        const statsResponse = await ws.request<{
+          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
+        }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{
+          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
+        }>;
+        const marketStatItems = Object.values(statsResponse.data.result).map((stat: WSModels.MarketStat) => (
+          parseMarketStats(stat)),
+        );
+        setStats(marketStatItems);
       } catch (err) {
         console.error(err);
       } finally {
@@ -131,9 +131,10 @@ const MarketsTable: React.FC = () => {
 
   const marketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
+      const marketItem = list?.[stat.market] ?? {};
       return marketOption === MarkType.Spot
         ? (stat.market_type === MarkType.Spot)
-        : (stat.market_type === MarkType.Futures);
+        : (stat.market_type === MarkType.Futures && !isExpired(marketItem));
     }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
