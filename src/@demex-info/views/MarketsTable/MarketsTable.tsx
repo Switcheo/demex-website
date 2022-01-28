@@ -6,7 +6,7 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
@@ -14,14 +14,18 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TokenUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models, TokenUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+// TODO: Uncomment when futures markets are launched on Carbonated Demex
+// import {
+//   FuturesTypes, MarketPaper, MarketTab,
+// } from "./components";
 import {
-  FuturesTypes, MarketPaper, MarketTab,
+  FuturesTypes, MarketPaper,
 } from "./components";
 
 const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
@@ -38,7 +42,8 @@ const MarketsTable: React.FC = () => {
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
 
-  const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
+  // TODO: Add setMarketOption when futures markets are launched on Carbonated Demex
+  const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
@@ -89,17 +94,17 @@ const MarketsTable: React.FC = () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
         const listData: MarketListMap = parseMarketListMap(listResponse);
-        const listKeys = Object.keys(listData);
         setList(listData);
 
-        const statsData: MarketStatItem[] = [];
-        for (let ii = 0; ii < listKeys.length; ii++) {
-          const statsResponse = await ws.request<{ result: WSModels.MarketStat }>(WSConnectorTypes.WSRequest.MarketStats, {
-            market: listKeys[ii],
-          }) as WSResult<{ result: WSModels.MarketStat }>;
-          statsData.push(parseMarketStats(statsResponse.data.result));
-        }
-        setStats(statsData);
+        const statsResponse = await ws.request<{
+          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
+        }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{
+          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
+        }>;
+        const marketStatItems = Object.values(statsResponse.data.result).map((stat: WSModels.MarketStat) => (
+          parseMarketStats(stat)),
+        );
+        setStats(marketStatItems);
       } catch (err) {
         console.error(err);
       } finally {
@@ -117,23 +122,26 @@ const MarketsTable: React.FC = () => {
     return () => { };
   }, [sdk, ws]);
 
-  const MarketTabs: MarketTab[] = [{
-    label: "Spot",
-    value: MarkType.Spot,
-  }, {
-    label: "Futures",
-    value: MarkType.Futures,
-  }];
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const MarketTabs: MarketTab[] = [{
+  //   label: "Spot",
+  //   value: MarkType.Spot,
+  // }, {
+  //   label: "Futures",
+  //   value: MarkType.Futures,
+  // }];
 
-  const handleChangeTab = (value: MarketType) => {
-    setMarketOption(value);
-  };
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const handleChangeTab = (value: MarketType) => {
+  //   setMarketOption(value);
+  // };
 
   const marketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
+      const marketItem = list?.[stat.market] ?? {};
       return marketOption === MarkType.Spot
         ? (stat.market_type === MarkType.Spot)
-        : (stat.market_type === MarkType.Futures);
+        : (stat.market_type === MarkType.Futures && !isExpired(marketItem));
     }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
@@ -223,7 +231,8 @@ const MarketsTable: React.FC = () => {
   return (
     <div className={classes.root}>
       <Box className={classes.innerDiv}>
-        <Box className={classes.buttonDiv} display="flex" justifyContent="center">
+        {/* TODO: Uncomment when futures markets are launched on Carbonated Demex */}
+        {/* <Box className={classes.buttonDiv} display="flex" justifyContent="center">
           {MarketTabs.map((tab: MarketTab) => (
             <Button
               className={clsx(classes.tab, { selected: marketOption === tab.value })}
@@ -234,7 +243,7 @@ const MarketsTable: React.FC = () => {
               {tab.label}
             </Button>
           ))}
-        </Box>
+        </Box> */}
         <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
