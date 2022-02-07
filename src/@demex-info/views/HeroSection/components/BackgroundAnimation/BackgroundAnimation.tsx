@@ -2,7 +2,7 @@ import { AllOrbitals, OrbitalGroup3, OrbitalGroup4, OrbitalGroup5 } from "@demex
 import { Box, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import Lottie from "lottie-react";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 const getLottieConfig = (animationData: any, className: string) => {
 	return {
@@ -17,14 +17,19 @@ const getLottieConfig = (animationData: any, className: string) => {
 
 const BackgroundAnimation: React.FC = () => {
 	const classes = useStyles();
+	const [show, setShow] = React.useState<boolean>(false);
 
 	const allOrbitals = useMemo(() => getLottieConfig(AllOrbitals, clsx(classes.generic)), [classes]);
 	const orbital3 = useMemo(() => getLottieConfig(OrbitalGroup3, clsx(classes.generic)), [classes]);
 	const orbital4 = useMemo(() => getLottieConfig(OrbitalGroup4, clsx(classes.generic)), [classes]);
 	const orbital5 = useMemo(() => getLottieConfig(OrbitalGroup5, clsx(classes.generic)), [classes]);
 
+	useEffect(() => {
+		setTimeout(() => setShow(true));
+	}, []);
+
 	return (
-		<Container className={classes.root} maxWidth="xl">
+		<Container className={clsx(classes.root, { show })} maxWidth="xl">
 			<Box className={classes.position}>
 				<Box className={classes.container}>
 					<Box className={classes.padding} />
@@ -41,6 +46,10 @@ const BackgroundAnimation: React.FC = () => {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: "relative",
+		display: "none",
+		"&.show": {
+			display: "block",
+		},
 	},
 	position: {
 		overflow: "hidden",
@@ -68,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 			margin: "-56% -100%",
 		},
 		[theme.breakpoints.down("md")]: {
-			margin: "-57% ​-100%",
+			margin: "-57% -100%",
 		},
 		[theme.breakpoints.down("sm")]: {
 			margin: "-50% -100%",

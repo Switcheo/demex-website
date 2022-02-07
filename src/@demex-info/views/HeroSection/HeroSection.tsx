@@ -1,11 +1,10 @@
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { lazy } from "@loadable/component";
 import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
 
-const BackgroundAnimation = lazy(() => import("./components/BackgroundAnimation"));
+import { BackgroundAnimation } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
@@ -13,9 +12,7 @@ const HeroSection: React.FC = () => {
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
-			<Suspense fallback={null}>
-				<BackgroundAnimation />
-			</Suspense>
+			<BackgroundAnimation />
 			<Container maxWidth="lg" className={classes.contentContainer}>
 				<Box className={classes.content}>
 					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
