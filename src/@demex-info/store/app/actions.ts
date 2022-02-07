@@ -1,4 +1,4 @@
-import { CarbonSDK, Models, WSConnector } from "carbon-js-sdk";
+import { CarbonSDK, WSConnector } from "carbon-js-sdk";
 import { USDPrices } from "./types";
 
 export const AppActionTypes = {
@@ -20,13 +20,6 @@ export function setWsConnector(ws: WSConnector) {
   return {
     type: AppActionTypes.SET_WS_CONNECTOR,
     ws,
-  };
-}
-
-export function setTokens(tokens: Models.Token[]) {
-  return {
-    type: AppActionTypes.SET_TOKENS,
-    tokens,
   };
 }
 

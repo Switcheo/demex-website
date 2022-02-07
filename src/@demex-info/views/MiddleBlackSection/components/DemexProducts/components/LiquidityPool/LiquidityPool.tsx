@@ -23,7 +23,6 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
 
-  const tokens = useSelector((state: RootState) => state.app.tokens);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
 
@@ -73,7 +72,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
           pool,
           BN_HUNDRED,
           commitToken,
-          tokens,
+          tokenClient,
         );
         totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
       }
@@ -82,7 +81,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
       totalLiquidity: totalUsd,
       totalCommit,
     };
-  }, [pools, tokenClient, tokens]);
+  }, [pools, tokenClient]);
 
   const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;
