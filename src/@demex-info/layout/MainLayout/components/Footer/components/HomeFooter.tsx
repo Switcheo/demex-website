@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradehubLogo: {
-    height: "0.875rem",
+    height: "1rem",
     width: "unset",
     [theme.breakpoints.only("xs")]: {
       display: "block",

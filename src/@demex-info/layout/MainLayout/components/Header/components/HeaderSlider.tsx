@@ -153,7 +153,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   swthLogo: {
-    height: "0.875rem",
+    height: "1rem",
+    width: "unset",
   },
 }));
 
