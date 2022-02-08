@@ -1,7 +1,7 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAsyncTask, useInitApp, useRollingNum, useWebsocket,
+  useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TokenUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -38,7 +38,8 @@ const MarketsTable: React.FC = () => {
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [ws] = useWebsocket();
 
-  const { network } = useSelector((state: RootState) => state.app);
+  const isAppReady = useSelector((state: RootState) => state.app.isAppReady);
+  const network = useSelector((state: RootState) => state.app.network);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
 
@@ -48,7 +49,9 @@ const MarketsTable: React.FC = () => {
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
-
+  const [renderReady, setRenderReady] = React.useState<boolean>(false);
+  const ready = isAppReady && renderReady;
+  
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
     const limit = new Long(100);
     const offset = Long.UZERO;
@@ -113,14 +116,16 @@ const MarketsTable: React.FC = () => {
     });
   };
 
-  useInitApp();
-
   useEffect(() => {
     if (sdk && ws && ws?.connected) {
       reloadMarkets();
     }
     return () => { };
   }, [sdk, ws]);
+
+  useEffect(() => {
+    setTimeout(() => setRenderReady(true));
+  }, []);
 
   // TODO: Uncomment when futures markets are launched on Carbonated Demex
   // const MarketTabs: MarketTab[] = [{
@@ -176,14 +181,11 @@ const MarketsTable: React.FC = () => {
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
 
-      const symbolOverride = marketItem.marketType === MarkType.Spot ? undefined : TokenUtils.FuturesDenomOverride;
-      const baseToken = sdk?.token.getTokenName(baseDenom, symbolOverride).toUpperCase() ?? "";
-      const quoteToken = sdk?.token.getTokenName(quoteDenom, symbolOverride).toUpperCase() ?? "";
-      if (!coinsList.includes(baseToken) && baseToken.length > 0) {
-        coinsList.push(baseToken);
+      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
+        coinsList.push(baseDenom);
       }
-      if (!coinsList.includes(quoteToken) && quoteToken.length > 0) {
-        coinsList.push(quoteToken);
+      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
+        coinsList.push(quoteDenom);
       }
     });
 
@@ -344,11 +346,12 @@ const MarketsTable: React.FC = () => {
                             >
                               {coinsList.map((coin: string, index: number) => {
                                 if (index <= 3) {
+                                  const coinName = sdk?.token.getTokenName(coin) ?? "";
                                   return (
                                     <CoinIcon
                                       className={clsx(classes.coinIcon, `coin-${index}`)}
                                       key={coin}
-                                      denom={coin}
+                                      denom={coinName.toLowerCase()}
                                     />
                                   );
                                 }
@@ -436,7 +439,7 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
+          <MarketGridTable ready={ready} list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
     </div>

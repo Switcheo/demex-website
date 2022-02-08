@@ -6,8 +6,8 @@ export interface AppState {
   network: CarbonSDK.Network;
   sdk: CarbonSDK | undefined;
   ws: WSConnector | undefined;
-  tokens: TokenObj[];
   usdPrices: USDPrices;
+  isAppReady: boolean;
 }
 
 export interface USDPrices {

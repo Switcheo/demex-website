@@ -9,8 +9,8 @@ const initial_state: AppState = {
 	network: storedNetwork!,
   sdk: undefined,
   ws: undefined,
-  tokens: [],
   usdPrices: {},
+  isAppReady: false,
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -31,15 +31,15 @@ const reducer = (state: AppState = initial_state, actions: any) => {
       ...state,
       ws: actions.ws,
     };
-  case AppActionTypes.SET_TOKENS:
-    return {
-      ...state,
-      tokens: actions.tokens,
-    };
   case AppActionTypes.SET_USD_PRICES:
     return {
       ...state,
       usdPrices: actions.usdPrices,
+    };
+  case AppActionTypes.SET_IS_APP_READY:
+    return {
+      ...state,
+      isAppReady: actions.ready,
     };
 	default:
 		return state;
