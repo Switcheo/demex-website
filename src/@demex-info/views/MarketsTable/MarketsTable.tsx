@@ -1,7 +1,7 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAsyncTask, useInitApp, useRollingNum, useWebsocket,
+  useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TokenUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -113,8 +113,6 @@ const MarketsTable: React.FC = () => {
     });
   };
 
-  useInitApp();
-
   useEffect(() => {
     if (sdk && ws && ws?.connected) {
       reloadMarkets();
@@ -176,14 +174,11 @@ const MarketsTable: React.FC = () => {
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
 
-      const symbolOverride = marketItem.marketType === MarkType.Spot ? undefined : TokenUtils.FuturesDenomOverride;
-      const baseToken = sdk?.token.getTokenName(baseDenom, symbolOverride).toUpperCase() ?? "";
-      const quoteToken = sdk?.token.getTokenName(quoteDenom, symbolOverride).toUpperCase() ?? "";
-      if (!coinsList.includes(baseToken) && baseToken.length > 0) {
-        coinsList.push(baseToken);
+      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
+        coinsList.push(baseDenom);
       }
-      if (!coinsList.includes(quoteToken) && quoteToken.length > 0) {
-        coinsList.push(quoteToken);
+      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
+        coinsList.push(quoteDenom);
       }
     });
 
@@ -344,11 +339,12 @@ const MarketsTable: React.FC = () => {
                             >
                               {coinsList.map((coin: string, index: number) => {
                                 if (index <= 3) {
+                                  const coinName = sdk?.token.getTokenName(coin) ?? "";
                                   return (
                                     <CoinIcon
                                       className={clsx(classes.coinIcon, `coin-${index}`)}
                                       key={coin}
-                                      denom={coin}
+                                      denom={coinName.toLowerCase()}
                                     />
                                   );
                                 }

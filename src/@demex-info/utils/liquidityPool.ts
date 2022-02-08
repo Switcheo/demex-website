@@ -1,8 +1,7 @@
 import { POOL_DECIMALS } from "@demex-info/constants";
-import { TokenObj } from "@demex-info/store/app/types";
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, WSModels } from "carbon-js-sdk";
+import { CarbonSDK, Models, WSModels } from "carbon-js-sdk";
 import { TokenClient } from "carbon-js-sdk/lib/clients";
 
 export interface Pool {
@@ -62,14 +61,14 @@ export const parseLiquidityPools = (data: WSPools, tokenClient: TokenClient): Po
  * @param selectPool selected pool data
  * @param userLPPercentage user"s share percentage in LP
  * @param userLPTokens number of liquidity tokens that user owns
- * @param tokens tokens list for retrieving token info
+ * @param tokenClient sdk token client
  */
 export function getBreakdownToken(
   inputLiquid: BigNumber,
   selectPool: Pool,
   userLPPercentage: BigNumber = BN_ZERO,
   userLPTokens: BigNumber = BN_ZERO,
-  tokens: TokenObj[],
+  tokenClient: TokenClient | undefined,
 ): [BigNumber, BigNumber] {
   const {
     amountA = "0",
@@ -87,10 +86,10 @@ export function getBreakdownToken(
   }
 
   const poolDecimals = new BigNumber(POOL_DECIMALS);
-  const tokenA = tokens.find((token) => token.denom === selectPool.denomA);
-  const decimalsA = parseNumber(tokenA?.decimals, poolDecimals)!;
-  const tokenB = tokens.find((token) => token.denom === selectPool.denomB);
-  const decimalsB = parseNumber(tokenB?.decimals, poolDecimals)!;
+  const tokenA: Models.Token | undefined = tokenClient?.tokenForDenom(selectPool.denomA);
+  const decimalsA = parseNumber(tokenA?.decimals.toNumber() ?? 0, poolDecimals)!;
+  const tokenB: Models.Token | undefined = tokenClient?.tokenForDenom(selectPool.denomB);
+  const decimalsB = parseNumber(tokenB?.decimals.toNumber() ?? 0, poolDecimals)!;
 
   // Find amount of Token A returned
   const tokenAOut = inputLiquid.dividedBy(userLPTokens)
