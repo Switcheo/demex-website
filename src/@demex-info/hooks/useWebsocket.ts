@@ -1,11 +1,13 @@
+import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { WSConnector } from "carbon-js-sdk";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 type WsResponse = [ws: WSConnector | undefined];
 
 export default (): WsResponse => {
+  const dispatch = useDispatch();
   const network = useSelector((store: RootState) => store.app.network);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const [ws, setWs] = useState<WSConnector | undefined>(undefined);
@@ -16,6 +18,7 @@ export default (): WsResponse => {
         await ws.connect();
         if (ws.connected) {
           setWs(ws);
+          dispatch(actions.App.setIsAppReady(true));
         }
       } catch (err) {
         console.error(err);

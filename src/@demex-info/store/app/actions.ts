@@ -7,6 +7,7 @@ export const AppActionTypes = {
   SET_WS_CONNECTOR: "SET_WS_CONNECTOR",
   SET_TOKENS: "SET_TOKENS",
   SET_USD_PRICES: "SET_USD_PRICES",
+  SET_IS_APP_READY: "SET_IS_APP_READY",
 };
 
 export function setSDK(sdk: CarbonSDK) {
@@ -27,5 +28,12 @@ export function setUsdPrices(usdPrices: USDPrices) {
   return {
     type: AppActionTypes.SET_USD_PRICES,
     usdPrices,
+  };
+}
+
+export function setIsAppReady(ready: boolean) {
+  return {
+    type: AppActionTypes.SET_IS_APP_READY,
+    ready,
   };
 }

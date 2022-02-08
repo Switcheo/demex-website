@@ -38,7 +38,8 @@ const MarketsTable: React.FC = () => {
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [ws] = useWebsocket();
 
-  const { network } = useSelector((state: RootState) => state.app);
+  const isAppReady = useSelector((state: RootState) => state.app.isAppReady);
+  const network = useSelector((state: RootState) => state.app.network);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
 
@@ -48,8 +49,9 @@ const MarketsTable: React.FC = () => {
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
-  const [ready, setReady] = React.useState<boolean>(false);
-
+  const [renderReady, setRenderReady] = React.useState<boolean>(false);
+  const ready = isAppReady && renderReady;
+  
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
     const limit = new Long(100);
     const offset = Long.UZERO;
@@ -122,7 +124,7 @@ const MarketsTable: React.FC = () => {
   }, [sdk, ws]);
 
   useEffect(() => {
-    setTimeout(() => setReady(true));
+    setTimeout(() => setRenderReady(true));
   }, []);
 
   // TODO: Uncomment when futures markets are launched on Carbonated Demex

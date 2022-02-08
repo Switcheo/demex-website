@@ -7,6 +7,7 @@ export interface AppState {
   sdk: CarbonSDK | undefined;
   ws: WSConnector | undefined;
   usdPrices: USDPrices;
+  isAppReady: boolean;
 }
 
 export interface USDPrices {

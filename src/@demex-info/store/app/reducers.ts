@@ -10,6 +10,7 @@ const initial_state: AppState = {
   sdk: undefined,
   ws: undefined,
   usdPrices: {},
+  isAppReady: false,
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -34,6 +35,11 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       usdPrices: actions.usdPrices,
+    };
+  case AppActionTypes.SET_IS_APP_READY:
+    return {
+      ...state,
+      isAppReady: actions.ready,
     };
 	default:
 		return state;
