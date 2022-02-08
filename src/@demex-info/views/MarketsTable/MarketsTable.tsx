@@ -48,6 +48,7 @@ const MarketsTable: React.FC = () => {
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
+  const [ready, setReady] = React.useState<boolean>(false);
 
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
     const limit = new Long(100);
@@ -119,6 +120,10 @@ const MarketsTable: React.FC = () => {
     }
     return () => { };
   }, [sdk, ws]);
+
+  useEffect(() => {
+    setTimeout(() => setReady(true));
+  }, []);
 
   // TODO: Uncomment when futures markets are launched on Carbonated Demex
   // const MarketTabs: MarketTab[] = [{
@@ -432,7 +437,7 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
+          <MarketGridTable ready={ready} list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
     </div>
