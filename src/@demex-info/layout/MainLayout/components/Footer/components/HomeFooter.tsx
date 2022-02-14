@@ -1,4 +1,4 @@
-import { PoweredByCarbon } from "@demex-info/assets/logos";
+import { PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
 import { Box, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
@@ -11,7 +11,7 @@ const HomeFooter: React.FC = () => {
       <TypographyLabel className={classes.copyright}>
         &copy;2021 Demex. All rights reserved.
       </TypographyLabel>
-      <PoweredByCarbon className={classes.tradehubLogo} />
+      <PoweredByCarbonFlat className={classes.tradehubLogo} />
     </Box>
   );
 };

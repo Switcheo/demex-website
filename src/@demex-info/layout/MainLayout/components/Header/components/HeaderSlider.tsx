@@ -1,5 +1,5 @@
 import { ExternalLink } from "@demex-info/assets/icons";
-import { PoweredByCarbon } from "@demex-info/assets/logos";
+import { PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
@@ -82,7 +82,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       <Box className={classes.box}>
         <Divider />
         <Box className={classes.footerLogo}>
-          <PoweredByCarbon className={classes.swthLogo} />
+          <PoweredByCarbonFlat className={classes.swthLogo} />
         </Box>
       </Box>
     </Drawer>
