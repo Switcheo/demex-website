@@ -1176,6 +1176,7 @@
   integrity sha512-QQiwopbDLmli9cyGvvmdhrpEyss2/9g+zJ4DJ2aP9T0Clep37Mv2Yfv10/XIXwrGPXdB/cXht58GevKa8P1cLQ==
 
 "@cityofzion/neon-core-next@npm:@cityofzion/neon-core@^5.0.0-next.17", "@cityofzion/neon-core@^5.0.0-next.17":
+  name "@cityofzion/neon-core-next"
   version "5.0.0-next.17"
   resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-5.0.0-next.17.tgz#fe666b9432eabc7743be926882499d01a33c4f05"
   integrity sha512-+yb9J+gJSvmOEP6raKOLJdg88GsVP6I6ITFAkdxeWe32PzgtMl1NxZc3QrWBOJ8PQ9t5CGN+KW2l+fwgMqfavQ==
@@ -4777,10 +4778,10 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-carbon-js-sdk@^0.1.45:
-  version "0.1.45"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.1.45.tgz#b92c4eb9e341cdba5156bbc5a7a0d50f41108700"
-  integrity sha512-KcANyn7JDQzNrUwo3UrbNdUqRzUFiBM4jkFTBPBEGSPGO2OvF81+M9xeMCow1nONMzkCdw11ndJLoNGqs/vYmQ==
+carbon-js-sdk@^0.1.47:
+  version "0.1.47"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.1.47.tgz#a6653dc85e5ae79c1b7919f9e9eb768bf10e8bea"
+  integrity sha512-2+uC3C4K+nRxn0k4sZ/mESJX1IbFrntj/Obi4fikalasV14XzZ5eYlcvktOU0OtGxhnK8XbbgOwxOy9CPhROtw==
   dependencies:
     "@cityofzion/neon-core" "^4.9.0"
     "@cityofzion/neon-core-next" "npm:@cityofzion/neon-core@^5.0.0-next.17"
