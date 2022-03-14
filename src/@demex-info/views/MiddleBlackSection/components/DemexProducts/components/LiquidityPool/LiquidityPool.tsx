@@ -1,9 +1,9 @@
 import { useAsyncTask, useWebsocket } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
-import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, Pool, parseLiquidityPools } from "@demex-info/utils";
+import { BN_HUNDRED, BN_ZERO, constantLP, estimateApyUSD, getBreakdownToken, Pool, parseLiquidityPools, parseNumber } from "@demex-info/utils";
 import { Hidden } from "@material-ui/core";
 import BigNumber from "bignumber.js";
-import { WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { Models, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import LiquidityPoolSection from "./LiquidityPoolSection";
@@ -22,6 +22,7 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
 
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
+  const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
 
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
@@ -35,6 +36,9 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
         const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
 
         const poolsRewards = await sdk!.lp.getWeeklyRewards();
+
+        const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
+        setCommitCurve(curveResponse.commitmentCurve);
 
         setPools(poolsData);
         setWeeklyRewards(poolsRewards ?? BN_ZERO);
@@ -86,16 +90,24 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
   const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;
     let cumApy: BigNumber = BN_ZERO;
+    const maxBoostBN = parseNumber(commitCurve?.maxRewardMultiplier, BN_ZERO)!.dividedBy(100);
 
     pools.forEach((p: Pool) => {
       weightTotal = weightTotal.plus(p.rewardsWeight ?? BN_ZERO);
     });
     pools.forEach((pool: Pool) => {
-      const indivApy = calculateAPY(sdk, pool, weeklyRewards, weightTotal);
+      const indivApy = estimateApyUSD({
+        sdk,
+        pool,
+        poolsRewards: weeklyRewards,
+        totalWeight: weightTotal,
+        boostFactor: maxBoostBN,
+        notionalLp: constantLP,
+      });
       cumApy = cumApy.plus(indivApy);
     });
     return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
-  }, [pools, weeklyRewards, sdk]);
+  }, [pools, weeklyRewards, sdk, commitCurve]);
 
   return (
     <React.Fragment>
