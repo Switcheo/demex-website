@@ -29,7 +29,7 @@
     "http-server": "^0.12.3",
     "long": "^5.2.0",
     "lottie-react": "^2.1.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react": "^17.0.1",
     "react-chartjs-2": "^3.0.3",
     "react-countup": "^4.3.3",
