@@ -56,14 +56,13 @@ const MarketsTable: React.FC = () => {
     const limit = new Long(100);
     const offset = Long.UZERO;
     const countTotal = true;
-    const reverse = false;
   
     let allMarkets: Models.Market[] = [];
     let key = new Uint8Array();
   
     const initMarkets = await sdk.query.market.MarketAll({
       pagination: {
-        limit, offset, countTotal, reverse, key,
+        limit, offset, countTotal, key,
       },
     });
     const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
@@ -79,7 +78,7 @@ const MarketsTable: React.FC = () => {
       // eslint-disable-next-line no-await-in-loop
       const markets = await sdk.query.market.MarketAll({
         pagination: {
-          limit, offset, countTotal, reverse, key,
+          limit, offset, countTotal, key,
         },
       });
       key = markets.pagination?.nextKey ?? new Uint8Array();

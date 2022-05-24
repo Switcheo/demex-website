@@ -124,6 +124,7 @@ export { ReactComponent as OKB } from "./OKB.svg";
 export { ReactComponent as OMG } from "./OMG.svg";
 export { ReactComponent as ONE } from "./ONE.svg";
 export { ReactComponent as ONT } from "./ONT.svg";
+export { ReactComponent as OSMO } from "./OSMO.svg";
 export { ReactComponent as OXT } from "./OXT.svg";
 export { ReactComponent as PAX } from "./PAX.svg";
 export { ReactComponent as PLAY } from "./PLAY.svg";
