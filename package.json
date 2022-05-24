@@ -22,7 +22,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-logger": "^3.0.8",
     "bignumber.js": "^9.0.1",
-    "carbon-js-sdk": "^0.1.57",
+    "carbon-js-sdk": "^0.1.91",
     "chart.js": "^3.2.0",
     "eslint": "^7.23.0",
     "gsap": "^3.6.1",
@@ -52,7 +52,8 @@
     "compress": "sh dist/scripts/release.sh",
     "release": "yarn build && yarn compress",
     "serve": "yarn build && http-server ./build",
-    "lint": "yarn run eslint . --ext .ts,.tsx"
+    "lint": "yarn run eslint . --ext .ts,.tsx",
+    "upgrade-sdk": "yarn upgrade carbon-js-sdk@latest"
   },
   "eslintConfig": {
     "extends": [
