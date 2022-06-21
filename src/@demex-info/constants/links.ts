@@ -1,16 +1,18 @@
 import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 import { CarbonSDK } from "carbon-js-sdk";
 
+export enum LoginPage {
+  Ledger = "ledger", // eslint-disable-line no-unused-vars
+  Keplr = "keplr", // eslint-disable-line no-unused-vars
+  Metamask = "metamask", // eslint-disable-line no-unused-vars
+  EncryptedKey = "encryptedKey", // eslint-disable-line no-unused-vars
+  Register = "register", // eslint-disable-line no-unused-vars
+  Reset = "reset", // eslint-disable-line no-unused-vars
+  Main = "main", // eslint-disable-line no-unused-vars
+}
+
 export const Paths = {
   Home: "/",
-
-  Login: {
-    Main: "/login",
-    Ledger: "/login/ledger",
-    MetaMask: "/login/metamask",
-    EncryptedKey: "/login/encrypted_key",
-    Keplr: "/login/keplr",
-  },
 
   PasswordReset: "/reset_password",
   Register: "/register",

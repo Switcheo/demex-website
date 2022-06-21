@@ -1,6 +1,6 @@
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           <Button
             className={classes.loginBtn}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.Main, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>
