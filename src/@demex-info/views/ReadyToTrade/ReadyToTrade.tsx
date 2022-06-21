@@ -1,7 +1,7 @@
 import { CaretRight, HomeBorder2 as HomeBorderLeft, HomeBorder3 as HomeBorderRight } from "@demex-info/assets/icons";
 import { EncryptedKey, Keplr, Ledger, MetaMask } from "@demex-info/assets/logos";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
@@ -44,7 +44,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.Ledger, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Ledger}`, network))}
           >
             <Ledger className={classes.ledgerIcon} />
             Ledger
@@ -55,7 +55,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.Keplr, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Keplr}`, network))}
           >
             <Keplr className={classes.keyIcon} />
             Keplr
@@ -66,7 +66,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.MetaMask, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Metamask}`, network))}
           >
             <MetaMask className={classes.metamaskIcon} />
             Metamask
@@ -77,7 +77,7 @@ const ReadyToTrade: React.FC = () => {
               label: classes.buttonLbl,
             }}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.EncryptedKey, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.EncryptedKey}`, network))}
           >
             <EncryptedKey className={classes.keyIcon} />
             Encrypted Key
