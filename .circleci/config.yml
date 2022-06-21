@@ -3,7 +3,7 @@ jobs:
   deploy:
     docker:
       # image with node, npm and yarn installed
-      - image: circleci/node:14.18.2-buster
+      - image: cimg/node:14.19.0-browsers
     resource_class: large
     steps:
 
