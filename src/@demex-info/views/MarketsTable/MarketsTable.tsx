@@ -38,10 +38,12 @@ const MarketsTable: React.FC = () => {
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [ws] = useWebsocket();
 
+  const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
   const isAppReady = useSelector((state: RootState) => state.app.isAppReady);
   const network = useSelector((state: RootState) => state.app.network);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
+  const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
   // TODO: Add setMarketOption when futures markets are launched on Carbonated Demex
   const [marketOption] = React.useState<MarketType>(MarkType.Spot);
@@ -253,10 +255,10 @@ const MarketsTable: React.FC = () => {
                   Volume (24H)
                 </Typography>
               </Box>
-              <RenderGuard renderIf={loading}>
+              <RenderGuard renderIf={statLoading}>
                 <Skeleton className={classes.standardSkeleton} />
               </RenderGuard>
-              <RenderGuard renderIf={!loading}>
+              <RenderGuard renderIf={!statLoading}>
                 <TypographyLabel color="textPrimary" variant="h4">
                   ${volumeCountUp}
                 </TypographyLabel>
@@ -276,10 +278,10 @@ const MarketsTable: React.FC = () => {
                         justifyContent="space-between"
                         mt={widthXs ? 1 : 1.5}
                       >
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Skeleton className={classes.standardSkeleton} />
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading}>
+                        <RenderGuard renderIf={!statLoading}>
                           <TypographyLabel color="textPrimary" variant="h4">
                             {spotCountUp}
                           </TypographyLabel>
@@ -302,10 +304,10 @@ const MarketsTable: React.FC = () => {
                       <TypographyLabel color="textPrimary" variant="subtitle2">
                         Open Interest
                       </TypographyLabel>
-                      <RenderGuard renderIf={loading}>
+                      <RenderGuard renderIf={statLoading}>
                         <Skeleton className={classes.standardSkeleton} />
                       </RenderGuard>
-                      <RenderGuard renderIf={!loading}>
+                      <RenderGuard renderIf={!statLoading}>
                         <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                           ${interestCountUp}
                         </TypographyLabel>
@@ -322,15 +324,15 @@ const MarketsTable: React.FC = () => {
                         Coins
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Skeleton className={classes.numSkeleton} />
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading}>
+                        <RenderGuard renderIf={!statLoading}>
                           <TypographyLabel color="textPrimary" variant="h4">
                             {coinsCountUp}
                           </TypographyLabel>
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading && coinsList.length > 0}>
+                        <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
                           <Box position="relative">
                             <Box
                               className={classes.labelBox}
@@ -375,7 +377,7 @@ const MarketsTable: React.FC = () => {
                             </Box>
                           </Box>
                         </RenderGuard>
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Box alignItems="center" display="flex" justifyContent="center">
                             <Skeleton className={classes.coinSkeleton} />
                           </Box>
@@ -400,10 +402,10 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textPrimary" variant="subtitle2">
                               Delivery Futures
                             </TypographyLabel>
-                            <RenderGuard renderIf={loading}>
+                            <RenderGuard renderIf={statLoading}>
                               <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
-                            <RenderGuard renderIf={!loading}>
+                            <RenderGuard renderIf={!statLoading}>
                               <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {futuresCountUp}
                               </TypographyLabel>
@@ -417,10 +419,10 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textPrimary" variant="subtitle2">
                               Perpetual Swaps
                             </TypographyLabel>
-                            <RenderGuard renderIf={loading}>
+                            <RenderGuard renderIf={statLoading}>
                               <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
-                            <RenderGuard renderIf={!loading}>
+                            <RenderGuard renderIf={!statLoading}>
                               <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {perpetualsCountUp}
                               </TypographyLabel>

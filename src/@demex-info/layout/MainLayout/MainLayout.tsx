@@ -1,3 +1,4 @@
+import { useAsyncTask } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BoxProps, makeStyles, Theme } from "@material-ui/core";
@@ -11,6 +12,7 @@ interface Props extends BoxProps { }
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
+  const [runInitSDK] = useAsyncTask("runInitSDK");
   const dispatch = useDispatch();
   const net = useSelector((store: RootState) => store.app.network);
 
@@ -21,7 +23,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    const initWsSDK = async () => {
+    runInitSDK(async () => {
       try {
         const sdk = await CarbonSDK.instance({
           network: net,
@@ -31,9 +33,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
       } catch (err) {
         console.error(err);
       }
-    };
-    initWsSDK();
-
+    });
     return () => {};
   }, [net]);
 
