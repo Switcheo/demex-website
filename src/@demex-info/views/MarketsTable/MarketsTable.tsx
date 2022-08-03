@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CarbonSDK, Models } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -62,7 +62,7 @@ const MarketsTable: React.FC = () => {
   
     const initMarkets = await sdk.query.market.MarketAll({
       pagination: {
-        limit, offset, countTotal, key,
+        limit, offset, countTotal, key, reverse: false,
       },
     });
     const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
@@ -78,7 +78,7 @@ const MarketsTable: React.FC = () => {
       // eslint-disable-next-line no-await-in-loop
       const markets = await sdk.query.market.MarketAll({
         pagination: {
-          limit, offset, countTotal, key,
+          limit, offset, countTotal, key, reverse: false,
         },
       });
       key = markets.pagination?.nextKey ?? new Uint8Array();
@@ -98,12 +98,8 @@ const MarketsTable: React.FC = () => {
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
 
-        const statsResponse = await ws.request<{
-          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
-        }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{
-          result: TypeUtils.SimpleMap<WSModels.MarketStat>;
-        }>;
-        const marketStatItems = Object.values(statsResponse.data.result).map((stat: WSModels.MarketStat) => (
+        const statsResponse = await sdk.query.marketstats.MarketStats({});
+        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
           parseMarketStats(stat)),
         );
         setStats(marketStatItems);
@@ -144,15 +140,15 @@ const MarketsTable: React.FC = () => {
     return stats?.filter((stat: MarketStatItem) => {
       const marketItem = list?.[stat.market] ?? {};
       return marketOption === MarkType.Spot
-        ? (stat.market_type === MarkType.Spot)
-        : (stat.market_type === MarkType.Futures && !isExpired(marketItem));
+        ? (stat.marketType === MarkType.Spot)
+        : (stat.marketType === MarkType.Futures && !isExpired(marketItem));
     }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
       const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.base ?? "") ?? BN_ZERO;
       const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.base ?? "") ?? BN_ZERO;
-      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.base ?? "", marketA.day_volume) ?? BN_ZERO;
-      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.base ?? "", marketB.day_volume) ?? BN_ZERO;
+      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.base ?? "", marketA.dayVolume) ?? BN_ZERO;
+      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.base ?? "", marketB.dayVolume) ?? BN_ZERO;
       const usdVolumeA = symbolUsdA.times(dailyVolumeA);
       const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
@@ -174,7 +170,7 @@ const MarketsTable: React.FC = () => {
       const quoteDenom = marketItem?.quote ?? "";
 
       const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
-      const adjustedVolume = sdk?.token.toHuman(baseDenom, market.day_volume) ?? BN_ZERO;
+      const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 

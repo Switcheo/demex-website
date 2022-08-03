@@ -54,20 +54,20 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   const quoteSymbol = sdk?.token.getTokenName(listItem.quote, symbolOverride).toUpperCase() ?? "";
   const baseDp = sdk?.token.getDecimals(listItem.base) ?? 0;
   const quoteDp = sdk?.token.getDecimals(listItem.quote) ?? 0;
-  const diffDp = quoteDp - baseDp;
+  const diffDp = baseDp - quoteDp;
 
-  const marketType = stat?.market_type ?? MarkType.Spot;
+  const marketType = stat?.marketType ?? MarkType.Spot;
   const expiryTime = moment(listItem?.expiryTime);
 
   const baseUsd = sdk?.token.getUSDValue(listItem?.base ?? "") ?? BN_ZERO;
   const quoteUsd = sdk?.token.getUSDValue(listItem?.quote ?? "") ?? BN_ZERO;
-  const openPrice = stat.day_open.shiftedBy(-diffDp);
-  const closePrice = stat.day_close.shiftedBy(-diffDp);
-  const lastPrice = stat.last_price.shiftedBy(-diffDp);
+  const openPrice = stat.dayOpen.shiftedBy(-diffDp);
+  const closePrice = stat.dayClose.shiftedBy(-diffDp);
+  const lastPrice = stat.lastPrice.shiftedBy(-diffDp);
   const lastPriceUsd = quoteUsd.times(lastPrice);
   const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
-  const dailyVolume = stat.day_volume.shiftedBy(-baseDp);
+  const dailyVolume = stat.dayVolume.shiftedBy(-baseDp);
   const usdVolume = baseUsd.times(dailyVolume);
   const graphMainColor = !change24H.isZero()
     ? (change24H.gt(0) ? theme.palette.success.main : theme.palette.error.main)
