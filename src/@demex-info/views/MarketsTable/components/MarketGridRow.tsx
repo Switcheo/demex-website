@@ -1,5 +1,5 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
@@ -54,16 +54,16 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   const quoteSymbol = sdk?.token.getTokenName(listItem.quote, symbolOverride).toUpperCase() ?? "";
   const baseDp = sdk?.token.getDecimals(listItem.base) ?? 0;
   const quoteDp = sdk?.token.getDecimals(listItem.quote) ?? 0;
-  const diffDp = baseDp - quoteDp;
+  const diffDp = quoteDp - baseDp;
 
   const marketType = stat?.marketType ?? MarkType.Spot;
   const expiryTime = moment(listItem?.expiryTime);
 
   const baseUsd = sdk?.token.getUSDValue(listItem?.base ?? "") ?? BN_ZERO;
   const quoteUsd = sdk?.token.getUSDValue(listItem?.quote ?? "") ?? BN_ZERO;
-  const openPrice = stat.dayOpen.shiftedBy(-diffDp);
-  const closePrice = stat.dayClose.shiftedBy(-diffDp);
-  const lastPrice = stat.lastPrice.shiftedBy(-diffDp);
+  const openPrice = stat.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const closePrice = stat.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const lastPrice = stat.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
   const lastPriceUsd = quoteUsd.times(lastPrice);
   const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
