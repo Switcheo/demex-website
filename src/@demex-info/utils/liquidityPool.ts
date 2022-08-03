@@ -7,6 +7,13 @@ import { TokenClient } from "carbon-js-sdk/lib/clients";
 // Constant amount of liquidity (to estimate APY)
 export const constantLP = new BigNumber(1000);
 
+export const commitLpWalletAddr = {
+  [CarbonSDK.Network.MainNet]: "swth1jdkc8y4a60k279fwe9hwgzdpn6pnxzg898al27",
+  [CarbonSDK.Network.TestNet]: "tswth1jdkc8y4a60k279fwe9hwgzdpn6pnxzg8psv0nm",
+  [CarbonSDK.Network.DevNet]: "swth1jdkc8y4a60k279fwe9hwgzdpn6pnxzg898al27",
+  [CarbonSDK.Network.LocalHost]: "tswth1jdkc8y4a60k279fwe9hwgzdpn6pnxzg8psv0nm",
+};
+
 export interface Pool {
   denom: string;
   rewardsWeight: BigNumber;

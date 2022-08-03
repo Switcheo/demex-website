@@ -1,6 +1,6 @@
 import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, WSModels } from "carbon-js-sdk";
+import { CarbonSDK, Models } from "carbon-js-sdk";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";
 
@@ -28,12 +28,12 @@ export interface MarketListMap {
 }
 
 export interface MarketStatItem {
-  day_open: BigNumber;
-  day_close: BigNumber;
-  day_volume: BigNumber;
-  last_price: BigNumber;
+  dayOpen: BigNumber;
+  dayClose: BigNumber;
+  dayVolume: BigNumber;
+  lastPrice: BigNumber;
   market: string;
-  market_type: MarketType;
+  marketType: MarketType;
   open_interest: BigNumber;
 }
 
@@ -69,16 +69,16 @@ export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
   return listMarket;
 }
 
-export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatItem {
+export function parseMarketStats(marketStats: Models.MarketStats): MarketStatItem {
   return {
     ...marketStats,
-    day_open: parseNumber(marketStats.day_open, BN_ZERO)!,
-    day_close: parseNumber(marketStats.day_close, BN_ZERO)!,
-    day_volume: parseNumber(marketStats.day_volume, BN_ZERO)!,
-    last_price: parseNumber(marketStats.last_price, BN_ZERO)!,
+    dayOpen: parseNumber(marketStats.dayOpen, BN_ZERO)!,
+    dayClose: parseNumber(marketStats.dayClose, BN_ZERO)!,
+    dayVolume: parseNumber(marketStats.dayVolume, BN_ZERO)!,
+    lastPrice: parseNumber(marketStats.lastPrice, BN_ZERO)!,
     // open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
     open_interest: BN_ZERO, // TODO: Check on market open_interest
-    market_type: marketStats.market_type as MarketType,
+    marketType: marketStats.marketType as MarketType,
   };
 }
 
