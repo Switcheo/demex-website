@@ -2,21 +2,15 @@ import { HomeBorder1 as HomeBorder } from "@demex-info/assets/icons";
 import { TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { lazy } from "@loadable/component";
 import { Box, Button, Grid, Hidden, makeStyles, Theme, Typography, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import Loadable from "react-loadable";
 import { useSelector } from "react-redux";
 import { DexProp, dexPropsArr } from "./dexPropsConfig";
 
-const PropertyBox = Loadable({
-  loader: () => import("./components/PropertyBox"),
-  loading() {
-    return null;
-  },
-  delay: 600,
-});
+const PropertyBox = lazy(() => import("./components/PropertyBox"));
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();

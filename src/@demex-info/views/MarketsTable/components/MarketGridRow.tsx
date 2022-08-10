@@ -1,6 +1,6 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
-import { useAssetSymbol, useAsyncTask } from "@demex-info/hooks";
+import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
 import {
@@ -12,7 +12,9 @@ import {
   Theme, useMediaQuery, useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Models, TokenUtils } from "carbon-js-sdk";
 import clsx from "clsx";
+import Long from "long";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
@@ -35,38 +37,38 @@ interface Props {
   marketOption: MarketType;
 }
 
-const COIN_OVERRIDE: {
-  [symbol: string]: string
-} = {
-  WBTC: "BTC",
-};
-
 const MarketGridRow: React.FC<Props> = (props: Props) => {
   const { listItem, load, marketOption, stat } = props;
-  const assetSymbol = useAssetSymbol();
   const classes = useStyles();
   const theme = useTheme();
   const widthSm = useMediaQuery(theme.breakpoints.down("sm"));
   const [runCandleSticks, loading] = useAsyncTask("runCandleSticks");
 
-  const { network, restClient, usdPrices } = useSelector((state: RootState) => state.app);
+  const { network, sdk } = useSelector((state: RootState) => state.app);
 
   const [candleSticks, setCandleSticks] = React.useState<CandleStickItem[] | null>(null);
   const [yBounds, setYBounds] = React.useState<Bounds>(defaultBounds);
 
-  const baseSymbol = assetSymbol(listItem?.base, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
-  const quoteSymbol = assetSymbol(listItem?.quote, marketOption === MarkType.Spot ? {} : COIN_OVERRIDE);
-  const marketType = stat?.market_type ?? MarkType.Spot;
+  const symbolOverride = marketOption === MarkType.Spot ? undefined : TokenUtils.FuturesDenomOverride;
+  const baseSymbol = sdk?.token.getTokenName(listItem.base, symbolOverride).toUpperCase() ?? "";
+  const quoteSymbol = sdk?.token.getTokenName(listItem.quote, symbolOverride).toUpperCase() ?? "";
+  const baseDp = sdk?.token.getDecimals(listItem.base) ?? 0;
+  const quoteDp = sdk?.token.getDecimals(listItem.quote) ?? 0;
+  const diffDp = quoteDp - baseDp;
+
+  const marketType = stat?.marketType ?? MarkType.Spot;
   const expiryTime = moment(listItem?.expiryTime);
 
-  const baseUsd = getUsd(usdPrices, listItem?.base ?? "");
-  const quoteUsd = getUsd(usdPrices, listItem?.quote ?? "");
-  const openPrice = stat?.day_open ?? BN_ZERO;
-  const closePrice = stat?.day_close ?? BN_ZERO;
-  const lastPriceUsd = quoteUsd.times(stat?.last_price ?? BN_ZERO);
+  const baseUsd = sdk?.token.getUSDValue(listItem?.base ?? "") ?? BN_ZERO;
+  const quoteUsd = sdk?.token.getUSDValue(listItem?.quote ?? "") ?? BN_ZERO;
+  const openPrice = stat.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const closePrice = stat.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const lastPrice = stat.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const lastPriceUsd = quoteUsd.times(lastPrice);
   const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
-  const usdVolume = baseUsd.times(stat?.day_volume ?? BN_ZERO);
+  const dailyVolume = stat.dayVolume.shiftedBy(-baseDp);
+  const usdVolume = baseUsd.times(dailyVolume);
   const graphMainColor = !change24H.isZero()
     ? (change24H.gt(0) ? theme.palette.success.main : theme.palette.error.main)
     : theme.palette.text.secondary;
@@ -111,35 +113,41 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     const currentDate = moment().unix();
     const monthAgo = currentDate - (SECONDS_PER_DAY * 7);
+    if (!sdk?.query) return;
+    
     runCandleSticks(async () => {
-      const yBounds: Bounds = defaultBounds;
+      const newYBounds: Bounds = {
+        min: 0,
+        max: 0,
+      };
       
       try {
-        const candlesticksResponse: any = await restClient.getCandlesticks({
+        const candleResponse: Models.QueryCandlesticksResponse = await sdk.query.broker.Candlesticks({
           market: stat.market,
-          resolution: 360,
-          from: monthAgo,
-          to: currentDate,
+          resolution: new Long(360),
+          from: new Long(monthAgo),
+          to: new Long(currentDate),
         });
-        const candlestickArr: CandleStickItem[] = parseMarketCandlesticks(candlesticksResponse);
+        const candlestickArr: CandleStickItem[] = parseMarketCandlesticks(candleResponse.candlesticks, listItem, sdk);
         
         if (candlestickArr.length > 0) {
           candlestickArr.forEach((candle: CandleStickItem) => {
-            if (candle.close > yBounds.max) {
-              yBounds.max = candle.close;
-            } else if (candle.close < yBounds.min) {
-              yBounds.min = candle.close;
+            if (candle.close > newYBounds.max) {
+              newYBounds.max = candle.close;
+            } else if (candle.close < newYBounds.min) {
+              newYBounds.min = candle.close;
             }
           });
         }
         if (candlestickArr.length > 0) {
           setCandleSticks(candlestickArr);
         }
-        setYBounds(yBounds);
+        setYBounds(newYBounds);
       } catch (err) {
         console.error(err);
       }
     });
+    return () => {};
   }, [stat.market]);
 
   return (
@@ -190,7 +198,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
       <TableCell className={classes.marketCell} align="right">
         <Box className={classes.lastPriceCell}>
           <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
-            {stat?.last_price.toString(10) ?? BN_ZERO.decimalPlaces(2).toString(10)}
+            {lastPrice.toString(10) ?? BN_ZERO.decimalPlaces(2).toString(10)}
           </TypographyLabel>
           <TypographyLabel color="textSecondary" className={classes.usdValue}>
             {formatUsdPrice(lastPriceUsd)}
@@ -214,7 +222,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
         <TableCell className={classes.marketCell} align="right">
           <Box className={classes.volumeCell}>
             <TypographyLabel boxClass={classes.denomBox} className={classes.denomVal}>
-              {stat?.day_volume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
+              {dailyVolume.toFormat() ?? BN_ZERO.decimalPlaces(2).toString(10)}
             </TypographyLabel>
             <TypographyLabel color="textSecondary" className={classes.usdValue}>
               {formatUsdPrice(usdVolume)}

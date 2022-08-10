@@ -169,7 +169,7 @@ export const CexSecurityVal: CexTradingRow[] = [{
 }, {
   header: "Login Methods",
   values: {
-    demex: ["Encrypted Key", "Metamask", "Ledger"],
+    demex: ["Encrypted Key", "Metamask", "Keplr", "Ledger"],
     kraken: ["Email", "KYC"],
     deribit: ["Email", "KYC"],
     bybit: ["Email", "KYC"],
@@ -392,7 +392,7 @@ export const DexFeesVals: CexTradingRow[] = [{
     dydx: "0",
     injective: "0",
     loopring: "0",
-    serum: "0",
+    serum: "$0.00001/txn",
   },
 }, {
   header: "Taker Fee",
@@ -419,6 +419,6 @@ export const DexFeesVals: CexTradingRow[] = [{
     dydx: "Deposit and withdrawal gas fees",
     injective: "Deposit and withdrawal gas fees",
     loopring: "One-time on first ETH or ERC20 deposit for Layer 2 trading",
-    serum: "None",
+    serum: "$0.00001/txn",
   },
 }];

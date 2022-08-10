@@ -1,9 +1,9 @@
-import { getUsd } from "@demex-info/constants";
-import { useAsyncTask } from "@demex-info/hooks";
+import { useAsyncTask, useWebsocket } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
-import { BN_HUNDRED, BN_ZERO, calculateAPY, getBreakdownToken, parseNumber, Pool, TotalCommitmentMap, parseLiquidityPools } from "@demex-info/utils";
+import { BN_HUNDRED, BN_ZERO, commitLpWalletAddr, constantLP, estimateApyUSD, getBreakdownToken, Pool, parseLiquidityPools, parseNumber } from "@demex-info/utils";
 import { Hidden } from "@material-ui/core";
 import BigNumber from "bignumber.js";
+import { Models, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import LiquidityPoolSection from "./LiquidityPoolSection";
@@ -15,37 +15,44 @@ interface Props {
   slide: SlideCategory | null;
 }
 
-let poolsInterval: any;
-
 const LiquidityPool: React.FC<Props> = (props: Props) => {
   const { liquidityRef, slide } = props;
   const [runPools] = useAsyncTask("runPools");
+  const [ws] = useWebsocket();
 
   const [pools, setPools] = React.useState<Pool[]>([]);
-  const [totalCommitMap, setTotalCommitMap] = React.useState<TotalCommitmentMap>({});
-  const [weeklyRewards, setWeeklyRewards] = React.useState<number>(0);
+  const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
+  const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
+  const [commitBalances, setCommitBalances] = React.useState<TypeUtils.SimpleMap<Models.TokenBalance>>({});
 
-  const { tokens, restClient, usdPrices } = useSelector((state: RootState) => state.app);
+  const network = useSelector((store: RootState) => store.app.network);
+  const sdk = useSelector((store: RootState) => store.app.sdk);
+  const tokenClient = sdk?.token;
 
   const reloadPools = () => {
+    if (!sdk?.query || !ws) return;
+
     runPools(async () => {
       try {
-        const response: any = await restClient.getLiquidityPools();
-        const poolsData: Pool[] = parseLiquidityPools(response);
+        const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
+        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
 
-        const totalCommitMap: TotalCommitmentMap = {};
-        for (const pool of poolsData) {
-          if (!pool.denom) continue;
-          const richListResponse: any = await restClient.getRichList({ token: pool.denom, limit: 1 });
-          const totalCommitment = parseNumber(richListResponse?.[0]?.amount, BN_ZERO)!;
-          totalCommitMap[pool.denom] = totalCommitment;
-        }
+        const poolsRewards = await sdk!.lp.getWeeklyRewards();
 
-        const poolsRewards: any = await restClient.getWeeklyPoolRewards();
+        const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
+        setCommitCurve(curveResponse.commitmentCurve);
+
+        const commitAddr = commitLpWalletAddr[network] ?? "";
+        const balanceRes = await ws.request<{ result: Models.TokenBalance[] }>(WSConnectorTypes.WSRequest.Balances, { address: commitAddr }) as WSResult<{ result: Models.TokenBalance[] }>;
+        const balancesObj = balanceRes.data.result.reduce((prev: TypeUtils.SimpleMap<Models.TokenBalance>, balance: Models.TokenBalance) => {
+          const newPrev = prev;
+          newPrev[balance.denom] = balance;
+          return newPrev;
+        }, {});
+        setCommitBalances(balancesObj);
 
         setPools(poolsData);
-        setTotalCommitMap(totalCommitMap);
-        setWeeklyRewards(poolsRewards);
+        setWeeklyRewards(poolsRewards ?? BN_ZERO);
       } catch (err) {
         console.error(err);
       }
@@ -53,12 +60,11 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    reloadPools();
-    poolsInterval = setInterval(() => {
+    if (sdk && ws) {
       reloadPools();
-    }, 60000);
-    return () => clearInterval(poolsInterval);
-  }, []);
+    }
+    return () => { };
+  }, [sdk, ws]);
 
   const { totalLiquidity, totalCommit } = React.useMemo((): {
     totalLiquidity: BigNumber;
@@ -67,44 +73,56 @@ const LiquidityPool: React.FC<Props> = (props: Props) => {
     let totalUsd = BN_ZERO;
     let totalCommit = BN_ZERO;
     pools.forEach((pool: Pool) => {
-      const { denom, denomA, amountA, denomB, amountB } = pool;
-      const tokenAUsd = getUsd(usdPrices, denomA);
-      const tokenBUsd = getUsd(usdPrices, denomB);
+      const { denomA, amountA, denomB, amountB } = pool;
+      const tokenAUsd = tokenClient?.getUSDValue(denomA) ?? BN_ZERO;
+      const tokenBUsd = tokenClient?.getUSDValue(denomB) ?? BN_ZERO;
       totalUsd = totalUsd.plus(tokenAUsd.times(amountA)).plus(tokenBUsd.times(amountB));
 
-      const commitToken = totalCommitMap?.[denom];
-      if (!commitToken) {
-        totalCommit = totalCommit.plus(BN_ZERO);
-      } else {
-        const [tokenAAmt, tokenBAmt] = getBreakdownToken(
-          commitToken,
-          pool,
-          BN_HUNDRED,
-          commitToken,
-          tokens,
-        );
-        totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
-      }
+      const rawBalance = parseNumber(commitBalances[pool.denom]?.available ?? "0", BN_ZERO)!;
+      const commitToken = tokenClient?.toHuman(pool.denom, rawBalance) ?? BN_ZERO;
+      const [tokenAAmt, tokenBAmt] = getBreakdownToken(
+        commitToken,
+        pool,
+        BN_HUNDRED,
+        commitToken,
+        tokenClient,
+      );
+      totalCommit = totalCommit.plus(tokenAUsd.times(tokenAAmt)).plus(tokenBUsd.times(tokenBAmt));
     });
+
     return {
       totalLiquidity: totalUsd,
       totalCommit,
     };
-  }, [pools, usdPrices, tokens, totalCommitMap]);
+  }, [pools, tokenClient, commitBalances]);
 
   const avgApy = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;
+    let weightedPools: number = 0;
     let cumApy: BigNumber = BN_ZERO;
+    const maxBoostBN = parseNumber(commitCurve?.maxRewardMultiplier, BN_ZERO)!.dividedBy(100);
 
     pools.forEach((p: Pool) => {
-      weightTotal = weightTotal.plus(p?.rewardsWeight ?? BN_ZERO);
+      if (p.rewardsWeight.gt(0)) {
+        weightedPools = weightedPools + 1;
+      }
+      weightTotal = weightTotal.plus(p.rewardsWeight ?? BN_ZERO);
     });
     pools.forEach((pool: Pool) => {
-      const indivApy = calculateAPY(usdPrices, pool, weeklyRewards, weightTotal);
-      cumApy = cumApy.plus(indivApy);
+      if (pool.rewardsWeight.gt(0)) {
+        const indivApy = estimateApyUSD({
+          sdk,
+          pool,
+          poolsRewards: weeklyRewards,
+          totalWeight: weightTotal,
+          boostFactor: maxBoostBN,
+          notionalLp: constantLP,
+        });
+        cumApy = cumApy.plus(indivApy);
+      }
     });
-    return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(pools.length);
-  }, [pools, weeklyRewards, usdPrices]);
+    return weightTotal.isZero() ? BN_ZERO : cumApy.dividedBy(weightedPools);
+  }, [pools, weeklyRewards, sdk, commitCurve]);
 
   return (
     <React.Fragment>

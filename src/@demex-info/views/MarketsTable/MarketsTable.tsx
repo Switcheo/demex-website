@@ -1,70 +1,110 @@
-import { DemexCircleLogo } from "@demex-info/assets";
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { getDemexLink, getUsd, goToLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
-  useAssetSymbol, useAsyncTask, useInitApp, useRollingNum,
+  useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
+import { lazy } from "@loadable/component";
 import {
   Backdrop, Box, Button, fade, makeStyles, Theme, Typography, useMediaQuery, useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
+import { CarbonSDK, Models } from "carbon-js-sdk";
 import clsx from "clsx";
+import Long from "long";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Loadable from "react-loadable";
+// TODO: Uncomment when futures markets are launched on Carbonated Demex
+// import {
+//   FuturesTypes, MarketPaper, MarketTab,
+// } from "./components";
 import {
-  FuturesTypes, MarketPaper, MarketTab,
+  FuturesTypes, MarketPaper,
 } from "./components";
 
-const MarketGridTable = Loadable({
-  loader: () => import("./components/MarketGridTable"),
-  loading() {
-    return null;
-  },
-  delay: 300,
-});
-const TokenPopover = Loadable({
-  loader: () => import("./components/TokenPopover"),
-  loading() {
-    return null;
-  },
-  delay: 500,
-});
+const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
+const TokenPopover = lazy(() => import("./components/TokenPopover"));
 
 const MarketsTable: React.FC = () => {
-  const assetSymbol = useAssetSymbol();
   const [runMarkets, loading] = useAsyncTask("runMarkets");
   const classes = useStyles();
   const theme = useTheme();
   const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
+  const [ws] = useWebsocket();
 
-  const { network, restClient, usdPrices } = useSelector((state: RootState) => state.app);
+  const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
+  const isAppReady = useSelector((state: RootState) => state.app.isAppReady);
+  const network = useSelector((state: RootState) => state.app.network);
+  const sdk = useSelector((store: RootState) => store.app.sdk);
+  const tokenClient = sdk?.token;
+  const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
-  const [marketOption, setMarketOption] = React.useState<MarketType>(MarkType.Spot);
+  // TODO: Add setMarketOption when futures markets are launched on Carbonated Demex
+  const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
   const [load, setLoad] = React.useState<boolean>(false);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
-  const [jiggle, setJiggle] = React.useState<boolean>(false);
+  const [renderReady, setRenderReady] = React.useState<boolean>(false);
+  const ready = isAppReady && renderReady;
+  
+  const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
+    const limit = new Long(100);
+    const offset = Long.UZERO;
+    const countTotal = true;
+  
+    let allMarkets: Models.Market[] = [];
+    let key = new Uint8Array();
+  
+    const initMarkets = await sdk.query.market.MarketAll({
+      pagination: {
+        limit, offset, countTotal, key, reverse: false,
+      },
+    });
+    const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
+    key = initMarkets.pagination?.nextKey ?? new Uint8Array();
+    allMarkets = allMarkets.concat(initMarkets.markets);
+  
+    if (initMarkets.markets.length === grandTotal) {
+      return allMarkets;
+    }
+  
+    const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1;
+    for (let ii = 0; ii < iterations; ii++) {
+      // eslint-disable-next-line no-await-in-loop
+      const markets = await sdk.query.market.MarketAll({
+        pagination: {
+          limit, offset, countTotal, key, reverse: false,
+        },
+      });
+      key = markets.pagination?.nextKey ?? new Uint8Array();
+      allMarkets = allMarkets.concat(markets.markets ?? []);
+    }
+  
+    return allMarkets;
+  };
 
   const reloadMarkets = () => {
+    if (!sdk?.query || !ws || !ws.connected) return;
+
     setLoad(true);
     runMarkets(async () => {
       try {
-        const statsResponse: any = await restClient.getMarketStats();
-        const statsData: MarketStatItem[] = parseMarketStats(statsResponse);
-        setStats(statsData);
-
-        const listResponse: any = await restClient.getMarkets();
+        const listResponse: Models.Market[] = await getAllMarkets(sdk);
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
+
+        const statsResponse = await sdk.query.marketstats.MarketStats({});
+        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
+          parseMarketStats(stat)),
+        );
+        setStats(marketStatItems);
       } catch (err) {
         console.error(err);
       } finally {
@@ -73,29 +113,49 @@ const MarketsTable: React.FC = () => {
     });
   };
 
-  useInitApp();
+  useEffect(() => {
+    if (sdk && ws && ws?.connected) {
+      reloadMarkets();
+    }
+    return () => { };
+  }, [sdk, ws]);
 
   useEffect(() => {
-    reloadMarkets();
+    setTimeout(() => setRenderReady(true));
   }, []);
 
-  const MarketTabs: MarketTab[] = [{
-    label: "Spot",
-    value: MarkType.Spot,
-  }, {
-    label: "Futures",
-    value: MarkType.Futures,
-  }];
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const MarketTabs: MarketTab[] = [{
+  //   label: "Spot",
+  //   value: MarkType.Spot,
+  // }, {
+  //   label: "Futures",
+  //   value: MarkType.Futures,
+  // }];
 
-  const handleChangeTab = (value: MarketType) => {
-    setMarketOption(value);
-  };
+  // TODO: Uncomment when futures markets are launched on Carbonated Demex
+  // const handleChangeTab = (value: MarketType) => {
+  //   setMarketOption(value);
+  // };
 
-  const marketsList = stats?.filter((stat: MarketStatItem) => {
-    return marketOption === MarkType.Spot
-      ? (stat.market_type === MarkType.Spot)
-      : (stat.market_type === MarkType.Futures);
-  });
+  const marketsList = React.useMemo(() => {
+    return stats?.filter((stat: MarketStatItem) => {
+      const marketItem = list?.[stat.market] ?? {};
+      return marketOption === MarkType.Spot
+        ? (stat.marketType === MarkType.Spot)
+        : (stat.marketType === MarkType.Futures && !isExpired(marketItem));
+    }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
+      const marketItemA = list?.[marketA.market] ?? {};
+      const marketItemB = list?.[marketB.market] ?? {};
+      const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.base ?? "") ?? BN_ZERO;
+      const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.base ?? "") ?? BN_ZERO;
+      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.base ?? "", marketA.dayVolume) ?? BN_ZERO;
+      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.base ?? "", marketB.dayVolume) ?? BN_ZERO;
+      const usdVolumeA = symbolUsdA.times(dailyVolumeA);
+      const usdVolumeB = symbolUsdB.times(dailyVolumeB);
+      return usdVolumeB.minus(usdVolumeA).toNumber();
+    });
+  }, [stats, tokenClient, list, marketOption]);
 
   const { openInterest, volume24H, coinsList } = React.useMemo((): {
     openInterest: BigNumber,
@@ -108,19 +168,21 @@ const MarketsTable: React.FC = () => {
 
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market] ?? {};
-      const symbolUsd = getUsd(usdPrices, marketItem?.base);
-      const usdVolume = symbolUsd.times(market.day_volume);
+      const baseDenom = marketItem?.base ?? "";
+      const quoteDenom = marketItem?.quote ?? "";
+
+      const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
+      const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
+      const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
 
-      const baseToken = assetSymbol(marketItem.base);
-      const quoteToken = assetSymbol(marketItem.quote);
-      if (!coinsList.includes(baseToken) && baseToken.length > 0) {
-        coinsList.push(baseToken);
+      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
+        coinsList.push(baseDenom);
       }
-      if (!coinsList.includes(quoteToken) && quoteToken.length > 0) {
-        coinsList.push(quoteToken);
+      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
+        coinsList.push(quoteDenom);
       }
     });
 
@@ -129,7 +191,7 @@ const MarketsTable: React.FC = () => {
       volume24H,
       coinsList,
     };
-  }, [marketsList, list, usdPrices]);
+  }, [marketsList, list, sdk?.token]);
 
   const futureTypes = React.useMemo((): FuturesTypes => {
     const futureTypes: FuturesTypes = {
@@ -164,19 +226,12 @@ const MarketsTable: React.FC = () => {
   const interestCountUp = useRollingNum(openInterest, 2, 2);
   const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
   const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
-  
-  const onEnterLogo = () => {
-    setJiggle(true);
-  };
-
-  const onLeaveLogo = () => {
-    setJiggle(false);
-  };
 
   return (
     <div className={classes.root}>
       <Box className={classes.innerDiv}>
-        <Box className={classes.buttonDiv} display="flex" justifyContent="center">
+        {/* TODO: Uncomment when futures markets are launched on Carbonated Demex */}
+        {/* <Box className={classes.buttonDiv} display="flex" justifyContent="center">
           {MarketTabs.map((tab: MarketTab) => (
             <Button
               className={clsx(classes.tab, { selected: marketOption === tab.value })}
@@ -187,7 +242,7 @@ const MarketsTable: React.FC = () => {
               {tab.label}
             </Button>
           ))}
-        </Box>
+        </Box> */}
         <Box className={classes.tableRoot}>
           <Box className={classes.gridStats}>
             <MarketPaper className={classes.gridPaper}>
@@ -199,16 +254,11 @@ const MarketsTable: React.FC = () => {
                 <Typography color="textPrimary" variant="subtitle2">
                   Volume (24H)
                 </Typography>
-                <DemexCircleLogo
-                  onMouseEnter={onEnterLogo}
-                  onMouseLeave={onLeaveLogo}
-                  className={clsx(classes.demexLogo, { jiggle })}
-                />
               </Box>
-              <RenderGuard renderIf={loading}>
+              <RenderGuard renderIf={statLoading}>
                 <Skeleton className={classes.standardSkeleton} />
               </RenderGuard>
-              <RenderGuard renderIf={!loading}>
+              <RenderGuard renderIf={!statLoading}>
                 <TypographyLabel color="textPrimary" variant="h4">
                   ${volumeCountUp}
                 </TypographyLabel>
@@ -228,10 +278,10 @@ const MarketsTable: React.FC = () => {
                         justifyContent="space-between"
                         mt={widthXs ? 1 : 1.5}
                       >
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Skeleton className={classes.standardSkeleton} />
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading}>
+                        <RenderGuard renderIf={!statLoading}>
                           <TypographyLabel color="textPrimary" variant="h4">
                             {spotCountUp}
                           </TypographyLabel>
@@ -254,10 +304,10 @@ const MarketsTable: React.FC = () => {
                       <TypographyLabel color="textPrimary" variant="subtitle2">
                         Open Interest
                       </TypographyLabel>
-                      <RenderGuard renderIf={loading}>
+                      <RenderGuard renderIf={statLoading}>
                         <Skeleton className={classes.standardSkeleton} />
                       </RenderGuard>
-                      <RenderGuard renderIf={!loading}>
+                      <RenderGuard renderIf={!statLoading}>
                         <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                           ${interestCountUp}
                         </TypographyLabel>
@@ -274,15 +324,15 @@ const MarketsTable: React.FC = () => {
                         Coins
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Skeleton className={classes.numSkeleton} />
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading}>
+                        <RenderGuard renderIf={!statLoading}>
                           <TypographyLabel color="textPrimary" variant="h4">
                             {coinsCountUp}
                           </TypographyLabel>
                         </RenderGuard>
-                        <RenderGuard renderIf={!loading && coinsList.length > 0}>
+                        <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
                           <Box position="relative">
                             <Box
                               className={classes.labelBox}
@@ -293,11 +343,12 @@ const MarketsTable: React.FC = () => {
                             >
                               {coinsList.map((coin: string, index: number) => {
                                 if (index <= 3) {
+                                  const coinName = sdk?.token.getTokenName(coin) ?? "";
                                   return (
                                     <CoinIcon
                                       className={clsx(classes.coinIcon, `coin-${index}`)}
                                       key={coin}
-                                      denom={coin}
+                                      denom={coinName.toLowerCase()}
                                     />
                                   );
                                 }
@@ -326,7 +377,7 @@ const MarketsTable: React.FC = () => {
                             </Box>
                           </Box>
                         </RenderGuard>
-                        <RenderGuard renderIf={loading}>
+                        <RenderGuard renderIf={statLoading}>
                           <Box alignItems="center" display="flex" justifyContent="center">
                             <Skeleton className={classes.coinSkeleton} />
                           </Box>
@@ -351,10 +402,10 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textPrimary" variant="subtitle2">
                               Delivery Futures
                             </TypographyLabel>
-                            <RenderGuard renderIf={loading}>
+                            <RenderGuard renderIf={statLoading}>
                               <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
-                            <RenderGuard renderIf={!loading}>
+                            <RenderGuard renderIf={!statLoading}>
                               <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {futuresCountUp}
                               </TypographyLabel>
@@ -368,10 +419,10 @@ const MarketsTable: React.FC = () => {
                             <TypographyLabel color="textPrimary" variant="subtitle2">
                               Perpetual Swaps
                             </TypographyLabel>
-                            <RenderGuard renderIf={loading}>
+                            <RenderGuard renderIf={statLoading}>
                               <Skeleton className={classes.standardSkeleton} />
                             </RenderGuard>
-                            <RenderGuard renderIf={!loading}>
+                            <RenderGuard renderIf={!statLoading}>
                               <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
                                 {perpetualsCountUp}
                               </TypographyLabel>
@@ -385,7 +436,7 @@ const MarketsTable: React.FC = () => {
               </MarketPaper>
             </Box>
           </Box>
-          <MarketGridTable list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
+          <MarketGridTable ready={ready} list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
         </Box>
       </Box>
     </div>
@@ -393,34 +444,8 @@ const MarketsTable: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  "@global": {
-    "@keyframes jiggleMove": {
-      "0%": {
-        transform: "rotate(-20deg)",
-      },
-      "50%": {
-        transform: "rotate(20deg)",
-      },
-    },
-  },
   backdrop: {
     zIndex: 1,
-  },
-  demexLogo: {
-    height: "1.3rem",
-    marginLeft: theme.spacing(1.25),
-    width: "1.3rem",
-    "&.jiggle": {
-      animation: "jiggleMove 0.2s infinite",
-      "-webkit-animation": "jiggleMove 0.2s infinite",
-      "-moz-animation-duration": "0.2s",
-      "-moz-animation-name": "jiggleMove",
-      "-moz-animation-iteration-count": "infinite",
-    },
-    [theme.breakpoints.only("xs")]: {
-      height: "1.15rem",
-      width: "1.15rem",
-    },
   },
   numSkeleton: {
     width: "80px",
@@ -508,6 +533,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(3, 4),
     width: "100%",
     [theme.breakpoints.down("sm")]: {
+      "& h6": {
+        lineHeight: "1.375rem",
+      },
       "&:first-child": {
         marginLeft: 0,
       },
@@ -519,6 +547,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
       "& h6": {
         fontSize: "0.75rem",
+        lineHeight: "1.35rem",
       },
     },
     "@media (max-width: 400px)": {

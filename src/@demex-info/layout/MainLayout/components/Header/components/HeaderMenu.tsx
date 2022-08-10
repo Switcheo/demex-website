@@ -27,13 +27,13 @@ const HeaderMenu: React.FC = () => {
     //   href: Paths.Leaderboard,
     // },
     {
-      label: "Tradescan",
+      label: "Explorer",
       href: getExplorerLink(net),
     },
     {
       showIcon: true,
       label: "Ecosystem",
-      href: StaticLinks.SwitcheoNetwork,
+      href: StaticLinks.CarbonNetwork,
     },
   ];
 

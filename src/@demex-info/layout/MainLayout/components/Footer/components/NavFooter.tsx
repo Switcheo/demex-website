@@ -41,7 +41,7 @@ const NavFooter: React.FC = () => {
       label: "API",
       href: StaticLinks.Api.Home,
     }, {
-      label: "Tradescan",
+      label: "Explorer",
       href: getExplorerLink(net),
     }, {
       label: "Docs",
@@ -54,11 +54,14 @@ const NavFooter: React.FC = () => {
     title: "About Demex",
     items: [{
       label: "Ecosystem",
-      href: StaticLinks.SwitcheoNetwork,
+      href: StaticLinks.CarbonNetwork,
     }, {
+      label: "Blog",
+      href: StaticLinks.Blog,
+    }, /* {
       label: "T&C",
       href: StaticLinks.TermsConditions,
-    }],
+    } */],
   }];
 
   return (

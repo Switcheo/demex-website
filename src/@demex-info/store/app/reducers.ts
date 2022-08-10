@@ -1,18 +1,16 @@
-import { makeRestClient, makeTendermintClient } from "@demex-info/utils";
-import { Network } from "@demex-info/utils/restClient";
+import { CarbonSDK } from "carbon-js-sdk";
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
 
 const storedNetworkString = localStorage.getItem(AppActionTypes.UPDATE_NETWORK);
-const networks: { [index: string]: Network | undefined } = Network;
-const storedNetwork = networks[storedNetworkString || ""] || Network.MainNet;
+const storedNetwork = CarbonSDK.parseNetwork(storedNetworkString || "", CarbonSDK.Network.MainNet);
 
 const initial_state: AppState = {
-	network: storedNetwork,
-  restClient: makeRestClient(storedNetwork),
-  tendermintClient: makeTendermintClient(storedNetwork),
-  tokens: [],
+	network: storedNetwork!,
+  sdk: undefined,
+  ws: undefined,
   usdPrices: {},
+  isAppReady: false,
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -23,25 +21,25 @@ const reducer = (state: AppState = initial_state, actions: any) => {
 			...state,
 			network: actions.network,
 		};
-  case AppActionTypes.SET_REST_CLIENT:
+  case AppActionTypes.SET_SDK:
     return {
       ...state,
-      restClient: actions.restClient,
+      sdk: actions.sdk,
     };
-  case AppActionTypes.SET_TENDERMINT_CLIENT:
+  case AppActionTypes.SET_WS_CONNECTOR:
     return {
       ...state,
-      tendermintClient: actions.tendermintClient,
-    };
-  case AppActionTypes.SET_TOKENS:
-    return {
-      ...state,
-      tokens: actions.tokens,
+      ws: actions.ws,
     };
   case AppActionTypes.SET_USD_PRICES:
     return {
       ...state,
       usdPrices: actions.usdPrices,
+    };
+  case AppActionTypes.SET_IS_APP_READY:
+    return {
+      ...state,
+      isAppReady: actions.ready,
     };
 	default:
 		return state;

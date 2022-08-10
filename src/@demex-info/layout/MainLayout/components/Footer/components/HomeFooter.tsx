@@ -1,4 +1,4 @@
-import { SwitcheoWordMark } from "@demex-info/assets/logos";
+import { PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
 import { Box, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
@@ -11,7 +11,7 @@ const HomeFooter: React.FC = () => {
       <TypographyLabel className={classes.copyright}>
         &copy;2021 Demex. All rights reserved.
       </TypographyLabel>
-      <SwitcheoWordMark className={classes.tradehubLogo} />
+      <PoweredByCarbonFlat className={classes.tradehubLogo} />
     </Box>
   );
 };
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradehubLogo: {
-    height: "0.85rem",
+    height: "1rem",
     width: "unset",
     [theme.breakpoints.only("xs")]: {
       display: "block",

@@ -1,11 +1,11 @@
-import { AttachMoney, BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM, GAS, iUSD, NEO, NEX, SWTH, USD, USDC, USDT, WBTC } from "@demex-info/assets";
+import * as COINS from "@demex-info/assets";
 import { makeStyles, SvgIconProps } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
 const symbolToIcon: { [symbol: string]: any } = {
-  BNB, BTC, BUSD, CEL, DAI, EOS, ETH, FLM,
-  GAS, NEO, NEX, SWTH, USD, USDC, USDT, WBTC, iUSD,
+  ...COINS,
+  "1INCH": COINS.INCH,
 };
 
 const tokenNameMap: {
@@ -14,6 +14,8 @@ const tokenNameMap: {
   IUSD: "USD",
   NNEO: "NEO",
   BTCB: "BTC",
+  BCFX: "CFX",
+  "LKT.BEP20": "LKT",
 };
 
 export interface CoinIconProps extends SvgIconProps {
@@ -35,7 +37,7 @@ const CoinIcon: React.FunctionComponent<CoinIconProps> = (
   if (outlined) {
     tokenName += "Outlined";
   }
-  let defaultIcon: any = AttachMoney;
+  let defaultIcon: any = COINS.AttachMoney;
 
   if (hideUnknown) {
     defaultIcon = undefined;

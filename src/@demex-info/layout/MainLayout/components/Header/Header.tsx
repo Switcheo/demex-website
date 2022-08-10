@@ -1,13 +1,14 @@
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
 
-const HeaderSlider = React.lazy(() => import("./components/HeaderSlider"));
+const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
 const Header: React.FC = () => {
   const classes = useStyles();
@@ -56,7 +57,7 @@ const Header: React.FC = () => {
           <Button
             className={classes.loginBtn}
             color="secondary"
-            onClick={() => goToLink(getDemexLink(Paths.Login.Main, network))}
+            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>

@@ -1,4 +1,3 @@
-import { DemexCircleLogo } from "@demex-info/assets";
 import { default as LiquidityPools } from "@demex-info/assets/animations/LiquidityPools.json";
 import { RenderGuard, TypographyLabel } from "@demex-info/components";
 import { defaultLiquidityOpts, getDemexLink, goToLink, Paths } from "@demex-info/constants";
@@ -28,8 +27,6 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
   const classes = useStyles();
   const widthXxs = useMediaQuery("@media (max-width: 480px)");
 
-  const [jiggle, setJiggle] = React.useState<boolean>(false);
-
   const [liquidityTextRef, liquidityTxtView] = useInView({
     threshold: 0.2,
     triggerOnce: true,
@@ -49,14 +46,6 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
     setTimeout(() => {
       lottieRef?.current?.goToAndPlay(0);
     }, 12500);
-  };
-
-  const onEnterLogo = () => {
-    setJiggle(true);
-  };
-
-  const onLeaveLogo = () => {
-    setJiggle(false);
   };
 
   useEffect(() => {
@@ -84,11 +73,6 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
         </TypographyLabel>
         <Box className={classes.divBox}>
           <Divider className={classes.divider} />
-          <DemexCircleLogo
-            className={clsx(classes.demexLogo, { jiggle })}
-            onMouseEnter={onEnterLogo}
-            onMouseLeave={onLeaveLogo}
-          />
         </Box>
         <Box className={classes.poolsStats}>
           <Box className={classes.statsBox}>
@@ -177,22 +161,6 @@ const LiquidityPoolSection: React.FC<DataProps> = (props: DataProps) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  demexLogo: {
-    height: "1.3rem",
-    marginLeft: theme.spacing(1.5),
-    width: "1.3rem",
-    "&.jiggle": {
-      animation: "jiggleMove 0.2s infinite",
-      "-webkit-animation": "jiggleMove 0.2s infinite",
-      "-moz-animation-duration": "0.2s",
-      "-moz-animation-name": "jiggleMove",
-      "-moz-animation-iteration-count": "infinite",
-    },
-    [theme.breakpoints.only("xs")]: {
-      height: "1.15rem",
-      width: "1.15rem",
-    },
-  },
   divBox: {
     alignItems: "center",
     display: "flex",

@@ -1,13 +1,13 @@
 import { DemexCircleLogo, HomeBorderCircle1 } from "@demex-info/assets";
 import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
+import { lazy } from "@loadable/component";
 import {
   Box, Button, Divider, fade, makeStyles, Switch, Theme, useMediaQuery,
 } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import Loadable from "react-loadable";
 import { Carousel } from "react-responsive-carousel";
 import {
   CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
@@ -15,13 +15,7 @@ import {
   DexTradingVal, PropertyTab, TableTab,
 } from "./compareConfig";
 
-const ComparisonTable = Loadable({
-  loader: () => import("./components/ComparisonTable"),
-  loading() {
-    return null;
-  },
-  delay: 1300,
-});
+const ComparisonTable = lazy(() => import("./components/ComparisonTable"));
 
 const cexDefault = "cex-trading";
 const dexDefault = "dex-technology";

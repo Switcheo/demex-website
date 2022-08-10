@@ -1,28 +1,16 @@
-import { FuncArgs, debounce } from "@demex-info/utils";
+import { debounce, FuncArgs } from "@demex-info/utils";
+import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import Loadable from "react-loadable";
 import { SlideCategory, SlideItem } from "./components";
 
 interface Props {
 }
 
-const LiquidityPool = Loadable({
-  loader: () => import("./components/LiquidityPool/LiquidityPool"),
-  loading() {
-    return null;
-  },
-  delay: 1000,
-});
-const Staking = Loadable({
-  loader: () => import("./components/Staking/Staking"),
-  loading() {
-    return null;
-  },
-  delay: 1100,
-});
+const LiquidityPool = lazy(() => import("./components/LiquidityPool/LiquidityPool"));
+const Staking = lazy(() => import("./components/Staking/Staking"));
 
 const DemexProducts: React.FC<Props> = () => {
   const classes = useStyles();

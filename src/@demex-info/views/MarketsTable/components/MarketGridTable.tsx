@@ -17,14 +17,16 @@ interface Props {
   load: boolean;
   marketsList: MarketStatItem[];
   marketOption: MarketType;
+  ready: boolean;
 }
 
 const MarketGridTable: React.FC<Props> = (props: Props) => {
-  const { list, load, marketsList, marketOption } = props;
+  const { list, load, marketsList, marketOption, ready } = props;
   const classes = useStyles();
   const theme = useTheme();
   const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const [loading] = useTaskSubscriber("runMarkets");
+  const [marketsLoading] = useTaskSubscriber("runMarkets");
+  const loading = !ready || marketsLoading;
 
   const marketHeaders: HeaderCell[] = [{
     title: widthSmDown ? "Market / 24H Vol" : "Market",
@@ -80,10 +82,21 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
                 </Hidden>
               </TableRow>
             </TableHead>
-            <RenderGuard renderIf={!loading && marketsList?.length > 0}>
+            <RenderGuard renderIf={!loading}>
               <TableBody>
+                {marketsList?.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={marketHeaders.length + 2}>
+                      <EmptyState
+                        className={classes.emptyState}
+                        helperText={`No ${marketOption === MarkType.Spot ? "Spot" : "Futures"} found at the moment`}
+                        theme="light"
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
                 {
-                  marketsList.map((stat: MarketStatItem, index: number) => {
+                  marketsList?.length > 0 && marketsList.map((stat: MarketStatItem, index: number) => {
                     if (index <= 3) {
                       const listItem = list?.[stat.market] ?? {};
                       return (
@@ -101,13 +114,6 @@ const MarketGridTable: React.FC<Props> = (props: Props) => {
               </TableBody>
             </RenderGuard>
           </Table>
-          <RenderGuard renderIf={!loading && marketsList.length === 0}>
-            <EmptyState
-              className={classes.emptyState}
-              helperText={`No ${marketOption === MarkType.Spot ? "Spot" : "Futures"} found at the moment`}
-              theme="light"
-            />
-          </RenderGuard>
           <RenderGuard renderIf={loading}>
             <Box className={classes.loadingState}>
               <CircularProgress color="secondary" size="3rem" />

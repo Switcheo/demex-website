@@ -1,21 +1,9 @@
+import { lazy } from "@loadable/component";
 import React, { Suspense } from "react";
-import Loadable from "react-loadable";
 import { DemexProducts } from "./components";
 
-const NotATrader = Loadable({
-  loader: () => import("./components/NotATrader/NotATrader"),
-  loading() {
-    return null;
-  },
-  delay: 960,
-});
-const YourThoughts = Loadable({
-  loader: () => import("./components/YourThoughts/YourThoughts"),
-  loading() {
-    return null;
-  },
-  delay: 1140,
-});
+const NotATrader = lazy(() => import("./components/NotATrader/NotATrader"));
+const YourThoughts = lazy(() => import("./components/YourThoughts/YourThoughts"));
 
 const MiddleBlackSection: React.FC = () => {
   return (

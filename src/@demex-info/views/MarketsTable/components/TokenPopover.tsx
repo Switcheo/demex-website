@@ -1,7 +1,6 @@
 import {
   CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme,
 } from "@demex-info/components";
-import { TokenObj } from "@demex-info/store/app/types";
 import { RootState } from "@demex-info/store/types";
 import { Box, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
@@ -11,23 +10,30 @@ interface Props {
   tokens: string[];
 }
 
+const NameOverride: {
+  [key: string]: string;
+} = {
+  "lkt.bep20.c5a4937a": "Locklet (BEP-20)",
+};
+
 const TokenPopover: React.FC<Props> = (props: Props) => {
   const { tokens } = props; // eslint-disable-line no-unused-vars
   const classes = useStyles();
 
-  const { tokens: tokenList } = useSelector((state: RootState) => state.app);
+  const { sdk } = useSelector((state: RootState) => state.app);
 
   return (
     <RenderGuard renderIf={tokens.length > 0}>
       <PaperBox boxClass={classes.dropdownPaper}>
         {
           tokens.map((token: string) => {
-            const tokenObj = tokenList.find((tokenObj: TokenObj) => tokenObj?.symbol?.toLowerCase() === token.toLowerCase());
+            const tokenObj = sdk?.token.tokenForDenom(token);
+            const tokenName = sdk?.token.getTokenName(token) ?? "";
             return (
               <Box display="flex" key={token}>
-                <CoinIcon className={classes.coinSvg} denom={token.toLowerCase()} />
+                <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
                 <TypographyLabel className={classes.tokenName} variant="subtitle1" ml={1} color="textSecondary">
-                  {tokenObj?.name ?? "-"}
+                  {NameOverride[tokenObj?.id ?? ""] ?? tokenObj?.name ?? "-"}
                 </TypographyLabel>
               </Box>
             );

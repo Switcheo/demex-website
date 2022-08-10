@@ -1,15 +1,18 @@
-import { Discord, Facebook, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
-import { Network } from "@demex-info/utils/restClient";
+import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
+import { CarbonSDK } from "carbon-js-sdk";
+
+export enum LoginPage {
+  Ledger = "ledger", // eslint-disable-line no-unused-vars
+  Keplr = "keplr", // eslint-disable-line no-unused-vars
+  Metamask = "metamask", // eslint-disable-line no-unused-vars
+  EncryptedKey = "encryptedKey", // eslint-disable-line no-unused-vars
+  Register = "register", // eslint-disable-line no-unused-vars
+  Reset = "reset", // eslint-disable-line no-unused-vars
+  Main = "main", // eslint-disable-line no-unused-vars
+}
 
 export const Paths = {
   Home: "/",
-
-  Login: {
-    Main: "/login",
-    Ledger: "/login/ledger",
-    MetaMask: "/login/metamask",
-    EncryptedKey: "/login/encrypted_key",
-  },
 
   PasswordReset: "/reset_password",
   Register: "/register",
@@ -52,20 +55,23 @@ export const Paths = {
 };
 
 export const DemexHosts: { [key: string]: string } = {
-  [Network.MainNet]: "https://app.dem.exchange",
-  [Network.TestNet]: "https://beta-app.dem.exchange",
-  [Network.DevNet]: "https://dev-app.dem.exchange",
-  [Network.LocalHost]: "http://127.0.0.1:3000",
+  [CarbonSDK.Network.MainNet]: "https://app.dem.exchange",
+  [CarbonSDK.Network.TestNet]: "https://beta-app.dem.exchange",
+  [CarbonSDK.Network.DevNet]: "https://dev-app.dem.exchange",
+  [CarbonSDK.Network.LocalHost]: "http://127.0.0.1:3000",
 };
 
 export const StaticLinks = {
   JoinValidator: "https://github.com/Switcheo/tradehub",
   SwitcheoTokenArticle: "https://blog.switcheo.network/a-brave-new-chapter/",
-  SwitcheoNetwork: "https://www.switcheo.network/",
-  TermsConditions: "https://switcheo.network/terms-of-use",
+  CarbonNetwork: "https://carbon.network/",
+  // TermsConditions: "https://switcheo.network/terms-of-use",
+  Blog: "https://blog.switcheo.com/",
   Api: {
-    Home: "https://docs.switcheo.org/",
-    MatchingEngine: "https://docs.switcheo.org/#/?id=matching-engine",
+    Home: "https://docs.carbon.network/",
+    Guide: "https://guide.carbon.network/",
+    MatchingEngine: "https://guide.carbon.network/features/decentralized-orderbooks",
+    LiquidityPool: "https://guide.carbon.network/features/liquidity-pools",
   },
   ContactUs: "https://support.switcheo.network/en/",
   Feedback: "https://ideas.dem.exchange/",
@@ -79,6 +85,7 @@ export const StaticLinks = {
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
     Medium: "https://medium.com/switcheo",
     Discord: "https://discord.gg/SPh62Hf",
+    GitHub: "https://github.com/Switcheo/carbon-js-sdk",
   },
   ExternalBlockchains: {
     Eth: "https://etherscan.io/tx/",
@@ -88,48 +95,48 @@ export const StaticLinks = {
     BscTestnet: "https://testnet.bscscan.com/tx/",
   },
   DemexDocs: {
-    Home: "https://docs.dem.exchange",
+    Home: "https://guide.dem.exchange/",
     Start: {
-      CreateAccount: "https://docs.dem.exchange/getting-started/creating-a-demex-account",
+      CreateAccount: "https://guide.dem.exchange/getting-started/creating-a-demex-account",
     },
     LiquidityPools: {
-      Instructions: "https://docs.dem.exchange/getting-started/committing-liquidity-pool-tokens",
-      Faqs: "https://docs.dem.exchange/products/what-is-liquidity-pooling/faqs",
+      Instructions: "https://guide.dem.exchange/products/what-is-liquidity-pooling/providing-liquidity-on-demex",
+      Faqs: "https://guide.dem.exchange/products/what-is-liquidity-pooling/faqs",
     },
     Trade: {
-      Spot: "https://docs.dem.exchange/products/trading-spot-markets",
-      Futures: "https://docs.dem.exchange/products/futures/trading-futures-on-demex",
+      Spot: "https://guide.dem.exchange/products/trading-spot-markets",
+      Futures: "https://guide.dem.exchange/products/futures/trading-futures-on-demex",
     },
-    Fees: "https://docs.dem.exchange/getting-started/fees",
+    Fees: "https://guide.dem.exchange/getting-started/fees",
   },
   Tendermint: "https://tendermint.com/core/",
 };
 
-export function getNetworkQueryParam(net: Network) {
-  if (net === Network.LocalHost) {
+export function getNetworkQueryParam(net: CarbonSDK.Network) {
+  if (net === CarbonSDK.Network.LocalHost) {
     return `net=${net.toLowerCase().replace(/host$/, "")}`;
   }
   return `net=${net.toLowerCase().replace(/net$/, "")}`;
 }
-export function getExplorerHost(net: Network) {
-  if (net === Network.MainNet) {
-    return "https://switcheo.org";
+export function getExplorerHost(net: CarbonSDK.Network) {
+  if (net === CarbonSDK.Network.MainNet) {
+    return "https://scan.carbon.network/";
   }
-  return "https://staging.switcheo.org";
+  return "https://beta-scan.carbon.network/";
 }
 
-export function getDemexHost(net: Network) {
+export function getDemexHost(net: CarbonSDK.Network) {
   if (net) {
     return DemexHosts[net];
   }
   return "";
 }
 
-export function getDemexLink(path: string, net: Network = Network.MainNet) {
+export function getDemexLink(path: string, net: CarbonSDK.Network = CarbonSDK.Network.MainNet) {
   return `${getDemexHost(net)}${path}`;
 }
 
-export function getExplorerLink(net: Network) {
+export function getExplorerLink(net: CarbonSDK.Network) {
   return `${getExplorerHost(net)}?${getNetworkQueryParam(net)}`;
 }
 
@@ -137,8 +144,6 @@ export function goToLink(link: string) {
   if (!link) return;
   window.open(link, "_blank");
 }
-
-export const BUY_SWITCHEO_LINK: string = "https://switcheo.exchange/markets/SWTH_NEO";
 
 export interface NavLink {
   showIcon?: boolean | undefined;
@@ -194,5 +199,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "discord",
     href: StaticLinks.Socials.Discord,
     component: Discord,
+  },
+  GitHub: {
+    label: "github",
+    href: StaticLinks.Socials.GitHub,
+    component: GitHub,
   },
 };
