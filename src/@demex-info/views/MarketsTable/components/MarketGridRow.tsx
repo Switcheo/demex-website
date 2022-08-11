@@ -484,7 +484,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradeBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     fontSize: "0.85rem",
     padding: theme.spacing(1.25, 2.5),
   },

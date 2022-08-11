@@ -190,7 +190,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "4rem",
   },
   earningBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     marginTop: theme.spacing(8),
     padding: theme.spacing(1.75, 3.5),
     "@media (min-width: 1601px)": {

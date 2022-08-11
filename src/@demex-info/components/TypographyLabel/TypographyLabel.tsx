@@ -13,7 +13,7 @@ const TypographyLabel: React.FC<Props> = (props: Props) => {
   const { boxProps, restProps } = extractBoxProps(props);
   const {
     boxClass, color = "textPrimary", className, children,
-    empty, variant = "subtitle1", ...rest
+    empty, variant = "body2", ...rest
   } = restProps;
 
   const classes = useStyles(props);

@@ -251,7 +251,7 @@ const MarketsTable: React.FC = () => {
                 alignItems="center"
                 mb={widthXs ? 1 : 1.5}
               >
-                <Typography color="textPrimary" variant="subtitle2">
+                <Typography color="textPrimary" className={classes.body3}>
                   Volume (24H)
                 </Typography>
               </Box>
@@ -269,7 +269,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Spot && (
                     <React.Fragment>
-                      <TypographyLabel color="textPrimary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" className={classes.body3}>
                         Market Pairs
                       </TypographyLabel>
                       <Box
@@ -301,7 +301,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Futures && (
                     <React.Fragment>
-                      <TypographyLabel color="textPrimary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" className={classes.body3}>
                         Open Interest
                       </TypographyLabel>
                       <RenderGuard renderIf={statLoading}>
@@ -320,7 +320,7 @@ const MarketsTable: React.FC = () => {
                 {
                   marketOption === MarkType.Spot && (
                     <React.Fragment>
-                      <TypographyLabel color="textPrimary" variant="subtitle2">
+                      <TypographyLabel color="textPrimary" className={classes.body3}>
                         Coins
                       </TypographyLabel>
                       <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
@@ -399,7 +399,7 @@ const MarketsTable: React.FC = () => {
                       {
                         futureTypes.futures > 0 && (
                           <Box>
-                            <TypographyLabel color="textPrimary" variant="subtitle2">
+                            <TypographyLabel color="textPrimary" className={classes.body3}>
                               Delivery Futures
                             </TypographyLabel>
                             <RenderGuard renderIf={statLoading}>
@@ -416,7 +416,7 @@ const MarketsTable: React.FC = () => {
                       {
                         futureTypes.perpetuals > 0 && (
                           <Box ml={futureTypes.futures > 0 ? 2 : 0}>
-                            <TypographyLabel color="textPrimary" variant="subtitle2">
+                            <TypographyLabel color="textPrimary" className={classes.body3}>
                               Perpetual Swaps
                             </TypographyLabel>
                             <RenderGuard renderIf={statLoading}>
@@ -446,6 +446,9 @@ const MarketsTable: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   backdrop: {
     zIndex: 1,
+  },
+  body3: {
+    ...theme.typography.body3,
   },
   numSkeleton: {
     width: "80px",
@@ -601,8 +604,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tab: {
-    ...theme.typography.button,
-    color: theme.palette.text.hint,
+    ...theme.typography.title3,
     fontSize: "1.25rem",
     marginLeft: theme.spacing(3),
     "&:first-child": {

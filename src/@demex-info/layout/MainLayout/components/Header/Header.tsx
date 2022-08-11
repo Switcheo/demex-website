@@ -85,7 +85,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "84rem",
   },
   loginBtn: {
-    ...theme.typography.button,
     fontSize: "1rem",
     padding: theme.spacing(1.25, 2),
     textTransform: "none",

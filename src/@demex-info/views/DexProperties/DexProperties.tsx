@@ -233,7 +233,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   subtitle: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     [theme.breakpoints.down("sm")]: {
       fontSize: "1rem",
     },
@@ -277,7 +277,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tradeBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     marginTop: theme.spacing(6),
     padding: theme.spacing(1.75, 3.5),
     [theme.breakpoints.down("sm")]: {

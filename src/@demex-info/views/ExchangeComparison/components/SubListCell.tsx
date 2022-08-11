@@ -17,7 +17,7 @@ const SubListCell: React.FC<Props> = (props: Props) => {
       <Box>
         {valueItem.map((item: ListItemHead) => (
           <Box className={classes.list} key={`${item.header}-${newKey}`}>
-            <TypographyLabel variant="subtitle1">
+            <TypographyLabel variant="body2">
               {item.header}
             </TypographyLabel>
             <ul className={classes.subList}>

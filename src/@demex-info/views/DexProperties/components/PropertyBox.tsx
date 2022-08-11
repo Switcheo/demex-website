@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   title: {
-    ...theme.typography.h5,
+    ...theme.typography.h3,
     height: "4.75rem",
     overflow: "hidden",
     [theme.breakpoints.down("sm")]: {

@@ -31,7 +31,7 @@ const JustGettingStarted: React.FC = () => {
             color="textPrimary"
             align="center"
             className={classes.slideSubtitle}
-            variant="subtitle1"
+            variant="body2"
           >
             Discover infinite possibilities with Demex. You are limited only by your own imagination. 
           </TypographyLabel>

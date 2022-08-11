@@ -69,9 +69,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "0.9rem",
   },
   navLink: {
+    ...theme.typography.body2,
     display: "flex",
-    fontFamily: "Roboto, sans-serif",
-    fontSize: "1rem",
     fontWeight: 600,
     marginRight: theme.spacing(3.5),
     "&:hover": {
