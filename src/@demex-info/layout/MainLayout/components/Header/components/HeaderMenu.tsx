@@ -1,7 +1,7 @@
 import { ExternalLink } from "@demex-info/assets/icons";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Hidden, Link, makeStyles, Theme } from "@material-ui/core";
+import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -42,18 +42,21 @@ const HeaderMenu: React.FC = () => {
       {navLinksArr.map((navLink: NavLink) => {
         if (navLink?.href) {
           return (
-            <Link
-              color="textPrimary"
-              className={classes.navLink}
-              key={navLink.label}
-              href={navLink?.href}
-              target="_blank"
-            >
-              {navLink.label}
-              {navLink?.showIcon && (
-                <ExternalLink className={classes.externalLinkIcon} />
-              )}
-            </Link>
+            <Box key={`menu-tab-${navLink.label}`} className={classes.tabWrapper}>
+              <Button
+                variant="text"
+                className={classes.navLink}
+                key={navLink.label}
+                href={navLink?.href}
+                target="_blank"
+              >
+                {navLink.label}
+                {navLink?.showIcon && (
+                  <ExternalLink />
+                )}
+              </Button>
+              <Box className={classes.activeIndicator} />
+            </Box>
           );
         }
         return null;
@@ -63,20 +66,43 @@ const HeaderMenu: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  externalLinkIcon: {
-    height: "0.9rem",
-    marginLeft: theme.spacing(0.75),
-    width: "0.9rem",
-  },
   navLink: {
     ...theme.typography.body2,
-    display: "flex",
-    fontWeight: 600,
-    marginRight: theme.spacing(3.5),
+    height: "100%",
+    padding: "0px 20px",
+    borderRadius: 0,
+    fontWeight: 400,
+    opacity: 1,
+    color: theme.palette.text.secondary,
     "&:hover": {
-      color: theme.palette.secondary.main,
+      textShadow: `.5px 0 0 ${theme.palette.text.secondary}`,
+      backgroundColor: "transparent",
       textDecoration: "none",
+      color: theme.palette.text.primary,
+      "& svg path": {
+        fill: theme.palette.text.primary,
+      },
     },
+    "@media (min-width: 960px) and (max-width: 1056px)": {
+      padding: theme.spacing(0, 2.5),
+    },
+  },
+  tabWrapper: {
+    position: "relative",
+    flex: 1,
+    height: "4rem",
+    "&:hover > $activeIndicator": {
+      background: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)",
+    },
+  },
+  activeIndicator: {
+    height: "2px",
+    position: "absolute",
+    background: "transparent",
+    borderRadius: "4px",
+    width: "calc(100% - 40px)",
+    marginLeft: "20px",
+    marginTop: -2,
   },
 }));
 

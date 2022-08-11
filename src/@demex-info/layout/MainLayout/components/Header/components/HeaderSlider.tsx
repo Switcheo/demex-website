@@ -1,8 +1,8 @@
-import { ExternalLink } from "@demex-info/assets/icons";
-import { PoweredByCarbonFlat } from "@demex-info/assets/logos";
+import { CloseIcon, ExternalLink } from "@demex-info/assets/icons";
+import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { Box, Divider, Drawer, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
+import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -64,6 +64,13 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
         className={classes.list}
         role="presentation"
       >
+        <Box className={classes.headerDiv}>
+          <DemexLogo className={classes.topLogo} />
+          <IconButton onClick={onClose}>
+            <CloseIcon className={classes.closeIcon} />
+          </IconButton>
+        </Box>
+        <Divider className={classes.divider} />
         <Box className={classes.innerDiv}>
           <MenuList>
             {navLinksArr.map((navLink: NavLink) => (
@@ -80,7 +87,6 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
         </Box>
       </div>
       <Box className={classes.box}>
-        <Divider />
         <Box className={classes.footerLogo}>
           <PoweredByCarbonFlat className={classes.swthLogo} />
         </Box>
@@ -91,7 +97,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   box: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.secondary,
     bottom: 0,
     height: "3.375rem",
     position: "absolute",
@@ -101,12 +107,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflowY: "hidden",
   },
   externalSvg: {
-    marginBottom: theme.spacing(0.25),
-    marginLeft: theme.spacing(0.75),
-    width: "0.8rem",
-    height: "0.8rem",
     "& path": {
-      fill: theme.palette.secondary.main,
+      fill: theme.palette.text.secondary,
     },
   },
   footerLogo: {
@@ -118,15 +120,23 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(0, 2),
     },
   },
+  headerDiv: {
+    display: "flex",
+    padding: "1.75rem 1rem 1.5rem",
+    justifyContent: "space-between",
+  },
+  closeIcon: {
+    maxWidth: "1.5rem",
+    "& path": {
+      fill: theme.palette.text.secondary,
+    },
+  },
   innerDiv: {
     height: "calc(100% - 3.375rem)",
-    position: "absolute",
-    top: "4.375rem",
     width: "100%",
     overflowY: "auto",
   },
   list: {
-    backgroundColor: theme.palette.background.default,
     height: "100%",
     width: "16rem",
     position: "relative",
@@ -140,9 +150,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1.625),
   },
   menuItem: {
-    fontFamily: "Roboto, sans-serif",
-    fontSize: "1rem",
-    fontWeight: 500,
+    ...theme.typography.body2,
+    color: theme.palette.text.secondary,
     minHeight: "2.8375rem",
     padding: theme.spacing(1, 2.875),
     "&:hover, &:focus": {
@@ -155,6 +164,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   swthLogo: {
     height: "1rem",
     width: "unset",
+  },
+  topLogo: {
+    width: "6.625rem",
+  },
+  divider: {
+    margin: "0 1rem",
+    color: theme.palette.divider,
   },
 }));
 
