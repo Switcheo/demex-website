@@ -32,7 +32,7 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
             return (
               <Box display="flex" key={token}>
                 <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
-                <TypographyLabel className={classes.tokenName} variant="subtitle1" ml={1} color="textSecondary">
+                <TypographyLabel className={classes.tokenName} variant="body2" ml={1} color="textSecondary">
                   {NameOverride[tokenObj?.id ?? ""] ?? tokenObj?.name ?? "-"}
                 </TypographyLabel>
               </Box>

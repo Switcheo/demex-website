@@ -1,67 +1,112 @@
 import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 
 export const typography: TypographyOptions = {
-	h1: { // graphik based header, refactor later
-		fontFamily: "Graphik",
-		fontWeight: 600,
-		fontSize: "3rem", // 42px
-		letterSpacing: "-0.0025rem", // -0.02px
-	},
-	h3: { // graphik based header, refactor later
-		fontFamily: "Graphik, sans-serif",
-		fontSize: "3rem",
-		fontWeight: 600,
-		lineHeight: 1.235,
-		letterSpacing: "0.00735em",
-	},
-  h4: {
-		fontFamily: "Graphik, sans-serif",
-		fontSize: "1.875rem",
-		fontWeight: 600,
-		lineHeight: 1.235,
-		letterSpacing: "0.0065em",
+  fontFamily: ["Roboto", "Arial"].join(","),
+  h1: {
+    // styleName: Heading/48px;
+    fontFamily: "Montserrat",
+    fontSize: "48px",
+    fontWeight: 700,
+    lineHeight: "58px",
+    letterSpacing: "0em",
   },
-	h5: { // graphik based header, refactor later
-		fontFamily: "Graphik",
-		fontWeight: 600,
-		fontSize: "1.5rem",
-		letterSpacing: "0.005rem", // 0.08px
-		lineHeight: "2rem",
-	},
-	subtitle1: {
-		fontFamily: "Roboto",
-		fontWeight: "normal",
-		fontSize: "1rem",
-		lineHeight: "1.375rem",
-		letterSpacing: "0.01071em",
-	},
-	subtitle2: {
-		fontFamily: "Roboto",
-		fontWeight: "normal",
-		fontSize: "0.875rem",
-		lineHeight: "1.375rem",
-		letterSpacing: "0.01071em",
-	},
-	body1: {
-		fontFamily: "Roboto",
-		fontWeight: "normal",
-		fontSize: "0.875rem",
-		letterSpacing: "0.01667em",
-		lineHeight: "1.125rem",
-	},
-	body2: {
-		fontFamily: "Roboto",
-		fontWeight: 400,
-		fontSize: "0.75rem",
-		letterSpacing: "0.01667em",
-		lineHeight: 1.267,
-	},
-	button: {
-		fontFamily: "Roboto",
-		fontSize: "1rem",
-		fontWeight: "bold",
-		letterSpacing: "0.018em",
-		lineHeight: 1.142,
-		textTransform: "none",
-	},
+  h2: {
+    // styleName: Heading/32px;
+    fontFamily: "Montserrat",
+    fontSize: "32px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "38px",
+    letterSpacing: "0em",
+  },
+  h3: {
+    // styleName: Heading/24px;
+    fontFamily: "Play",
+    fontSize: "24px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "28px",
+    letterSpacing: "0em",
+  },
+  h4: {
+    // styleName: Heading/20px;
+    fontFamily: "Play",
+    fontSize: "20px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "24px",
+    letterSpacing: "0em",
+  },
+	title1: {
+    // styleName: Extra Large 18px/Title + CTA;
+    fontFamily: "Play",
+    fontSize: "18px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "22px",
+    letterSpacing: "0em",
+  },
+  title2: {
+    // styleName: Heading/16px;
+    fontFamily: "Play",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "20px",
+    letterSpacing: "0em",
+  },
+	title3: {
+    // styleName: Large 16px/Title + CTA;
+    fontFamily: "Play",
+    fontSize: "13px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "16px",
+    letterSpacing: "0em",
+  },
+	title4: {
+    // styleName: Small 11px/Title +CTA;
+    fontFamily: "Play",
+    fontSize: "11px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "12px",
+    letterSpacing: "0em",
+  },
+  body1: {
+    // styleName: Extra Large 18px/Body;
+    fontFamily: "Play",
+    fontSize: "13px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "22px",
+    letterSpacing: "0em",
+  },
+  body2: {
+    // styleName: Large 16px/Body;
+    fontFamily: "Play",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "20px",
+    letterSpacing: "0em",
+  },
+  body3: {
+    // styleName: Regular 13px/Title;
+    fontFamily: "Play",
+    fontSize: "13px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "16px",
+    letterSpacing: "0em",
+  },
+  body4: {
+    // styleName: Small 11px/Body;
+    fontFamily: "Play",
+    fontSize: "11px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "12px",
+    letterSpacing: "0em",
+  },
 };

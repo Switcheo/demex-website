@@ -2,8 +2,8 @@ import { Theme } from "@material-ui/core";
 
 const MuiButton = (theme: Theme) => ({
 	root: {
-		...theme.typography.button,
-		borderRadius: "2px",
+		...theme.typography.title1,
+		borderRadius: "4px",
 		minWidth: "unset",
 		textTransform: "none",
 	},
@@ -14,14 +14,24 @@ const MuiButton = (theme: Theme) => ({
 			backgroundColor: theme.palette.action.hover,
 		},
 	},
-	contained: {
-		color: theme.palette.common.white,
-		backgroundColor: theme.palette.secondary.main,
+	containedSecondary: {
+		color: theme.palette.snow,
+		background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
 		"&:hover": {
-			backgroundColor: theme.palette.secondary.light,
+			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
 		},
 		"&:active:hover": {
-			backgroundColor: theme.palette.secondary.light,
+			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+		},
+	},
+	contained: {
+		color: theme.palette.snow,
+		background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
+		"&:hover": {
+			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+		},
+		"&:active:hover": {
+			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
 		},
 	},
 });

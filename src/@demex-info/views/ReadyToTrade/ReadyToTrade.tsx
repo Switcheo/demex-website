@@ -27,7 +27,7 @@ const ReadyToTrade: React.FC = () => {
   return (
     <div ref={sectionRef} className={classes.root}>
       <Box className={clsx(classes.innerDiv, classes.slide, { open: sectionView })}>
-        <Typography variant="h5" className={classes.header}>
+        <Typography variant="h3" className={classes.header}>
           Ready to Trade?
         </Typography>
         <TypographyLabel
@@ -135,7 +135,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   buttonEach: {
-    ...theme.typography.button,
     margin: theme.spacing(0, 0, 0, 1.75),
     minHeight: "3rem",
     padding: theme.spacing(1.5, 2),
@@ -171,7 +170,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     transition: "margin 0.5s ease",
   },
   header: {
-    ...theme.typography.h5,
+    ...theme.typography.h3,
     lineHeight: "1.15",
     fontSize: "2rem",
     textAlign: "center",
@@ -228,7 +227,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   subtitle: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     textAlign: "center",
     "@media (min-width: 1601px)": {
       fontSize: "1.125rem",

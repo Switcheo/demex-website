@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	text: {
-		fontFamily: "Graphik",
+		fontFamily: "Play",
 		color: "#fff",
 		textAlign: "center",
 	},

@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   helperText: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     marginTop: "1.2rem",
     textAlign: "center",
     color: theme.palette.text.secondary,

@@ -172,7 +172,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "4rem",
   },
   earningBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     marginTop: theme.spacing(4.5),
     padding: theme.spacing(1.75, 3.5),
   },

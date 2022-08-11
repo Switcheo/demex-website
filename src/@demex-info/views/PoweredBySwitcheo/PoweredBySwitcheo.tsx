@@ -81,7 +81,7 @@ const PoweredBySwitcheo: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   ecosystemBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     marginTop: theme.spacing(6),
     padding: theme.spacing(1.75, 3.5),
     textDecoration: "none",

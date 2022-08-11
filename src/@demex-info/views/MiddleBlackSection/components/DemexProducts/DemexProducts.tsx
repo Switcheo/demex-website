@@ -136,8 +136,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   tab: {
-    ...theme.typography.button,
-    color: theme.palette.text.hint,
+    ...theme.typography.title3,
     fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
     "&:first-child": {

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "1.5rem",
   },
   titleBox: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     cursor: "pointer",
     fontWeight: 600,
     alignItems: "center",

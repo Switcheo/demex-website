@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: theme.spacing(3.5),
   },
   headerCol: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     backgroundColor: theme.palette.background.default,
     fontSize: "0.875rem",
     fontWeight: 600,
@@ -178,7 +178,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rowCell: {
-    ...theme.typography.subtitle1,
+    ...theme.typography.body2,
     fontSize: "0.875rem",
     padding: theme.spacing(2, 2.5),
     "&:last-child": {

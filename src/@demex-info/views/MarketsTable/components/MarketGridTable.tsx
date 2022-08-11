@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(2),
   },
   headerCell: {
-    ...theme.typography.subtitle2,
+    ...theme.typography.body3,
     borderBottom: `1px solid ${theme.palette.divider}`,
     color: theme.palette.text.primary,
     fontSize: "0.785rem",
@@ -200,9 +200,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflowY: "hidden",
   },
   viewBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     alignItems: "center",
-    color: theme.palette.text.secondary,
     cursor: "pointer",
     display: "flex",
     fontSize: "0.9rem",

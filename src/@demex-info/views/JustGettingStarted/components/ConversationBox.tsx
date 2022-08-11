@@ -21,7 +21,7 @@ const ConversationBox: React.FC = () => {
       <TypographyLabel className={classes.cardTitle} mt={2} variant="h4">
         Join the Conversation
       </TypographyLabel>
-      <TypographyLabel boxClass={classes.cardSubtitle} variant="subtitle1">
+      <TypographyLabel boxClass={classes.cardSubtitle} variant="body2">
         Be a part of our growing community and never miss an update.
       </TypographyLabel>
       <Divider className={classes.divider} />

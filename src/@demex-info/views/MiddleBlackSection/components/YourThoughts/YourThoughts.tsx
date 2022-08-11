@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   shareBtn: {
-    ...theme.typography.button,
+    ...theme.typography.title3,
     display: "block",
     margin: theme.spacing(4, "auto", 0),
     padding: theme.spacing(1.5, 2),

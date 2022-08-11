@@ -108,7 +108,7 @@ const ExchangeComparison: React.FC = () => {
           <Box className={classes.switchDiv}>
             <TypographyLabel
               className={clsx(classes.switchSub, { toggle: dexNum === 0 })}
-              variant="subtitle1"
+              variant="body2"
               onClick={() => handleDexToggle()}
             >
               Centralised Exchanges
@@ -128,7 +128,7 @@ const ExchangeComparison: React.FC = () => {
             />
             <TypographyLabel
               className={clsx(classes.switchSub, { toggle: dexNum === 1 })}
-              variant="subtitle1"
+              variant="body2"
               onClick={() => handleDexToggle()}
             >
               Decentralised Exchanges
@@ -362,8 +362,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     opacity: 1,
   },
   tabBtn: {
-    ...theme.typography.button,
-    color: theme.palette.text.hint,
+    ...theme.typography.title3,
     display: "inline-block",
     fontSize: "1.25rem",
     marginLeft: theme.spacing(2.5),
