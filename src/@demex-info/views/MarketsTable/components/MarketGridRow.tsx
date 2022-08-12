@@ -1,5 +1,5 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
@@ -61,9 +61,9 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const baseUsd = sdk?.token.getUSDValue(listItem?.base ?? "") ?? BN_ZERO;
   const quoteUsd = sdk?.token.getUSDValue(listItem?.quote ?? "") ?? BN_ZERO;
-  const openPrice = stat.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
-  const closePrice = stat.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
-  const lastPrice = stat.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const openPrice = stat.dayOpen.shiftedBy(-diffDp);
+  const closePrice = stat.dayClose.shiftedBy(-diffDp);
+  const lastPrice = stat.lastPrice.shiftedBy(-diffDp);
   const lastPriceUsd = quoteUsd.times(lastPrice);
   const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 

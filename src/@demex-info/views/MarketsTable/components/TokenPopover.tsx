@@ -56,26 +56,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(2),
     zIndex: 3,
-    maxHeight: '15rem',
-    overflow: 'auto',
-    '&::-webkit-scrollbar': {
+    maxHeight: "15rem",
+    overflow: "auto",
+    "&::-webkit-scrollbar": {
       // the actual width is this value minus twice of border width
       width: theme.spacing(1.5),
       height: theme.spacing(1.5),
     },
-    '&::-webkit-scrollbar-corner': {
-      backgroundColor: 'transparent',
-      borderRadius: '4px',
+    "&::-webkit-scrollbar-corner": {
+      backgroundColor: "transparent",
+      borderRadius: "4px",
     },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: 'transparent',
-      borderRadius: '4px',
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "transparent",
+      borderRadius: "4px",
     },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundClip: 'padding-box',
+    "&::-webkit-scrollbar-thumb": {
+      backgroundClip: "padding-box",
       backgroundColor: theme.palette.divider,
-      border: '3px solid',
-      borderColor: 'transparent',
+      border: "3px solid",
+      borderColor: "transparent",
       // the actual border radius should be this value minus twice of border width
       borderRadius: theme.spacing(2.5),
     },

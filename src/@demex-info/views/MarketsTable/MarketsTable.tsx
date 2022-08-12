@@ -14,7 +14,8 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models } from "carbon-js-sdk";
+import { CarbonSDK, Models, TypeUtils } from "carbon-js-sdk";
+import { WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk/lib/websocket";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -100,8 +101,9 @@ const MarketsTable: React.FC = () => {
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
 
-        const statsResponse = await sdk.query.marketstats.MarketStats({});
-        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
+        const response = await ws.request<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>;
+        const statsResponse = response.data.result ?? {};
+        const marketStatItems = Object.values(statsResponse).map((stat: WSModels.MarketStat) => (
           parseMarketStats(stat)),
         );
         setStats(marketStatItems);
@@ -114,11 +116,11 @@ const MarketsTable: React.FC = () => {
   };
 
   useEffect(() => {
-    if (sdk && ws && ws?.connected) {
+    if (sdk && ws && ws?.connected === true) {
       reloadMarkets();
     }
     return () => { };
-  }, [sdk, ws]);
+  }, [sdk, ws?.connected]);
 
   useEffect(() => {
     setTimeout(() => setRenderReady(true));
