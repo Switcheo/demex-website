@@ -1,5 +1,5 @@
 import { AssetIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
-import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, SECONDS_PER_DAY, toPercentage } from "@demex-info/utils";
@@ -61,9 +61,9 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
 
   const baseUsd = sdk?.token.getUSDValue(listItem?.base ?? "") ?? BN_ZERO;
   const quoteUsd = sdk?.token.getUSDValue(listItem?.quote ?? "") ?? BN_ZERO;
-  const openPrice = stat.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
-  const closePrice = stat.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
-  const lastPrice = stat.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(-diffDp);
+  const openPrice = stat.dayOpen.shiftedBy(-diffDp);
+  const closePrice = stat.dayClose.shiftedBy(-diffDp);
+  const lastPrice = stat.lastPrice.shiftedBy(-diffDp);
   const lastPriceUsd = quoteUsd.times(lastPrice);
   const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
@@ -129,7 +129,6 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
           to: new Long(currentDate),
         });
         const candlestickArr: CandleStickItem[] = parseMarketCandlesticks(candleResponse.candlesticks, listItem, sdk);
-        
         if (candlestickArr.length > 0) {
           candlestickArr.forEach((candle: CandleStickItem) => {
             if (candle.close > newYBounds.max) {
@@ -148,7 +147,33 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
       }
     });
     return () => {};
-  }, [stat.market]);
+  }, [stat.market, sdk]);
+
+  const candleStickData = React.useMemo(() => {
+    const candleStickLabels = candleSticks ? candleSticks.map((candle: CandleStickItem) => candle.timestamp) : [];
+    return (canvas: HTMLCanvasElement) => {
+      const ctx = canvas.getContext("2d");
+      const gradient = ctx?.createLinearGradient(0, 0, 0, 100);
+      gradient?.addColorStop(0, fade(graphLightColor, 0.6));
+      gradient?.addColorStop(0.5, fade(graphLightColor, 0.3));
+      gradient?.addColorStop(1, fade(graphLightColor, 0));
+      return {
+        labels: candleStickLabels,
+        datasets: [{
+          backgroundColor: gradient ?? graphLightColor,
+          borderColor: graphMainColor,
+          borderWidth: 1,
+          data: candleSticks,
+          fill: "start",
+          parsing: {
+            xAxisKey: "timestamp",
+            yAxisKey: "close",
+          },
+          pointRadius: 0,
+        }],
+      };
+    };
+  }, [candleSticks, graphLightColor, graphMainColor]);
 
   return (
     <TableRow
@@ -244,28 +269,7 @@ const MarketGridRow: React.FC<Props> = (props: Props) => {
                 (!loading && candleSticks) && (
                   <Line
                     type="line"
-                    data={(canvas: HTMLCanvasElement) => {
-                      const ctx = canvas.getContext("2d");
-                      const gradient = ctx?.createLinearGradient(0, 0, 0, 100);
-                      gradient?.addColorStop(0, fade(graphLightColor, 0.6));
-                      gradient?.addColorStop(0.5, fade(graphLightColor, 0.3));
-                      gradient?.addColorStop(1, fade(graphLightColor, 0));
-                      return {
-                        labels: candleSticks.map((candle: CandleStickItem) => candle.timestamp),
-                        datasets: [{
-                          backgroundColor: gradient ?? graphLightColor,
-                          borderColor: graphMainColor,
-                          borderWidth: 1,
-                          data: candleSticks,
-                          fill: "start",
-                          parsing: {
-                            xAxisKey: "timestamp",
-                            yAxisKey: "close",
-                          },
-                          pointRadius: 0,
-                        }],
-                      };
-                    }}
+                    data={candleStickData}
                     width={240}
                     height={88}
                     options={graphOptions}
