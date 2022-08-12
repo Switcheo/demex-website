@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 interface Props {
   tokens: string[];
+  open: boolean;
 }
 
 const NameOverride: {
@@ -17,13 +18,13 @@ const NameOverride: {
 };
 
 const TokenPopover: React.FC<Props> = (props: Props) => {
-  const { tokens } = props; // eslint-disable-line no-unused-vars
+  const { open, tokens } = props; // eslint-disable-line no-unused-vars
   const classes = useStyles();
 
   const { sdk } = useSelector((state: RootState) => state.app);
 
   return (
-    <RenderGuard renderIf={tokens.length > 0}>
+    <RenderGuard renderIf={open}>
       <PaperBox boxClass={classes.dropdownPaper}>
         {
           tokens.map((token: string) => {

@@ -26,11 +26,10 @@ import { useSelector } from "react-redux";
 //   FuturesTypes, MarketPaper, MarketTab,
 // } from "./components";
 import {
-  FuturesTypes, MarketPaper,
+  FuturesTypes, MarketPaper, TokenPopover,
 } from "./components";
 
 const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
-const TokenPopover = lazy(() => import("./components/TokenPopover"));
 
 const MarketsTable: React.FC = () => {
   const [runMarkets, loading] = useAsyncTask("runMarkets");
@@ -374,11 +373,7 @@ const MarketsTable: React.FC = () => {
                               }
                             </Box>
                             <Box className={classes.dropdownContainer}>
-                              {
-                                openTokens && (
-                                  <TokenPopover tokens={coinsList} />
-                                )
-                              }
+                              <TokenPopover tokens={coinsList} open={openTokens} />
                             </Box>
                           </Box>
                         </RenderGuard>
