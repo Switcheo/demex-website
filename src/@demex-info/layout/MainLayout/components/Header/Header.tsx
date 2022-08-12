@@ -56,7 +56,6 @@ const Header: React.FC = () => {
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            color="secondary"
             onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
@@ -86,10 +85,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   loginBtn: {
     ...theme.typography.title3,
-    padding: theme.spacing(1.5, 1.125),
+    padding: theme.spacing(1.5, 2.25),
     textTransform: "none",
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(1, 2),
+      padding: theme.spacing(0.75, 1.25),
     },
   },
   menuIcon: {

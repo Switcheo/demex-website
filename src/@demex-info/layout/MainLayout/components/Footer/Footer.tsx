@@ -19,11 +19,11 @@ const Footer: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   innerFooter: {
     margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
   },
   root: {
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0, 2.5),
+    backgroundColor: theme.palette.background.secondary,
+    padding: theme.spacing(0, 6),
+    minHeight: "17.5rem",
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 1.75),
     },

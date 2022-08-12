@@ -6,36 +6,57 @@ import React from "react";
 const SocialLinkBox: React.FC = () => {
   const classes = useStyles();
 
-  const socialLnks: ExtSocialLnk[] = [
+  const socialLnksTop: ExtSocialLnk[] = [
     SocialLnks.Twitter,
-    // SocialLnks.Telegram,
+    SocialLnks.Telegram,
     SocialLnks.Discord,
     // SocialLnks.Medium,
-    // SocialLnks.Reddit,
-    SocialLnks.GitHub,
     // SocialLnks.LinkedIn,
+  ];
+
+  const socialLnksBottom: ExtSocialLnk[] = [
+    SocialLnks.Reddit,
+    SocialLnks.GitHub,
   ];
 
   return (
     <Box className={classes.navDiv}>
-      <TypographyLabel mb={2} className={classes.navTitle}>
+      <TypographyLabel className={classes.navTitle}>
         Follow Us
       </TypographyLabel>
       <Box className={classes.componentsSvg}>
-        {socialLnks.map((socialLnk: ExtSocialLnk) => {
-          const { component: SvgComponent } = socialLnk;
-          return (
-            <IconButton
-              href={socialLnk.href}
-              target="_blank"
-              className={classes.iconBtn}
-              key={socialLnk.label}
-              color="secondary"
-            >
-              <SvgComponent className={classes.iconSvg} />
-            </IconButton>
-          );
-        })}
+        <Box display="flex">
+          {socialLnksTop.map((socialLnk: ExtSocialLnk) => {
+            const { component: SvgComponent } = socialLnk;
+            return (
+              <IconButton
+                href={socialLnk.href}
+                target="_blank"
+                className={classes.iconBtn}
+                key={socialLnk.label}
+                color="secondary"
+              >
+                <SvgComponent className={classes.iconSvg} />
+              </IconButton>
+            );
+          })}
+        </Box>
+        <Box display="flex">
+          {socialLnksBottom.map((socialLnk: ExtSocialLnk) => {
+            const { component: SvgComponent } = socialLnk;
+            return (
+              <IconButton
+                href={socialLnk.href}
+                target="_blank"
+                className={classes.iconBtn}
+                key={socialLnk.label}
+                color="secondary"
+              >
+                <SvgComponent className={classes.iconSvg} />
+              </IconButton>
+            );
+          })}
+        </Box>
       </Box>
     </Box>
   );
@@ -43,47 +64,47 @@ const SocialLinkBox: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   componentsSvg: {
-    display: "flex",
     [theme.breakpoints.only("xs")]: {
       display: "block",
     },
   },
   iconBtn: {
-    marginRight: theme.spacing(1.5),
-    marginTop: 0,
+    margin: theme.spacing(0, 3, 2, 0),
     "&:last-child": {
       marginRight: 0,
     },
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
+      borderRadius: "50%",
+    },
   },
   iconSvg: {
-    height: "1.125rem",
-    padding: theme.spacing(1),
+    maxWidth: "1rem",
+    maxHeight: "1rem",
+    padding: theme.spacing(0.5),
     width: "1.125rem",
     "& path": {
       fill: theme.palette.text.secondary,
     },
     "&:hover": {
       "& path": {
-        fill: theme.palette.secondary.main,
+        fill: "url(#demexLinearGradient)",
       },
     },
   },
   navDiv: {
-    marginRight: theme.spacing(7),
-    minWidth: "10rem",
-    [theme.breakpoints.only("md")]: {
-      marginTop: theme.spacing(9),
-      marginRight: 0,
+    [theme.breakpoints.only("xs")]: {
+      width: "50%",
+      paddingLeft: theme.spacing(4.5),
     },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4.5),
-      marginRight: 0,
+    "@media (max-width: 360px)": {
+      paddingLeft: theme.spacing(2.5),
     },
   },
   navTitle: {
+    ...theme.typography.body3,
     color: theme.palette.text.secondary,
-    fontSize: "0.8375rem",
-    fontWeight: 500,
+    marginBottom: "0.625rem",
   },
 }));
 

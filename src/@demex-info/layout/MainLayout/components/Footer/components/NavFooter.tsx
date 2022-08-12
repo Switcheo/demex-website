@@ -73,7 +73,7 @@ const NavFooter: React.FC = () => {
             {FooterNavMap.map((footerNav: NavLinkMap) => {
               return (
                 <Box className={classes.navDiv} key={footerNav.title}>
-                  <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
+                  <TypographyLabel className={classes.navTxt}>
                     {footerNav.title}
                   </TypographyLabel>
                   {footerNav.items.map((navItem: NavLink) => {
@@ -95,6 +95,7 @@ const NavFooter: React.FC = () => {
                 </Box>
               );
             })}
+            <SocialLinkBox />
           </Hidden>
           <Hidden smUp>
             <React.Fragment>
@@ -103,7 +104,7 @@ const NavFooter: React.FC = () => {
                   if (index === 2) return null;
                   return (
                     <Box className={clsx(classes.navDiv, `child-${index}`)} key={footerNav.title}>
-                      <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
+                      <TypographyLabel className={classes.navTxt}>
                         {footerNav.title}
                       </TypographyLabel>
                       {footerNav.items.map((navItem: NavLink) => {
@@ -126,31 +127,33 @@ const NavFooter: React.FC = () => {
                   );
                 })}
               </Box>
-              <Box className={clsx(classes.navDiv, "standalone")} key={FooterNavMap[2].title}>
-                <TypographyLabel boxClass={classes.navTitleBox} className={classes.navTxt}>
-                  {FooterNavMap[2].title}
-                </TypographyLabel>
-                {FooterNavMap[2].items.map((navItem: NavLink) => {
-                  if (navItem?.href) {
-                    return (
-                      <Link
-                        className={classes.navLink}
-                        color="textPrimary"
-                        key={navItem.label}
-                        href={navItem?.href}
-                        target="_blank"
-                      >
-                        {navItem.label}
-                      </Link>
-                    );
-                  }
-                  return null;
-                })}
+              <Box display="flex" mt={3}>
+                <Box className={clsx(classes.navDiv, "child-2")} key={FooterNavMap[2].title}>
+                  <TypographyLabel className={classes.navTxt}>
+                    {FooterNavMap[2].title}
+                  </TypographyLabel>
+                  {FooterNavMap[2].items.map((navItem: NavLink) => {
+                    if (navItem?.href) {
+                      return (
+                        <Link
+                          className={classes.navLink}
+                          color="textPrimary"
+                          key={navItem.label}
+                          href={navItem?.href}
+                          target="_blank"
+                        >
+                          {navItem.label}
+                        </Link>
+                      );
+                    }
+                    return null;
+                  })}
+                </Box>
+                <SocialLinkBox />
               </Box>
             </React.Fragment>
           </Hidden>
         </Box>
-        <SocialLinkBox />
       </Box>
     </Box>
   );
@@ -160,7 +163,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
-    padding: theme.spacing(7, 0),
+    padding: theme.spacing(6, 0),
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(5.5, 0),
     },
@@ -192,11 +195,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   navDiv: {
-    marginRight: theme.spacing(3.5),
-    minWidth: "12rem",
-    "&:last-child": {
-      marginRight: 0,
-    },
+    minWidth: "12.5rem",
     [theme.breakpoints.only("sm")]: {
       minWidth: "unset",
       width: "33%",
@@ -205,18 +204,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "50%",
       marginRight: theme.spacing(0),
       minWidth: "unset",
-      "&.child-0": {
+      "&.child-0, &.child-2": {
         paddingRight: theme.spacing(4.5),
       },
       "&.child-1": {
         paddingLeft: theme.spacing(4.5),
       },
-      "&.standalone": {
-        marginTop: theme.spacing(4.5),
-      },
     },
     "@media (max-width: 360px)": {
-      "&.child-0": {
+      "&.child-0, &.child-2": {
         paddingRight: theme.spacing(0),
       },
       "&.child-1": {
@@ -225,26 +221,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   navLink: {
+    ...theme.typography.body2,
     display: "block",
-    fontFamily: "Roboto, sans-serif",
-    fontSize: "0.8375rem",
-    fontWeight: "bold",
-    marginTop: theme.spacing(2),
+    marginTop: "0.625rem",
     "&:hover": {
-      color: theme.palette.secondary.main,
+      background: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)",
+      backgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      WebkitBackgroundClip: "text",
       textDecoration: "none",
     },
   },
-  navTitleBox: {
-    marginBottom: theme.spacing(2.5),
-    [theme.breakpoints.only("xs")]: {
-      marginBottom: 0,
-    },
-  },
   navTxt: {
+    ...theme.typography.body3,
     color: theme.palette.text.secondary,
-    fontSize: "0.8375rem",
-    fontWeight: 500,
   },
 }));
 
