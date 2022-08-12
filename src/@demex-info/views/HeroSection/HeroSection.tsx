@@ -2,26 +2,26 @@ import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 
-// import { BackgroundAnimation } from "./components";
+import { BackgroundAnimation } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const widthXxs = useMediaQuery("@media(max-width: 359px)");
-	// const [ready, setReady] = React.useState<boolean>(false);
+	const [ready, setReady] = React.useState<boolean>(false);
 
-	// useEffect(() => {
-	// 	setTimeout(() => setReady(true));
-	// }, []);
+	useEffect(() => {
+		setTimeout(() => setReady(true));
+	}, []);
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
-			{/* {
+			{
 				ready && (
 					<BackgroundAnimation />
 				)
-			} */}
+			}
 			<Container maxWidth="lg" className={classes.contentContainer}>
 				<Box className={classes.content}>
 					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
