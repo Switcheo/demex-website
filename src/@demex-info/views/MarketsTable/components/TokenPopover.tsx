@@ -1,5 +1,5 @@
 import {
-  CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme,
+  CoinIcon, PaperBox, TypographyLabel, withLightTheme,
 } from "@demex-info/components";
 import { RootState } from "@demex-info/store/types";
 import { Box, makeStyles, Theme } from "@material-ui/core";
@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 interface Props {
   tokens: string[];
-  open: boolean;
 }
 
 const NameOverride: {
@@ -18,30 +17,28 @@ const NameOverride: {
 };
 
 const TokenPopover: React.FC<Props> = (props: Props) => {
-  const { open, tokens } = props; // eslint-disable-line no-unused-vars
+  const { tokens } = props; // eslint-disable-line no-unused-vars
   const classes = useStyles();
 
   const { sdk } = useSelector((state: RootState) => state.app);
 
   return (
-    <RenderGuard renderIf={open}>
-      <PaperBox boxClass={classes.dropdownPaper}>
-        {
-          tokens.map((token: string) => {
-            const tokenObj = sdk?.token.tokenForDenom(token);
-            const tokenName = sdk?.token.getTokenName(token) ?? "";
-            return (
-              <Box display="flex" key={token}>
-                <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
-                <TypographyLabel className={classes.tokenName} variant="subtitle1" ml={1} color="textSecondary">
-                  {NameOverride[tokenObj?.id ?? ""] ?? tokenObj?.name ?? "-"}
-                </TypographyLabel>
-              </Box>
-            );
-          })
-        }
-      </PaperBox>
-    </RenderGuard>
+    <PaperBox boxClass={classes.dropdownPaper}>
+      {
+        tokens.map((token: string) => {
+          const tokenObj = sdk?.token.tokenForDenom(token);
+          const tokenName = sdk?.token.getTokenName(token) ?? "";
+          return (
+            <Box display="flex" key={token}>
+              <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
+              <TypographyLabel className={classes.tokenName} variant="subtitle1" ml={1} color="textSecondary">
+                {NameOverride[tokenObj?.id ?? ""] ?? tokenObj?.name ?? "-"}
+              </TypographyLabel>
+            </Box>
+          );
+        })
+      }
+    </PaperBox>
   );
 };
 

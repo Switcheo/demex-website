@@ -373,7 +373,7 @@ const MarketsTable: React.FC = () => {
                               }
                             </Box>
                             <Box className={classes.dropdownContainer}>
-                              <TokenPopover tokens={coinsList} open={openTokens} />
+                              {openTokens && <TokenPopover tokens={coinsList} />}
                             </Box>
                           </Box>
                         </RenderGuard>
