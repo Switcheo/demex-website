@@ -8,12 +8,17 @@ const SocialLinkBox: React.FC = () => {
 
   const socialLnksTop: ExtSocialLnk[] = [
     SocialLnks.Twitter,
-    // SocialLnks.Telegram,
+    SocialLnks.Telegram,
     SocialLnks.Discord,
     SocialLnks.GitHub,
     // SocialLnks.Reddit,
     // SocialLnks.Medium,
     // SocialLnks.LinkedIn,
+  ];
+
+  const socialLnksBottom: ExtSocialLnk[] = [
+    SocialLnks.Reddit,
+    SocialLnks.GitHub,
   ];
 
   return (
@@ -43,7 +48,6 @@ const SocialLinkBox: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   componentsSvg: {
-    display: "flex",
     [theme.breakpoints.only("xs")]: {
       display: "block",
     },
