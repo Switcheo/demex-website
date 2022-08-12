@@ -6,7 +6,7 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketListItem, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
@@ -169,7 +169,6 @@ const MarketsTable: React.FC = () => {
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market] ?? {};
       const baseDenom = marketItem?.base ?? "";
-      const quoteDenom = marketItem?.quote ?? "";
 
       const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
       const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
@@ -177,12 +176,16 @@ const MarketsTable: React.FC = () => {
       volume24H = volume24H.plus(usdVolume);
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
+    });
 
-      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
-        coinsList.push(baseDenom);
+    Object.values(list).forEach((market: MarketListItem) => {
+      if (market.marketType === "futures") return;
+
+      if (!coinsList.includes(market.base) && market.base.length > 0) {
+        coinsList.push(market.base);
       }
-      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
-        coinsList.push(quoteDenom);
+      if (!coinsList.includes(market.quote) && market.quote.length > 0) {
+        coinsList.push(market.quote);
       }
     });
 
