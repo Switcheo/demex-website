@@ -1,6 +1,6 @@
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 
@@ -8,7 +8,6 @@ import { BackgroundAnimation } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
-	const widthXxs = useMediaQuery("@media(max-width: 359px)");
 	const [ready, setReady] = React.useState<boolean>(false);
 
 	useEffect(() => {
@@ -22,29 +21,29 @@ const HeroSection: React.FC = () => {
 					<BackgroundAnimation />
 				)
 			}
-			<Container maxWidth="lg" className={classes.contentContainer}>
+			<Container maxWidth={false} className={classes.contentContainer}>
 				<Box className={classes.content}>
 					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
-						Powerful. Permissionless. Secure.
+						Trade&nbsp;
+						<Box>Anything</Box>
 					</TypographyLabel>
 					<TypographyLabel className={clsx(classes.text, classes.headline)}>
-						Decentralized Trading for&nbsp;
-						{ !widthXxs && (<br />) }
-						Any Financial Asset Imaginable
+						The Order Book DEX for the&nbsp;
+						<br />
+						Cosmos and Ethereum Ecosystem
 					</TypographyLabel>
 
 					<TypographyLabel className={clsx(classes.text, classes.description)}>
-						Unleashing the true power of DeFi with the world&apos;s first fully decentralized derivatives platform. Reimagine open markets with Demex.
+						Trade spot, futures, perpetuals and more on CLOBs, with liquidity backstopped by AMMs.
 					</TypographyLabel>
 
 					<Button
 						className={classes.button}
-						color="secondary"
 						variant="contained"
 						target="_blank"
 						href={getDemexLink(Paths.Trade)}
 					>
-						View Live Trading
+						Launch App
 					</Button>
 				</Box>
 			</Container>
@@ -88,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
 	contentContainer: {
 		marginTop: "120px",
 		position: "relative",
+		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
 			marginTop: "70px",
 		},
@@ -96,22 +96,27 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	text: {
-		fontFamily: "Play",
-		color: "#fff",
+		...theme.typography.body1,
+		color: theme.palette.text.secondary,
 		textAlign: "center",
 	},
 	tagline: {
-		fontSize: "1.375em",
-		lineHeight: "1.27em",
+		display: "flex",
+		"& > div": {
+			fontWeight: 700,
+			textDecoration: "underline",
+			color: theme.palette.text.primary,
+		},
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.4em",
 		},
 	},
 	headline: {
-		fontSize: "3.75em",
-		fontWeight: 600,
-		lineHeight: "1.333em",
-		marginTop: "0.4em",
+		...theme.typography.h1,
+		fontSize: "72px",
+		lineHeight: "72px",
+		marginTop: "2.5rem",
+		color: theme.palette.text.primary,
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "3em",
 		},
@@ -120,18 +125,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	description: {
-		fontSize: "1.125em",
-		lineHeight: "1.555em",
-		maxWidth: "35.55em",
-		marginTop: "2.222em",
+		marginTop: "2.5rem",
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.3em",
 			marginTop: "2em",
 		},
 	},
 	button: {
-		marginTop: "4em",
-		padding: "0.8125em 1.75em",
+		marginTop: "2.5rem",
+		minWidth: "16rem",
+		minHeight: "4rem",
 		[theme.breakpoints.down("sm")]: {
 			marginTop: "2em",
 		},

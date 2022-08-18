@@ -6,53 +6,41 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketListItem, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
-  Backdrop, Box, Button, fade, makeStyles, Theme, Typography, useMediaQuery, useTheme,
+  Backdrop, Box, Button, makeStyles, Theme, Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, TypeUtils } from "carbon-js-sdk";
-import { WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk/lib/websocket";
+import { CarbonSDK, Insights, Models } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
-import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-// TODO: Uncomment when futures markets are launched on Carbonated Demex
-// import {
-//   FuturesTypes, MarketPaper, MarketTab,
-// } from "./components";
 import {
-  FuturesTypes, MarketPaper, TokenPopover,
+  MarketPaper,
 } from "./components";
 
-const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
+const TokenPopover = lazy(() => import("./components/TokenPopover"));
 
 const MarketsTable: React.FC = () => {
-  const [runMarkets, loading] = useAsyncTask("runMarkets");
+  const [fetchData, loading] = useAsyncTask("fetchData");
   const classes = useStyles();
-  const theme = useTheme();
-  const widthXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [ws] = useWebsocket();
 
   const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
-  const isAppReady = useSelector((state: RootState) => state.app.isAppReady);
   const network = useSelector((state: RootState) => state.app.network);
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
   const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
-  // TODO: Add setMarketOption when futures markets are launched on Carbonated Demex
   const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
-  const [load, setLoad] = React.useState<boolean>(false);
+  const [poolsList, setPoolsList] = React.useState<Insights.Pool[]>([]);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
-  const [renderReady, setRenderReady] = React.useState<boolean>(false);
-  const ready = isAppReady && renderReady;
   
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
     const limit = new Long(100);
@@ -90,54 +78,42 @@ const MarketsTable: React.FC = () => {
     return allMarkets;
   };
 
-  const reloadMarkets = () => {
+  const getAllPools = async (sdk: CarbonSDK): Promise<Insights.Pool[]> => {
+
+    const allPools: Insights.Pool[] = await (await sdk.insights.Pools()).result.models ?? [];
+  
+    return allPools;
+  };
+
+  const reloadData = () => {
     if (!sdk?.query || !ws || !ws.connected) return;
 
-    setLoad(true);
-    runMarkets(async () => {
+    fetchData(async () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
 
-        const response = await ws.request<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>;
-        const statsResponse = response.data.result ?? {};
-        const marketStatItems = Object.values(statsResponse).map((stat: WSModels.MarketStat) => (
+        const listPools: Insights.Pool[] = await getAllPools(sdk);
+        setPoolsList(listPools);
+
+        const statsResponse = await sdk.query.marketstats.MarketStats({});
+        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
           parseMarketStats(stat)),
         );
         setStats(marketStatItems);
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoad(false);
       }
     });
   };
 
   useEffect(() => {
-    if (sdk && ws && ws?.connected === true) {
-      reloadMarkets();
+    if (sdk && ws && ws?.connected) {
+      reloadData();
     }
     return () => { };
-  }, [sdk, ws?.connected]);
-
-  useEffect(() => {
-    setTimeout(() => setRenderReady(true));
-  }, []);
-
-  // TODO: Uncomment when futures markets are launched on Carbonated Demex
-  // const MarketTabs: MarketTab[] = [{
-  //   label: "Spot",
-  //   value: MarkType.Spot,
-  // }, {
-  //   label: "Futures",
-  //   value: MarkType.Futures,
-  // }];
-
-  // TODO: Uncomment when futures markets are launched on Carbonated Demex
-  // const handleChangeTab = (value: MarketType) => {
-  //   setMarketOption(value);
-  // };
+  }, [sdk, ws]);
 
   const marketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
@@ -158,63 +134,48 @@ const MarketsTable: React.FC = () => {
     });
   }, [stats, tokenClient, list, marketOption]);
 
-  const { openInterest, volume24H, coinsList } = React.useMemo((): {
-    openInterest: BigNumber,
+  const spotMarketsList = React.useMemo(() => {
+    return stats?.filter((stat: MarketStatItem) => {
+      return stat.marketType === MarkType.Spot;});
+  }, [stats, tokenClient, list, marketOption]);
+
+  const futuresMarketsList = React.useMemo(() => {
+    return stats?.filter((stat: MarketStatItem) => {
+      const marketItem = list?.[stat.market] ?? {};
+      return (stat.marketType === MarkType.Futures && !isExpired(marketItem));
+    });
+  }, [stats, tokenClient, list, marketOption]);
+
+  const { volume24H, coinsList } = React.useMemo((): {
     volume24H: BigNumber,
     coinsList: string[],
   } => {
-    let openInterest: BigNumber = BN_ZERO;
     let volume24H: BigNumber = BN_ZERO;
     const coinsList: string[] = [];
 
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market] ?? {};
       const baseDenom = marketItem?.base ?? "";
+      const quoteDenom = marketItem?.quote ?? "";
 
       const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
       const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 
-      openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
-    });
-
-    Object.values(list).forEach((market: MarketListItem) => {
-      if (market.marketType === "futures") return;
-
-      if (!coinsList.includes(market.base) && market.base.length > 0) {
-        coinsList.push(market.base);
+      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
+        coinsList.push(baseDenom);
       }
-      if (!coinsList.includes(market.quote) && market.quote.length > 0) {
-        coinsList.push(market.quote);
+      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
+        coinsList.push(quoteDenom);
       }
     });
 
     return {
-      openInterest,
       volume24H,
       coinsList,
     };
   }, [marketsList, list, sdk?.token]);
-
-  const futureTypes = React.useMemo((): FuturesTypes => {
-    const futureTypes: FuturesTypes = {
-      perpetuals: 0,
-      futures: 0,
-    };
-    if (marketOption === MarkType.Futures) {
-      marketsList.forEach((market: MarketStatItem) => {
-        const marketItem = list?.[market.market] ?? {};
-        const expiryDayjs = moment(marketItem.expiryTime);
-        if (expiryDayjs.unix() > 0) {
-          futureTypes.futures += 1;
-        } else {
-          futureTypes.perpetuals += 1;
-        }
-      });
-    }
-    return futureTypes;
-  }, [marketsList, list, marketOption]);
 
   const handleOpen = () => {
     setOpenTokens(true);
@@ -225,219 +186,175 @@ const MarketsTable: React.FC = () => {
   };
 
   const volumeCountUp = useRollingNum(volume24H, 2, 2);
-  const spotCountUp = useRollingNum(marketsList.length, 0, 2);
+  const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
   const coinsCountUp = useRollingNum(coinsList.length, 0, 2);
-  const interestCountUp = useRollingNum(openInterest, 2, 2);
-  const futuresCountUp = useRollingNum(futureTypes.futures, 0, 2);
-  const perpetualsCountUp = useRollingNum(futureTypes.perpetuals, 0, 2);
+  const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
+  const poolsCountUp = useRollingNum(poolsList.length, 0, 2);
 
   return (
     <div className={classes.root}>
       <Box className={classes.innerDiv}>
-        {/* TODO: Uncomment when futures markets are launched on Carbonated Demex */}
-        {/* <Box className={classes.buttonDiv} display="flex" justifyContent="center">
-          {MarketTabs.map((tab: MarketTab) => (
-            <Button
-              className={clsx(classes.tab, { selected: marketOption === tab.value })}
-              key={tab.value}
-              variant="text"
-              onClick={() => handleChangeTab(tab.value)}
-            >
-              {tab.label}
-            </Button>
-          ))}
-        </Box> */}
-        <Box className={classes.tableRoot}>
-          <Box className={classes.gridStats}>
-            <MarketPaper className={classes.gridPaper}>
-              <Box
-                display="flex"
-                alignItems="center"
-                mb={widthXs ? 1 : 1.5}
-              >
-                <Typography color="textPrimary" className={classes.body3}>
-                  Volume (24H)
-                </Typography>
+        <MarketPaper className={classes.gridPaper}>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={1}
+          >
+            <Typography className={classes.gridHeader}>
+              Volume (24H)
+            </Typography>
+          </Box>
+          <RenderGuard renderIf={statLoading}>
+            <Skeleton className={classes.standardSkeleton} />
+          </RenderGuard>
+          <RenderGuard renderIf={!statLoading}>
+            <TypographyLabel className={classes.gridContent}>
+              ${volumeCountUp}
+            </TypographyLabel>
+          </RenderGuard>
+        </MarketPaper>
+        <MarketPaper className={classes.gridPaper}>
+          <TypographyLabel className={classes.gridHeader}>
+            Markets
+          </TypographyLabel>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={1}
+          >
+            <RenderGuard renderIf={statLoading}>
+              <Skeleton className={classes.standardSkeleton} />
+            </RenderGuard>
+            <RenderGuard renderIf={!statLoading}>
+              <Box display="flex">
+                <Box display="flex" alignItems="baseline">
+                  <TypographyLabel className={classes.gridContent}>
+                    {spotCountUp}
+                  </TypographyLabel>
+                  <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
+                </Box>
+                <Box display="flex" alignItems="baseline" ml={3}>
+                  <TypographyLabel className={classes.gridContent}>
+                    {futuresCountUp}
+                  </TypographyLabel>
+                  <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
+                </Box>
               </Box>
-              <RenderGuard renderIf={statLoading}>
-                <Skeleton className={classes.standardSkeleton} />
-              </RenderGuard>
-              <RenderGuard renderIf={!statLoading}>
-                <TypographyLabel color="textPrimary" variant="h4">
-                  ${volumeCountUp}
-                </TypographyLabel>
-              </RenderGuard>
-            </MarketPaper>
-            <Box className={classes.gridSecondGrid}>
-              <MarketPaper className={classes.gridPaperAlt}>
-                {
-                  marketOption === MarkType.Spot && (
-                    <React.Fragment>
-                      <TypographyLabel color="textPrimary" className={classes.body3}>
-                        Market Pairs
-                      </TypographyLabel>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mt={widthXs ? 1 : 1.5}
-                      >
-                        <RenderGuard renderIf={statLoading}>
-                          <Skeleton className={classes.standardSkeleton} />
-                        </RenderGuard>
-                        <RenderGuard renderIf={!statLoading}>
-                          <TypographyLabel color="textPrimary" variant="h4">
-                            {spotCountUp}
-                          </TypographyLabel>
-                        </RenderGuard>
-                        <Button
-                          onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-                          className={classes.viewAll}
-                          variant="text"
-                          color="secondary"
-                        >
-                          View All
-                        </Button>
-                      </Box>
-                    </React.Fragment>
-                  )
-                }
-                {
-                  marketOption === MarkType.Futures && (
-                    <React.Fragment>
-                      <TypographyLabel color="textPrimary" className={classes.body3}>
-                        Open Interest
-                      </TypographyLabel>
-                      <RenderGuard renderIf={statLoading}>
-                        <Skeleton className={classes.standardSkeleton} />
-                      </RenderGuard>
-                      <RenderGuard renderIf={!statLoading}>
-                        <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
-                          ${interestCountUp}
-                        </TypographyLabel>
-                      </RenderGuard>
-                    </React.Fragment>
-                  )
-                }
-              </MarketPaper>
-              <MarketPaper className={classes.gridPaperAlt}>
-                {
-                  marketOption === MarkType.Spot && (
-                    <React.Fragment>
-                      <TypographyLabel color="textPrimary" className={classes.body3}>
-                        Coins
-                      </TypographyLabel>
-                      <Box display="flex" alignItems="center" mt={widthXs ? 1 : 1.5} justifyContent="space-between">
-                        <RenderGuard renderIf={statLoading}>
-                          <Skeleton className={classes.numSkeleton} />
-                        </RenderGuard>
-                        <RenderGuard renderIf={!statLoading}>
-                          <TypographyLabel color="textPrimary" variant="h4">
-                            {coinsCountUp}
-                          </TypographyLabel>
-                        </RenderGuard>
-                        <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
-                          <Box position="relative">
-                            <Box
-                              className={classes.labelBox}
-                              display="flex"
-                              alignItems="center"
-                              onMouseEnter={handleOpen}
-                              onFocus={handleOpen}
-                            >
-                              {coinsList.map((coin: string, index: number) => {
-                                if (index <= 3) {
-                                  const coinName = sdk?.token.getTokenName(coin) ?? "";
-                                  return (
-                                    <CoinIcon
-                                      className={clsx(classes.coinIcon, `coin-${index}`)}
-                                      key={coin}
-                                      denom={coinName.toLowerCase()}
-                                    />
-                                  );
-                                }
-                                return null;
-                              })}
-                              {
-                                coinsList.length > 4 && (
-                                  <Box>
-                                    <Typography
-                                      color="textPrimary"
-                                      variant="h5"
-                                      className={classes.plusLabel}
-                                    >
-                                      +{coinsList.length - 4}
-                                    </Typography>
-                                  </Box>
-                                )
-                              }
-                            </Box>
-                            <Box className={classes.dropdownContainer}>
-                              {openTokens && <TokenPopover tokens={coinsList} />}
-                            </Box>
-                          </Box>
-                        </RenderGuard>
-                        <RenderGuard renderIf={statLoading}>
-                          <Box alignItems="center" display="flex" justifyContent="center">
-                            <Skeleton className={classes.coinSkeleton} />
-                          </Box>
-                        </RenderGuard>
-                      </Box>
-                      <Backdrop
-                        className={classes.backdrop}
-                        open={openTokens}
-                        invisible
-                        onClick={handleClose}
-                        onMouseEnter={handleClose}
-                      />
-                    </React.Fragment>
-                  )
-                }
-                {
-                  marketOption === MarkType.Futures && (
-                    <Box display="flex">
+              <Button
+                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                className={classes.viewAll}
+                variant="text"
+                color="secondary"
+              >
+                View
+              </Button>
+            </RenderGuard>
+          </Box>
+        </MarketPaper>
+        <MarketPaper className={classes.gridPaper}>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={1}
+          >
+            <Typography className={classes.gridHeader}>
+              Liquidity Pools
+            </Typography>
+          </Box>
+          <RenderGuard renderIf={statLoading}>
+            <Skeleton className={classes.standardSkeleton} />
+          </RenderGuard>
+          <RenderGuard renderIf={!statLoading}>
+            <Box display="flex" justifyContent="space-between">
+              <TypographyLabel className={classes.gridContent}>
+                {poolsCountUp}
+              </TypographyLabel>
+              <Button
+                onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                className={classes.viewAll}
+                variant="text"
+                color="secondary"
+              >
+                View
+              </Button>
+            </Box>
+          </RenderGuard>
+        </MarketPaper>
+        <MarketPaper className={classes.gridPaper}>
+          {
+            <React.Fragment>
+              <TypographyLabel className={classes.gridHeader}>
+                Tokens
+              </TypographyLabel>
+              <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
+                <RenderGuard renderIf={statLoading}>
+                  <Skeleton className={classes.numSkeleton} />
+                </RenderGuard>
+                <RenderGuard renderIf={!statLoading}>
+                  <TypographyLabel className={classes.gridContent}>
+                    {coinsCountUp}
+                  </TypographyLabel>
+                </RenderGuard>
+                <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
+                  <Box position="relative">
+                    <Box
+                      className={classes.labelBox}
+                      display="flex"
+                      alignItems="center"
+                      onMouseEnter={handleOpen}
+                      onFocus={handleOpen}
+                    >
+                      {coinsList.map((coin: string, index: number) => {
+                        if (index <= 3) {
+                          const coinName = sdk?.token.getTokenName(coin) ?? "";
+                          return (
+                            <CoinIcon
+                              className={clsx(classes.coinIcon, `coin-${index}`)}
+                              key={coin}
+                              denom={coinName.toLowerCase()}
+                            />
+                          );
+                        }
+                        return null;
+                      })}
                       {
-                        futureTypes.futures > 0 && (
+                        coinsList.length > 4 && (
                           <Box>
-                            <TypographyLabel color="textPrimary" className={classes.body3}>
-                              Delivery Futures
-                            </TypographyLabel>
-                            <RenderGuard renderIf={statLoading}>
-                              <Skeleton className={classes.standardSkeleton} />
-                            </RenderGuard>
-                            <RenderGuard renderIf={!statLoading}>
-                              <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
-                                {futuresCountUp}
-                              </TypographyLabel>
-                            </RenderGuard>
-                          </Box>
-                        )
-                      }
-                      {
-                        futureTypes.perpetuals > 0 && (
-                          <Box ml={futureTypes.futures > 0 ? 2 : 0}>
-                            <TypographyLabel color="textPrimary" className={classes.body3}>
-                              Perpetual Swaps
-                            </TypographyLabel>
-                            <RenderGuard renderIf={statLoading}>
-                              <Skeleton className={classes.standardSkeleton} />
-                            </RenderGuard>
-                            <RenderGuard renderIf={!statLoading}>
-                              <TypographyLabel color="textPrimary" mt={widthXs ? 1 : 1.5} variant="h4">
-                                {perpetualsCountUp}
-                              </TypographyLabel>
-                            </RenderGuard>
+                            <Typography
+                              className={classes.plusLabel}
+                            >
+                              +{coinsList.length - 4}
+                            </Typography>
                           </Box>
                         )
                       }
                     </Box>
-                  )
-                }
-              </MarketPaper>
-            </Box>
-          </Box>
-          <MarketGridTable ready={ready} list={list} load={load} marketsList={marketsList} marketOption={marketOption} />
-        </Box>
+                    <Box className={classes.dropdownContainer}>
+                      {
+                        openTokens && (
+                          <TokenPopover tokens={coinsList} />
+                        )
+                      }
+                    </Box>
+                  </Box>
+                </RenderGuard>
+                <RenderGuard renderIf={statLoading}>
+                  <Box alignItems="center" display="flex" justifyContent="center">
+                    <Skeleton className={classes.coinSkeleton} />
+                  </Box>
+                </RenderGuard>
+              </Box>
+              <Backdrop
+                className={classes.backdrop}
+                open={openTokens}
+                invisible
+                onClick={handleClose}
+                onMouseEnter={handleClose}
+              />
+            </React.Fragment>
+          }
+        </MarketPaper>
       </Box>
     </div>
   );
@@ -446,9 +363,6 @@ const MarketsTable: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   backdrop: {
     zIndex: 1,
-  },
-  body3: {
-    ...theme.typography.body3,
   },
   numSkeleton: {
     width: "80px",
@@ -512,9 +426,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   gridPaper: {
-    maxWidth: "33%",
+    maxWidth: "25%",
     width: "100%",
-    padding: theme.spacing(3, 4),
+    backgroundColor: theme.palette.background.primary,
+    padding: theme.spacing(2.25, 2.5),
+    marginLeft: theme.spacing(4),
+    "&:first-child": {
+      marginLeft: 0,
+    },
     [theme.breakpoints.down("sm")]: {
       marginBottom: theme.spacing(2),
       maxWidth: "100%",
@@ -581,9 +500,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
   },
   innerDiv: {
+    display: "flex",
+    marginTop: "6rem",
+    position: "relative",
     margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
-    padding: theme.spacing(0, 6),
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(0, 5),
     },
@@ -595,9 +515,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   root: {
-    background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${fade(theme.palette.background.default, 0.9)} 85%, ${fade(theme.palette.background.default, 0.2)} 100%)`,
+    // background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${fade(theme.palette.background.default, 0.9)} 85%, ${fade(theme.palette.background.default, 0.2)} 100%)`,
     color: theme.palette.text.primary,
-    padding: theme.spacing(0, 0, 11),
     zIndex: 20,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 0, 8),
@@ -620,10 +539,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontSize: "1.25rem",
     },
   },
-  tableRoot: {
-    marginTop: theme.spacing(3),
-    position: "relative",
-  },
   labelBox: {
     cursor: "pointer",
     zIndex: 5,
@@ -635,14 +550,28 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   plusLabel: {
-    fontSize: "1rem",
+    ...theme.typography.title2,
+    color: theme.palette.text.secondary,
     marginLeft: theme.spacing(0.75),
   },
   viewAll: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 1, 0),
     [theme.breakpoints.only("xs")]: {
       fontSize: "0.875rem",
     },
+  },
+  gridHeader: {
+    ...theme.typography.body2,
+    color: theme.palette.text.secondary,
+  },
+  gridContent: {
+    ...theme.typography.h2,
+    color: theme.palette.text.primary,
+  },
+  gridSubtitle: {
+    ...theme.typography.body2,
+    color: theme.palette.text.secondary,
+    marginLeft: "0.25rem",
   },
 }));
 
