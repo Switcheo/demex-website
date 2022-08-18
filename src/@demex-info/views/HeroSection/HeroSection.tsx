@@ -3,6 +3,7 @@ import { getDemexLink, Paths } from "@demex-info/constants";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { useEffect } from "react";
+import { MarketsTable } from "../MarketsTable";
 
 import { BackgroundAnimation } from "./components";
 
@@ -47,6 +48,7 @@ const HeroSection: React.FC = () => {
 					</Button>
 				</Box>
 			</Container>
+			<MarketsTable />
 		</Box>
 	);
 };
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		fontSize: "16px",
 		display: "flex",
-		height: "calc(100vh - 270px)",
+		height: "calc(100vh - 270px - 88px)",
 		maxHeight: "800px",
 		flexDirection: "column",
 		alignItems: "center",

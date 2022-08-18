@@ -1,5 +1,5 @@
 import {
-  CoinIcon, PaperBox, RenderGuard, TypographyLabel, withLightTheme,
+  CoinIcon, PaperBox, RenderGuard, TypographyLabel,
 } from "@demex-info/components";
 import { RootState } from "@demex-info/store/types";
 import { Box, makeStyles, Theme } from "@material-ui/core";
@@ -30,9 +30,9 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
             const tokenObj = sdk?.token.tokenForDenom(token);
             const tokenName = sdk?.token.getTokenName(token) ?? "";
             return (
-              <Box display="flex" key={token}>
+              <Box key={token} className={classes.tokenWrapper}>
                 <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
-                <TypographyLabel className={classes.tokenName} variant="body2" ml={1} color="textSecondary">
+                <TypographyLabel className={classes.tokenName}>
                   {NameOverride[tokenObj?.id ?? ""] ?? tokenObj?.name ?? "-"}
                 </TypographyLabel>
               </Box>
@@ -45,47 +45,39 @@ const TokenPopover: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  tokenWrapper: {
+    display: "flex",
+    margin: "0.5rem 0 0.5rem",
+    "&:first-child": {
+      marginTop: 0,
+    },
+    "&:last-child": {
+      marginBottom: 0,
+    },
+  },
   coinSvg: {
     maxHeight: "1.125rem",
     maxWidth: "1.125rem",
     minHeight: "1.125rem",
     minWidth: "1.125rem",
-    marginTop: 1,
   },
   dropdownPaper: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.secondary,
     padding: theme.spacing(2),
     zIndex: 3,
-    maxHeight: "15rem",
-    overflow: "auto",
-    "&::-webkit-scrollbar": {
-      // the actual width is this value minus twice of border width
-      width: theme.spacing(1.5),
-      height: theme.spacing(1.5),
-    },
-    "&::-webkit-scrollbar-corner": {
-      backgroundColor: "transparent",
-      borderRadius: "4px",
-    },
-    "&::-webkit-scrollbar-track": {
-      backgroundColor: "transparent",
-      borderRadius: "4px",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundClip: "padding-box",
-      backgroundColor: theme.palette.divider,
-      border: "3px solid",
-      borderColor: "transparent",
-      // the actual border radius should be this value minus twice of border width
-      borderRadius: theme.spacing(2.5),
-    },
+    borderRadius: 4,
+    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.64)",
+    maxHeight: "14rem",
+    overflowY: "auto",
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(1.5, 2),
     },
   },
   tokenName: {
-    fontSize: "0.8rem",
+    ...theme.typography.body3,
+    color: theme.palette.text.secondary,
+    marginLeft: "0.5rem",
   },
 }));
 
-export default withLightTheme()(TokenPopover);
+export default TokenPopover;

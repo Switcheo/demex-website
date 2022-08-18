@@ -10,7 +10,11 @@ import {
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
+<<<<<<< HEAD
   Backdrop, Box, Button, makeStyles, Theme, Typography,
+=======
+  Backdrop, Box, Button, fade, makeStyles, Theme, Typography,
+>>>>>>> b945f11 (Update market cards)
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -501,7 +505,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     display: "flex",
+<<<<<<< HEAD
     marginTop: "6rem",
+=======
+    marginTop: theme.spacing(3),
+>>>>>>> b945f11 (Update market cards)
     position: "relative",
     margin: theme.spacing(0, "auto"),
     [theme.breakpoints.between("sm", "md")]: {
@@ -539,6 +547,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontSize: "1.25rem",
     },
   },
+<<<<<<< HEAD
+=======
+  tableRoot: {
+
+  },
+>>>>>>> b945f11 (Update market cards)
   labelBox: {
     cursor: "pointer",
     zIndex: 5,

@@ -1,4 +1,4 @@
-import { PaperBox, withLightTheme } from "@demex-info/components";
+import { PaperBox } from "@demex-info/components";
 import { extractBoxProps, PartialBoxProps } from "@demex-info/utils";
 import { makeStyles, PaperProps, Theme } from "@material-ui/core";
 import clsx from "clsx";
@@ -25,4 +25,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default withLightTheme()(MarketPaper);
+export default MarketPaper;

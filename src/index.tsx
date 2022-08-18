@@ -2,7 +2,7 @@ import { PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";
 import { store } from "@demex-info/store";
 import HeroSection from "@demex-info/views/HeroSection/HeroSection";
-import MarketsTable from "@demex-info/views/MarketsTable/MarketsTable";
+// import MarketsTable from "@demex-info/views/MarketsTable/MarketsTable";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -29,7 +29,7 @@ render(
       <MainLayout>
         <HeroSection />
         <Suspense fallback={null}>
-          <MarketsTable />
+          {/* <MarketsTable /> */}
           <DexProperties />
           <PoweredBySwitcheo />
           <MiddleBlackSection />
