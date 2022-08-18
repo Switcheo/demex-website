@@ -45,7 +45,7 @@ jobs:
               aws cloudfront create-invalidation --distribution-id="E1BX9CZRIQU7CR" --paths=/*
             elif [ "${CIRCLE_BRANCH}" = "master" ]; then
               aws s3 sync build s3://demex-site/prod/ --delete
-              aws cloudfront create-invalidation --distribution-id="E1BX9CZRIQU7CR" --paths=/*
+              aws cloudfront create-invalidation --distribution-id="E25DL70OEAKNPX" --paths=/*
             fi
 
 workflows: 
