@@ -76,7 +76,7 @@ export const typography: TypographyOptions = {
   body1: {
     // styleName: Extra Large 18px/Body;
     fontFamily: "Play",
-    fontSize: "13px",
+    fontSize: "18px",
     fontStyle: "normal",
     fontWeight: 400,
     lineHeight: "22px",
