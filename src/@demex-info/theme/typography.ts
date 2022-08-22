@@ -1,7 +1,7 @@
 import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 
 export const typography: TypographyOptions = {
-  fontFamily: ["Roboto", "Arial"].join(","),
+  fontFamily: ["Play, Montserrat"].join(","),
   h1: {
     // styleName: Heading/48px;
     fontFamily: "Montserrat",
@@ -56,7 +56,7 @@ export const typography: TypographyOptions = {
     letterSpacing: "0em",
   },
 	title3: {
-    // styleName: Large 16px/Title + CTA;
+    // styleName: Regular 13px/Title + CTA
     fontFamily: "Play",
     fontSize: "13px",
     fontStyle: "normal",
@@ -65,7 +65,7 @@ export const typography: TypographyOptions = {
     letterSpacing: "0em",
   },
 	title4: {
-    // styleName: Small 11px/Title +CTA;
+    // styleName: Small 11px/Title + CTA;
     fontFamily: "Play",
     fontSize: "11px",
     fontStyle: "normal",
