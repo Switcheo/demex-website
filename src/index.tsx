@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "typeface-roboto";
 import "./index.css";
-import "./app.css";
 import reportWebVitals from "./reportWebVitals";
 import { lazy } from "@loadable/component";
 
