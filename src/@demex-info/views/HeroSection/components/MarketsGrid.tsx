@@ -8,6 +8,7 @@ import { BN_ZERO } from "@demex-info/utils";
 import {
   MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
+import { MarketPaper } from "@demex-info/views/HeroSection/components";
 import { lazy } from "@loadable/component";
 import {
   Backdrop, Box, Button, makeStyles, Theme, Typography,
@@ -19,11 +20,8 @@ import clsx from "clsx";
 import Long from "long";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-  MarketPaper,
-} from "./components";
 
-const TokenPopover = lazy(() => import("./components/TokenPopover"));
+const TokenPopover = lazy(() => import("./TokenPopover"));
 
 const MarketsTable: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
@@ -192,171 +190,169 @@ const MarketsTable: React.FC = () => {
   const poolsCountUp = useRollingNum(poolsList.length, 0, 2);
 
   return (
-    <div className={classes.root}>
-      <Box className={classes.innerDiv}>
-        <MarketPaper className={classes.gridPaper}>
-          <Box
-            display="flex"
-            alignItems="center"
-            mb={1}
-          >
-            <Typography className={classes.gridHeader}>
-              Volume (24H)
-            </Typography>
-          </Box>
-          <RenderGuard renderIf={statLoading}>
-            <Skeleton className={classes.standardSkeleton} />
-          </RenderGuard>
-          <RenderGuard renderIf={!statLoading}>
-            <TypographyLabel className={classes.gridContent}>
-              ${volumeCountUp}
-            </TypographyLabel>
-          </RenderGuard>
-        </MarketPaper>
-        <MarketPaper className={classes.gridPaper}>
-          <TypographyLabel className={classes.gridHeader}>
-            Markets
+    <Box className={classes.innerDiv}>
+      <MarketPaper className={classes.gridPaper}>
+        <Box
+          display="flex"
+          alignItems="center"
+          mb={1}
+        >
+          <Typography className={classes.gridHeader}>
+            Volume (24H)
+          </Typography>
+        </Box>
+        <RenderGuard renderIf={statLoading}>
+          <Skeleton className={classes.standardSkeleton} />
+        </RenderGuard>
+        <RenderGuard renderIf={!statLoading}>
+          <TypographyLabel className={classes.gridContent}>
+            ${volumeCountUp}
           </TypographyLabel>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            mt={1}
-          >
-            <RenderGuard renderIf={statLoading}>
-              <Skeleton className={classes.standardSkeleton} />
-            </RenderGuard>
-            <RenderGuard renderIf={!statLoading}>
-              <Box display="flex">
-                <Box display="flex" alignItems="baseline">
-                  <TypographyLabel className={classes.gridContent}>
-                    {spotCountUp}
-                  </TypographyLabel>
-                  <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
-                </Box>
-                <Box display="flex" alignItems="baseline" ml={3}>
-                  <TypographyLabel className={classes.gridContent}>
-                    {futuresCountUp}
-                  </TypographyLabel>
-                  <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
-                </Box>
-              </Box>
-              <Button
-                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-                className={classes.viewAll}
-                variant="text"
-                color="secondary"
-              >
-                View
-              </Button>
-            </RenderGuard>
-          </Box>
-        </MarketPaper>
-        <MarketPaper className={classes.gridPaper}>
-          <Box
-            display="flex"
-            alignItems="center"
-            mb={1}
-          >
-            <Typography className={classes.gridHeader}>
-              Liquidity Pools
-            </Typography>
-          </Box>
+        </RenderGuard>
+      </MarketPaper>
+      <MarketPaper className={classes.gridPaper}>
+        <TypographyLabel className={classes.gridHeader}>
+          Markets
+        </TypographyLabel>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          mt={1}
+        >
           <RenderGuard renderIf={statLoading}>
             <Skeleton className={classes.standardSkeleton} />
           </RenderGuard>
           <RenderGuard renderIf={!statLoading}>
-            <Box display="flex" justifyContent="space-between">
-              <TypographyLabel className={classes.gridContent}>
-                {poolsCountUp}
-              </TypographyLabel>
-              <Button
-                onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
-                className={classes.viewAll}
-                variant="text"
-                color="secondary"
-              >
-                View
-              </Button>
-            </Box>
-          </RenderGuard>
-        </MarketPaper>
-        <MarketPaper className={classes.gridPaper}>
-          {
-            <React.Fragment>
-              <TypographyLabel className={classes.gridHeader}>
-                Tokens
-              </TypographyLabel>
-              <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
-                <RenderGuard renderIf={statLoading}>
-                  <Skeleton className={classes.numSkeleton} />
-                </RenderGuard>
-                <RenderGuard renderIf={!statLoading}>
-                  <TypographyLabel className={classes.gridContent}>
-                    {coinsCountUp}
-                  </TypographyLabel>
-                </RenderGuard>
-                <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
-                  <Box position="relative">
-                    <Box
-                      className={classes.labelBox}
-                      display="flex"
-                      alignItems="center"
-                      onMouseEnter={handleOpen}
-                      onFocus={handleOpen}
-                    >
-                      {coinsList.map((coin: string, index: number) => {
-                        if (index <= 3) {
-                          const coinName = sdk?.token.getTokenName(coin) ?? "";
-                          return (
-                            <CoinIcon
-                              className={clsx(classes.coinIcon, `coin-${index}`)}
-                              key={coin}
-                              denom={coinName.toLowerCase()}
-                            />
-                          );
-                        }
-                        return null;
-                      })}
-                      {
-                        coinsList.length > 4 && (
-                          <Box>
-                            <Typography
-                              className={classes.plusLabel}
-                            >
-                              +{coinsList.length - 4}
-                            </Typography>
-                          </Box>
-                        )
-                      }
-                    </Box>
-                    <Box className={classes.dropdownContainer}>
-                      {
-                        openTokens && (
-                          <TokenPopover tokens={coinsList} />
-                        )
-                      }
-                    </Box>
-                  </Box>
-                </RenderGuard>
-                <RenderGuard renderIf={statLoading}>
-                  <Box alignItems="center" display="flex" justifyContent="center">
-                    <Skeleton className={classes.coinSkeleton} />
-                  </Box>
-                </RenderGuard>
+            <Box display="flex">
+              <Box display="flex" alignItems="baseline">
+                <TypographyLabel className={classes.gridContent}>
+                  {spotCountUp}
+                </TypographyLabel>
+                <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
               </Box>
-              <Backdrop
-                className={classes.backdrop}
-                open={openTokens}
-                invisible
-                onClick={handleClose}
-                onMouseEnter={handleClose}
-              />
-            </React.Fragment>
-          }
-        </MarketPaper>
-      </Box>
-    </div>
+              <Box display="flex" alignItems="baseline" ml={3}>
+                <TypographyLabel className={classes.gridContent}>
+                  {futuresCountUp}
+                </TypographyLabel>
+                <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
+              </Box>
+            </Box>
+            <Button
+              onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+              className={classes.viewAll}
+              variant="text"
+              color="secondary"
+            >
+              View
+            </Button>
+          </RenderGuard>
+        </Box>
+      </MarketPaper>
+      <MarketPaper className={classes.gridPaper}>
+        <Box
+          display="flex"
+          alignItems="center"
+          mb={1}
+        >
+          <Typography className={classes.gridHeader}>
+            Liquidity Pools
+          </Typography>
+        </Box>
+        <RenderGuard renderIf={statLoading}>
+          <Skeleton className={classes.standardSkeleton} />
+        </RenderGuard>
+        <RenderGuard renderIf={!statLoading}>
+          <Box display="flex" justifyContent="space-between">
+            <TypographyLabel className={classes.gridContent}>
+              {poolsCountUp}
+            </TypographyLabel>
+            <Button
+              onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+              className={classes.viewAll}
+              variant="text"
+              color="secondary"
+            >
+              View
+            </Button>
+          </Box>
+        </RenderGuard>
+      </MarketPaper>
+      <MarketPaper className={classes.gridPaper}>
+        {
+          <React.Fragment>
+            <TypographyLabel className={classes.gridHeader}>
+              Tokens
+            </TypographyLabel>
+            <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
+              <RenderGuard renderIf={statLoading}>
+                <Skeleton className={classes.numSkeleton} />
+              </RenderGuard>
+              <RenderGuard renderIf={!statLoading}>
+                <TypographyLabel className={classes.gridContent}>
+                  {coinsCountUp}
+                </TypographyLabel>
+              </RenderGuard>
+              <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
+                <Box position="relative">
+                  <Box
+                    className={classes.labelBox}
+                    display="flex"
+                    alignItems="center"
+                    onMouseEnter={handleOpen}
+                    onFocus={handleOpen}
+                  >
+                    {coinsList.map((coin: string, index: number) => {
+                      if (index <= 3) {
+                        const coinName = sdk?.token.getTokenName(coin) ?? "";
+                        return (
+                          <CoinIcon
+                            className={clsx(classes.coinIcon, `coin-${index}`)}
+                            key={coin}
+                            denom={coinName.toLowerCase()}
+                          />
+                        );
+                      }
+                      return null;
+                    })}
+                    {
+                      coinsList.length > 4 && (
+                        <Box>
+                          <Typography
+                            className={classes.plusLabel}
+                          >
+                            +{coinsList.length - 4}
+                          </Typography>
+                        </Box>
+                      )
+                    }
+                  </Box>
+                  <Box className={classes.dropdownContainer}>
+                    {
+                      openTokens && (
+                        <TokenPopover tokens={coinsList} />
+                      )
+                    }
+                  </Box>
+                </Box>
+              </RenderGuard>
+              <RenderGuard renderIf={statLoading}>
+                <Box alignItems="center" display="flex" justifyContent="center">
+                  <Skeleton className={classes.coinSkeleton} />
+                </Box>
+              </RenderGuard>
+            </Box>
+            <Backdrop
+              className={classes.backdrop}
+              open={openTokens}
+              invisible
+              onClick={handleClose}
+              onMouseEnter={handleClose}
+            />
+          </React.Fragment>
+        }
+      </MarketPaper>
+    </Box>
   );
 };
 
@@ -512,14 +508,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5),
-    },
-  },
-  root: {
-    // background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${fade(theme.palette.background.default, 0.9)} 85%, ${fade(theme.palette.background.default, 0.2)} 100%)`,
-    color: theme.palette.text.primary,
-    zIndex: 20,
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0, 0, 8),
     },
   },
   tab: {

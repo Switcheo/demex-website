@@ -1,11 +1,10 @@
-import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
-import { MarketsTable } from "../MarketsTable";
+import React, { Suspense, useEffect } from "react";
 
 import { BackgroundAnimation } from "./components";
+import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
@@ -24,19 +23,19 @@ const HeroSection: React.FC = () => {
 			}
 			<Container maxWidth={false} className={classes.contentContainer}>
 				<Box className={classes.content}>
-					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
+					<Box className={clsx(classes.text, classes.tagline)}>
 						Trade&nbsp;
 						<Box>Anything</Box>
-					</TypographyLabel>
-					<TypographyLabel className={clsx(classes.text, classes.headline)}>
+					</Box>
+					<Box className={clsx(classes.text, classes.headline)}>
 						The Order Book DEX for the&nbsp;
 						<br />
-						Cosmos and Ethereum Ecosystem
-					</TypographyLabel>
+						Cosmos and Ethereum Ecosystems
+					</Box>
 
-					<TypographyLabel className={clsx(classes.text, classes.description)}>
+					<Box className={clsx(classes.text, classes.description)}>
 						Trade spot, futures, perpetuals and more on CLOBs, with liquidity backstopped by AMMs.
-					</TypographyLabel>
+					</Box>
 
 					<Button
 						className={classes.button}
@@ -47,8 +46,10 @@ const HeroSection: React.FC = () => {
 						Launch App
 					</Button>
 				</Box>
+				<Suspense fallback={null}>
+					<MarketsGrid />
+				</Suspense>
 			</Container>
-			<MarketsTable />
 		</Box>
 	);
 };
@@ -67,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		fontSize: "16px",
 		display: "flex",
-		height: "calc(100vh - 270px - 88px)",
 		maxHeight: "800px",
+		height: "calc(100vh - 400px)",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
@@ -87,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
+		height: "100vh - 65px", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
@@ -119,6 +121,12 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "72px",
 		marginTop: "2.5rem",
 		color: theme.palette.text.primary,
+		"& > div": {
+			background: "linear-gradient(90deg, #B6F4FD 45.4%, #943EB7 80.52%, #3D2347 130.74%)",
+			backgroundClip: "text",
+			WebkitTextFillColor: "transparent",
+			WebkitBackgroundClip: "text",
+		},
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "3em",
 		},

@@ -2,7 +2,6 @@ import { PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";
 import { store } from "@demex-info/store";
 import HeroSection from "@demex-info/views/HeroSection/HeroSection";
-// import MarketsTable from "@demex-info/views/MarketsTable/MarketsTable";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -21,6 +20,7 @@ const MiddleBlackSection = lazy(() => import("@demex-info/views/MiddleBlackSecti
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
 const JustGettingStarted = lazy(() => import("@demex-info/views/JustGettingStarted/JustGettingStarted"));
 const ReadyToTrade = lazy(() => import("@demex-info/views/ReadyToTrade/ReadyToTrade"));
+const USPSection = lazy(() => import("@demex-info/views/USPSection/USPSection"));
 const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
 render(
@@ -29,7 +29,7 @@ render(
       <MainLayout>
         <HeroSection />
         <Suspense fallback={null}>
-          {/* <MarketsTable /> */}
+          <USPSection />
           <DexProperties />
           <PoweredBySwitcheo />
           <MiddleBlackSection />

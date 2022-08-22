@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 		left: 0,
 		width: "100%",
 		[theme.breakpoints.up("lg")]: {
-			height: "100vh",
+			height: "1480px",
 		},
 		[theme.breakpoints.only("md")]: {
 			minHeight: "40rem",
