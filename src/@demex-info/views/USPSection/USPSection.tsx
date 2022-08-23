@@ -74,7 +74,7 @@ const USPSection: React.FC = () => {
 
 const useStyles = makeStyles((theme) => ({
 	secondContainer: {
-		paddingTop: "10rem",
+		paddingTop: "7.75rem",
 		zIndex: 2,
 	},
 	text: {

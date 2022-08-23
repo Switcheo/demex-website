@@ -4,7 +4,7 @@ import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO } from "@demex-info/utils";
+import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
 import {
   MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Insights, Models } from "carbon-js-sdk";
+import { CarbonSDK, Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
 import clsx from "clsx";
 import Long from "long";
 import React, { useEffect } from "react";
@@ -25,6 +25,7 @@ const TokenPopover = lazy(() => import("./TokenPopover"));
 
 const MarketsTable: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
+  const [runPools] = useAsyncTask("runPools");
   const classes = useStyles();
   const [ws] = useWebsocket();
 
@@ -37,8 +38,10 @@ const MarketsTable: React.FC = () => {
   const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [list, setList] = React.useState<MarketListMap>({});
-  const [poolsList, setPoolsList] = React.useState<Insights.Pool[]>([]);
   const [stats, setStats] = React.useState<MarketStatItem[]>([]);
+  const [pools, setPools] = React.useState<Pool[]>([]);
+  const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
+  const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
   
   const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
     const limit = new Long(100);
@@ -76,13 +79,26 @@ const MarketsTable: React.FC = () => {
     return allMarkets;
   };
 
-  const getAllPools = async (sdk: CarbonSDK): Promise<Insights.Pool[]> => {
+  const reloadPools = () => {
+    if (!sdk?.query || !ws) return;
 
-    const allPools: Insights.Pool[] = await (await sdk.insights.Pools()).result.models ?? [];
-  
-    return allPools;
+    runPools(async () => {
+      try {
+        const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
+        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
+        setPools(poolsData);
+
+        const poolsRewards = await sdk!.lp.getWeeklyRewards();
+
+        const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
+        setCommitCurve(curveResponse.commitmentCurve);
+
+        setWeeklyRewards(poolsRewards ?? BN_ZERO);
+      } catch (err) {
+        console.error(err);
+      }
+    });
   };
-
   const reloadData = () => {
     if (!sdk?.query || !ws || !ws.connected) return;
 
@@ -91,9 +107,6 @@ const MarketsTable: React.FC = () => {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
-
-        const listPools: Insights.Pool[] = await getAllPools(sdk);
-        setPoolsList(listPools);
 
         const statsResponse = await sdk.query.marketstats.MarketStats({});
         const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
@@ -109,6 +122,7 @@ const MarketsTable: React.FC = () => {
   useEffect(() => {
     if (sdk && ws && ws?.connected) {
       reloadData();
+      reloadPools();
     }
     return () => { };
   }, [sdk, ws]);
@@ -175,6 +189,34 @@ const MarketsTable: React.FC = () => {
     };
   }, [marketsList, list, sdk?.token]);
 
+  const maxAPR = React.useMemo((): BigNumber => {
+    let weightTotal: BigNumber = BN_ZERO;
+    let weightedPools: number = 0;
+    let maxVal: BigNumber = BN_ZERO;
+    const maxBoostBN = parseNumber(commitCurve?.maxRewardMultiplier, BN_ZERO)!.dividedBy(100);
+
+    pools.forEach((p: Pool) => {
+      if (p.rewardsWeight.gt(0)) {
+        weightedPools = weightedPools + 1;
+      }
+      weightTotal = weightTotal.plus(p.rewardsWeight ?? BN_ZERO);
+    });
+    pools.forEach((pool: Pool) => {
+      if (pool.rewardsWeight.gt(0)) {
+        const indivApy = estimateApyUSD({
+          sdk,
+          pool,
+          poolsRewards: weeklyRewards,
+          totalWeight: weightTotal,
+          boostFactor: maxBoostBN,
+          notionalLp: constantLP,
+        });
+        maxVal = maxVal.lt(indivApy) ? indivApy : maxVal;
+      }
+    });
+    return maxVal;
+  }, [pools, weeklyRewards, sdk, commitCurve]);
+
   const handleOpen = () => {
     setOpenTokens(true);
   };
@@ -187,7 +229,7 @@ const MarketsTable: React.FC = () => {
   const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
   const coinsCountUp = useRollingNum(coinsList.length, 0, 2);
   const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
-  const poolsCountUp = useRollingNum(poolsList.length, 0, 2);
+  const poolsCountUp = useRollingNum(pools.length, 0, 2);
 
   return (
     <Box className={classes.innerDiv}>
@@ -229,12 +271,14 @@ const MarketsTable: React.FC = () => {
                 <TypographyLabel className={classes.gridContent}>
                   {spotCountUp}
                 </TypographyLabel>
+                &nbsp;
                 <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
               </Box>
               <Box display="flex" alignItems="baseline" ml={3}>
                 <TypographyLabel className={classes.gridContent}>
                   {futuresCountUp}
                 </TypographyLabel>
+                &nbsp;
                 <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
               </Box>
             </Box>
@@ -264,9 +308,20 @@ const MarketsTable: React.FC = () => {
         </RenderGuard>
         <RenderGuard renderIf={!statLoading}>
           <Box display="flex" justifyContent="space-between">
-            <TypographyLabel className={classes.gridContent}>
-              {poolsCountUp}
-            </TypographyLabel>
+            <Box display="flex" alignItems="baseline">
+              <Box display="flex" alignItems="baseline">
+                <TypographyLabel className={classes.gridContent}>
+                  {poolsCountUp}
+                </TypographyLabel>
+              </Box>
+              <Box display="flex" alignItems="baseline" ml={1}>
+                <TypographyLabel className={clsx(classes.gridSubtitle, "pools")}>Up to</TypographyLabel>
+                &nbsp;
+                <TypographyLabel className={classes.yellowGradientText}>
+                  {`${maxAPR.decimalPlaces(1, 1).toString(10)}% APR`}
+                </TypographyLabel>
+              </Box>
+            </Box>
             <Button
               onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
               className={classes.viewAll}
@@ -559,7 +614,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   gridSubtitle: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
-    marginLeft: "0.25rem",
+  },
+  yellowGradientText: {
+    ...theme.typography.title1,
+    background: "linear-gradient(90deg, #FFA800 0%, #FF5107 100%)",
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    WebkitBackgroundClip: "text",
   },
 }));
 

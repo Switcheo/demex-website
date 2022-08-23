@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body3,
     color: theme.palette.text.secondary,
     marginLeft: "0.5rem",
+    whiteSpace: "nowrap",
   },
 }));
 

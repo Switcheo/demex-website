@@ -221,11 +221,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   navLink: {
-<<<<<<< HEAD
     ...theme.typography.body3,
-=======
-    ...theme.typography.body2,
->>>>>>> c1e4af9 (Update footer)
     display: "block",
     marginTop: "0.625rem",
     "&:hover": {
