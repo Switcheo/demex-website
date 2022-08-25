@@ -52,11 +52,10 @@ const Header: React.FC = () => {
           </Hidden>
           <DemexLogo className={classes.topLogo} />
         </Box>
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" height="100%">
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            color="secondary"
             onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
@@ -72,50 +71,53 @@ const Header: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   closeIcon: {
-    height: "1rem",
-    maxWidth: "1.25rem",
+    maxWidth: "1.5rem",
     "& path": {
-      fill: theme.palette.secondary.main,
+      fill: theme.palette.text.secondary,
     },
   },
   innerHeader: {
     display: "flex",
+    minHeight: "4rem",
+    alignItems: "center",
     justifyContent: "space-between",
-    margin: theme.spacing(0, "auto"),
-    maxWidth: "84rem",
+    margin: 0,
   },
   loginBtn: {
-    fontSize: "1rem",
-    padding: theme.spacing(1.25, 2),
+    ...theme.typography.title3,
+    padding: theme.spacing(1.5, 2.25),
     textTransform: "none",
     [theme.breakpoints.only("xs")]: {
-      fontSize: "0.85rem",
-      padding: theme.spacing(1, 2),
+      padding: theme.spacing(0.75, 1.25),
     },
   },
   menuIcon: {
     height: "1.5rem",
+    "& path": {
+      fill: theme.palette.text.primary,
+    },
   },
   mobileMenu: {
     // marginLeft: theme.spacing(2.25),
   },
   root: {
-    backgroundColor: theme.palette.background.default,
-    minHeight: "1.75rem",
-    padding: theme.spacing(2.5, 6),
+    backgroundColor: theme.palette.background.primary,
+    minHeight: "4rem",
+    padding: theme.spacing(0, 6),
     position: "fixed",
     top: 0,
     width: `calc(100vw - ${theme.spacing(12)}px)`,
-    zIndex: 1400,
+    zIndex: 1100, //zIndex for menu drawer is 1200
+    borderBottom: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(2.25, 6),
+      padding: theme.spacing(0, 6),
     },
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(2, 2.5),
+      padding: theme.spacing(0, 2.5),
       width: `calc(100vw - ${theme.spacing(5)}px)`,
     },
     "@media (max-width: 360px)": {
-      padding: theme.spacing(2, 1.75),
+      padding: theme.spacing(0, 1.75),
       width: `calc(100vw - ${theme.spacing(3.5)}px)`,
     },
   },

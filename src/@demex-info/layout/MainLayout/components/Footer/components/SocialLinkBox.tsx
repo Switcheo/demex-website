@@ -6,23 +6,23 @@ import React from "react";
 const SocialLinkBox: React.FC = () => {
   const classes = useStyles();
 
-  const socialLnks: ExtSocialLnk[] = [
+  const socialLnksTop: ExtSocialLnk[] = [
     SocialLnks.Twitter,
     // SocialLnks.Telegram,
     SocialLnks.Discord,
-    // SocialLnks.Medium,
-    // SocialLnks.Reddit,
     SocialLnks.GitHub,
+    // SocialLnks.Reddit,
+    // SocialLnks.Medium,
     // SocialLnks.LinkedIn,
   ];
 
   return (
     <Box className={classes.navDiv}>
-      <TypographyLabel mb={2} className={classes.navTitle}>
+      <TypographyLabel className={classes.navTitle}>
         Follow Us
       </TypographyLabel>
       <Box className={classes.componentsSvg}>
-        {socialLnks.map((socialLnk: ExtSocialLnk) => {
+        {socialLnksTop.map((socialLnk: ExtSocialLnk) => {
           const { component: SvgComponent } = socialLnk;
           return (
             <IconButton
@@ -49,41 +49,41 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   iconBtn: {
-    marginRight: theme.spacing(1.5),
-    marginTop: 0,
+    margin: theme.spacing(0, 2.5, 0, 0),
     "&:last-child": {
       marginRight: 0,
     },
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
+      borderRadius: "50%",
+    },
   },
   iconSvg: {
-    height: "1.125rem",
-    padding: theme.spacing(1),
-    width: "1.125rem",
+    maxWidth: "1.5rem",
+    maxHeight: "1.5rem",
+    padding: theme.spacing(0.5),
     "& path": {
       fill: theme.palette.text.secondary,
     },
     "&:hover": {
       "& path": {
-        fill: theme.palette.secondary.main,
+        fill: "url(#demexLinearGradient)",
       },
     },
   },
   navDiv: {
-    marginRight: theme.spacing(7),
-    minWidth: "10rem",
-    [theme.breakpoints.only("md")]: {
-      marginTop: theme.spacing(9),
-      marginRight: 0,
+    [theme.breakpoints.only("xs")]: {
+      width: "50%",
+      paddingLeft: theme.spacing(4.5),
     },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4.5),
-      marginRight: 0,
+    "@media (max-width: 360px)": {
+      paddingLeft: theme.spacing(2.5),
     },
   },
   navTitle: {
+    ...theme.typography.body3,
     color: theme.palette.text.secondary,
-    fontSize: "0.8375rem",
-    fontWeight: 500,
+    marginBottom: "0.625rem",
   },
 }));
 

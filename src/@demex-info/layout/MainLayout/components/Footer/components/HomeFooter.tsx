@@ -9,7 +9,7 @@ const HomeFooter: React.FC = () => {
   return (
     <Box className={classes.root}>
       <TypographyLabel className={classes.copyright}>
-        &copy;2021 Demex. All rights reserved.
+        &copy;2022 Demex. All rights reserved.
       </TypographyLabel>
       <PoweredByCarbonFlat className={classes.tradehubLogo} />
     </Box>
@@ -18,8 +18,8 @@ const HomeFooter: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   copyright: {
-    color: theme.palette.text.primary,
-    fontSize: "0.75rem",
+    ...theme.typography.body3,
+    color: theme.palette.text.secondary,
     [theme.breakpoints.only("xs")]: {
       textAlign: "center",
     },
@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
-    padding: theme.spacing(1.5, 0),
+    minHeight: "48px",
     [theme.breakpoints.only("xs")]: {
       display: "block",
       padding: theme.spacing(1, 0, 2),
     },
   },
   tradehubLogo: {
-    height: "1rem",
+    height: "1.25rem",
     width: "unset",
     [theme.breakpoints.only("xs")]: {
       display: "block",
