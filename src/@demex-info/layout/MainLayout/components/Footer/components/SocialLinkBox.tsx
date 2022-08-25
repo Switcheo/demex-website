@@ -10,7 +10,8 @@ const SocialLinkBox: React.FC = () => {
     SocialLnks.Twitter,
     // SocialLnks.Telegram,
     SocialLnks.Discord,
-    SocialLnks.Reddit,
+    SocialLnks.GitHub,
+    // SocialLnks.Reddit,
     // SocialLnks.Medium,
     // SocialLnks.LinkedIn,
   ];

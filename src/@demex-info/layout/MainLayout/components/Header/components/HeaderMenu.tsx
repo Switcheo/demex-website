@@ -1,5 +1,5 @@
 import { ExternalLink } from "@demex-info/assets/icons";
-import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
@@ -10,6 +10,10 @@ const HeaderMenu: React.FC = () => {
   const net = useSelector((state: RootState) => state.app.network);
 
   const navLinksArr: NavLink[] = [
+    {
+      label: "Markets",
+      href: getDemexLink(Paths.Markets.List, net),
+    },
     {
       label: "Trade",
       href: getDemexLink(Paths.Trade, net),
@@ -22,14 +26,18 @@ const HeaderMenu: React.FC = () => {
       label: "Staking",
       href: getDemexLink(Paths.Stake.List, net),
     },
+    {
+      label: "Competiton",
+      href: getDemexLink(Paths.Competition.Leaderboard, net),
+    },
     // {
     //   label: "Leaderboard",
     //   href: Paths.Leaderboard,
     // },
-    {
-      label: "Explorer",
-      href: getExplorerLink(net),
-    },
+    // {
+    //   label: "Explorer",
+    //   href: getExplorerLink(net),
+    // },
     {
       showIcon: true,
       label: "Ecosystem",

@@ -221,7 +221,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   navLink: {
-    ...theme.typography.body2,
+    ...theme.typography.body3,
     display: "block",
     marginTop: "0.625rem",
     "&:hover": {

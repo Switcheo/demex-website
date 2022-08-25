@@ -35,12 +35,22 @@ export const Paths = {
 
   Profile: "/profile",
 
+  Markets: {
+    List: "/markets",
+    Create: "/markets/create",
+    Import: "/markets/import",
+  },
+
   Trade: "/trade",
 
   Stake: {
     List: "/stake",
     Manage: "/stake/manage",
     Rewards: "/stake/rewards",
+  },
+
+  Competition: {
+    Leaderboard: "/competition",
   },
 
   Pools: {

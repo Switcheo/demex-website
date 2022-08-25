@@ -1,6 +1,6 @@
 import { CloseIcon, ExternalLink } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
-import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
@@ -19,6 +19,10 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
   const navLinksArr: NavLink[] = [
     {
+      label: "Markets",
+      href: getDemexLink(Paths.Markets.List, net),
+    },
+    {
       label: "Trade",
       href: getDemexLink(Paths.Trade, net),
     },
@@ -30,13 +34,18 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       label: "Staking",
       href: getDemexLink(Paths.Stake.List, net),
     },
+    
     // {
     //   label: "Leaderboard",
     //   href: Paths.Leaderboard,
     // },
+    // {
+    //   label: "Explorer",
+    //   href: getExplorerLink(net),
+    // },
     {
-      label: "Explorer",
-      href: getExplorerLink(net),
+      label: "Competition",
+      href: getDemexLink(Paths.Competition.Leaderboard, net),
     },
     {
       showIcon: true,
