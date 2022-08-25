@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   headerDiv: {
     display: "flex",
-    padding: "1.75rem 1rem 1.5rem",
+    padding: "1.75rem 1.25rem 1.25rem",
     justifyContent: "space-between",
   },
   closeIcon: {
@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "6.625rem",
   },
   divider: {
-    margin: "0 1rem",
+    margin: "0 1.25rem",
     color: theme.palette.divider,
   },
 }));

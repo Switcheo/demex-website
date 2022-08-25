@@ -8,15 +8,11 @@ const SocialLinkBox: React.FC = () => {
 
   const socialLnksTop: ExtSocialLnk[] = [
     SocialLnks.Twitter,
-    SocialLnks.Telegram,
+    // SocialLnks.Telegram,
     SocialLnks.Discord,
+    SocialLnks.Reddit,
     // SocialLnks.Medium,
     // SocialLnks.LinkedIn,
-  ];
-
-  const socialLnksBottom: ExtSocialLnk[] = [
-    SocialLnks.Reddit,
-    SocialLnks.GitHub,
   ];
 
   return (
@@ -25,38 +21,20 @@ const SocialLinkBox: React.FC = () => {
         Follow Us
       </TypographyLabel>
       <Box className={classes.componentsSvg}>
-        <Box display="flex">
-          {socialLnksTop.map((socialLnk: ExtSocialLnk) => {
-            const { component: SvgComponent } = socialLnk;
-            return (
-              <IconButton
-                href={socialLnk.href}
-                target="_blank"
-                className={classes.iconBtn}
-                key={socialLnk.label}
-                color="secondary"
-              >
-                <SvgComponent className={classes.iconSvg} />
-              </IconButton>
-            );
-          })}
-        </Box>
-        <Box display="flex">
-          {socialLnksBottom.map((socialLnk: ExtSocialLnk) => {
-            const { component: SvgComponent } = socialLnk;
-            return (
-              <IconButton
-                href={socialLnk.href}
-                target="_blank"
-                className={classes.iconBtn}
-                key={socialLnk.label}
-                color="secondary"
-              >
-                <SvgComponent className={classes.iconSvg} />
-              </IconButton>
-            );
-          })}
-        </Box>
+        {socialLnksTop.map((socialLnk: ExtSocialLnk) => {
+          const { component: SvgComponent } = socialLnk;
+          return (
+            <IconButton
+              href={socialLnk.href}
+              target="_blank"
+              className={classes.iconBtn}
+              key={socialLnk.label}
+              color="secondary"
+            >
+              <SvgComponent className={classes.iconSvg} />
+            </IconButton>
+          );
+        })}
       </Box>
     </Box>
   );
@@ -64,12 +42,13 @@ const SocialLinkBox: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   componentsSvg: {
+    display: "flex",
     [theme.breakpoints.only("xs")]: {
       display: "block",
     },
   },
   iconBtn: {
-    margin: theme.spacing(0, 3, 2, 0),
+    margin: theme.spacing(0, 2.5, 0, 0),
     "&:last-child": {
       marginRight: 0,
     },
@@ -79,10 +58,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   iconSvg: {
-    maxWidth: "1rem",
-    maxHeight: "1rem",
+    maxWidth: "1.5rem",
+    maxHeight: "1.5rem",
     padding: theme.spacing(0.5),
-    width: "1.125rem",
     "& path": {
       fill: theme.palette.text.secondary,
     },
