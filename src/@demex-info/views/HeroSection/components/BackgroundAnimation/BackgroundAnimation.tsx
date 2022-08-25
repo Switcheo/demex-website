@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	position: {
 		overflow: "hidden",
 		position: "absolute",
-		top: 0,
+		top: "-234px",
 		left: 0,
 		width: "100%",
 		[theme.breakpoints.up("lg")]: {

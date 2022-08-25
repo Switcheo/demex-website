@@ -87,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	headline: {
 		...theme.typography.h1,
-		marginTop: "2.5rem",
 		color: theme.palette.text.primary,
 		"& > div": {
 			background: "linear-gradient(90deg, #B6F4FD 45.4%, #943EB7 80.52%, #3D2347 130.74%)",

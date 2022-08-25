@@ -1,7 +1,7 @@
 import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, Models } from "carbon-js-sdk";
-import { WSModels } from "carbon-js-sdk/lib/websocket";
+import Long from "long";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";
 
@@ -45,6 +45,42 @@ export const MarkType: { [key: string]: MarketType } = {
 
 export type MarketType = "spot" | "futures";
 
+export async function getAllMarkets(sdk: CarbonSDK): Promise<Models.Market[]> {
+  const limit = new Long(100);
+  const offset = Long.UZERO;
+  const countTotal = true;
+
+  let allMarkets: Models.Market[] = [];
+  let key = new Uint8Array();
+
+  const initMarkets = await sdk.query.market.MarketAll({
+    pagination: {
+      limit, offset, countTotal, key, reverse: false,
+    },
+  });
+  const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
+  key = initMarkets.pagination?.nextKey ?? new Uint8Array();
+  allMarkets = allMarkets.concat(initMarkets.markets);
+
+  if (initMarkets.markets.length === grandTotal) {
+    return allMarkets;
+  }
+
+  const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1;
+  for (let ii = 0; ii < iterations; ii++) {
+    // eslint-disable-next-line no-await-in-loop
+    const markets = await sdk.query.market.MarketAll({
+      pagination: {
+        limit, offset, countTotal, key, reverse: false,
+      },
+    });
+    key = markets.pagination?.nextKey ?? new Uint8Array();
+    allMarkets = allMarkets.concat(markets.markets ?? []);
+  }
+
+  return allMarkets;
+}
+
 export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
   if (typeof marketList !== "object" || marketList.length <= 0) {
     return {};
@@ -70,16 +106,16 @@ export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
   return listMarket;
 }
 
-export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatItem {
+export function parseMarketStats(marketStats: Models.MarketStats): MarketStatItem {
   return {
     ...marketStats,
-    dayOpen: parseNumber(marketStats.day_open, BN_ZERO)!,
-    dayClose: parseNumber(marketStats.day_close, BN_ZERO)!,
-    dayVolume: parseNumber(marketStats.day_volume, BN_ZERO)!,
-    lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
+    dayOpen: parseNumber(marketStats.dayOpen, BN_ZERO)!,
+    dayClose: parseNumber(marketStats.dayClose, BN_ZERO)!,
+    dayVolume: parseNumber(marketStats.dayVolume, BN_ZERO)!,
+    lastPrice: parseNumber(marketStats.lastPrice, BN_ZERO)!,
     // open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
     open_interest: BN_ZERO, // TODO: Check on market open_interest
-    marketType: marketStats.market_type as MarketType,
+    marketType: marketStats.marketType as MarketType,
   };
 }
 

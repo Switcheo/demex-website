@@ -1,4 +1,5 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
+import { Cards } from "@demex-info/components/Cards";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
@@ -6,24 +7,22 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets,
 } from "@demex-info/utils/markets";
-import { MarketPaper } from "@demex-info/views/HeroSection/components";
 import { lazy } from "@loadable/component";
 import {
   Backdrop, Box, Button, makeStyles, Theme, Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
+import { Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
 import clsx from "clsx";
-import Long from "long";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const TokenPopover = lazy(() => import("./TokenPopover"));
 
-const MarketsTable: React.FC = () => {
+const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [runPools] = useAsyncTask("runPools");
   const classes = useStyles();
@@ -42,42 +41,6 @@ const MarketsTable: React.FC = () => {
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
-  
-  const getAllMarkets = async (sdk: CarbonSDK): Promise<Models.Market[]> => {
-    const limit = new Long(100);
-    const offset = Long.UZERO;
-    const countTotal = true;
-  
-    let allMarkets: Models.Market[] = [];
-    let key = new Uint8Array();
-  
-    const initMarkets = await sdk.query.market.MarketAll({
-      pagination: {
-        limit, offset, countTotal, key, reverse: false,
-      },
-    });
-    const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
-    key = initMarkets.pagination?.nextKey ?? new Uint8Array();
-    allMarkets = allMarkets.concat(initMarkets.markets);
-  
-    if (initMarkets.markets.length === grandTotal) {
-      return allMarkets;
-    }
-  
-    const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1;
-    for (let ii = 0; ii < iterations; ii++) {
-      // eslint-disable-next-line no-await-in-loop
-      const markets = await sdk.query.market.MarketAll({
-        pagination: {
-          limit, offset, countTotal, key, reverse: false,
-        },
-      });
-      key = markets.pagination?.nextKey ?? new Uint8Array();
-      allMarkets = allMarkets.concat(markets.markets ?? []);
-    }
-  
-    return allMarkets;
-  };
 
   const reloadPools = () => {
     if (!sdk?.query || !ws) return;
@@ -233,7 +196,7 @@ const MarketsTable: React.FC = () => {
 
   return (
     <Box className={classes.innerDiv}>
-      <MarketPaper className={classes.gridPaper}>
+      <Cards>
         <Box
           display="flex"
           alignItems="center"
@@ -251,8 +214,8 @@ const MarketsTable: React.FC = () => {
             ${volumeCountUp}
           </TypographyLabel>
         </RenderGuard>
-      </MarketPaper>
-      <MarketPaper className={classes.gridPaper}>
+      </Cards>
+      <Cards className={classes.gridPaper}>
         <TypographyLabel className={classes.gridHeader}>
           Markets
         </TypographyLabel>
@@ -292,8 +255,8 @@ const MarketsTable: React.FC = () => {
             </Button>
           </RenderGuard>
         </Box>
-      </MarketPaper>
-      <MarketPaper className={classes.gridPaper}>
+      </Cards>
+      <Cards className={classes.gridPaper}>
         <Box
           display="flex"
           alignItems="center"
@@ -332,8 +295,8 @@ const MarketsTable: React.FC = () => {
             </Button>
           </Box>
         </RenderGuard>
-      </MarketPaper>
-      <MarketPaper className={classes.gridPaper}>
+      </Cards>
+      <Cards className={classes.gridPaper}>
         {
           <React.Fragment>
             <TypographyLabel className={classes.gridHeader}>
@@ -406,7 +369,7 @@ const MarketsTable: React.FC = () => {
             />
           </React.Fragment>
         }
-      </MarketPaper>
+      </Cards>
     </Box>
   );
 };
@@ -555,6 +518,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: "6rem",
     position: "relative",
     margin: theme.spacing(0, "auto"),
+    maxWidth: "1344px",
+    justifyContent: "space-between",
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(0, 5),
     },
@@ -624,4 +589,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default MarketsTable;
+export default MarketsGrid;
