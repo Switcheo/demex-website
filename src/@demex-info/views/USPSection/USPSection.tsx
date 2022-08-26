@@ -1,6 +1,7 @@
 import { InternetOfBlockchains, TendermintCore } from "@demex-info/assets/icons";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
+import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Container, Link, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 		...theme.typography.h1,
 		color: theme.palette.text.primary,
 		"& > div": {
-			background: "linear-gradient(90deg, #B6F4FD 45.4%, #943EB7 80.52%, #3D2347 130.74%)",
+			background: StyleUtils.purpleGradient,
 			backgroundClip: "text",
 			WebkitTextFillColor: "transparent",
 			WebkitBackgroundClip: "text",

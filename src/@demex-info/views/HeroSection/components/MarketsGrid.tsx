@@ -9,6 +9,7 @@ import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, 
 import {
   MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets,
 } from "@demex-info/utils/markets";
+import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
 import {
   Backdrop, Box, Button, makeStyles, Theme, Typography,
@@ -582,7 +583,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   yellowGradientText: {
     ...theme.typography.title1,
-    background: "linear-gradient(90deg, #FFA800 0%, #FF5107 100%)",
+    background: StyleUtils.warningGradient,
     backgroundClip: "text",
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",

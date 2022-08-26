@@ -1,4 +1,5 @@
 import { getDemexLink, Paths } from "@demex-info/constants";
+import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
-		height: "100vh - 65px", // height of topbar
+		height: "calc(100vh - 65px)", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
@@ -122,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "2.5rem",
 		color: theme.palette.text.primary,
 		"& > div": {
-			background: "linear-gradient(90deg, #B6F4FD 45.4%, #943EB7 80.52%, #3D2347 130.74%)",
+			background: StyleUtils.purpleGradient,
 			backgroundClip: "text",
 			WebkitTextFillColor: "transparent",
 			WebkitBackgroundClip: "text",

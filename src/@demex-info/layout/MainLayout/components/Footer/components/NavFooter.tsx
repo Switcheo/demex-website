@@ -2,6 +2,7 @@ import { DemexLogo } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
@@ -225,7 +226,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "block",
     marginTop: "0.625rem",
     "&:hover": {
-      background: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)",
+      background: StyleUtils.primaryGradient(theme),
       backgroundClip: "text",
       WebkitTextFillColor: "transparent",
       WebkitBackgroundClip: "text",

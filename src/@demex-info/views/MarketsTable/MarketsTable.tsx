@@ -515,8 +515,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   root: {
-    // background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${fade(theme.palette.background.default, 0.9)} 85%, ${fade(theme.palette.background.default, 0.2)} 100%)`,
-    color: theme.palette.text.primary,
     zIndex: 20,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 0, 8),
