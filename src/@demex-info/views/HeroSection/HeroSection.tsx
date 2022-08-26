@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
-		height: "calc(100vh - 65px)", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
@@ -120,13 +119,17 @@ const useStyles = makeStyles((theme) => ({
 		...theme.typography.h1,
 		fontSize: "72px",
 		lineHeight: "72px",
-		marginTop: "2.5rem",
+		marginTop: "1.75rem",
 		color: theme.palette.text.primary,
 		"& > div": {
 			background: StyleUtils.purpleGradient,
 			backgroundClip: "text",
 			WebkitTextFillColor: "transparent",
 			WebkitBackgroundClip: "text",
+		},
+    "@media (min-width: 1280px) and (max-width: 1500px)": {
+			fontSize: "56px",
+			lineHeight: "56px",
 		},
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "3em",
@@ -136,14 +139,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	description: {
-		marginTop: "2.5rem",
+		marginTop: "1.75rem",
+		fontSize: "20px",
+		lineHeight: "24px",
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.3em",
 			marginTop: "2em",
 		},
 	},
 	button: {
-		marginTop: "2.5rem",
+		marginTop: "1.75rem",
 		minWidth: "16rem",
 		minHeight: "4rem",
 		[theme.breakpoints.down("sm")]: {

@@ -1,18 +1,18 @@
 import {
   Box, BoxProps, makeStyles, Theme,
 } from "@material-ui/core";
-
+import clsx from "clsx";
 import React from "react";
 
 interface Props extends BoxProps {
 }
 
 const Cards: React.FC<Props> = (props: Props) => {
-  const { children } = props;
+  const { children, className } = props;
   const classes = useStyles();
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(className, classes.root)}>
       {children}
     </Box>
   );

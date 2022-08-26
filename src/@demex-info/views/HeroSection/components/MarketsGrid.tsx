@@ -197,7 +197,7 @@ const MarketsGrid: React.FC = () => {
 
   return (
     <Box className={classes.innerDiv}>
-      <Cards>
+      <Cards className={classes.gridPaper}>
         <Box
           display="flex"
           alignItems="center"
@@ -397,10 +397,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "40px",
     },
   },
-  btnLabel: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
   coinIcon: {
     transform: "translate(30px, 0px)",
     zIndex: 8,
@@ -441,6 +437,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   gridPaper: {
+    minWidth: "unset",
     maxWidth: "25%",
     width: "100%",
     backgroundColor: theme.palette.background.primary,
@@ -449,6 +446,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:first-child": {
       marginLeft: 0,
     },
+    "@media (min-width: 1280px) and (max-width: 1500px)": {
+      marginLeft: theme.spacing(2),
+      "&:first-child": {
+        marginLeft: 0,
+      },
+		},
     [theme.breakpoints.down("sm")]: {
       marginBottom: theme.spacing(2),
       maxWidth: "100%",
@@ -464,59 +467,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
-  gridPaperAlt: {
-    marginLeft: theme.spacing(2),
-    maxWidth: "50%",
-    padding: theme.spacing(3, 4),
-    width: "100%",
-    [theme.breakpoints.down("sm")]: {
-      "& h6": {
-        lineHeight: "1.375rem",
-      },
-      "&:first-child": {
-        marginLeft: 0,
-      },
-    },
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(2, 2.5),
-      "& h4": {
-        fontSize: "1.625rem",
-      },
-      "& h6": {
-        fontSize: "0.75rem",
-        lineHeight: "1.35rem",
-      },
-    },
-    "@media (max-width: 400px)": {
-      maxWidth: "100%",
-      marginLeft: 0,
-      width: "unset",
-      "&:first-child": {
-        marginBottom: theme.spacing(2),
-      },
-    },
-  },
-  gridSecondGrid: {
-    display: "flex",
-    width: "100%",
-    "@media (max-width: 400px)": {
-      display: "block",
-    },
-  },
-  gridStats: {
-    display: "flex",
-    [theme.breakpoints.down("sm")]: {
-      display: "block",
-    },
-  },
-  buttonDiv: {
-    display: "flex",
-    justifyContent: "center",
-    margin: theme.spacing(0, "auto"),
-  },
   innerDiv: {
     display: "flex",
-    marginTop: "6rem",
+    marginTop: "8.25rem",
     position: "relative",
     margin: theme.spacing(0, "auto"),
     maxWidth: "1344px",
@@ -529,23 +482,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "@media (max-width: 360px)": {
       padding: theme.spacing(0, 2.5),
-    },
-  },
-  tab: {
-    ...theme.typography.title3,
-    fontSize: "1.25rem",
-    marginLeft: theme.spacing(3),
-    "&:first-child": {
-      marginLeft: 0,
-    },
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
-    "&.selected": {
-      color: theme.palette.text.primary,
-    },
-    [theme.breakpoints.only("xs")]: {
-      fontSize: "1.25rem",
     },
   },
   labelBox: {
@@ -580,6 +516,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   gridSubtitle: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
+    whiteSpace: "nowrap",
   },
   yellowGradientText: {
     ...theme.typography.title1,
@@ -587,6 +524,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundClip: "text",
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
+    whiteSpace: "nowrap",
   },
 }));
 

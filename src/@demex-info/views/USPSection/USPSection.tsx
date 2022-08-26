@@ -103,6 +103,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	description: {
+		fontSize: "20px",
+		lineHeight: "22px",
 		marginTop: "2.5rem",
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.3em",
@@ -129,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 		whiteSpace: "nowrap",
   },
 	contentSection: {
-		...theme.typography.body2,
+		...theme.typography.body1,
 		color: theme.palette.text.secondary,
 		marginTop: "1.5rem",
 		"& > b": {
