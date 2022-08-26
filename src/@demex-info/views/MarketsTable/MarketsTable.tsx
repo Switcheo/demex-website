@@ -6,7 +6,7 @@ import {
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
+  MarketListMap, MarketListItem, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats,
 } from "@demex-info/utils/markets";
 import { lazy } from "@loadable/component";
 import {
@@ -14,7 +14,8 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models } from "carbon-js-sdk";
+import { CarbonSDK, Models, TypeUtils } from "carbon-js-sdk";
+import { WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk/lib/websocket";
 import clsx from "clsx";
 import Long from "long";
 import moment from "moment";
@@ -25,11 +26,10 @@ import { useSelector } from "react-redux";
 //   FuturesTypes, MarketPaper, MarketTab,
 // } from "./components";
 import {
-  FuturesTypes, MarketPaper,
+  FuturesTypes, MarketPaper, TokenPopover,
 } from "./components";
 
 const MarketGridTable = lazy(() => import("./components/MarketGridTable"));
-const TokenPopover = lazy(() => import("./components/TokenPopover"));
 
 const MarketsTable: React.FC = () => {
   const [runMarkets, loading] = useAsyncTask("runMarkets");
@@ -100,8 +100,9 @@ const MarketsTable: React.FC = () => {
         const listData: MarketListMap = parseMarketListMap(listResponse);
         setList(listData);
 
-        const statsResponse = await sdk.query.marketstats.MarketStats({});
-        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
+        const response = await ws.request<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{ result: TypeUtils.SimpleMap<WSModels.MarketStat> }>;
+        const statsResponse = response.data.result ?? {};
+        const marketStatItems = Object.values(statsResponse).map((stat: WSModels.MarketStat) => (
           parseMarketStats(stat)),
         );
         setStats(marketStatItems);
@@ -114,11 +115,11 @@ const MarketsTable: React.FC = () => {
   };
 
   useEffect(() => {
-    if (sdk && ws && ws?.connected) {
+    if (sdk && ws && ws?.connected === true) {
       reloadMarkets();
     }
     return () => { };
-  }, [sdk, ws]);
+  }, [sdk, ws?.connected]);
 
   useEffect(() => {
     setTimeout(() => setRenderReady(true));
@@ -169,7 +170,6 @@ const MarketsTable: React.FC = () => {
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market] ?? {};
       const baseDenom = marketItem?.base ?? "";
-      const quoteDenom = marketItem?.quote ?? "";
 
       const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
       const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
@@ -177,12 +177,16 @@ const MarketsTable: React.FC = () => {
       volume24H = volume24H.plus(usdVolume);
 
       openInterest = openInterest.plus(symbolUsd.times(market.open_interest));
+    });
 
-      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
-        coinsList.push(baseDenom);
+    Object.values(list).forEach((market: MarketListItem) => {
+      if (market.marketType === "futures") return;
+
+      if (!coinsList.includes(market.base) && market.base.length > 0) {
+        coinsList.push(market.base);
       }
-      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
-        coinsList.push(quoteDenom);
+      if (!coinsList.includes(market.quote) && market.quote.length > 0) {
+        coinsList.push(market.quote);
       }
     });
 
@@ -369,11 +373,7 @@ const MarketsTable: React.FC = () => {
                               }
                             </Box>
                             <Box className={classes.dropdownContainer}>
-                              {
-                                openTokens && (
-                                  <TokenPopover tokens={coinsList} />
-                                )
-                              }
+                              {openTokens && <TokenPopover tokens={coinsList} />}
                             </Box>
                           </Box>
                         </RenderGuard>
