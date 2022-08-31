@@ -1,6 +1,7 @@
 import { ExternalLink } from "@demex-info/assets/icons";
 import { getDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flex: 1,
     height: "4rem",
     "&:hover > $activeIndicator": {
-      background: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)",
+      background: StyleUtils.primaryGradientHover(theme),
     },
   },
   activeIndicator: {

@@ -120,6 +120,11 @@ export const StaticLinks = {
     Fees: "https://guide.dem.exchange/getting-started/fees",
   },
   Tendermint: "https://tendermint.com/core/",
+  Docs: {
+    Cosmos: "https://docs.cosmos.network/main/intro/overview.html",
+    IBC: "https://ibcprotocol.org/",
+    Tendermint: "https://docs.tendermint.com/",
+  },
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {

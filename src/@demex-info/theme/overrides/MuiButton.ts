@@ -1,3 +1,4 @@
+import { StyleUtils } from "@demex-info/utils";
 import { Theme } from "@material-ui/core";
 
 const MuiButton = (theme: Theme) => ({
@@ -6,6 +7,29 @@ const MuiButton = (theme: Theme) => ({
 		borderRadius: "4px",
 		minWidth: "unset",
 		textTransform: "none",
+	},
+	textSecondary: {
+		color: theme.palette.primary.main,
+		background: StyleUtils.primaryGradientHover(theme),
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    WebkitBackgroundClip: "text",
+		"& > span": {
+			borderBottom: "1px solid transparent",
+		},
+		"&:hover > span": {
+      borderBottom: `1px solid ${theme.palette.primary.main}`,
+    },
+		"&:disabled": {
+			color: theme.palette.text.disabled,
+			background: theme.palette.text.disabled,
+			backgroundClip: "text",
+			WebkitTextFillColor: "transparent",
+			WebkitBackgroundClip: "text",
+			"& > span": {
+				borderBottom: "1px solid transparent",
+			},
+		},
 	},
 	text: {
 		color: theme.palette.text.primary,
@@ -16,22 +40,22 @@ const MuiButton = (theme: Theme) => ({
 	},
 	containedSecondary: {
 		color: theme.palette.snow,
-		background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
+		background: StyleUtils.primaryGradient(theme),
 		"&:hover": {
-			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+			background: StyleUtils.primaryGradientInversed(theme),
 		},
 		"&:active:hover": {
-			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+			background: StyleUtils.primaryGradientInversed(theme),
 		},
 	},
 	contained: {
 		color: theme.palette.snow,
-		background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
+		background: StyleUtils.primaryGradient(theme),
 		"&:hover": {
-			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+			background: StyleUtils.primaryGradientInversed(theme),
 		},
 		"&:active:hover": {
-			background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%)",
+			background: StyleUtils.primaryGradientInversed(theme),
 		},
 	},
 });

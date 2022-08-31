@@ -1,14 +1,14 @@
-import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { Box, Button, Container, makeStyles, useMediaQuery } from "@material-ui/core";
+import { StyleUtils } from "@demex-info/utils/styles";
+import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 import { BackgroundAnimation } from "./components";
+import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
-	const widthXxs = useMediaQuery("@media(max-width: 359px)");
 	const [ready, setReady] = React.useState<boolean>(false);
 
 	useEffect(() => {
@@ -22,31 +22,34 @@ const HeroSection: React.FC = () => {
 					<BackgroundAnimation />
 				)
 			}
-			<Container maxWidth="lg" className={classes.contentContainer}>
+			<Container maxWidth={false} className={classes.contentContainer}>
 				<Box className={classes.content}>
-					<TypographyLabel className={clsx(classes.text, classes.tagline)}>
-						Powerful. Permissionless. Secure.
-					</TypographyLabel>
-					<TypographyLabel className={clsx(classes.text, classes.headline)}>
-						Decentralized Trading for&nbsp;
-						{ !widthXxs && (<br />) }
-						Any Financial Asset Imaginable
-					</TypographyLabel>
+					<Box className={clsx(classes.text, classes.tagline)}>
+						Trade&nbsp;
+						<Box>Anything</Box>
+					</Box>
+					<Box className={clsx(classes.text, classes.headline)}>
+						The Order Book DEX for the&nbsp;
+						<br />
+						Cosmos and Ethereum Ecosystems
+					</Box>
 
-					<TypographyLabel className={clsx(classes.text, classes.description)}>
-						Unleashing the true power of DeFi with the world&apos;s first fully decentralized derivatives platform. Reimagine open markets with Demex.
-					</TypographyLabel>
+					<Box className={clsx(classes.text, classes.description)}>
+						Trade spot, futures, perpetuals and more on CLOBs, with liquidity backstopped by AMMs.
+					</Box>
 
 					<Button
 						className={classes.button}
-						color="secondary"
 						variant="contained"
 						target="_blank"
 						href={getDemexLink(Paths.Trade)}
 					>
-						View Live Trading
+						Launch App
 					</Button>
 				</Box>
+				<Suspense fallback={null}>
+					<MarketsGrid />
+				</Suspense>
 			</Container>
 		</Box>
 	);
@@ -66,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		fontSize: "16px",
 		display: "flex",
-		height: "calc(100vh - 270px)",
 		maxHeight: "800px",
+		height: "calc(100vh - 400px)",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
@@ -88,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 	contentContainer: {
 		marginTop: "120px",
 		position: "relative",
+		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
 			marginTop: "70px",
 		},
@@ -96,22 +100,37 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	text: {
-		fontFamily: "Play",
-		color: "#fff",
+		...theme.typography.body1,
+		color: theme.palette.text.secondary,
 		textAlign: "center",
 	},
 	tagline: {
-		fontSize: "1.375em",
-		lineHeight: "1.27em",
+		display: "flex",
+		"& > div": {
+			fontWeight: 700,
+			textDecoration: "underline",
+			color: theme.palette.text.primary,
+		},
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.4em",
 		},
 	},
 	headline: {
-		fontSize: "3.75em",
-		fontWeight: 600,
-		lineHeight: "1.333em",
-		marginTop: "0.4em",
+		...theme.typography.h1,
+		fontSize: "72px",
+		lineHeight: "72px",
+		marginTop: "1.75rem",
+		color: theme.palette.text.primary,
+		"& > div": {
+			background: StyleUtils.purpleGradient,
+			backgroundClip: "text",
+			WebkitTextFillColor: "transparent",
+			WebkitBackgroundClip: "text",
+		},
+    "@media (min-width: 1280px) and (max-width: 1500px)": {
+			fontSize: "56px",
+			lineHeight: "56px",
+		},
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "3em",
 		},
@@ -120,18 +139,18 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	description: {
-		fontSize: "1.125em",
-		lineHeight: "1.555em",
-		maxWidth: "35.55em",
-		marginTop: "2.222em",
+		marginTop: "1.75rem",
+		fontSize: "20px",
+		lineHeight: "24px",
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "1.3em",
 			marginTop: "2em",
 		},
 	},
 	button: {
-		marginTop: "4em",
-		padding: "0.8125em 1.75em",
+		marginTop: "1.75rem",
+		minWidth: "16rem",
+		minHeight: "4rem",
 		[theme.breakpoints.down("sm")]: {
 			marginTop: "2em",
 		},
