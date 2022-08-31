@@ -1,4 +1,4 @@
-import { InternetOfBlockchains, TendermintCore } from "@demex-info/assets/icons";
+import { CosmosNetwork, InternetOfBlockchains, TendermintCore } from "@demex-info/assets/icons";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
@@ -11,9 +11,12 @@ const USPSection: React.FC = () => {
 
 	return (
     <Container maxWidth={false} className={classes.secondContainer}>
-      <Box display="flex" justifyContent="center" className={clsx(classes.text, classes.headline)}>
+      <Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.headline)}>
         Powered by&nbsp;
-        <Box>Cosmos SDK</Box>
+				<Box display="flex" justifyContent="center" alignItems="center">
+					<Box>Cosmos SDK</Box>
+					<SvgIcon className={classes.cosmosIcon} component={CosmosNetwork} />
+				</Box>
       </Box>
       <Box justifyContent="center" className={clsx(classes.text, classes.description)}>
         Cosmos SDK is an open-source framework secured by Proof-of-Stake
@@ -89,7 +92,8 @@ const useStyles = makeStyles((theme) => ({
 	headline: {
 		...theme.typography.h1,
 		color: theme.palette.text.primary,
-		"& > div": {
+		zIndex: 1,
+		"& > div > div": {
 			background: StyleUtils.purpleGradient,
 			backgroundClip: "text",
 			WebkitTextFillColor: "transparent",
@@ -145,6 +149,11 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: "underline",
 		fontWeight: 700,
 		color: theme.palette.text.primary,
+	},
+	cosmosIcon: {
+		position: "relative",
+		right: "50%",
+		zIndex: 0,
 	},
 }));
 
