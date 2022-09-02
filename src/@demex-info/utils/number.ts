@@ -75,3 +75,9 @@ export function toPercentage(number: any, dp: number = 3) {
   }
   return finalBN.times(100).toFormat(dp);
 }
+
+export function getDecimalPlaces(num?: string | number): number {
+  if (typeof num === "undefined") return 0;
+  const moduloResult = parseNumber(num, BN_ZERO)!.modulo(1);
+  return moduloResult.decimalPlaces() ?? 0;
+}

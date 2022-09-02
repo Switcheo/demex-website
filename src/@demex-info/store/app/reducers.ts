@@ -11,6 +11,8 @@ const initial_state: AppState = {
   ws: undefined,
   usdPrices: {},
   isAppReady: false,
+  marketList: [],
+  marketStats: [],
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -40,6 +42,16 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       isAppReady: actions.ready,
+    };
+  case AppActionTypes.SET_MARKETS:
+    return {
+      ...state,
+      marketList: actions.list,
+    };
+  case AppActionTypes.SET_MARKET_STATS:
+    return {
+      ...state,
+      marketStats: actions.stats,
     };
 	default:
 		return state;

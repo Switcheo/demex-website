@@ -4,6 +4,7 @@ import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
+import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
 import {
@@ -19,7 +20,7 @@ import BigNumber from "bignumber.js";
 import { Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
 import clsx from "clsx";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TokenPopover = lazy(() => import("./TokenPopover"));
 
@@ -28,6 +29,7 @@ const MarketsGrid: React.FC = () => {
   const [runPools] = useAsyncTask("runPools");
   const classes = useStyles();
   const [ws] = useWebsocket();
+  const dispatch = useDispatch();
 
   const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
   const network = useSelector((state: RootState) => state.app.network);
@@ -37,8 +39,6 @@ const MarketsGrid: React.FC = () => {
 
   const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
-  const [list, setList] = React.useState<MarketListMap>({});
-  const [stats, setStats] = React.useState<MarketStatItem[]>([]);
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
@@ -69,14 +69,13 @@ const MarketsGrid: React.FC = () => {
     fetchData(async () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
-        const listData: MarketListMap = parseMarketListMap(listResponse);
-        setList(listData);
+        dispatch(actions.App.setMarketList(listResponse));
 
         const statsResponse = await sdk.query.marketstats.MarketStats({});
         const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
           parseMarketStats(stat)),
         );
-        setStats(marketStatItems);
+        dispatch(actions.App.setMarketStats(marketStatItems));
       } catch (err) {
         console.error(err);
       }
@@ -90,6 +89,10 @@ const MarketsGrid: React.FC = () => {
     }
     return () => { };
   }, [sdk, ws]);
+
+  const listResponse = useSelector((store: RootState) => store.app.marketList);
+  const list: MarketListMap = parseMarketListMap(listResponse);
+  const stats = useSelector((store: RootState) => store.app.marketStats);
 
   const marketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
@@ -108,7 +111,7 @@ const MarketsGrid: React.FC = () => {
       const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
     });
-  }, [stats, tokenClient, list, marketOption]);
+  }, [list, stats, tokenClient, marketOption]);
 
   const spotMarketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {

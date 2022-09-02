@@ -16,6 +16,11 @@ export interface CandleStickItem {
   timestamp: number;
 }
 
+export interface MarketCandlesticks {
+  market: string
+  bars: number[]
+}
+
 export interface MarketListItem {
   name: string;
   marketType: string;
@@ -36,6 +41,11 @@ export interface MarketStatItem {
   market: string;
   marketType: MarketType;
   open_interest: BigNumber;
+}
+
+export interface TickLotSizes {
+  tickSize: BigNumber
+  lotSize: BigNumber
 }
 
 export const MarkType: { [key: string]: MarketType } = {
@@ -160,3 +170,29 @@ export const shiftByDiffDp = (
   }
   return value.shiftedBy(-diffDp);
 };
+
+export function getAdjustedTickLotSize(
+  market: Models.Market | null | undefined, sdk?: CarbonSDK,
+): TickLotSizes {
+  if (!market || !sdk?.token) {
+    return {
+      tickSize: BN_ZERO,
+      lotSize: BN_ZERO,
+    };
+  }
+
+  const requiredPrecision = sdk?.token.getDecimals(market?.base ?? "-") ?? 0;
+  const quotePrecision = sdk?.token.getDecimals(market?.quote ?? "-") ?? 0;
+  const diffDp = quotePrecision - requiredPrecision;
+
+  const lotSize = parseNumber(market?.lotSize, BN_ZERO)!;
+  const tickSize = parseNumber(market?.tickSize, BN_ZERO)!.shiftedBy(-DEC_SHIFT);
+
+  const adjustedLotSize = sdk?.token.toHuman(market?.base ?? "-", lotSize);
+  const adjustedTickSize = tickSize.shiftedBy(-diffDp);
+
+  return {
+    tickSize: adjustedTickSize,
+    lotSize: adjustedLotSize,
+  };
+}

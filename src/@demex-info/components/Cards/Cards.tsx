@@ -1,3 +1,4 @@
+import { StyleUtils } from "@demex-info/utils/styles";
 import {
   Box, BoxProps, makeStyles, Theme,
 } from "@material-ui/core";
@@ -8,11 +9,11 @@ interface Props extends BoxProps {
 }
 
 const Cards: React.FC<Props> = (props: Props) => {
-  const { children, className } = props;
+  const { children, className, ...rest } = props;
   const classes = useStyles();
 
   return (
-    <Box className={clsx(className, classes.root)}>
+    <Box {...rest} className={clsx(className, classes.root)}>
       {children}
     </Box>
   );
@@ -22,11 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     boxSizing: "border-box",
     backgroundColor: theme.palette.background.primary,
+    color: theme.palette.text.primary,
     minWidth: "312px",
     minHeight: "106px",
-    boxShadow: "0px 0px 48px rgba(0, 0, 0, 0.64)",
+    boxShadow: StyleUtils.boxShadow(theme),
     borderRadius: "4px",
-    padding: "1.25rem 1.5rem",
+    padding: "1rem 1.5rem",
   },
 }));
 
