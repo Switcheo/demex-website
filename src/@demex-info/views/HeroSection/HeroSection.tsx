@@ -1,10 +1,9 @@
+import { BackgroundAnimation } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-
-import { BackgroundAnimation } from "./components";
 import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
@@ -19,7 +18,7 @@ const HeroSection: React.FC = () => {
 		<Box component="section" className={clsx(classes.root)}>
 			{
 				ready && (
-					<BackgroundAnimation />
+					<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
 				)
 			}
 			<Container maxWidth={false} className={classes.contentContainer}>
@@ -65,6 +64,29 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("sm")]: {
 			minHeight: "400px",
 		},
+	},
+	position: {
+		position: "absolute",
+		top: "-288px",
+		left: 0,
+		width: "100%",
+		[theme.breakpoints.up("lg")]: {
+			height: "calc(100vh + 40rem)",
+		},
+		[theme.breakpoints.only("md")]: {
+			minHeight: "40rem",
+		},
+		[theme.breakpoints.down("sm")]: {
+			minHeight: "30rem",
+		},
+	},
+	container: {
+		position: "relative",
+		margin: "0 auto",
+		maxWidth: "1590px",
+	},
+	padding: {
+		paddingTop: "56.25%",
 	},
 	content: {
 		fontSize: "16px",
