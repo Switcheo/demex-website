@@ -477,14 +477,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
     maxWidth: "1344px",
     justifyContent: "space-between",
-    [theme.breakpoints.between("sm", "md")]: {
-      padding: theme.spacing(0, 5),
-    },
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 4),
-    },
-    "@media (max-width: 360px)": {
-      padding: theme.spacing(0, 2.5),
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
     },
   },
   labelBox: {

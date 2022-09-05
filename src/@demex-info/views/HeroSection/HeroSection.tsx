@@ -150,15 +150,9 @@ const useStyles = makeStyles((theme) => ({
 			WebkitTextFillColor: "transparent",
 			WebkitBackgroundClip: "text",
 		},
-    "@media (min-width: 1280px) and (max-width: 1500px)": {
-			fontSize: "56px",
-			lineHeight: "56px",
-		},
-		[theme.breakpoints.only("sm")]: {
-			fontSize: "3em",
-		},
-		[theme.breakpoints.only("xs")]: {
-			fontSize: "2.6em",
+		[theme.breakpoints.down("md")]: {
+			fontSize: "28px",
+			lineHeight: "28px",
 		},
 	},
 	description: {
