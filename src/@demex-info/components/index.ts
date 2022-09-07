@@ -1,6 +1,7 @@
 export * from "./AssetIcon";
 export * from "./CoinIcon";
 export * from "./EmptyState";
+export * from "./NumberTypography";
 export * from "./PaperBox";
 export * from "./PreferenceThemeProvider";
 export * from "./RenderGuard";

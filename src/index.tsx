@@ -10,6 +10,7 @@ import "typeface-roboto";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { lazy } from "@loadable/component";
+import { UnleashTrader, USPSection } from "@demex-info/views";
 
 const rootElement = document.getElementById("root");
 const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
@@ -20,7 +21,7 @@ const MiddleBlackSection = lazy(() => import("@demex-info/views/MiddleBlackSecti
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
 const JustGettingStarted = lazy(() => import("@demex-info/views/JustGettingStarted/JustGettingStarted"));
 const ReadyToTrade = lazy(() => import("@demex-info/views/ReadyToTrade/ReadyToTrade"));
-const USPSection = lazy(() => import("@demex-info/views/USPSection/USPSection"));
+
 const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
 render(
@@ -28,8 +29,9 @@ render(
     <PreferenceThemeProvider>
       <MainLayout>
         <HeroSection />
+        <USPSection />
+        <UnleashTrader />
         <Suspense fallback={null}>
-          <USPSection />
           <DexProperties />
           <PoweredBySwitcheo />
           <MiddleBlackSection />

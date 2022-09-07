@@ -1,6 +1,7 @@
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
+import { MarketListMap, MarketStatItem } from "@demex-info/utils/markets";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, WSConnector } from "carbon-js-sdk";
+import { CarbonSDK, Models, WSConnector } from "carbon-js-sdk";
 
 export interface AppState {
   network: CarbonSDK.Network;
@@ -8,6 +9,8 @@ export interface AppState {
   ws: WSConnector | undefined;
   usdPrices: USDPrices;
   isAppReady: boolean;
+  marketList: Models.Market[],
+  marketStats: MarketStatItem[],
 }
 
 export interface USDPrices {

@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
+		height: "calc(100vh - 65px)", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
