@@ -1,6 +1,5 @@
 import { BackgroundAnimation } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
@@ -67,17 +66,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	position: {
 		position: "absolute",
-		top: "-288px",
 		left: 0,
 		width: "100%",
 		[theme.breakpoints.up("lg")]: {
+			top: "-288px",
 			height: "calc(100vh + 40rem)",
 		},
-		[theme.breakpoints.only("md")]: {
-			minHeight: "40rem",
-		},
-		[theme.breakpoints.down("sm")]: {
-			minHeight: "30rem",
+		[theme.breakpoints.down("md")]: {
+			top: "-3rem",
+			height: "32rem",
 		},
 	},
 	container: {
@@ -87,27 +84,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 	padding: {
 		paddingTop: "56.25%",
+		[theme.breakpoints.down("md")]: {
+			paddingTop: 0,
+		},
 	},
 	content: {
-		fontSize: "16px",
 		display: "flex",
 		maxHeight: "800px",
 		height: "calc(100vh - 400px)",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		[theme.breakpoints.down("lg")]: {
-			fontSize: "15px",
-		},
 		[theme.breakpoints.down("md")]: {
-			fontSize: "10px",
-			height: "360px",
-		},
-		[theme.breakpoints.down("sm")]: {
-			fontSize: "10px",
-		},
-		"@media (max-width: 319px)": {
-			height: "400px",
+			height: "unset",
+			marginTop: "42px",
+			marginBottom: "80px",
 		},
 	},
 	contentContainer: {
@@ -116,10 +107,11 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
-			marginTop: "70px",
+			marginTop: "90px",
+			height: "unset",
 		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "48px",
+			padding: "0 0.75rem",
 		},
 	},
 	text: {
@@ -134,8 +126,8 @@ const useStyles = makeStyles((theme) => ({
 			textDecoration: "underline",
 			color: theme.palette.text.primary,
 		},
-		[theme.breakpoints.only("xs")]: {
-			fontSize: "1.4em",
+		[theme.breakpoints.down("sm")]: {
+			...theme.typography.body4,
 		},
 	},
 	headline: {
@@ -144,13 +136,11 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "72px",
 		marginTop: "1.75rem",
 		color: theme.palette.text.primary,
-		"& > div": {
-			background: StyleUtils.purpleGradient,
-			backgroundClip: "text",
-			WebkitTextFillColor: "transparent",
-			WebkitBackgroundClip: "text",
+		[theme.breakpoints.only("md")]: {
+			fontSize: "56px",
+			lineHeight: "56px",
 		},
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.down("sm")]: {
 			fontSize: "28px",
 			lineHeight: "28px",
 		},
@@ -159,21 +149,21 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
-		[theme.breakpoints.only("xs")]: {
-			fontSize: "1.3em",
-			marginTop: "2em",
+		[theme.breakpoints.down("sm")]: {
+			fontSize: "13px",
 		},
 	},
 	button: {
 		marginTop: "1.75rem",
 		minWidth: "16rem",
 		minHeight: "4rem",
-		[theme.breakpoints.down("sm")]: {
-			marginTop: "2em",
+		[theme.breakpoints.down("md")]: {
+			minWidth: "10.125rem",
+			minHeight: "2.5rem",
 		},
 		"& .MuiButton-label": {
-			[theme.breakpoints.down("sm")]: {
-				fontSize: ".75rem",
+			[theme.breakpoints.down("md")]: {
+				...theme.typography.title3,
 			},
 		},
 	},

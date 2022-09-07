@@ -14,7 +14,7 @@ const USPSection: React.FC = () => {
       <Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.headline)}>
         Powered by&nbsp;
 				<Box display="flex" justifyContent="center" alignItems="center">
-					<Box>Cosmos SDK</Box>
+					<Box className={classes.purpleGradient}>Cosmos SDK</Box>
 					<SvgIcon className={classes.cosmosIcon} component={CosmosNetwork} />
 				</Box>
       </Box>
@@ -93,18 +93,18 @@ const useStyles = makeStyles((theme) => ({
 		...theme.typography.h1,
 		color: theme.palette.text.primary,
 		zIndex: 1,
-		"& > div > div": {
-			background: StyleUtils.purpleGradient,
-			backgroundClip: "text",
-			WebkitTextFillColor: "transparent",
-			WebkitBackgroundClip: "text",
-		},
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "3em",
 		},
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "2.6em",
 		},
+	},
+	purpleGradient: {
+		background: StyleUtils.purpleGradient,
+		backgroundClip: "text",
+		WebkitTextFillColor: "transparent",
+		WebkitBackgroundClip: "text",
 	},
 	description: {
 		fontSize: "20px",
