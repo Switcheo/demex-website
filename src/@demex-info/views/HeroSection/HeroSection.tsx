@@ -126,7 +126,10 @@ const useStyles = makeStyles((theme) => ({
 			textDecoration: "underline",
 			color: theme.palette.text.primary,
 		},
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("sm")]: {
+			...theme.typography.body3,
+		},
+		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body4,
 		},
 	},
@@ -140,7 +143,11 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: "56px",
 			lineHeight: "56px",
 		},
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.only("sm")]: {
+			fontSize: "40px",
+			lineHeight: "40px",
+		},
+		[theme.breakpoints.only("xs")]: {
 			fontSize: "28px",
 			lineHeight: "28px",
 		},
@@ -149,8 +156,11 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
-		[theme.breakpoints.down("sm")]: {
-			fontSize: "13px",
+		[theme.breakpoints.only("sm")]: {
+			...theme.typography.body2,
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.body3,
 		},
 	},
 	button: {

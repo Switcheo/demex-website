@@ -200,7 +200,7 @@ const MarketsGrid: React.FC = () => {
 
   return (
     <Grid container spacing={4} className={classes.innerDiv}>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
           <Box
             display="flex"
@@ -221,7 +221,7 @@ const MarketsGrid: React.FC = () => {
           </RenderGuard>
         </Cards>
       </Grid>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
           <TypographyLabel className={classes.gridHeader}>
             Markets
@@ -264,7 +264,7 @@ const MarketsGrid: React.FC = () => {
           </Box>
         </Cards>
       </Grid>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
           <Box
             display="flex"
@@ -306,7 +306,7 @@ const MarketsGrid: React.FC = () => {
           </RenderGuard>
         </Cards>
       </Grid>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
           {
             <React.Fragment>
@@ -464,6 +464,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       marginTop: 0,
+    },
+    [theme.breakpoints.down("xs")]: {
       "& > .MuiGrid-item": {
         padding: "0.375rem 0",
       },
@@ -483,20 +485,29 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.title2,
     color: theme.palette.text.secondary,
     marginLeft: theme.spacing(0.75),
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "11px",
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title4,
     },
   },
   viewAll: {
     padding: theme.spacing(1, 1, 0),
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "13px",
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title2,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title3,
     },
   },
   gridHeader: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
       ...theme.typography.body4,
     },
   },
@@ -511,7 +522,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
     whiteSpace: "nowrap",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
       ...theme.typography.body4,
     },
   },
@@ -522,7 +536,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
     whiteSpace: "nowrap",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title2,
+    },
+    [theme.breakpoints.only("xs")]: {
       ...theme.typography.title3,
     },
   },
