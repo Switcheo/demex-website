@@ -65,7 +65,7 @@ const TokensMarquee: React.FC<Props> = () => {
       {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
         const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
         return (
-          <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards} >
+          <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
             <Box className={classes.text}>
               Token
               <Box>{tokenName}</Box>
@@ -91,11 +91,21 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "2.25rem",
       cursor: "pointer",
     },
+    [theme.breakpoints.down("sm")]: {
+      "& > div > div": {
+        marginLeft: "0.75rem",
+      },
+    },
   },
   cards: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      padding: "0.75rem 1rem",
+      minWidth: "10rem",
+      minHeight: "5.25rem",
+    },
   },
   text: {
     ...theme.typography.body2,
@@ -106,10 +116,36 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.primary,
       marginTop: "0.25rem",
     },
+    [theme.breakpoints.only("sm")]: {
+			...theme.typography.title3,
+      "& > div": {
+        ...theme.typography.h4,
+        fontFamily: "Montserrat",
+        color: theme.palette.text.primary,
+        marginTop: "0.25rem",
+      },
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.title4,
+      "& > div": {
+        ...theme.typography.title1,
+        fontFamily: "Montserrat",
+        color: theme.palette.text.primary,
+        marginTop: "0.25rem",
+      },
+		},
   },
   coinSvg: {
     height: "3.125rem",
     width: "3.125rem",
+    [theme.breakpoints.only("sm")]: {
+      height: "2.55rem",
+      width: "2.55rem",
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "2rem",
+      width: "2rem",
+    },
   },
 }));
 

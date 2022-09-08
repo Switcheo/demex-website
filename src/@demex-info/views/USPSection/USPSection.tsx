@@ -111,7 +111,8 @@ const useStyles = makeStyles((theme) => ({
 			...theme.typography.h2,
 		},
 		[theme.breakpoints.only("xs")]: {
-			...theme.typography.title1,
+			fontSize: "28px",
+      lineHeight: "38px",
 			marginLeft: 0,
 		},
 	},

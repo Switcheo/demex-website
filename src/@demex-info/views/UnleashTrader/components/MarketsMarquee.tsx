@@ -127,7 +127,7 @@ const MarketsMarquee: React.FC<Props> = () => {
         filteredCards.map((card: MarketCard) => {
           const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
           return (
-            <Cards key={`${card.baseSymbol}/${card.quoteSymbol}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
+            <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
               <Box width="50%">
                 <Box display="flex" className={classes.marketName}>
                   {card.baseSymbol}
@@ -182,6 +182,11 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "2.25rem",
       cursor: "pointer",
     },
+    [theme.breakpoints.down("sm")]: {
+      "& > div > div": {
+        marginLeft: "0.75rem",
+      },
+    },
   },
   marketName: {
     ...theme.typography.title2,
@@ -190,13 +195,29 @@ const useStyles = makeStyles((theme) => ({
     "& > div" : {
       color: theme.palette.text.secondary,
     },
+    [theme.breakpoints.only("sm")]: {
+			...theme.typography.title3,
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.title4,
+		},
   },
   priceName: {
     ...theme.typography.h4,
+    color: theme.palette.text.primary,
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title1,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title2,
+    },
   },
   changeText: {
     ...theme.typography.body3,
     marginLeft: "0.5rem",
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body4,
+    },
   },
   positive: {
     color: theme.palette.success.main,
@@ -209,6 +230,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     whiteSpace: "nowrap",
     marginTop: "0.25rem",
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body4,
+    },
   },
   sparklineBox: {
     width: "50%",
@@ -217,6 +241,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
+  marketsCard: {
+    [theme.breakpoints.down("sm")]: {
+      padding: "0.75rem 1rem",
+    },
   },
 }));
 
