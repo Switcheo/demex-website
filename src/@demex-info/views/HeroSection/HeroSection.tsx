@@ -73,19 +73,36 @@ const useStyles = makeStyles((theme) => ({
 			height: "calc(100vh + 40rem)",
 		},
 		[theme.breakpoints.down("md")]: {
-			top: "-3rem",
-			height: "32rem",
+			overflowX: "hidden",
+			top: "-125px",
+			minHeight: "60rem",
+		},
+		[theme.breakpoints.down("sm")]: {
+			top: "-200px",
 		},
 	},
 	container: {
 		position: "relative",
 		margin: "0 auto",
 		maxWidth: "1590px",
+		[theme.breakpoints.down("md")]: {
+			maxWidth: "unset",
+			margin: "-70% ​-100%",
+		},
+		[theme.breakpoints.down("sm")]: {
+			margin: "-65% -80%",
+		},
+		[theme.breakpoints.only("xs")]: {
+			margin: "-35% -103%",
+		},
+		"@media (max-width: 319px)": {
+			margin: "-20% -106%",
+		},
 	},
 	padding: {
-		paddingTop: "56.25%",
+		height: "56.25%",
 		[theme.breakpoints.down("md")]: {
-			paddingTop: 0,
+			height: "25%",
 		},
 	},
 	content: {
@@ -95,7 +112,14 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.only("sm")]: {
+			padding: "0 0.75rem",
+			height: "unset",
+			marginTop: "150px",
+			marginBottom: "80px",
+		},
+		[theme.breakpoints.only("xs")]: {
+			padding: 0,
 			height: "unset",
 			marginTop: "42px",
 			marginBottom: "80px",
