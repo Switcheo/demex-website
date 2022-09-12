@@ -2,6 +2,7 @@ import { CoinIcon } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
 import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
@@ -11,6 +12,7 @@ import { useSelector } from "react-redux";
 interface BaseDenomMarket {
   marketName: string
   base: string
+  usdValue: string
 }
 interface Props {
 }
@@ -32,9 +34,11 @@ const TokensMarquee: React.FC<Props> = () => {
     marketStatsList.forEach((market: MarketStatItem) => {
       const marketItem = marketList?.[market.market] ?? {};
       const baseDenom = marketItem.marketType === "spot" ? marketItem.base ?? "" : "";
+      const usd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
       const baseMarkets: BaseDenomMarket = {
         marketName: marketItem.name ?? "",
         base: baseDenom,
+        usdValue: formatUsdPrice(usd),
       };
 
       // only include base denoms and the first market with this base denom
@@ -69,6 +73,7 @@ const TokensMarquee: React.FC<Props> = () => {
             <Box className={classes.text}>
               Token
               <Box>{tokenName}</Box>
+              {baseMarket.usdValue}
             </Box>
             <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
           </Cards>
@@ -103,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
-      minWidth: "10rem",
+      minWidth: "9rem",
       minHeight: "5.25rem",
     },
   },
@@ -117,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "0.25rem",
     },
     [theme.breakpoints.only("sm")]: {
-			...theme.typography.title3,
+			...theme.typography.body3,
       "& > div": {
         ...theme.typography.h4,
         fontFamily: "Montserrat",
@@ -126,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
       },
 		},
 		[theme.breakpoints.only("xs")]: {
-			...theme.typography.title4,
+			...theme.typography.body4,
       "& > div": {
         ...theme.typography.title1,
         fontFamily: "Montserrat",

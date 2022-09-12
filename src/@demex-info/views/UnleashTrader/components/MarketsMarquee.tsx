@@ -178,6 +178,7 @@ const useStyles = makeStyles((theme) => ({
     "& > div > div": {
       display: "flex",
       alignItems: "center",
+      justifyContent: "space-between",
       boxShadow: "none",
       marginLeft: "2.25rem",
       cursor: "pointer",
@@ -215,6 +216,7 @@ const useStyles = makeStyles((theme) => ({
   changeText: {
     ...theme.typography.body3,
     marginLeft: "0.5rem",
+    color: theme.palette.text.primary,
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body4,
     },
@@ -235,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sparklineBox: {
-    width: "50%",
+    width: "45%",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
