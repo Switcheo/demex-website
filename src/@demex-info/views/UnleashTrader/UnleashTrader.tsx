@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginBottom: "10rem",
     [theme.breakpoints.down("sm")]: {
-			padding: "4.5rem 1rem 0",
       marginTop: 0,
 		},
   },
@@ -43,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1.5rem",
     [theme.breakpoints.down("sm")]: {
 			...theme.typography.h2,
+      padding: "4.5rem 1rem 0",
 		},
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "28px",
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
 			...theme.typography.body2,
+      padding: "0 1rem",
 			marginTop: "0.75rem",
 		},
 		[theme.breakpoints.only("xs")]: {

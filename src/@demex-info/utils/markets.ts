@@ -129,6 +129,12 @@ export function parseMarketStats(marketStats: Models.MarketStats): MarketStatIte
   };
 }
 
+export function isPerpetual(expiryTime?: string | Date): boolean {
+  const zeroDate = new Date("01 Jan 1970");
+  const expiryDate = typeof expiryTime === "string" ? new Date(expiryTime) : expiryTime;
+  return expiryDate?.getTime() === zeroDate.getTime();
+}
+
 export function isExpired(market: MarketListItem): boolean {
   const expiryTime = moment(market.expiryTime);
   return !moment().isBefore(expiryTime);

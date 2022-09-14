@@ -4,7 +4,7 @@ import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, makeStyles, useTheme } from "@material-ui/core";
 import React from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
@@ -18,6 +18,7 @@ interface Props {
 }
 const TokensMarquee: React.FC<Props> = () => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const network = useSelector((store: RootState) => store.app.network);
@@ -28,7 +29,7 @@ const TokensMarquee: React.FC<Props> = () => {
   const { baseMarketList } = React.useMemo((): {
     baseMarketList: BaseDenomMarket[],
   } => {
-    const coinsList: String[] = [];
+    const coinsList: string[] = [];
     const baseMarketList: BaseDenomMarket[] = [];
 
     marketStatsList.forEach((market: MarketStatItem) => {
@@ -64,8 +65,10 @@ const TokensMarquee: React.FC<Props> = () => {
     goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
+  const speed = theme.breakpoints.down("sm") ? 8 : 20;
+
   return (
-    <Marquee className={classes.root} gradient={false} gradientWidth={0} pauseOnHover>
+    <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
       {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
         const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
         return (

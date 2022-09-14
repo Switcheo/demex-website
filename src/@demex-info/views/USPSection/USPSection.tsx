@@ -21,7 +21,7 @@ const USPSection: React.FC = () => {
 				</Box>
 			</Hidden>
 			<Hidden smUp>
-				<Box display="flex" alignItems="end" width="100%" justifyContent="space-between" className={clsx(classes.text, classes.headline)}>
+				<Box display="flex" alignItems="center" width="100%" justifyContent="space-between" className={clsx(classes.text, classes.headline)}>
 					<Box display="flex" alignItems="start" justifyContent="center" flexDirection="column">
 						Powered by
 						<Box className={classes.purpleGradient}>Cosmos SDK</Box>
@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
 		zIndex: 1,
 		marginLeft: "7.5rem",
+		whiteSpace: "nowrap",
 		[theme.breakpoints.down("sm")]: {
 			...theme.typography.h2,
 		},
@@ -130,11 +131,11 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: "625px",
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body2,
-			marginTop: "0.75rem",
+			marginTop: "4px",
 		},
 		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body3,
-			marginTop: "0.75rem",
+			marginTop: "4px",
 			textAlign: "left",
 		},
 	},
@@ -222,6 +223,9 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: 0,
 		[theme.breakpoints.only("xs")]: {
 			right: 0,
+		},
+		"@media (max-width: 319px)": {
+			display: "none",
 		},
 	},
 }));

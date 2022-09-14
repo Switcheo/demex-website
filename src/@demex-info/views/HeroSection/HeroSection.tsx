@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 			top: "-125px",
 			minHeight: "60rem",
 		},
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.down("xs")]: {
 			top: "-200px",
 		},
 	},
@@ -85,15 +85,15 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 		margin: "0 auto",
 		maxWidth: "1590px",
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.only("md")]: {
 			maxWidth: "unset",
 			margin: "-70% ​-100%",
 		},
 		[theme.breakpoints.down("sm")]: {
-			margin: "-65% -80%",
+			margin: "-1rem -3rem",
 		},
 		[theme.breakpoints.only("xs")]: {
-			margin: "-35% -103%",
+			margin: "-1rem -15rem",
 		},
 		"@media (max-width: 319px)": {
 			margin: "-20% -106%",
@@ -112,26 +112,27 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		[theme.breakpoints.only("sm")]: {
-			padding: "0 0.75rem",
+		[theme.breakpoints.down("md")]: {
 			height: "unset",
-			marginTop: "150px",
+			paddingTop: "2.265rem",
+		},
+		[theme.breakpoints.only("sm")]: {
+			padding: "2.265rem 0.75rem 0",
+			height: "unset",
 			marginBottom: "80px",
 		},
 		[theme.breakpoints.only("xs")]: {
-			padding: 0,
+			padding: "2.265rem 0 0",
 			height: "unset",
-			marginTop: "42px",
 			marginBottom: "80px",
 		},
 	},
 	contentContainer: {
-		height: "calc(100vh - 65px)", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
-			marginTop: "90px",
+			marginTop: "65px",
 			height: "unset",
 		},
 		[theme.breakpoints.down("sm")]: {
@@ -185,6 +186,9 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body3,
+		},
+		"@media (max-width: 481px)": {
+			width: "18.5rem",
 		},
 	},
 	button: {

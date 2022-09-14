@@ -13,7 +13,7 @@ import {
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
 import {
-  Backdrop, Box, Button, Grid, makeStyles, Theme,
+  Backdrop, Box, Button, Grid, Hidden, makeStyles, Theme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -223,9 +223,19 @@ const MarketsGrid: React.FC = () => {
       </Grid>
       <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
-          <TypographyLabel className={classes.gridHeader}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
             Markets
-          </TypographyLabel>
+            <Hidden xsDown>
+              <Button
+                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                className={classes.viewAll}
+                variant="text"
+                color="secondary"
+              >
+                View
+              </Button>
+            </Hidden>
+          </Box>
           <Box
             display="flex"
             alignItems="center"
@@ -236,30 +246,31 @@ const MarketsGrid: React.FC = () => {
               <Skeleton className={classes.standardSkeleton} />
             </RenderGuard>
             <RenderGuard renderIf={!statLoading}>
-              <Box display="flex">
+              <Box display="flex" alignItems="baseline" width="100%" justifyContent="space-between">
                 <Box display="flex" alignItems="baseline">
                   <TypographyLabel className={classes.gridContent}>
                     {spotCountUp}
                   </TypographyLabel>
                   &nbsp;
                   <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
-                </Box>
-                <Box display="flex" alignItems="baseline" ml={3}>
-                  <TypographyLabel className={classes.gridContent}>
+                  <TypographyLabel className={classes.gridContent} marginLeft={2}>
                     {futuresCountUp}
                   </TypographyLabel>
                   &nbsp;
                   <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
+                  <TypographyLabel className={clsx(classes.gridSubtitle, "primary")}>and more</TypographyLabel>
                 </Box>
+                <Hidden smUp>
+                  <Button
+                    onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                    className={classes.viewAll}
+                    variant="text"
+                    color="secondary"
+                  >
+                    View
+                  </Button>
+                </Hidden>
               </Box>
-              <Button
-                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-                className={classes.viewAll}
-                variant="text"
-                color="secondary"
-              >
-                View
-              </Button>
             </RenderGuard>
           </Box>
         </Cards>
@@ -271,9 +282,19 @@ const MarketsGrid: React.FC = () => {
             alignItems="center"
             mb={1}
           >
-            <TypographyLabel className={classes.gridHeader}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" className={classes.gridHeader}>
               Liquidity Pools
-            </TypographyLabel>
+              <Hidden xsDown>
+                <Button
+                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  className={classes.viewAll}
+                  variant="text"
+                  color="secondary"
+                >
+                  View
+                </Button>
+              </Hidden>
+            </Box>
           </Box>
           <RenderGuard renderIf={statLoading}>
             <Skeleton className={classes.standardSkeleton} />
@@ -294,14 +315,16 @@ const MarketsGrid: React.FC = () => {
                   </TypographyLabel>
                 </Box>
               </Box>
-              <Button
-                onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
-                className={classes.viewAll}
-                variant="text"
-                color="secondary"
-              >
-                View
-              </Button>
+              <Hidden smUp>
+                <Button
+                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  className={classes.viewAll}
+                  variant="text"
+                  color="secondary"
+                >
+                  View
+                </Button>
+              </Hidden>
             </Box>
           </RenderGuard>
         </Cards>
@@ -493,11 +516,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   viewAll: {
-    padding: theme.spacing(1, 1, 0),
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title2,
-    },
-    [theme.breakpoints.only("xs")]: {
+    padding: 0,
+    ...theme.typography.title2,
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.title3,
     },
   },
@@ -522,6 +543,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
     whiteSpace: "nowrap",
+    "&.primary": {
+      color: theme.palette.text.primary,
+      marginLeft: "1rem",
+    },
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
@@ -536,11 +561,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
     whiteSpace: "nowrap",
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title2,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title3,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.h4,
     },
   },
   marketsCard: {

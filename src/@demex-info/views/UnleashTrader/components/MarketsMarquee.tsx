@@ -2,7 +2,7 @@ import { Cards } from "@demex-info/components/Cards";
 import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
-import { getAdjustedTickLotSize, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
+import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
 import { Box, makeStyles, useTheme } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import { Models, TokenUtils } from "carbon-js-sdk";
@@ -114,27 +114,28 @@ const MarketsMarquee: React.FC<Props> = () => {
   }).sort((cardA: MarketCard, cardB: MarketCard) => {
     const volumeA = cardA.usdVolume;
     const volumeB = cardB.usdVolume;
-    return volumeB.comparedTo(volumeA);
+    return volumeA.comparedTo(volumeB);
   });
 
   const goToMarket = (market: string) => {
     goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
+  const speed = theme.breakpoints.down("sm") ? 8 : 20;
+
   return (
-    <Marquee className={classes.root} gradient={false} gradientWidth={0}  direction="right" pauseOnHover>
+    <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
       {
         filteredCards.map((card: MarketCard) => {
           const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
           return (
-            <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
+            <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
               <Box width="50%">
                 <Box display="flex" className={classes.marketName}>
                   {card.baseSymbol}
-                  {card.stat?.marketType === "futures" 
-                    ? ` - ${card.expiry}`
-                    : <Box>/{card.quoteSymbol}</Box>
-                  }
+                  {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
+                  {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
+                  {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
                 </Box>
                 <Box display="flex" alignItems="baseline" mt={0.25}>
                   <Box className={classes.priceName}>
@@ -173,7 +174,6 @@ const MarketsMarquee: React.FC<Props> = () => {
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.background.base,
-    marginTop: "1.5rem",
     width: "100%",
     "& > div > div": {
       display: "flex",
