@@ -32,11 +32,25 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.5rem",
     alignItems: "center",
     marginBottom: "10rem",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 0,
+		},
   },
   mainHeader: {
     ...theme.typography.h1,
     color: theme.palette.text.primary,
     marginBottom: "1.5rem",
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.h2,
+      padding: "4.5rem 1rem 0",
+		},
+		[theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
+      maxWidth: "calc(100% - 2rem)",
+			margin: "0 auto",
+      textAlign: "center",
+		},
   },
   subtextBox: {
     maxWidth: "67rem",
@@ -46,6 +60,14 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.body1,
     color: theme.palette.text.secondary,
     textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.body2,
+      padding: "0 1rem",
+			marginTop: "0.75rem",
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.body3,
+		},
   },
 }));
 

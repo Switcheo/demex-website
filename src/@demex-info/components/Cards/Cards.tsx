@@ -23,9 +23,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     boxSizing: "border-box",
     backgroundColor: theme.palette.background.primary,
-    color: theme.palette.text.primary,
-    minWidth: "312px",
-    minHeight: "106px",
+    minWidth: "264px",
+    minHeight: "68px",
     boxShadow: StyleUtils.boxShadow(theme),
     borderRadius: "4px",
     padding: "1rem 1.5rem",

@@ -1,10 +1,8 @@
+import { BackgroundAnimation } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-
-import { BackgroundAnimation } from "./components";
 import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
@@ -19,7 +17,7 @@ const HeroSection: React.FC = () => {
 		<Box component="section" className={clsx(classes.root)}>
 			{
 				ready && (
-					<BackgroundAnimation />
+					<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
 				)
 			}
 			<Container maxWidth={false} className={classes.contentContainer}>
@@ -66,38 +64,79 @@ const useStyles = makeStyles((theme) => ({
 			minHeight: "400px",
 		},
 	},
+	position: {
+		position: "absolute",
+		left: 0,
+		width: "100%",
+		[theme.breakpoints.up("lg")]: {
+			top: "-288px",
+			height: "calc(100vh + 40rem)",
+		},
+		[theme.breakpoints.down("md")]: {
+			overflowX: "hidden",
+			top: "-125px",
+			minHeight: "60rem",
+		},
+		[theme.breakpoints.down("xs")]: {
+			top: "-200px",
+		},
+	},
+	container: {
+		position: "relative",
+		margin: "0 auto",
+		maxWidth: "1590px",
+		[theme.breakpoints.only("md")]: {
+			maxWidth: "unset",
+			margin: "-70% ​-100%",
+		},
+		[theme.breakpoints.down("sm")]: {
+			margin: "-1rem -3rem",
+		},
+		[theme.breakpoints.only("xs")]: {
+			margin: "-1rem -15rem",
+		},
+		"@media (max-width: 319px)": {
+			margin: "-20% -106%",
+		},
+	},
+	padding: {
+		height: "56.25%",
+		[theme.breakpoints.down("md")]: {
+			height: "25%",
+		},
+	},
 	content: {
-		fontSize: "16px",
 		display: "flex",
 		maxHeight: "800px",
 		height: "calc(100vh - 400px)",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		[theme.breakpoints.down("lg")]: {
-			fontSize: "15px",
-		},
 		[theme.breakpoints.down("md")]: {
-			fontSize: "10px",
-			height: "360px",
+			height: "unset",
+			paddingTop: "2.265rem",
 		},
-		[theme.breakpoints.down("sm")]: {
-			fontSize: "10px",
+		[theme.breakpoints.only("sm")]: {
+			padding: "2.265rem 0.75rem 0",
+			height: "unset",
+			marginBottom: "80px",
 		},
-		"@media (max-width: 319px)": {
-			height: "400px",
+		[theme.breakpoints.only("xs")]: {
+			padding: "2.265rem 0 0",
+			height: "unset",
+			marginBottom: "80px",
 		},
 	},
 	contentContainer: {
-		height: "calc(100vh - 65px)", // height of topbar
 		marginTop: "120px",
 		position: "relative",
 		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
-			marginTop: "70px",
+			marginTop: "65px",
+			height: "unset",
 		},
 		[theme.breakpoints.down("sm")]: {
-			minHeight: "48px",
+			padding: "0 0.75rem",
 		},
 	},
 	text: {
@@ -112,8 +151,11 @@ const useStyles = makeStyles((theme) => ({
 			textDecoration: "underline",
 			color: theme.palette.text.primary,
 		},
+		[theme.breakpoints.only("sm")]: {
+			...theme.typography.body3,
+		},
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "1.4em",
+			...theme.typography.body4,
 		},
 	},
 	headline: {
@@ -122,42 +164,44 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "72px",
 		marginTop: "1.75rem",
 		color: theme.palette.text.primary,
-		"& > div": {
-			background: StyleUtils.purpleGradient,
-			backgroundClip: "text",
-			WebkitTextFillColor: "transparent",
-			WebkitBackgroundClip: "text",
-		},
-    "@media (min-width: 1280px) and (max-width: 1500px)": {
+		[theme.breakpoints.only("md")]: {
 			fontSize: "56px",
 			lineHeight: "56px",
 		},
 		[theme.breakpoints.only("sm")]: {
-			fontSize: "3em",
+			fontSize: "40px",
+			lineHeight: "40px",
 		},
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "2.6em",
+			fontSize: "28px",
+			lineHeight: "28px",
 		},
 	},
 	description: {
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
+		[theme.breakpoints.only("sm")]: {
+			...theme.typography.body2,
+		},
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "1.3em",
-			marginTop: "2em",
+			...theme.typography.body3,
+		},
+		"@media (max-width: 481px)": {
+			width: "18.5rem",
 		},
 	},
 	button: {
 		marginTop: "1.75rem",
 		minWidth: "16rem",
 		minHeight: "4rem",
-		[theme.breakpoints.down("sm")]: {
-			marginTop: "2em",
+		[theme.breakpoints.down("md")]: {
+			minWidth: "10.125rem",
+			minHeight: "2.5rem",
 		},
 		"& .MuiButton-label": {
-			[theme.breakpoints.down("sm")]: {
-				fontSize: ".75rem",
+			[theme.breakpoints.down("md")]: {
+				...theme.typography.title3,
 			},
 		},
 	},

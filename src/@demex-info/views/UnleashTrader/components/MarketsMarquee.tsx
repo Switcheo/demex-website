@@ -2,7 +2,7 @@ import { Cards } from "@demex-info/components/Cards";
 import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
-import { getAdjustedTickLotSize, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
+import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
 import { Box, makeStyles, useTheme } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import { Models, TokenUtils } from "carbon-js-sdk";
@@ -114,27 +114,28 @@ const MarketsMarquee: React.FC<Props> = () => {
   }).sort((cardA: MarketCard, cardB: MarketCard) => {
     const volumeA = cardA.usdVolume;
     const volumeB = cardB.usdVolume;
-    return volumeB.comparedTo(volumeA);
+    return volumeA.comparedTo(volumeB);
   });
 
   const goToMarket = (market: string) => {
     goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
+  const speed = theme.breakpoints.down("sm") ? 8 : 20;
+
   return (
-    <Marquee className={classes.root} gradient={false} gradientWidth={0}  direction="right" pauseOnHover>
+    <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
       {
         filteredCards.map((card: MarketCard) => {
           const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
           return (
-            <Cards key={`${card.baseSymbol}/${card.quoteSymbol}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
+            <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
               <Box width="50%">
                 <Box display="flex" className={classes.marketName}>
                   {card.baseSymbol}
-                  {card.stat?.marketType === "futures" 
-                    ? ` - ${card.expiry}`
-                    : <Box>/{card.quoteSymbol}</Box>
-                  }
+                  {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
+                  {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
+                  {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
                 </Box>
                 <Box display="flex" alignItems="baseline" mt={0.25}>
                   <Box className={classes.priceName}>
@@ -173,14 +174,19 @@ const MarketsMarquee: React.FC<Props> = () => {
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.background.base,
-    marginTop: "1.5rem",
     width: "100%",
     "& > div > div": {
       display: "flex",
       alignItems: "center",
+      justifyContent: "space-between",
       boxShadow: "none",
       marginLeft: "2.25rem",
       cursor: "pointer",
+    },
+    [theme.breakpoints.down("sm")]: {
+      "& > div > div": {
+        marginLeft: "0.75rem",
+      },
     },
   },
   marketName: {
@@ -190,13 +196,30 @@ const useStyles = makeStyles((theme) => ({
     "& > div" : {
       color: theme.palette.text.secondary,
     },
+    [theme.breakpoints.only("sm")]: {
+			...theme.typography.title3,
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.title4,
+		},
   },
   priceName: {
     ...theme.typography.h4,
+    color: theme.palette.text.primary,
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title1,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title2,
+    },
   },
   changeText: {
     ...theme.typography.body3,
     marginLeft: "0.5rem",
+    color: theme.palette.text.primary,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body4,
+    },
   },
   positive: {
     color: theme.palette.success.main,
@@ -209,14 +232,26 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     whiteSpace: "nowrap",
     marginTop: "0.25rem",
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body4,
+    },
   },
   sparklineBox: {
-    width: "50%",
+    width: "45%",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
+  marketsCard: {
+    [theme.breakpoints.down("sm")]: {
+      padding: "0.75rem 1rem",
+    },
   },
 }));
 

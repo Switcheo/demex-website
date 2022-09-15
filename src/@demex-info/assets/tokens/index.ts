@@ -59,6 +59,8 @@ export { ReactComponent as EOS } from "./EOS.svg";
 export { ReactComponent as EPS } from "./EPS.svg";
 export { ReactComponent as ETC } from "./ETC.svg";
 export { ReactComponent as ETH } from "./ETH.svg";
+export { ReactComponent as EUROC } from "./EUROC.svg";
+export { ReactComponent as EVMOS } from "./EVMOS.svg";
 export { ReactComponent as EWT } from "./EWT.svg";
 export { ReactComponent as FEES } from "./FEES.svg";
 export { ReactComponent as FET } from "./FET.svg";

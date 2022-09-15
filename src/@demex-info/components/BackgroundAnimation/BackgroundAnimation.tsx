@@ -15,16 +15,23 @@ const getLottieConfig = (animationData: any, className: string) => {
 	};
 };
 
-const BackgroundAnimation: React.FC = () => {
+interface Props {
+	positionClass: string
+	containerClass: string
+	paddingClass: string
+}
+
+const BackgroundAnimation: React.FC<Props> = (props: Props) => {
+	const { positionClass, containerClass, paddingClass } = props;
 	const classes = useStyles();
 
 	const allAnimation = useMemo(() => getLottieConfig(DemexV2Animation, clsx(classes.generic)), [classes]);
 
 	return (
 		<Container className={classes.root} maxWidth="xl">
-			<Box className={classes.position}>
-				<Box className={classes.container}>
-					<Box className={classes.padding} />
+			<Box className={positionClass}>
+				<Box className={containerClass}>
+					<Box className={paddingClass} />
 					<Lottie { ...allAnimation} />
 				</Box>
 			</Box>
@@ -32,36 +39,15 @@ const BackgroundAnimation: React.FC = () => {
 	);
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	root: {
 		position: "relative",
-	},
-	position: {
-		overflow: "hidden",
-		position: "absolute",
-		top: 0,
-		left: 0,
-		width: "100%",
-		[theme.breakpoints.up("lg")]: {
-			height: "calc(100vh + 40rem)",
-		},
-		[theme.breakpoints.only("md")]: {
-			minHeight: "40rem",
-		},
-		[theme.breakpoints.down("sm")]: {
-			minHeight: "30rem",
-		},
-	},
-	container: {
-		position: "relative",
-	},
-	padding: {
-		paddingTop: "56.25%",
 	},
 	generic: {
 		position: "absolute",
 		top: 0,
 		left: 0,
+		height: "unset !important",
 	},
 }));
 

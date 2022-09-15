@@ -13,7 +13,7 @@ import {
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
 import {
-  Backdrop, Box, Button, makeStyles, Theme, Typography,
+  Backdrop, Box, Button, Grid, Hidden, makeStyles, Theme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -199,182 +199,213 @@ const MarketsGrid: React.FC = () => {
   const poolsCountUp = useRollingNum(pools.length, 0, 2);
 
   return (
-    <Box className={classes.innerDiv}>
-      <Cards className={classes.gridPaper}>
-        <Box
-          display="flex"
-          alignItems="center"
-          mb={1}
-        >
-          <Typography className={classes.gridHeader}>
-            Volume (24H)
-          </Typography>
-        </Box>
-        <RenderGuard renderIf={statLoading}>
-          <Skeleton className={classes.standardSkeleton} />
-        </RenderGuard>
-        <RenderGuard renderIf={!statLoading}>
-          <TypographyLabel className={classes.gridContent}>
-            ${volumeCountUp}
-          </TypographyLabel>
-        </RenderGuard>
-      </Cards>
-      <Cards className={classes.gridPaper}>
-        <TypographyLabel className={classes.gridHeader}>
-          Markets
-        </TypographyLabel>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          mt={1}
-        >
+    <Grid container spacing={4} className={classes.innerDiv}>
+      <Grid item xs={12} sm={6} lg={3}>
+        <Cards className={classes.marketsCard}>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={1}
+          >
+            <TypographyLabel className={classes.gridHeader}>
+              Volume (24H)
+            </TypographyLabel>
+          </Box>
           <RenderGuard renderIf={statLoading}>
             <Skeleton className={classes.standardSkeleton} />
           </RenderGuard>
           <RenderGuard renderIf={!statLoading}>
-            <Box display="flex">
-              <Box display="flex" alignItems="baseline">
-                <TypographyLabel className={classes.gridContent}>
-                  {spotCountUp}
-                </TypographyLabel>
-                &nbsp;
-                <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
-              </Box>
-              <Box display="flex" alignItems="baseline" ml={3}>
-                <TypographyLabel className={classes.gridContent}>
-                  {futuresCountUp}
-                </TypographyLabel>
-                &nbsp;
-                <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
-              </Box>
-            </Box>
-            <Button
-              onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-              className={classes.viewAll}
-              variant="text"
-              color="secondary"
-            >
-              View
-            </Button>
-          </RenderGuard>
-        </Box>
-      </Cards>
-      <Cards className={classes.gridPaper}>
-        <Box
-          display="flex"
-          alignItems="center"
-          mb={1}
-        >
-          <Typography className={classes.gridHeader}>
-            Liquidity Pools
-          </Typography>
-        </Box>
-        <RenderGuard renderIf={statLoading}>
-          <Skeleton className={classes.standardSkeleton} />
-        </RenderGuard>
-        <RenderGuard renderIf={!statLoading}>
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex" alignItems="baseline">
-              <Box display="flex" alignItems="baseline">
-                <TypographyLabel className={classes.gridContent}>
-                  {poolsCountUp}
-                </TypographyLabel>
-              </Box>
-              <Box display="flex" alignItems="baseline" ml={1}>
-                <TypographyLabel className={clsx(classes.gridSubtitle, "pools")}>Up to</TypographyLabel>
-                &nbsp;
-                <TypographyLabel className={classes.yellowGradientText}>
-                  {`${maxAPR.decimalPlaces(1, 1).toString(10)}% APR`}
-                </TypographyLabel>
-              </Box>
-            </Box>
-            <Button
-              onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
-              className={classes.viewAll}
-              variant="text"
-              color="secondary"
-            >
-              View
-            </Button>
-          </Box>
-        </RenderGuard>
-      </Cards>
-      <Cards className={classes.gridPaper}>
-        {
-          <React.Fragment>
-            <TypographyLabel className={classes.gridHeader}>
-              Tokens
+            <TypographyLabel className={classes.gridContent}>
+              ${volumeCountUp}
             </TypographyLabel>
-            <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
-              <RenderGuard renderIf={statLoading}>
-                <Skeleton className={classes.numSkeleton} />
-              </RenderGuard>
-              <RenderGuard renderIf={!statLoading}>
-                <TypographyLabel className={classes.gridContent}>
-                  {coinsCountUp}
-                </TypographyLabel>
-              </RenderGuard>
-              <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
-                <Box position="relative">
-                  <Box
-                    className={classes.labelBox}
-                    display="flex"
-                    alignItems="center"
-                    onMouseEnter={handleOpen}
-                    onFocus={handleOpen}
+          </RenderGuard>
+        </Cards>
+      </Grid>
+      <Grid item xs={12} sm={6} lg={3}>
+        <Cards className={classes.marketsCard}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
+            Markets
+            <Hidden xsDown>
+              <Button
+                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                className={classes.viewAll}
+                variant="text"
+                color="secondary"
+              >
+                View
+              </Button>
+            </Hidden>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={1}
+          >
+            <RenderGuard renderIf={statLoading}>
+              <Skeleton className={classes.standardSkeleton} />
+            </RenderGuard>
+            <RenderGuard renderIf={!statLoading}>
+              <Box display="flex" alignItems="baseline" width="100%" justifyContent="space-between">
+                <Box display="flex" alignItems="baseline">
+                  <TypographyLabel className={classes.gridContent}>
+                    {spotCountUp}
+                  </TypographyLabel>
+                  &nbsp;
+                  <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
+                  <TypographyLabel className={classes.gridContent} marginLeft={2}>
+                    {futuresCountUp}
+                  </TypographyLabel>
+                  &nbsp;
+                  <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
+                  <TypographyLabel className={clsx(classes.gridSubtitle, "primary")}>and more</TypographyLabel>
+                </Box>
+                <Hidden smUp>
+                  <Button
+                    onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
+                    className={classes.viewAll}
+                    variant="text"
+                    color="secondary"
                   >
-                    {coinsList.map((coin: string, index: number) => {
-                      if (index <= 3) {
-                        const coinName = sdk?.token.getTokenName(coin) ?? "";
-                        return (
-                          <CoinIcon
-                            className={clsx(classes.coinIcon, `coin-${index}`)}
-                            key={coin}
-                            denom={coinName.toLowerCase()}
-                          />
-                        );
-                      }
-                      return null;
-                    })}
-                    {
-                      coinsList.length > 4 && (
-                        <Box>
-                          <Typography
-                            className={classes.plusLabel}
-                          >
-                            +{coinsList.length - 4}
-                          </Typography>
-                        </Box>
-                      )
-                    }
-                  </Box>
-                  <Box className={classes.dropdownContainer}>
-                    {
-                      openTokens && (
-                        <TokenPopover tokens={coinsList} />
-                      )
-                    }
-                  </Box>
-                </Box>
-              </RenderGuard>
-              <RenderGuard renderIf={statLoading}>
-                <Box alignItems="center" display="flex" justifyContent="center">
-                  <Skeleton className={classes.coinSkeleton} />
-                </Box>
-              </RenderGuard>
+                    View
+                  </Button>
+                </Hidden>
+              </Box>
+            </RenderGuard>
+          </Box>
+        </Cards>
+      </Grid>
+      <Grid item xs={12} sm={6} lg={3}>
+        <Cards className={classes.marketsCard}>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={1}
+          >
+            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" className={classes.gridHeader}>
+              Liquidity Pools
+              <Hidden xsDown>
+                <Button
+                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  className={classes.viewAll}
+                  variant="text"
+                  color="secondary"
+                >
+                  View
+                </Button>
+              </Hidden>
             </Box>
-            <Backdrop
-              className={classes.backdrop}
-              open={openTokens}
-              invisible
-              onClick={handleClose}
-              onMouseEnter={handleClose}
-            />
-          </React.Fragment>
-        }
-      </Cards>
-    </Box>
+          </Box>
+          <RenderGuard renderIf={statLoading}>
+            <Skeleton className={classes.standardSkeleton} />
+          </RenderGuard>
+          <RenderGuard renderIf={!statLoading}>
+            <Box display="flex" justifyContent="space-between">
+              <Box display="flex" alignItems="baseline">
+                <Box display="flex" alignItems="baseline">
+                  <TypographyLabel className={classes.gridContent}>
+                    {poolsCountUp}
+                  </TypographyLabel>
+                </Box>
+                <Box display="flex" alignItems="baseline" ml={1}>
+                  <TypographyLabel className={clsx(classes.gridSubtitle, "pools")}>Up to</TypographyLabel>
+                  &nbsp;
+                  <TypographyLabel className={classes.yellowGradientText}>
+                    {`${maxAPR.decimalPlaces(1, 1).toString(10)}% APR`}
+                  </TypographyLabel>
+                </Box>
+              </Box>
+              <Hidden smUp>
+                <Button
+                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  className={classes.viewAll}
+                  variant="text"
+                  color="secondary"
+                >
+                  View
+                </Button>
+              </Hidden>
+            </Box>
+          </RenderGuard>
+        </Cards>
+      </Grid>
+      <Grid item xs={12} sm={6} lg={3}>
+        <Cards className={classes.marketsCard}>
+          {
+            <React.Fragment>
+              <TypographyLabel className={classes.gridHeader}>
+                Tokens
+              </TypographyLabel>
+              <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
+                <RenderGuard renderIf={statLoading}>
+                  <Skeleton className={classes.numSkeleton} />
+                </RenderGuard>
+                <RenderGuard renderIf={!statLoading}>
+                  <TypographyLabel className={classes.gridContent}>
+                    {coinsCountUp}
+                  </TypographyLabel>
+                </RenderGuard>
+                <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
+                  <Box position="relative">
+                    <Box
+                      className={classes.labelBox}
+                      display="flex"
+                      alignItems="center"
+                      onMouseEnter={handleOpen}
+                      onFocus={handleOpen}
+                    >
+                      {coinsList.map((coin: string, index: number) => {
+                        if (index <= 3) {
+                          const coinName = sdk?.token.getTokenName(coin) ?? "";
+                          return (
+                            <CoinIcon
+                              className={clsx(classes.coinIcon, `coin-${index}`)}
+                              key={coin}
+                              denom={coinName.toLowerCase()}
+                            />
+                          );
+                        }
+                        return null;
+                      })}
+                      {
+                        coinsList.length > 4 && (
+                          <Box>
+                            <TypographyLabel
+                              className={classes.plusLabel}
+                            >
+                              +{coinsList.length - 4}
+                            </TypographyLabel>
+                          </Box>
+                        )
+                      }
+                    </Box>
+                    <Box className={classes.dropdownContainer}>
+                      {
+                        openTokens && (
+                          <TokenPopover tokens={coinsList} />
+                        )
+                      }
+                    </Box>
+                  </Box>
+                </RenderGuard>
+                <RenderGuard renderIf={statLoading}>
+                  <Box alignItems="center" display="flex" justifyContent="center">
+                    <Skeleton className={classes.coinSkeleton} />
+                  </Box>
+                </RenderGuard>
+              </Box>
+              <Backdrop
+                className={classes.backdrop}
+                open={openTokens}
+                invisible
+                onClick={handleClose}
+                onMouseEnter={handleClose}
+              />
+            </React.Fragment>
+          }
+        </Cards>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -439,52 +470,28 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "11rem",
     },
   },
-  gridPaper: {
-    minWidth: "unset",
-    maxWidth: "25%",
-    width: "100%",
-    backgroundColor: theme.palette.background.primary,
-    padding: theme.spacing(2.25, 2.5),
-    marginLeft: theme.spacing(4),
-    "&:first-child": {
-      marginLeft: 0,
-    },
-    "@media (min-width: 1280px) and (max-width: 1500px)": {
-      marginLeft: theme.spacing(2),
-      "&:first-child": {
-        marginLeft: 0,
-      },
-		},
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: theme.spacing(2),
-      maxWidth: "100%",
-      width: "unset",
-    },
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(2, 2.5),
-      "& h4": {
-        fontSize: "1.625rem",
-      },
-      "& h6": {
-        fontSize: "0.75rem",
-      },
-    },
-  },
   innerDiv: {
     display: "flex",
     marginTop: "8.25rem",
     position: "relative",
     margin: theme.spacing(0, "auto"),
-    maxWidth: "1344px",
-    justifyContent: "space-between",
-    [theme.breakpoints.between("sm", "md")]: {
-      padding: theme.spacing(0, 5),
+    width: "100%",
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "1344px",
+      "& > .MuiGrid-item:first-child": {
+        paddingLeft: 0,
+      },
+      "& > .MuiGrid-item:last-child": {
+        paddingRight: 0,
+      },
     },
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 4),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 0,
     },
-    "@media (max-width: 360px)": {
-      padding: theme.spacing(0, 2.5),
+    [theme.breakpoints.down("xs")]: {
+      "& > .MuiGrid-item": {
+        padding: "0.375rem 0",
+      },
     },
   },
   labelBox: {
@@ -501,25 +508,51 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.title2,
     color: theme.palette.text.secondary,
     marginLeft: theme.spacing(0.75),
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.title3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title4,
+    },
   },
   viewAll: {
-    padding: theme.spacing(1, 1, 0),
-    [theme.breakpoints.only("xs")]: {
-      fontSize: "0.875rem",
+    padding: 0,
+    ...theme.typography.title2,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.title3,
     },
   },
   gridHeader: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
+    },
   },
   gridContent: {
     ...theme.typography.h2,
     color: theme.palette.text.primary,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.h3,
+    },
   },
   gridSubtitle: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
     whiteSpace: "nowrap",
+    "&.primary": {
+      color: theme.palette.text.primary,
+      marginLeft: "1rem",
+    },
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
+    },
   },
   yellowGradientText: {
     ...theme.typography.title1,
@@ -528,6 +561,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
     whiteSpace: "nowrap",
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.h4,
+    },
+  },
+  marketsCard: {
+    [theme.breakpoints.down("sm")]: {
+      padding: "1rem",
+      minHeight: "2.75rem",
+      minWidth: "unset",
+    },
   },
 }));
 
