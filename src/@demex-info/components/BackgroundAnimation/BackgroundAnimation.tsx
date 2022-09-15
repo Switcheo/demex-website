@@ -1,6 +1,5 @@
 import { DemexV2Animation } from "@demex-info/assets";
 import { Box, Container, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
 import Lottie from "lottie-react";
 import React, { useMemo } from "react";
 

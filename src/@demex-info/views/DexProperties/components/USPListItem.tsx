@@ -1,24 +1,33 @@
 import { SvgIcon, TypographyLabel } from "@demex-info/components";
-import { Box, BoxProps, makeStyles } from "@material-ui/core";
+import { Box, BoxProps, Hidden, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
 import React from "react";
 
 interface Props extends BoxProps {
   icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
-  header: String,
+  header: string,
+  iconClass?: string,
 }
 const USPListItem: React.FC<Props> = (props: Props) => {
-  const { icon, header, children } = props;
+  const { icon, header, iconClass, children } = props;
   const classes = useStyles();
 
   return (
     <Box className={classes.root}>
       <Box className={classes.iconWrapper}>
-        <SvgIcon className={classes.svgIcon} component={icon} />
+        <SvgIcon className={clsx(iconClass, classes.svgIcon)} component={icon} />
+        <Hidden lgUp>
+          <TypographyLabel className={classes.header}>
+            {header}
+          </TypographyLabel>
+        </Hidden>
       </Box>
       <Box className={classes.textWrapper}>
-        <TypographyLabel className={classes.header}>
-          {header}
-        </TypographyLabel>
+        <Hidden mdDown>
+          <TypographyLabel className={classes.header}>
+            {header}
+          </TypographyLabel>
+        </Hidden>
         {children}
       </Box>
     </Box>
@@ -32,10 +41,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     width: "51rem",
     marginTop: "1.5rem",
-    "&: first-child":{
-      marginTop: "3.5rem",
-    },
     [theme.breakpoints.down("md")]: {
+      marginTop: "1rem",
+      flexDirection: "column",
+      width: "50%",
+      justifyContent: "center",
+      alignItems: "center",
+      "&:last-child": {
+        width: "100%",
+      },
+    },
+    [theme.breakpoints.only("xs")]: {
       marginTop: "1rem",
       flexDirection: "column",
       width: "100%",
@@ -47,7 +63,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "321px",
+    flexDirection: "column",
+    [theme.breakpoints.down("md")]: {
+      height: "10rem",
+    },
   },
   svgIcon: {
     maxWidth: "321px",
@@ -62,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     [theme.breakpoints.down("md")]: {
       marginBottom: "1rem",
+      ...theme.typography.h3,
     },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.title1,
@@ -76,10 +96,15 @@ const useStyles = makeStyles((theme) => ({
     "& > div:last-child": {
       width: "450px",
       [theme.breakpoints.down("md")]: {
+        width: "50%",
+        margin: "0 auto",
+      },
+      [theme.breakpoints.only("xs")]: {
         width: "unset",
       },
     },
     [theme.breakpoints.down("md")]: {
+      ...theme.typography.body2,
       width: "100%",
       textAlign: "center",
       margin: "0 auto",
