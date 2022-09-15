@@ -35,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
     "&: first-child":{
       marginTop: "3.5rem",
     },
+    [theme.breakpoints.down("md")]: {
+      marginTop: "1rem",
+      flexDirection: "column",
+      width: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+    },
   },
   iconWrapper: {
     display: "flex",
@@ -44,12 +51,21 @@ const useStyles = makeStyles((theme) => ({
   },
   svgIcon: {
     maxWidth: "321px",
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "200px",
+    },
   },
   header: {
     ...theme.typography.h2,
     color:theme.palette.text.primary,
     marginBottom: "1.5rem",
     whiteSpace: "nowrap",
+    [theme.breakpoints.down("md")]: {
+      marginBottom: "1rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.title1,
+    },
   },
   textWrapper: {
     ...theme.typography.body1,
@@ -59,6 +75,16 @@ const useStyles = makeStyles((theme) => ({
     width: "550px",
     "& > div:last-child": {
       width: "450px",
+      [theme.breakpoints.down("md")]: {
+        width: "unset",
+      },
+    },
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      textAlign: "center",
+      margin: "0 auto",
+      left: "unset",
+      position: "unset",
     },
   },
 }));

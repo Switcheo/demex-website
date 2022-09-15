@@ -1,9 +1,11 @@
-import { SvgIcon, TypographyLabel } from "@demex-info/components";
-import { Box, makeStyles } from "@material-ui/core";
-// import clsx from "clsx"
+import { BackgroundAnimation, SvgIcon, TypographyLabel } from "@demex-info/components";
+import { Box, Hidden, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
 import React from "react";
 import { BackgroundAnimation } from "../HeroSection/components";
 import { Decentralised, Gateway, Graphic, Liquidity, Performance, Trade } from "./assets";
+import SwirlBottom from "./assets/SwirlBottom.svg";
+import SwirlTop from "./assets/SwirlTop.svg";
 import { USPListItem } from "./components";
 
 const DexBuiltRight: React.FC = () => {
@@ -11,13 +13,15 @@ const DexBuiltRight: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.graphics}>
-        <SvgIcon className={classes.svgIcon} component={Graphic} />
-        <BackgroundAnimation />
+      <Hidden mdDown>
+        <Box className={classes.graphics}>
+          <SvgIcon className={classes.svgIcon} component={Graphic} />
+          <BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
+        </Box>
+      </Hidden>
+      <Box className={classes.mainHeader}>
+        <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>A DEX Built Right</TypographyLabel>
       </Box>
-      <TypographyLabel className={classes.mainHeader}>
-        A DEX Built Right
-      </TypographyLabel>
       <Box className={classes.uspList}>
         <USPListItem icon={Decentralised} header="Truly Decentralized">
           <Box className={classes.description}>
@@ -45,7 +49,7 @@ const DexBuiltRight: React.FC = () => {
           </Box>
         </USPListItem>
         <USPListItem icon={Liquidity} header="Liquidity/Interchain Gateway">
-          <Box className={classes.description}>
+          <Box className={clsx(classes.swirlBottom, classes.description)}>
             <b>Access cross-chain markets and liquidity pools</b>&nbsp;
             and a variety of blockchains like Ethereum, BSC, Ziliqa, Neo3, Cosmos, Osmosis, Juno, Terra. Unlock liquidity rewards.&nbsp;
             <b>In-built bridge, with access to native tokens.</b>
@@ -61,19 +65,56 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     paddingLeft: "3.5rem",
     paddingBottom: "10rem",
+    paddingTop: "10rem",
+    [theme.breakpoints.down("md")]: {
+      padding: 0,
+    },
   },
   mainHeader: {
+    [theme.breakpoints.down("md")]: {
+      height: "310px",
+      background: `url(${SwirlTop}) no-repeat top right`,
+    },
+  },
+  typoContainer: {
+    [theme.breakpoints.down("md")]: {
+      height: "100%",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  },
+  typography: {
     ...theme.typography.h1,
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.h2,
+      whiteSpace: "nowrap",
+      textAlign: "center",
+    },
   },
   description: {
     color: theme.palette.text.secondary,
     "& > b": {
 			color: theme.palette.text.primary,
 		},
+    [theme.breakpoints.down("md")]: {
+      padding: "0rem 1.5rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
+      padding: "0rem 1rem",
+    },
   },
   uspList: {
     "&: nth-child(5)": {
       marginLeft: "-32px",
+    },
+    [theme.breakpoints.down("md")]: {
+      top: "-120px",
+      "&: nth-child(5)": {
+        marginLeft: 0,
+      },
     },
   },
   graphics: {
@@ -90,6 +131,32 @@ const useStyles = makeStyles((theme) => ({
       width: "80%",
       left: "15rem",
 		},
+  },
+  // background animation:
+	position: {
+		position: "absolute",
+		top: "-250px",
+		left: 0,
+		width: "100%",
+	},
+	container: {
+		position: "relative",
+		margin: "0 auto",
+		maxWidth: "1480px",
+	},
+	padding: {
+		paddingTop: 0,
+	},
+  swirlTop: {
+    width: "10rem",
+    float: "right",
+    marginRight: "-2rem",
+  },
+  swirlBottom: {
+    [theme.breakpoints.down("md")]: {
+      height: "310px",
+      background: `url(${SwirlBottom}) no-repeat bottom left`,
+    },
   },
 }));
 
