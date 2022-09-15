@@ -1,1 +1,1 @@
-export { default as PropertyBox } from "./PropertyBox";
+export { default as USPListItem } from "./USPListItem";

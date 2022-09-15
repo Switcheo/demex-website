@@ -1,6 +1,5 @@
 import { DemexV2Animation } from "@demex-info/assets";
 import { Box, Container, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
 import Lottie from "lottie-react";
 import React, { useMemo } from "react";
 
@@ -25,7 +24,7 @@ const BackgroundAnimation: React.FC<Props> = (props: Props) => {
 	const { positionClass, containerClass, paddingClass } = props;
 	const classes = useStyles();
 
-	const allAnimation = useMemo(() => getLottieConfig(DemexV2Animation, clsx(classes.generic)), [classes]);
+	const allAnimation = useMemo(() => getLottieConfig(DemexV2Animation, classes.generic), [classes]);
 
 	return (
 		<Container className={classes.root} maxWidth="xl">
