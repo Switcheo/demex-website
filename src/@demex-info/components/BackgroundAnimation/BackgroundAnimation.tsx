@@ -25,7 +25,7 @@ const BackgroundAnimation: React.FC<Props> = (props: Props) => {
 	const { positionClass, containerClass, paddingClass } = props;
 	const classes = useStyles();
 
-	const allAnimation = useMemo(() => getLottieConfig(DemexV2Animation, clsx(classes.generic)), [classes]);
+	const allAnimation = useMemo(() => getLottieConfig(DemexV2Animation, classes.generic), [classes]);
 
 	return (
 		<Container className={classes.root} maxWidth="xl">
