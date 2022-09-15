@@ -21,11 +21,6 @@ const MiddleBlackSection = lazy(() => import("@demex-info/views/MiddleBlackSecti
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
 const JustGettingStarted = lazy(() => import("@demex-info/views/JustGettingStarted/JustGettingStarted"));
 const ReadyToTrade = lazy(() => import("@demex-info/views/ReadyToTrade/ReadyToTrade"));
-<<<<<<< Updated upstream
-=======
-const DexBuiltRight = lazy(() => import("@demex-info/views/DexBuiltRight/DexBuiltRight"));
-const CarbonSecured = lazy(() => import("@demex-info/views/CarbonSecured/CarbonSecured"));
->>>>>>> Stashed changes
 const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
 render(
@@ -36,11 +31,6 @@ render(
         <USPSection />
         <UnleashTrader />
         <Suspense fallback={null}>
-<<<<<<< Updated upstream
-=======
-          <DexBuiltRight />
-          <CarbonSecured />
->>>>>>> Stashed changes
           <DexProperties />
           <PoweredBySwitcheo />
           <MiddleBlackSection />

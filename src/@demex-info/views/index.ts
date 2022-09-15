@@ -1,4 +1,3 @@
-export * from "./CarbonSecured";
 export * from "./DexProperties";
 export * from "./ExchangeComparison";
 export * from "./HeroSection";
