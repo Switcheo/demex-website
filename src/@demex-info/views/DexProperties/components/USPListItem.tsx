@@ -40,15 +40,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "51rem",
-    marginTop: "1.5rem",
+    height: "15.5rem",
     [theme.breakpoints.down("md")]: {
       marginTop: "1rem",
       flexDirection: "column",
       width: "50%",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
       "&:last-child": {
-        width: "100%",
+        width: "100vw",
       },
     },
     [theme.breakpoints.only("xs")]: {
@@ -101,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
       },
       [theme.breakpoints.only("xs")]: {
         width: "unset",
+        maxWidth: "20rem",
       },
     },
     [theme.breakpoints.down("md")]: {

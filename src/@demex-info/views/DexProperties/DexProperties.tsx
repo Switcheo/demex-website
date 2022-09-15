@@ -1,5 +1,6 @@
 import { BackgroundAnimation, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { Box, Hidden, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
 import React from "react";
 import { Decentralised, Gateway, Graphic, Liquidity, Performance, Trade } from "./assets";
 import SwirlBottom from "./assets/SwirlBottom.svg";
@@ -48,7 +49,7 @@ const DexProperties: React.FC = () => {
         </USPListItem>
         <Box className={classes.swirlBottom}>
           <USPListItem icon={Liquidity} header="Liquidity/Interchain Gateway">
-            <Box className={classes.description}>
+            <Box className={clsx(classes.description, "lastDescription")}>
               <b>Access cross-chain markets and liquidity pools</b>&nbsp;
               and a variety of blockchains like Ethereum, BSC, Ziliqa, Neo3, Cosmos, Osmosis, Juno, Terra. Unlock liquidity rewards.&nbsp;
               <b>In-built bridge, with access to native tokens.</b>
@@ -92,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
       whiteSpace: "nowrap",
       textAlign: "center",
     },
+		[theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
+      whiteSpace: "break-spaces",
+		},
   },
   description: {
     color: theme.palette.text.secondary,
@@ -104,6 +110,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
       padding: "0rem 1rem",
+    },
+    "&.lastDescription" :{
+      [theme.breakpoints.down("md")]: {
+        maxWidth: "30%",
+      },
     },
   },
   uspList: {
