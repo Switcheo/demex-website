@@ -1,10 +1,11 @@
-import { CoinIcon } from "@demex-info/components";
+import { CoinIcon, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
 import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
 import { Box, makeStyles, useTheme } from "@material-ui/core";
+import clsx from "clsx";
 import React from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
@@ -75,8 +76,10 @@ const TokensMarquee: React.FC<Props> = () => {
           <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
             <Box className={classes.text}>
               Token
-              <Box>{tokenName}</Box>
-              {baseMarket.usdValue}
+              <Box className={classes.tokenValue}>
+                {tokenName}
+                <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
+              </Box>
             </Box>
             <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
           </Cards>
@@ -153,6 +156,17 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.only("xs")]: {
       height: "2rem",
       width: "2rem",
+    },
+  },
+  tokenValue: {
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      alignItems: "baseline",
+    },
+  },
+  usdValue: {
+    [theme.breakpoints.up("lg")]: {
+      marginLeft: "0.5rem",
     },
   },
 }));
