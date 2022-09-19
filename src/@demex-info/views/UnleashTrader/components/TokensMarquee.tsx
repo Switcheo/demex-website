@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   usdValue: {
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("md")]: {
       marginLeft: "0.5rem",
     },
   },

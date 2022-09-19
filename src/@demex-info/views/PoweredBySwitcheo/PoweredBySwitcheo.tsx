@@ -5,7 +5,7 @@ import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, Link, makeStyles } from "@material-ui/core";
 import React from "react";
 
-const CarbonSecured: React.FC = () => {
+const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
 
   return (
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.h2,
       display: "block",
       textAlign: "center",
@@ -91,11 +91,11 @@ const useStyles = makeStyles((theme) => ({
     "& circle": {
       fill: "#063C4F",
     },
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("md")]: {
       boxShadow: "40px 24px 124px rgba(0, 189, 255, 0.5), inset 30px 44px 64px rgba(0, 255, 255, 0.24)",
       borderRadius: "50%",
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       height: "40px",
       width: "40px",
       margin: 0,
@@ -112,7 +112,12 @@ const useStyles = makeStyles((theme) => ({
 			color: theme.palette.text.primary,
 		},
     [theme.breakpoints.down("md")]: {
+      maxWidth: "50rem",
+    },
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
+      maxWidth: "46.5rem",
+      margin: "2rem auto 0.75rem",
     },
   },
 	linkText: {
@@ -164,4 +169,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default CarbonSecured;
+export default PoweredBySwitcheo;
