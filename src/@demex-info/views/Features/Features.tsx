@@ -18,10 +18,12 @@ const Features: React.FC = () => {
       <TypographyLabel className={classes.header}>Our Features</TypographyLabel>
       <Box className={classes.featuresRow}>
         <Cards className={classes.cards}>
-          <TypographyLabel className={classes.cardHeader}>Liquidity Pools</TypographyLabel>
-          <TypographyLabel className={classes.description}>Maximize yields by contributing liquidity to earn from taker fees, maker rebates and liquidity rewards.</TypographyLabel>
-          <Divider className={classes.gradientDivider} />
-          <SvgIcon className={clsx(classes.assets, "noLeftMargin")} component={LiquidityPools}/>
+          <Box>
+            <TypographyLabel className={classes.cardHeader}>Liquidity Pools</TypographyLabel>
+            <TypographyLabel className={classes.description}>Maximize yields by contributing liquidity to earn from taker fees, maker rebates and liquidity rewards.</TypographyLabel>
+            <Divider className={classes.gradientDivider} />
+            <SvgIcon className={clsx(classes.assets, "noLeftMargin")} component={LiquidityPools}/>
+          </Box>
           <Box className={classes.actionBtn}>
             <Button
               className={classes.button}
@@ -33,24 +35,32 @@ const Features: React.FC = () => {
             </Button>
             <Button
               className={clsx(classes.button, "learnMore")}
-              variant="contained"
+              variant="outlined"
               target="_blank"
               href={StaticLinks.DemexDocs.LiquidityPools.LearnMore}
+              classes={{
+                label: classes.learnMoreLabel,
+              }}
             >
               Learn More
             </Button>
           </Box>
         </Cards>
         <Cards className={classes.cards}>
-          <TypographyLabel className={classes.cardHeader}>Derivatives</TypographyLabel>
-          <TypographyLabel className={classes.description}>Trade any financial market imaginable with Demex — built on Carbon, optimized for derivatives.</TypographyLabel>
-          <Divider className={classes.gradientDivider} />
-          <SvgIcon className={classes.assets} component={Derivatives}/>
+          <Box>
+            <TypographyLabel className={classes.cardHeader}>Derivatives</TypographyLabel>
+            <TypographyLabel className={classes.description}>Trade any financial market imaginable with Demex — built on Carbon, optimized for derivatives.</TypographyLabel>
+            <Divider className={classes.gradientDivider} />
+            <SvgIcon className={classes.assets} component={Derivatives}/>
+          </Box>
           <Button
             className={clsx(classes.button, "learnMore")}
-            variant="contained"
+            variant="outlined"
             target="_blank"
             href={StaticLinks.DemexDocs.Trade.Futures}
+            classes={{
+              label: classes.learnMoreLabel,
+            }}
           >
             Learn More
           </Button>
@@ -58,29 +68,39 @@ const Features: React.FC = () => {
       </Box>
       <Box className={classes.featuresRow}>
         <Cards className={classes.cards}>
-          <TypographyLabel className={classes.cardHeader}>Decentralized Central Limit Orderbooks</TypographyLabel>
-          <TypographyLabel className={classes.description}>Enjoy low slippage and flexible trades with guaranteed liquidity from innovative AMM-backed orderbooks.</TypographyLabel>
-          <Divider className={classes.gradientDivider} />
-          <SvgIcon className={clsx(classes.assets, "orderBook")} component={Orderbooks}/>
+          <Box>
+            <TypographyLabel className={classes.cardHeader}>Decentralized Central Limit Orderbooks</TypographyLabel>
+            <TypographyLabel className={classes.description}>Enjoy low slippage and flexible trades with guaranteed liquidity from innovative AMM-backed orderbooks.</TypographyLabel>
+            <Divider className={classes.gradientDivider} />
+            <SvgIcon className={clsx(classes.assets, "orderBook")} component={Orderbooks}/>
+          </Box>
           <Button
             className={clsx(classes.button, "learnMore")}
-            variant="contained"
+            variant="outlined"
             target="_blank"
             href={StaticLinks.DemexDocs.Features.Orderbook}
+            classes={{
+              label: classes.learnMoreLabel,
+            }}
           >
             Learn More
           </Button>
         </Cards>
         <Cards className={classes.cards}>
-          <Box className={clsx(classes.cardHeader, "crosschain")}>Cross-chain Interoperability<br /></Box> 
-          <TypographyLabel className={classes.description}>Easily access any desired market with cross-chain interoperability enabled via PolyNetwork and Cosmos IBC. </TypographyLabel>
-          <Divider className={classes.gradientDivider} />
-          <SvgIcon className={clsx(classes.assets, "noLeftMargin")} component={Crosschain}/>
+          <Box>
+            <Box className={clsx(classes.cardHeader, "crosschain")}>Cross-chain Interoperability<br /></Box> 
+            <TypographyLabel className={classes.description}>Easily access any desired market with cross-chain interoperability enabled via PolyNetwork and Cosmos IBC. </TypographyLabel>
+            <Divider className={classes.gradientDivider} />
+            <SvgIcon className={clsx(classes.assets, "noLeftMargin")} component={Crosschain}/>
+          </Box>
           <Button
             className={clsx(classes.button, "learnMore")}
-            variant="contained"
+            variant="outlined"
             target="_blank"
             href={StaticLinks.DemexDocs.Features.Crosschain}
+            classes={{
+              label: classes.learnMoreLabel,
+            }}
           >
             Learn More
           </Button>
@@ -100,14 +120,28 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   cards: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     width: "648px",
+    height: "100%",
     minWidth: "264px",
     minHeight: "516px",
     padding: "2.5rem",
-    [theme.breakpoints.down("md")]: {
+    "@media (min-width: 1279px) and (max-width: 1429px)": {
+      width: "50%",
+    },
+    [theme.breakpoints.only("md")]: {
+      width: "50%",
+      minWidth: "unset",
+      minHeight: "435px",
+    },
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       minWidth: "unset",
       minHeight: "unset",
+    },
+    [theme.breakpoints.only("xs")]: {
       padding: "0.75rem",
     },
   },
@@ -129,7 +163,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "2.5rem",
     "&.crosschain": {
       height: "4.75rem",
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.only("md")]: {
+        height: "3.5rem",
+      },
+      [theme.breakpoints.down("sm")]: {
         height: "unset",
       },
     },
@@ -154,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
     "&:last-child": {
       marginTop: "3rem",
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       width: "100%",
       flexDirection: "column",
@@ -175,9 +212,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       ...theme.typography.body2,
       maxWidth: "unset",
+      minHeight: "3.75rem",
     },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
+      minHeight: "unset",
     },
   },
   gradientDivider: {
@@ -201,7 +240,15 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "-3rem",
       },
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.only("md")]: {
+      width: "100%",
+      height: "100%",
+      minHeight: "2.25rem",
+      "&.orderBook": {
+        marginTop: "2rem",
+      },
+    },
+    [theme.breakpoints.down("sm")]: {
       display: "flex",
       width: "80vw",
       height: "100%",
@@ -216,6 +263,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "start",
     width: "100%",
+    position: "relative",
+    bottom: 0,
     "& a:first-child": {
       marginRight: "2rem",
       [theme.breakpoints.down("md")]: {
@@ -223,29 +272,34 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  learnMoreLabel: {
+    ...theme.typography.title1,
+    background: StyleUtils.primaryGradientHover(theme),
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    WebkitBackgroundClip: "text",
+    textDecoration: "none",
+    [theme.breakpoints.only("md")]: {
+      ...theme.typography.title2,
+    },
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.title3,
+    },
+  },
   button: {
 		minWidth: "12rem",
 		minHeight: "4rem",
-		"&.learnMore, &:active:hover": {
-      border: `1px solid ${theme.palette.primary.main}`,
-      background: StyleUtils.primaryGradientHover(theme),
-      backgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      WebkitBackgroundClip: "text",
-      textDecoration: "none",
+    "&.learnMore": {
+      maxWidth: "7.75rem",
     },
     [theme.breakpoints.down("md")]: {
+      ...theme.typography.title2,
       minWidth: "7.75rem",
       minHeight: "2.5rem",
       marginTop: "1rem",
-      "& > span": {
-        ...theme.typography.title2,
-      },
     },
     [theme.breakpoints.down("sm")]: {
-      "& > span": {
-        ...theme.typography.title3,
-      },
+      ...theme.typography.title3,
     },
 	},
 }));
