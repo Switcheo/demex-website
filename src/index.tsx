@@ -17,10 +17,8 @@ const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render
 
 const DexProperties = lazy(() => import("@demex-info/views/DexProperties/DexProperties"));
 const PoweredBySwitcheo = lazy(() => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"));
-const MiddleBlackSection = lazy(() => import("@demex-info/views/MiddleBlackSection/MiddleBlackSection"));
+const TweetSection = lazy(() => import("@demex-info/views/TweetSection/TweetSection"));
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
-const JustGettingStarted = lazy(() => import("@demex-info/views/JustGettingStarted/JustGettingStarted"));
-const ReadyToTrade = lazy(() => import("@demex-info/views/ReadyToTrade/ReadyToTrade"));
 const Features = lazy(() => import("@demex-info/views/Features/Features"));
 const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
@@ -35,10 +33,8 @@ render(
           <DexProperties />
           <PoweredBySwitcheo />
           <Features />
-          <MiddleBlackSection />
+          <TweetSection />
           <ExchangeComparison />
-          <JustGettingStarted />
-          <ReadyToTrade />
           <Suspense fallback={null}>
             <Footer />
           </Suspense>
