@@ -118,6 +118,7 @@ export const StaticLinks = {
       Futures: "https://guide.dem.exchange/products/futures/trading-futures-on-demex",
     },
     Fees: "https://guide.dem.exchange/getting-started/fees",
+    About: "https://guide.dem.exchange/about-demex/master",
   },
   Tendermint: "https://tendermint.com/core/",
   Docs: {
@@ -125,6 +126,7 @@ export const StaticLinks = {
     IBC: "https://ibcprotocol.org/",
     Tendermint: "https://docs.tendermint.com/",
   },
+  Swth: "https://hub.carbon.network/buy",
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {

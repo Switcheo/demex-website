@@ -171,6 +171,9 @@ const useStyles = makeStyles((theme) => ({
       height: "310px",
       background: `url(${SwirlBottom}) no-repeat bottom left`,
     },
+    [theme.breakpoints.only("md")]: {
+      paddingBottom: "5rem",
+    },
   },
   nitroSvg: {
     [theme.breakpoints.up("lg")]: {

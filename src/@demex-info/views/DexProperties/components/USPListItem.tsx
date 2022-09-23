@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "1rem",
       flexDirection: "column",
       width: "50%",
+      height: "unset",
       justifyContent: "flex-start",
       alignItems: "center",
       "&:last-child": {

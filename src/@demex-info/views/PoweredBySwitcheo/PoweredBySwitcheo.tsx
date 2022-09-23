@@ -1,210 +1,172 @@
-import { default as ScrollingTextBold } from "@demex-info/assets/animations/ScrollingTextBold.json";
-import { TypographyLabel, withLightTheme } from "@demex-info/components";
-import { lottieDefaultOptions, StaticLinks } from "@demex-info/constants";
-import {
-  Box, Button, Hidden, Link, makeStyles, Theme, Typography,
-  useMediaQuery, useTheme,
-} from "@material-ui/core";
-import clsx from "clsx";
-import React, { Suspense } from "react";
-import { useInView } from "react-intersection-observer";
-
-const Lottie = React.lazy(() => import("lottie-react"));
+import { ExternalLink, SWTH } from "@demex-info/assets";
+import { SvgIcon } from "@demex-info/components";
+import { StaticLinks } from "@demex-info/constants";
+import { StyleUtils } from "@demex-info/utils";
+import { Box, Button, Link, makeStyles } from "@material-ui/core";
+import React from "react";
 
 const PoweredBySwitcheo: React.FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const widthSmDown = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [sectionRef, sectionView] = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
 
   return (
-    <div ref={sectionRef} className={classes.root}>
-      <Box className={classes.textRoot}>
-        <Suspense fallback={null}>
-          <Lottie
-            { ...lottieDefaultOptions }
-            animationData={ScrollingTextBold}
-            style={{
-              height: widthSmDown ? "7.6rem" : "10rem",
-            }}
-          />
-        </Suspense>
-      </Box>
-      <Box className={classes.tradeHubBox}>
-        <Box className={classes.leftDiv}>
-          <Typography
-            className={clsx(classes.slide, classes.tradehubH3, "title", { open: sectionView })}
-            variant="h3"
-          >
-            Powered by&nbsp;
-            <Hidden smDown>
-              <br />
-            </Hidden>
-            Carbon Protocol
-          </Typography>
-        </Box>
-        <Box className={classes.rightDiv}>
-          <Box
-            className={clsx(
-              classes.tradeDescription,
-              classes.slide,
-              "subtitle",
-              { open: sectionView },
-            )}
-          >
-            <TypographyLabel className={classes.tradeH6}>
-              {/* eslint-disable-next-line no-trailing-spaces */}
-              <Link color="secondary" href={StaticLinks.Api.Guide} target="_blank">Carbon</Link> is a Layer 2 trading protocol powering cross-chain financial markets and infrastructures. As a custom-built sidechain, Carbon is designed specifically for trading sophisticated financial instruments such as options, bonds and futures at scale. It comprises an <Link color="secondary" href={StaticLinks.Api.MatchingEngine} target="_blank">order-matching engine</Link> and <Link color="secondary" href={StaticLinks.Api.LiquidityPool} target="_blank">liquidity pool protocol</Link> that can simulate AMM liquidity on exchange orderbooks.  
-            </TypographyLabel>
-            <TypographyLabel className={classes.tradeH6} mt={2}>
-              The protocol uses <Link color="secondary" href={StaticLinks.Tendermint} target="_blank">Tendermint Core</Link> as the underlying consensus mechanism, and is run by validator nodes under the dPOS model to ensure stringent network security.
-            </TypographyLabel>
-            <Button
-              className={classes.ecosystemBtn}
-              color="secondary"
-              component={Link}
-              href={StaticLinks.CarbonNetwork}
-              target="_blank"
-            >
-              See Our Ecosystem
-            </Button>
-          </Box>
+    <Box className={classes.root}>
+      <Box className={classes.header}>
+        Secured by&nbsp;
+        <Box className={classes.carbonSwth}>
+          Carbon&nbsp;
+          <SvgIcon className={classes.swthLogo} component={SWTH} />
+          &nbsp;SWTH
         </Box>
       </Box>
-    </div>
+      <Box className={classes.description}>
+        <b>Carbon</b> is a Layer 2 protocol that&apos;s rooted at the core of <b>DeFi</b>, designed to support trading of  advanced financial instruments. The <b>native cryptocurrency</b> and <b>governance token</b> of Carbon is <b>SWTH</b>.
+        <br /><br />
+        <b>Demex</b> is a <b>Decentralised App (dApp)</b> built on Carbon, that serves as a decentralised exchange for a variety of crypto derivatives.&nbsp;
+        <Link
+					className={classes.linkText}
+					color="textPrimary"
+					key="cosmosLink"
+					href={StaticLinks.DemexDocs.About}
+					target="_blank"
+				>
+					Learn more
+				</Link>
+      </Box>
+      <Box className={classes.actionBtn}>
+        <Button
+          className={classes.button}
+          variant="contained"
+          target="_blank"
+          href={StaticLinks.Swth}
+        >
+          Get SWTH
+          <SvgIcon className={classes.linkIcon} component={ExternalLink} />
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          target="_blank"
+          href={StaticLinks.DemexDocs.About}
+          classes={{
+            label: classes.learnMoreLabel,
+          }}
+        >
+          Learn More
+          <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  ecosystemBtn: {
-    ...theme.typography.title3,
-    marginTop: theme.spacing(6),
-    padding: theme.spacing(1.75, 3.5),
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "none",
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4),
-    },
-  },
-  leftDiv: {
-    padding: theme.spacing(0, 6, 0, 0),
-    maxWidth: "calc(100% / 12 * 5)",
-    width: "100%",
-    [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(0, 5, 0, 0),
-      maxWidth: "calc(100% / 12 * 4)",
-    },
-    [theme.breakpoints.down("sm")]: {
-      padding: 0,
-      maxWidth: "unset",
-    },
-  },
-  rightDiv: {
-    width: "calc(100% / 12 * 7)",
-    [theme.breakpoints.only("md")]: {
-      width: "calc(100% / 12 * 8)",
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
-  },
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
-    padding: theme.spacing(0, 0, 6.5),
-    [theme.breakpoints.down("sm")]: {
-      padding: 0,
-    },
-  },
-  tradeDescription: {
-    "& a": {
-      cursor: "pointer",
-    },
-  },
-  tradeHubBox: {
-    display: "flex",
-    margin: theme.spacing(12.5, "auto"),
-    maxWidth: "84rem",
-    padding: 0,
-    width: `calc(100% - ${theme.spacing(12)}px)`,
-    [theme.breakpoints.only("md")]: {
-      padding: theme.spacing(0, 5),
-      width: `calc(100% - ${theme.spacing(10)}px)`,
-    },
-    [theme.breakpoints.only("sm")]: {
-      display: "block",
-      margin: theme.spacing(8, "auto", 0),
-      maxWidth: "100%",
-      width: "unset",
-      padding: theme.spacing(0, 5, 9),
-    },
-    [theme.breakpoints.only("xs")]: {
-      display: "block",
-      margin: theme.spacing(5.5, "auto", 0),
-      maxWidth: "100%",
-      width: "unset",
-      padding: theme.spacing(0, 4, 9),
-    },
-    "@media (max-width: 360px)": {
-      padding: theme.spacing(0, 2.5, 8),
-    },
-  },
-  tradehubH3: {
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: theme.spacing(2.5),
-      paddingRight: 0,
-    },
-    [theme.breakpoints.only("xs")]: {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  tradeH6: {
-    color: theme.palette.text.primary,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1rem",
-    },
-    "@media (min-width: 1601px)": {
-      fontSize: "1.125rem",
-      lineHeight: "1.555em",
-    },
-  },
-  homeBorder: {
-    marginBottom: theme.spacing(2.75),
-    width: "100%",
-    [theme.breakpoints.only("xs")]: {
-      maxHeight: "3.5rem",
-      display: "block",
-    },
-  },
-  textRoot: {
-    overflow: "hidden",
+    background: "linear-gradient(180deg, rgba(41, 204, 196, 0.05) 0%, rgba(26, 29, 31, 0) 100%)",
+    padding: "3.125rem 3.125rem 1rem",
     [theme.breakpoints.down("md")]: {
-      paddingTop: theme.spacing(8),
-    },
-    [theme.breakpoints.only("xs")]: {
-      paddingTop: theme.spacing(6),
+      padding: "3.75rem 1rem",
     },
   },
-  slide: {
-    opacity: 0,
-    transform: "translate(0px, 40px)",
-    "&.title": {
-      transition: "opacity ease-in 0.3s, transform ease-in 0.4s",
+  header: {
+    ...theme.typography.h1,
+    color: theme.palette.text.primary,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.h2,
+      display: "block",
+      textAlign: "center",
     },
-    "&.subtitle": {
-      transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
+  },
+  carbonSwth: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  swthLogo: {
+    height: "80px",
+    width: "80px",
+    margin: "0 0.5rem",
+    "& circle": {
+      fill: "#063C4F",
     },
-    "&.open": {
-      opacity: 1,
-      transform: "translate(0px,0px)",
+    [theme.breakpoints.up("md")]: {
+      boxShadow: "40px 24px 124px rgba(0, 189, 255, 0.5), inset 30px 44px 64px rgba(0, 255, 255, 0.24)",
+      borderRadius: "50%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "40px",
+      width: "40px",
+      margin: 0,
+    },
+  },
+  description: {
+    ...theme.typography.h4,
+    fontWeight: 400,
+    textAlign: "center",
+    margin: "2.5rem auto",
+    color: theme.palette.text.secondary,
+    maxWidth: "64rem",
+    "& > b": {
+			color: theme.palette.text.primary,
+		},
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "50rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
+      maxWidth: "46.5rem",
+      margin: "2rem auto 0.75rem",
+    },
+  },
+	linkText: {
+		textDecoration: "underline",
+		fontWeight: 700,
+		color: theme.palette.text.primary,
+	},
+  actionBtn: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    "& a:first-child": {
+      marginRight: "2rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      "& a:first-child": {
+        marginRight: "1rem",
+      },
+		},
+  },
+  button: {
+		marginTop: "1.75rem",
+		minWidth: "12rem",
+		minHeight: "4rem",
+		[theme.breakpoints.down("sm")]: {
+      ...theme.typography.title3,
+			marginTop: "2em",
+      minWidth: "7.5rem",
+      minHeight: "2.5rem",
+		},
+	},
+  learnMoreLabel: {
+    background: StyleUtils.primaryGradientHover(theme),
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    WebkitBackgroundClip: "text",
+    textDecoration: "none",
+  },
+  linkIcon: {
+    "& path": {
+      fill: theme.palette.text.primary,
+    },
+  },
+  gradientIcon: {
+    "& path": {
+      fill: "url(#demexLinearGradient)",
     },
   },
 }));
 
-export default withLightTheme()(PoweredBySwitcheo);
+export default PoweredBySwitcheo;

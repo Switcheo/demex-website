@@ -41,21 +41,22 @@ const MuiButton = (theme: Theme) => ({
 	containedSecondary: {
 		color: theme.palette.snow,
 		background: StyleUtils.primaryGradient(theme),
-		"&:hover": {
-			background: StyleUtils.primaryGradientInversed(theme),
-		},
-		"&:active:hover": {
+		"&:hover, &:active:hover": {
 			background: StyleUtils.primaryGradientInversed(theme),
 		},
 	},
 	contained: {
 		color: theme.palette.snow,
 		background: StyleUtils.primaryGradient(theme),
-		"&:hover": {
+		"&:hover, &:active:hover": {
 			background: StyleUtils.primaryGradientInversed(theme),
 		},
-		"&:active:hover": {
-			background: StyleUtils.primaryGradientInversed(theme),
+	},
+	outlined: {
+		border: `1px solid ${theme.palette.primary.main}`,
+		background: "transparent",
+		"&:hover, &:active:hover": {
+			background: theme.palette.action.hover,
 		},
 	},
 });
