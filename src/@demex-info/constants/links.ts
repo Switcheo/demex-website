@@ -110,6 +110,7 @@ export const StaticLinks = {
       CreateAccount: "https://guide.dem.exchange/getting-started/creating-a-demex-account",
     },
     LiquidityPools: {
+      LearnMore: "https://guide.dem.exchange/products/what-is-liquidity-pooling/",
       Instructions: "https://guide.dem.exchange/products/what-is-liquidity-pooling/providing-liquidity-on-demex",
       Faqs: "https://guide.dem.exchange/products/what-is-liquidity-pooling/faqs",
     },
@@ -119,6 +120,10 @@ export const StaticLinks = {
     },
     Fees: "https://guide.dem.exchange/getting-started/fees",
     About: "https://guide.dem.exchange/about-demex/master",
+    Features: {
+      Orderbook: "https://guide.dem.exchange/about-demex/master/features-overview#orderbook-model-on-amms",
+      Crosschain: "https://guide.dem.exchange/about-demex/master/features-overview#cross-chain-compatibility",
+    },
   },
   Tendermint: "https://tendermint.com/core/",
   Docs: {
