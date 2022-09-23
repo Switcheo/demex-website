@@ -13,10 +13,11 @@ interface Props {
   replyingTo: string,
   twitterName: string,
   twitterUsername: string
+  className?: string,
 }
 
 const TweetCard: React.FC<Props> = (props: Props) => {
-  const { mainContent, tweetDate, replyingTo, twitterName, twitterUsername } = props;
+  const { mainContent, tweetDate, replyingTo, twitterName, twitterUsername, className } = props;
   const classes = useStyles();
   
   const contentArr = mainContent.split("\n\n");
@@ -26,7 +27,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const isReplyingTweet = replyingTo !== undefined;
 
   return (
-    <Box className={classes.root} onClick={() => goToLink(tweetUrl)}>
+    <Box className={clsx(className, classes.root)} onClick={() => goToLink(tweetUrl)}>
       <Box className={classes.topSection}>
         <Box>
           <Box className={classes.accountName}>
@@ -66,6 +67,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "2rem 2.5rem",
     "&:hover": {
       cursor: "pointer",
+    },
+    [theme.breakpoints.only("md")]: {
+      width: "calc(33% - 1.25rem)",
+      height: "unset",
+      padding: "1rem 0.75rem",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -115,12 +121,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   secondaryText: {
     color: theme.palette.text.secondary,
     marginLeft: "0.5rem",
+    whiteSpace: "nowrap",
   },
   linkIcon: {
     height: "2.5rem",
     width: "2.5rem",
     marginRight: "-1rem",
+    position: "relative",
+    marginTop: "-1.25rem",
+    [theme.breakpoints.only("md")]: {
+      marginRight: 0,
+      marginTop: "-0.75rem",
+    },
     [theme.breakpoints.down("sm")]: {
+      height: "2rem",
+      width: "2rem",
       marginRight: 0,
     },
   },

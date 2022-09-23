@@ -2,6 +2,7 @@ import YellowVectorTop from "@demex-info/assets/background/YellowVectorTop.svg";
 import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
 import { RootState } from "@demex-info/store/types";
 import { Box, Container, Hidden, makeStyles, Theme } from "@material-ui/core";
+import "animate.css";
 import { List } from "immutable";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -44,7 +45,7 @@ const TweetSection: React.FC = () => {
   }, [contentfulClient]);
 
   useEffect(() => {
-    // update 3 cards every 20s
+    // update 1 card every 20s
     const interval = setInterval(() => {
       if (currIndex === 0) {
         setCurrIndex(3);
@@ -74,6 +75,7 @@ const TweetSection: React.FC = () => {
               const { mainContent, replyingTo, tweetDate, twitterName, twitterUsername } = tweet;
               return (
                 <TweetCard
+                  className="animate__animated animate__zoomIn"
                   key={`${index}-${twitterName}`}
                   mainContent={mainContent}
                   replyingTo={replyingTo}
@@ -103,11 +105,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       marginTop: 0,
-		},
+    },
   },
   mainHeader: {
     [theme.breakpoints.down("md")]: {
       height: "310px",
+    },
+    [theme.breakpoints.down("sm")]: {
       background: `url(${YellowVectorTop}) no-repeat top right`,
     },
   },
@@ -121,15 +125,15 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: "-9rem",
     },
     [theme.breakpoints.down("sm")]: {
-			...theme.typography.h2,
+      ...theme.typography.h2,
       padding: "4.5rem 1rem 0",
-		},
-		[theme.breakpoints.only("xs")]: {
-			fontSize: "28px",
+    },
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "28px",
       lineHeight: "38px",
       maxWidth: "calc(100% - 2rem)",
-			margin: "-9rem auto 0",
-		},
+      margin: "-9rem auto 0",
+    },
   },
   typoContainer: {
     [theme.breakpoints.down("md")]: {
@@ -154,55 +158,46 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.text.secondary,
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
-			...theme.typography.body2,
+      ...theme.typography.body2,
       padding: "0 1rem",
-			marginTop: "0.75rem",
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.body3,
-		},
+      marginTop: "0.75rem",
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body3,
+    },
   },
   position: {
-		position: "absolute",
-		left: 0,
-		width: "100%",
-		[theme.breakpoints.up("lg")]: {
-			top: "-400px",
-			height: "calc(100vh + 40rem)",
-		},
-		[theme.breakpoints.down("md")]: {
-			overflowX: "hidden",
-			top: "-125px",
-			minHeight: "60rem",
-		},
-		[theme.breakpoints.down("xs")]: {
-			top: "-200px",
-		},
-	},
-	container: {
-		position: "relative",
-		margin: "0 auto",
-		maxWidth: "1590px",
-		[theme.breakpoints.only("md")]: {
-			maxWidth: "unset",
-			margin: "-70% ​-100%",
-		},
-		[theme.breakpoints.down("sm")]: {
-			margin: "-1rem -3rem",
-		},
-		[theme.breakpoints.only("xs")]: {
-			margin: "-1rem -15rem",
-		},
-		"@media (max-width: 319px)": {
-			margin: "-20% -106%",
-		},
-	},
-	padding: {
-		height: "56.25%",
-		[theme.breakpoints.down("md")]: {
-			height: "25%",
-		},
-	},
+    position: "absolute",
+    left: 0,
+    width: "100%",
+    [theme.breakpoints.up("lg")]: {
+      top: "-280px",
+      height: "calc(100vh + 40rem)",
+    },
+    [theme.breakpoints.down("md")]: {
+      overflow: "hidden",
+      top: "-125px",
+      minHeight: "60rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      top: "-200px",
+    },
+  },
+  container: {
+    position: "relative",
+    margin: "0 auto",
+    maxWidth: "1590px",
+    [theme.breakpoints.only("md")]: {
+      maxWidth: "unset",
+      margin: "-70% ​-100%",
+    },
+  },
+  padding: {
+    height: "56.25%",
+    [theme.breakpoints.down("md")]: {
+      height: "25%",
+    },
+  },
   contentContainer: {
     zIndex: 1,
     [theme.breakpoints.down("sm")]: {
@@ -216,14 +211,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& > div:not(:last-child)": {
       marginRight: "1.75rem",
     },
+    [theme.breakpoints.only("md")]: {
+      maxWidth: "unset",
+      width: "calc(100% - 2rem)",
+    },
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
       maxWidth: "unset",
-      padding: "0 0.625rem",
+      padding: "0rem 1.75rem",
+      alignItems: "center",
       "& > div:not(:last-child)": {
         marginRight: 0,
         marginBottom: "1.75rem",
       },
+    },
+    [theme.breakpoints.only("xs")]: {
+      padding: "0rem 0.75rem",
     },
   },
 }));

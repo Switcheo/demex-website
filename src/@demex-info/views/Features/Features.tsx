@@ -115,7 +115,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "10rem 2.5rem 0",
     margin: "0 auto",
     zIndex: 1,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("sm")]: {
+      margin: 0,
+      padding: "2.5rem 1.75rem 0rem",
+    },
+    [theme.breakpoints.only("xs")]: {
+      margin: 0,
       padding: "2.5rem 0.75rem 0rem",
     },
   },
@@ -293,6 +298,13 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "2rem",
       [theme.breakpoints.down("md")]: {
         marginRight: "1.5rem",
+      },
+    },
+    "@media (max-width: 319px)": {
+      flexDirection: "column",
+      alignItems: "start",
+      "& a:first-child": {
+        marginRight: "0",
       },
     },
   },
