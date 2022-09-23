@@ -1,37 +1,19 @@
 import {
-  Box, fade, Hidden, makeStyles, Table, TableBody, TableCell,
+  Box, Hidden, makeStyles, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Theme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  CexMarkets, CexTradingRow, DexMarkets, LogoCell, PropertyTab,
+  Markets, TradingRow, TradingVal, LogoCell,
 } from "../compareConfig";
 import ComparisonRow from "./ComparisonRow";
 
-interface Props {
-  dexNum: number;
-  propertyTab: PropertyTab;
-  tableSelect: CexTradingRow[];
-}
-
-const ComparisonTable: React.FC<Props> = (props: Props) => {
-  const { dexNum, propertyTab, tableSelect } = props;
+const ComparisonTable: React.FC = () => {
   const classes = useStyles();
 
-  const [load, setLoad] = React.useState<boolean>(true);
-
-  const MarketHeaders = dexNum === 1 ? DexMarkets : CexMarkets;
-
-  useEffect(() => {
-    setLoad(true);
-    setTimeout(() => {
-      setLoad(false);
-    }, 400);
-  }, [propertyTab]);
-
   return (
-    <TableContainer>
+    <TableContainer className={classes.tableShadow}>
       <Table>
         <TableHead>
           <TableRow>
@@ -40,16 +22,16 @@ const ComparisonTable: React.FC<Props> = (props: Props) => {
             </Hidden>
             <TableCell className={classes.headerAltCell} />
             {
-              MarketHeaders.map((cex: LogoCell) => {
-                const { component: Component } = cex;
+              Markets.map((cell: LogoCell) => {
+                const { component: Component } = cell;
                 return (
                   <TableCell
                     align="center"
-                    className={clsx(classes.headerCell, cex.value)}
-                    key={`cex-${cex.value}`}
+                    className={clsx(classes.headerCell, cell.value)}
+                    key={`svg-${cell.value}`}
                   >
                     <Box className={classes.iconBox}>
-                      <Component className={clsx(classes.iconClass, cex.value)} />
+                      <Component className={clsx(classes.iconClass, cell.value)} />
                     </Box>
                   </TableCell>
                 );
@@ -61,8 +43,8 @@ const ComparisonTable: React.FC<Props> = (props: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableSelect.map((tradingVal: CexTradingRow) => (
-            <ComparisonRow load={load} key={`${tradingVal.header}-tradingVal`} row={tradingVal} />
+          {TradingVal.map((tradingVal: TradingRow) => (
+            <ComparisonRow key={`${tradingVal.header}-tradingVal`} row={tradingVal} />
           ))}
         </TableBody>
       </Table>
@@ -71,22 +53,33 @@ const ComparisonTable: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  tableShadow: {
+    backgroundImage: `linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}), 
+      linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
+      linear-gradient(to right, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0)), 
+      linear-gradient(to left, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0))`,
+  /* Shadows */
+  /* Shadow covers */
+  backgroundPosition: "left center, right center, left center, right center",
+  backgroundRepeat: "no-repeat",
+  backgroundColor: theme.palette.background.primary,
+  backgroundSize: "20px 100%, 20px 100%, 15px 100%, 15px 100%",
+  backgroundAttachment: "local, local, scroll, scroll",
+  },
   fillerCell: {
     borderBottom: "none",
     padding: 0,
     width: theme.spacing(3.5),
   },
   headerAltCell: {
-    backgroundColor: theme.palette.background.default,
+    background: theme.palette.background.primary,
     borderBottom: `1px solid ${theme.palette.divider}`,
+    minWidth: "12.5rem",
     left: 0,
     padding: theme.spacing(3, 1.5, 3, 0),
     position: "sticky",
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(3, 1.5, 3, 3),
-    },
-    [theme.breakpoints.only("xs")]: {
-      borderRight: `1px solid ${theme.palette.divider}`,
     },
   },
   headerCell: {
@@ -97,24 +90,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 1.5),
     },
-    "&.demex": {
-      backgroundColor: theme.palette.background.default,
-      boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
-      position: "sticky",
-      left: "10.5rem",
-      [theme.breakpoints.only("md")]: {
-        left: "9rem",
-      },
-      [theme.breakpoints.down("sm")]: {
-        left: "7rem",
-      },
-      [theme.breakpoints.only("xs")]: {
-        position: "initial",
-      },
-    },
     [theme.breakpoints.down("md")]: {
       "&:last-child": {
         padding: theme.spacing(0, 3, 0, 1.5),
+        minWidth: "7rem",
       },
     },
   },
@@ -127,12 +106,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   iconClass: {
     height: "1.875rem",
     maxWidth: "9rem",
-    "&.demex path": {
-      fill: theme.palette.secondary.main,
-    },
-    "&.dydx": {
-      height: "1.5rem",
-    },
   },
 }));
 

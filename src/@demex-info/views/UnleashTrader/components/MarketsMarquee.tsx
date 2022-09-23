@@ -251,6 +251,8 @@ const useStyles = makeStyles((theme) => ({
   marketsCard: {
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
+      minHeight: "2.75rem",
+      minWidth: "unset",
     },
   },
 }));
