@@ -21,8 +21,11 @@ const TweetSection: React.FC = () => {
   const classes = useStyles();
   const contentfulClient = useSelector((state: RootState) => state.app.contentfulClient);
   const [tweetList, setTweetList] = useState(List<TweetData>());
-  const [selectedTweets, setSelectedTweets] = useState(List<TweetData>());
   const [currIndex, setCurrIndex] = useState(0);
+  const [onLoad, setOnLoad] = useState(true);
+  const [firstTweet, setFirstTweet] = useState(0);
+  const [secondTweet, setSecondTweet] = useState(1);
+  const [thirdTweet, setThirdTweet] = useState(2);
 
   useEffect(() => {
     let newTweetList = List<TweetData>();
@@ -40,24 +43,43 @@ const TweetSection: React.FC = () => {
           });
         });
         setTweetList(newTweetList);
-        setSelectedTweets(newTweetList.slice(0, 3));
       });
   }, [contentfulClient]);
 
   useEffect(() => {
     // update 1 card every 20s
+    // TODO: fix issue that on first load the first card will be repeated even though index = 3
     const interval = setInterval(() => {
-      if (currIndex === 0) {
+      if (onLoad) {
         setCurrIndex(3);
-      } else if (currIndex % 3 === 0 && currIndex + 3 < tweetList.size) {
-        setCurrIndex(currIndex + 3);
-      } else {
+      } else if (currIndex === 5) {
         setCurrIndex(0);
+      } else {
+        setCurrIndex(currIndex + 1);
       }
     }, 20000);
-    setSelectedTweets(tweetList.slice(currIndex, currIndex + 3));
+    setOnLoad(false);
     return () => clearInterval(interval);
   }, [currIndex]);
+
+  const selectTweet = (cardNo: number, updateCard: boolean, setCard: React.Dispatch<React.SetStateAction<number>>) => {
+    useEffect(() => {
+      if (updateCard) {
+        setCard(currIndex);
+      }
+    }, [updateCard]);
+    const tweet = tweetList.get(cardNo);
+    return (
+      <TweetCard
+        className={updateCard ? "animate__animated animate__zoomIn" : ""}
+        mainContent={tweet?.mainContent ?? ""}
+        replyingTo={tweet?.replyingTo ?? ""}
+        tweetDate={tweet?.tweetDate ?? ""}
+        twitterName={tweet?.twitterName ?? ""}
+        twitterUsername={tweet?.twitterUsername ?? ""}
+      />
+    );
+  };
 
   return (
     <Box className={classes.innerDiv}>
@@ -70,22 +92,9 @@ const TweetSection: React.FC = () => {
           Check out what others are saying.
         </TypographyLabel>
         <Box className={classes.tweets}>
-          {
-            selectedTweets.map((tweet, index) => {
-              const { mainContent, replyingTo, tweetDate, twitterName, twitterUsername } = tweet;
-              return (
-                <TweetCard
-                  className="animate__animated animate__zoomIn"
-                  key={`${index}-${twitterName}`}
-                  mainContent={mainContent}
-                  replyingTo={replyingTo}
-                  tweetDate={tweetDate}
-                  twitterName={twitterName}
-                  twitterUsername={twitterUsername}
-                />
-              );
-            })
-          }
+          {selectTweet(firstTweet, !onLoad && currIndex % 3 === 0, setFirstTweet)}
+          {selectTweet(secondTweet, !onLoad && currIndex % 3 === 1, setSecondTweet)}
+          {selectTweet(thirdTweet, !onLoad && currIndex % 3 === 2, setThirdTweet)}
         </Box>
       </Container>
     </Box>
