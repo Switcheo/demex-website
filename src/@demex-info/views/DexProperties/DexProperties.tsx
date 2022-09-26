@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     ...theme.typography.h1,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.h2,
       whiteSpace: "nowrap",
       textAlign: "center",

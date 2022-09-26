@@ -155,8 +155,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginBottom: "5rem",
     [theme.breakpoints.down("md")]: {
-      ...theme.typography.h2,
       marginBottom: "2.5rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.h2,
+    },
+    [theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
     },
   },
   cardHeader: {
