@@ -5,3 +5,4 @@ export * from "./PoweredBySwitcheo";
 export * from "./TweetSection";
 export * from "./UnleashTrader";
 export * from "./USPSection";
+export * from "./YourThoughts";

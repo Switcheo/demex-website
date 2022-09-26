@@ -1,6 +1,7 @@
 export { ReactComponent as BinanceFutures } from "./BinanceFutures.svg";
 export { ReactComponent as Bitmex } from "./Bitmex.svg";
 export { ReactComponent as Bybit } from "./Bybit.svg";
+export { ReactComponent as Demex } from "./Demex.svg";
 export { ReactComponent as DemexCircleLogo } from "./DemexCircleLogo.svg";
 export { ReactComponent as DemexLogo } from "./DemexLogo.svg";
 export { ReactComponent as Deribit } from "./Deribit.svg";
@@ -24,4 +25,5 @@ export { ReactComponent as Serum } from "./Serum.svg";
 export { ReactComponent as SwitcheoWordMark } from "./SwitcheoTradehubOnDark.svg";
 export { ReactComponent as Telegram } from "./Telegram.svg";
 export { ReactComponent as Twitter } from "./Twitter.svg";
+export { ReactComponent as Uniswap } from "./Uniswap.svg";
 export { ReactComponent as Youtube } from "./Youtube.svg";

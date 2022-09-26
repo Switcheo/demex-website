@@ -1,103 +1,30 @@
-import { DemexCircleLogo, HomeBorderCircle1 } from "@demex-info/assets";
-import { PaperBox, TypographyLabel, withLightTheme } from "@demex-info/components";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import YellowVectorBottom from "@demex-info/assets/background/YellowVectorBottom.svg";
+import { PaperBox, TypographyLabel } from "@demex-info/components";
+import { StyleUtils } from "@demex-info/utils";
 import { lazy } from "@loadable/component";
 import {
-  Box, Button, Divider, fade, makeStyles, Switch, Theme, useMediaQuery,
+  Box, makeStyles, Theme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { useInView } from "react-intersection-observer";
-import { Carousel } from "react-responsive-carousel";
-import {
-  CexFeesVal, CexSecurityVal, CexServiceVal, CexTableTabs, CexTradingVal,
-  DexDecentralisationVal, DexFeesVals, DexTableTabs, DexTechnologyVal,
-  DexTradingVal, PropertyTab, TableTab,
-} from "./compareConfig";
 
 const ComparisonTable = lazy(() => import("./components/ComparisonTable"));
 
-const cexDefault = "cex-trading";
-const dexDefault = "dex-technology";
-
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
-  const widthSm = useMediaQuery("@media (max-width: 720px)");
-
-  const settings = {
-    autoPlay: false,
-    dots: false,
-    draggable: false,
-    infiniteLoop: false,
-    showArrows: false,
-    showIndicators: false,
-    showStatus: false,
-    showThumbs: false,
-    swipeable: false,
-  };
-
-  const [dexNum, setDexNum] = React.useState<number>(0);
-  const [propertyTab, setPropertyTab] = React.useState<PropertyTab>(cexDefault);
 
   const [titleRef, titleView] = useInView({
     threshold: 0.2,
     triggerOnce: true,
   });
 
-  useEffect(() => {
-    if (dexNum === 0) {
-      setPropertyTab(cexDefault);
-    } else {
-      setPropertyTab(dexDefault);
-    }
-  }, [dexNum]);
-
-  const handleDexToggle = () => {
-    if (dexNum === 0) {
-      setDexNum(dexNum + 1);
-    } else {
-      setDexNum(dexNum - 1);
-    }
-  };
-
-  const tableSelect = React.useMemo(() => {
-    if (dexNum === 1) {
-      switch (propertyTab) {
-        case "dex-trading":
-          return DexTradingVal;
-        case "dex-decentralisation":
-          return DexDecentralisationVal;
-        case "dex-fees":
-          return DexFeesVals;
-        default:
-          return DexTechnologyVal;
-      }
-    } else {
-      switch (propertyTab) {
-        case "cex-security":
-          return CexSecurityVal;
-        case "cex-service":
-          return CexServiceVal;
-        case "cex-fees":
-          return CexFeesVal;
-        default:
-          return CexTradingVal;
-      }
-    }
-  }, [dexNum, propertyTab]);
-
   return (
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
-      <HomeBorderCircle1 className={classes.sideBorder} />
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.textSecSlide, { open: titleView })}>
-          <TypographyLabel
-            align="center"
-            variant="h3"
-          >
-            Comparison with&nbsp;
-            { widthSm && (<br />) }
-            Other Exchanges
+          <TypographyLabel className={classes.header}>
+            Trade On the Best
           </TypographyLabel>
         </Box>
         <Box className={clsx(
@@ -105,97 +32,13 @@ const ExchangeComparison: React.FC = () => {
           classes.tableSection,
           { open: titleView },
         )}>
-          <Box className={classes.switchDiv}>
-            <TypographyLabel
-              className={clsx(classes.switchSub, { toggle: dexNum === 0 })}
-              variant="body2"
-              onClick={() => handleDexToggle()}
-            >
-              Centralised Exchanges
-            </TypographyLabel>
-            <Switch
-              checked={dexNum === 1}
-              classes={{
-                root: classes.switchRoot,
-                switchBase: clsx(classes.switchBase, { checked: dexNum === 0 }),
-                thumb: classes.switchThumb,
-                track: classes.switchTrack,
-              }}
-              onChange={() => handleDexToggle()}
-              color="default"
-              size="medium"
-              checkedIcon={(<DemexCircleLogo className={classes.demexLogo} />)}
-            />
-            <TypographyLabel
-              className={clsx(classes.switchSub, { toggle: dexNum === 1 })}
-              variant="body2"
-              onClick={() => handleDexToggle()}
-            >
-              Decentralised Exchanges
-            </TypographyLabel>
-          </Box>
-
           <PaperBox className={classes.tablePaper}>
-            <Box>
-              <Carousel selectedItem={dexNum} {...settings}>
-                <Box>
-                  <Box className={clsx(classes.tabSlide, "cex")}>
-                    {
-                      CexTableTabs.map((tableTab: TableTab) => (
-                        <Button
-                          className={clsx(
-                            classes.tabBtn,
-                            { selected: propertyTab === tableTab.value },
-                          )}
-                          onClick={() => setPropertyTab(tableTab.value)}
-                          variant="text"
-                          key={`cex-${tableTab.value}`}
-                        >
-                          {tableTab.label}
-                        </Button>
-                      ))
-                    }
-                  </Box>
-                </Box>
-                <Box>
-                  <Box className={clsx(classes.tabSlide, "dex")}>
-                    {
-                      DexTableTabs.map((tableTab: TableTab) => (
-                        <Button
-                          className={clsx(
-                            classes.tabBtn,
-                            { selected: propertyTab === tableTab.value },
-                          )}
-                          onClick={() => setPropertyTab(tableTab.value)}
-                          variant="text"
-                          key={tableTab.value}
-                        >
-                          {tableTab.label}
-                        </Button>
-                      ))
-                    }
-                  </Box>
-                </Box>
-              </Carousel>
-              <Box className={classes.tableContent}>
-                <Divider className={classes.divider} />
-                <Suspense fallback={null}>
-                  <ComparisonTable dexNum={dexNum} propertyTab={propertyTab} tableSelect={tableSelect} />
-                </Suspense>
-              </Box>
+            <Box className={classes.tableContent}>
+              <Suspense fallback={null}>
+                <ComparisonTable />
+              </Suspense>
             </Box>
           </PaperBox>
-          <Box className={classes.btnDiv}>
-            <Button
-              className={classes.btn}
-              variant="contained"
-              color="secondary"
-              target="_blank"
-              href={getDemexLink(Paths.Trade)}
-            >
-              Start Trading
-            </Button>
-          </Box>
         </Box>
       </Box>
     </div>
@@ -203,18 +46,21 @@ const ExchangeComparison: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  btn: {
-    display: "block",
-    margin: theme.spacing(0, "auto"),
-		padding: theme.spacing(1.75, 3.5),
-  },
-  btnDiv: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: theme.spacing(8),
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(5),
+  header: {
+    ...theme.typography.h1,
+    color: theme.palette.text.primary,
+    textAlign: "center",
+    [theme.breakpoints.down("md")]: {
+      paddingTop: "12rem",
     },
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.h2,
+		},
+		[theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
+			margin: "0 auto",
+		},
   },
   demexLogo: {
     height: "1.375rem",
@@ -230,57 +76,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: `calc(100% - ${theme.spacing(12)}px)`,
     zIndex: 10,
     [theme.breakpoints.between("sm", "md")]: {
-      padding: theme.spacing(0, 5),
-      width: `calc(100% - ${theme.spacing(10)}px)`,
+      padding: 0,
+      width: `calc(100% - ${theme.spacing(7)}px)`,
     },
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 4),
-      width: `calc(100% - ${theme.spacing(8)}px)`,
+      padding: 0,
+      width: `calc(100% - ${theme.spacing(3)}px)`,
     },
     "@media (max-width: 360px)": {
-      padding: theme.spacing(0, 2.5),
-      width: `calc(100% - ${theme.spacing(5)}px)`,
+      padding: 0,
+      width: `calc(100% - ${theme.spacing(3)}px)`,
     },
   },
   root: {
-    backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     display: "flex",
     overflow: "hidden",
-    padding: theme.spacing(13, 0, 10.5),
+    padding: 0,
     position: "relative",
+    [theme.breakpoints.down("md")]: {
+      padding: 0,
+      marginTop: "-100px",
+    },
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(8, 0, 7.5),
-    },
-  },
-  sideBorder: {
-    height: "22rem",
-    right: "-12.5rem",
-    position: "absolute",
-    top: "-12.5rem",
-    width: "22rem",
-    zIndex: 0,
-    transform: "rotate(180deg)",
-    [theme.breakpoints.only("md")]: {
-      top: "-10.25rem",
-      height: "18rem",
-      right: "-10.25rem",
-      width: "18rem",
-    },
-    [theme.breakpoints.only("sm")]: {
-      top: "-10rem",
-      height: "18rem",
-      right: "-10rem",
-      width: "18rem",
-    },
-    [theme.breakpoints.only("xs")]: {
-      top: "-7rem",
-      height: "13rem",
-      right: "-7rem",
-      width: "13rem",
-    },
-    "@media (max-width: 400px)": {
-      display: "none",
+      background: `url(${YellowVectorBottom}) no-repeat top left`,
     },
   },
   tableSecSlide: {
@@ -384,9 +203,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   tablePaper: {
-    backgroundColor: theme.palette.background.default,
-    borderRadius: theme.spacing(0.25),
-    boxShadow: `0px 8px 12px 2px ${fade(theme.palette.text.secondary, 0.08)}`,
+    backgroundColor: theme.palette.background.primary,
+    borderRadius: "0.25rem",
+    boxShadow: `0px 0px 48px ${StyleUtils.boxShadow(theme)}`,
     overflow: "hidden",
   },
   tableSection: {
@@ -413,4 +232,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default withLightTheme()(ExchangeComparison);
+export default ExchangeComparison;

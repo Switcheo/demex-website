@@ -20,6 +20,7 @@ const PoweredBySwitcheo = lazy(() => import("@demex-info/views/PoweredBySwitcheo
 const TweetSection = lazy(() => import("@demex-info/views/TweetSection/TweetSection"));
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));
 const Features = lazy(() => import("@demex-info/views/Features/Features"));
+const YourThoughts = lazy(() => import("@demex-info/views/YourThoughts/YourThoughts"));
 const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Footer"));
 
 render(
@@ -35,6 +36,7 @@ render(
           <Features />
           <TweetSection />
           <ExchangeComparison />
+          <YourThoughts />
           <Suspense fallback={null}>
             <Footer />
           </Suspense>
