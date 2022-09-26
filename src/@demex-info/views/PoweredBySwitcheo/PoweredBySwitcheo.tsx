@@ -78,6 +78,10 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
       textAlign: "center",
     },
+    [theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
+		},
   },
   carbonSwth: {
     display: "flex",

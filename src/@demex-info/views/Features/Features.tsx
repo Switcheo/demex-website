@@ -69,7 +69,7 @@ const Features: React.FC = () => {
       <Box className={classes.featuresRow}>
         <Cards className={classes.cards}>
           <Box>
-            <TypographyLabel className={classes.cardHeader}>Decentralized Central Limit Orderbooks</TypographyLabel>
+            <TypographyLabel className={clsx(classes.cardHeader, "orderBooks")}>Decentralized Central Limit Orderbooks</TypographyLabel>
             <TypographyLabel className={classes.description}>Enjoy low slippage and flexible trades with guaranteed liquidity from innovative AMM-backed orderbooks.</TypographyLabel>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={clsx(classes.assets, "orderBook")} component={Orderbooks}/>
@@ -130,11 +130,13 @@ const useStyles = makeStyles((theme) => ({
     padding: "2.5rem",
     "@media (min-width: 1279px) and (max-width: 1429px)": {
       width: "50%",
+      minWidth: "unset",
+      minHeight: "560px",
     },
     [theme.breakpoints.only("md")]: {
       width: "50%",
       minWidth: "unset",
-      minHeight: "435px",
+      minHeight: "470px",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -153,14 +155,28 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginBottom: "5rem",
     [theme.breakpoints.down("md")]: {
-      ...theme.typography.h2,
       marginBottom: "2.5rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.h2,
+    },
+    [theme.breakpoints.only("xs")]: {
+			fontSize: "28px",
+      lineHeight: "38px",
     },
   },
   cardHeader: {
     ...theme.typography.h2,
     color: theme.palette.text.primary,
     marginBottom: "2.5rem",
+    "&.orderBooks": {
+      "@media (min-width: 1279px) and (max-width: 1429px)": {
+        height: "4.75rem",
+      },
+      [theme.breakpoints.only("md")]: {
+        minHeight: "3.5rem",
+      },
+    },
     "&.crosschain": {
       height: "4.75rem",
       [theme.breakpoints.only("md")]: {
@@ -238,6 +254,14 @@ const useStyles = makeStyles((theme) => ({
       },
       "&.noLeftMargin": {
         marginLeft: "-3rem",
+      },
+    },
+    "@media (min-width: 1279px) and (max-width: 1429px)": {
+      width: "100%",
+      height: "100%",
+      minHeight: "2.25rem",
+      "&.orderBook": {
+        marginTop: "2rem",
       },
     },
     [theme.breakpoints.only("md")]: {
