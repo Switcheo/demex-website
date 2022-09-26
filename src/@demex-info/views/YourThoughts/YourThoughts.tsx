@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "84rem",
     padding: theme.spacing(20, 2.5),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(12.5, 4, 8),
+      padding: theme.spacing(12.5, 4),
     },
   },
   background: {
