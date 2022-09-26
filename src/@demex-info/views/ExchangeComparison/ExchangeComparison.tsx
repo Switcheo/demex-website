@@ -97,6 +97,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("md")]: {
       padding: 0,
       marginTop: "-100px",
+    },
+    [theme.breakpoints.down("sm")]: {
       background: `url(${YellowVectorBottom}) no-repeat top left`,
     },
   },
