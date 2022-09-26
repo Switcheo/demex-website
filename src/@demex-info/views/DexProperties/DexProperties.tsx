@@ -1,10 +1,10 @@
+import BlueVectorBottom from "@demex-info/assets/background/BlueVectorBottom.svg";
+import BlueVectorTop from "@demex-info/assets/background/BlueVectorTop.svg";
 import { BackgroundAnimation, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { Box, Hidden, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { Decentralised, Gateway, Graphic, Liquidity, Performance, Trade } from "./assets";
-import SwirlBottom from "./assets/SwirlBottom.svg";
-import SwirlTop from "./assets/SwirlTop.svg";
 import { USPListItem } from "./components";
 
 const DexProperties: React.FC = () => {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   mainHeader: {
     [theme.breakpoints.down("md")]: {
       height: "310px",
-      background: `url(${SwirlTop}) no-repeat top right`,
+      background: `url(${BlueVectorTop}) no-repeat top right`,
     },
   },
   typoContainer: {
@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
   swirlBottom: {
     [theme.breakpoints.down("md")]: {
       height: "310px",
-      background: `url(${SwirlBottom}) no-repeat bottom left`,
+      background: `url(${BlueVectorBottom}) no-repeat bottom left`,
     },
     [theme.breakpoints.only("md")]: {
       paddingBottom: "5rem",
