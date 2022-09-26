@@ -81,6 +81,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("md")]: {
       padding: theme.spacing(3, 1.5, 3, 3),
     },
+    [theme.breakpoints.down("xs")]: {
+      minWidth: "unset",
+    },
   },
   headerCell: {
     borderBottom: `1px solid ${theme.palette.divider}`,

@@ -170,7 +170,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
-  rowHeader: {},
+  rowHeader: {
+    whiteSpace: "nowrap",
+  },
   rowText: {
     ...theme.typography.body2,
     alignItems: "center",
