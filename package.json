@@ -24,7 +24,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.0.1",
-    "carbon-js-sdk": "^0.1.118",
+    "carbon-js-sdk": "^0.2.8",
     "chart.js": "^3.2.0",
     "contentful": "^7.14.6",
     "dayjs": "^1.11.5",

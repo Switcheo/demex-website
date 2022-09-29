@@ -1170,11 +1170,6 @@
     isomorphic-ws "4.0.1"
     ws "7.4.5"
 
-"@cityofzion/neon-api@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@cityofzion/neon-api/-/neon-api-5.0.0.tgz"
-  integrity sha512-nvslHi77gv1Vc44rZb2QamQyWhWGhooXDnVCIA6BZUpiArMWZ3TNYaDCXLWQTSvz14UdcYN8WIIt9v/vcD/wqg==
-
 "@cityofzion/neon-core-next@npm:@cityofzion/neon-core@^5.0.0":
   version "5.0.0"
   resolved "https://registry.npmjs.org/@cityofzion/neon-core/-/neon-core-5.0.0.tgz"
@@ -1214,47 +1209,6 @@
     scrypt-js "3.0.1"
     secure-random "1.1.2"
     wif "2.0.6"
-
-"@cityofzion/neon-core@^5.0.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-5.2.0.tgz#911e35fc822fdb9744d981732be2e512c4ffe8bd"
-  integrity sha512-wGlZJduEXt4Ar1VuP0+x/RzNvkG83isfHk+yF2+uS+BjJ6LwZzm1Z0hnIaj54+YqeygWHktHouCHNnnbghdx7w==
-  dependencies:
-    abort-controller "3.0.0"
-    bn.js "5.2.0"
-    bs58 "5.0.0"
-    buffer "6.0.3"
-    cross-fetch "^3.1.5"
-    crypto-js "4.1.1"
-    elliptic "6.5.4"
-    lodash "4.17.21"
-    loglevel "1.8.0"
-    loglevel-plugin-prefix "0.8.4"
-    scrypt-js "3.0.1"
-
-"@cityofzion/neon-js-next@npm:@cityofzion/neon-js@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@cityofzion/neon-js/-/neon-js-5.0.0.tgz"
-  integrity sha512-c1c1wkGEn3vGds+T61Ki9Dm5uycrIUmC9UgtwrztkAhuZXxL86QgaAOCARLnJol+/qsHLSUwUmHo7cIrcMVWJA==
-  dependencies:
-    "@cityofzion/neon-api" "^5.0.0"
-    "@cityofzion/neon-core" "^5.0.0"
-
-"@cityofzion/neon-js@^4.9.0":
-  version "4.9.0"
-  resolved "https://registry.npmjs.org/@cityofzion/neon-js/-/neon-js-4.9.0.tgz"
-  integrity sha512-YYeMbQGZJkC8Wq2UQt98OUys8f8tPCaXMplbV8GwiJEdG+PJJOFGg3NkvrDGUfcuasff0dcn8LWjXTPKPp+Gyw==
-  dependencies:
-    "@cityofzion/neon-api" "^4.9.0"
-    "@cityofzion/neon-core" "^4.9.0"
-    "@cityofzion/neon-nep5" "^4.9.0"
-
-"@cityofzion/neon-nep5@^4.9.0":
-  version "4.9.0"
-  resolved "https://registry.npmjs.org/@cityofzion/neon-nep5/-/neon-nep5-4.9.0.tgz"
-  integrity sha512-MSRXHl+UGYnh8f9FC7zZvMNRblnl496VxG3tjA+GIShtLR6u75/FK7syVXua9h8/khljL7qqSfnNqA+sy7q+eg==
-  dependencies:
-    "@cityofzion/neon-core" "^4.9.0"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -3624,13 +3578,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ripemd160@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@types/ripemd160/-/ripemd160-2.0.0.tgz"
-  integrity sha512-LD6AO/+8cAa1ghXax9NG9iPDLPUEGB2WWPjd//04KYfXxTwHvlDEfL0NRjrM5z9XWBi6WbKw75Are0rDyn3PSA==
-  dependencies:
-    "@types/node" "*"
-
 "@types/scheduler@*":
   version "0.16.1"
   resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.1.tgz"
@@ -3672,16 +3619,6 @@
   dependencies:
     source-map "^0.6.1"
 
-"@types/w3c-web-hid@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@types/w3c-web-hid/-/w3c-web-hid-1.0.2.tgz"
-  integrity sha512-tNLnl6+/AkmASEnviwdLLE6kaXlY28cDVyQ3e+WwnEAm5DHyO7c71a5TtYX6ofrnzzdQSnNsjNMoggsbrtOYfQ==
-
-"@types/w3c-web-usb@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/@types/w3c-web-usb/-/w3c-web-usb-1.0.5.tgz"
-  integrity sha512-dYolx2XWesl1TMu+1BjtjU6eC6c2zZ2VDKhjU4f/mtR3+UBfMW6h1tPCQt7leY5Y8JBg0Fe/mMnoDMkPPNX9sw==
-
 "@types/webpack-sources@*":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@types/webpack-sources/-/webpack-sources-2.1.0.tgz"
@@ -3702,13 +3639,6 @@
     "@types/uglify-js" "*"
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
-
-"@types/ws@^7.4.7":
-  version "7.4.7"
-  resolved "https://registry.npmjs.org/@types/ws/-/ws-7.4.7.tgz"
-  integrity sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==
-  dependencies:
-    "@types/node" "*"
 
 "@types/yargs-parser@*":
   version "20.2.0"
@@ -4830,11 +4760,6 @@ base-x@^3.0.2, base-x@^3.0.6, base-x@^3.0.8:
   dependencies:
     safe-buffer "^5.0.1"
 
-base-x@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/base-x/-/base-x-4.0.0.tgz#d0e3b7753450c73f8ad2389b5c018a4af7b2224a"
-  integrity sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==
-
 base58check@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/base58check/-/base58check-2.0.0.tgz"
@@ -5195,13 +5120,6 @@ bs58@4.0.1, bs58@^4.0.0, bs58@^4.0.1:
   dependencies:
     base-x "^3.0.2"
 
-bs58@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/bs58/-/bs58-5.0.0.tgz#865575b4d13c09ea2a84622df6c8cbeb54ffc279"
-  integrity sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ==
-  dependencies:
-    base-x "^4.0.0"
-
 bs58@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/bs58/-/bs58-3.1.0.tgz"
@@ -5441,15 +5359,14 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-carbon-js-sdk@^0.1.118:
-  version "0.1.118"
-  resolved "https://registry.npmjs.org/carbon-js-sdk/-/carbon-js-sdk-0.1.118.tgz"
-  integrity sha512-8m9gWNmNn5wKkj3LwKoawxgitZPEo0rixFjSnxRKWkRKj+F1ZiAYCSmL3ebhsNJi5NN+kFzN7EFhRlogAUWR9A==
+carbon-js-sdk@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.2.8.tgz#0ee57007e6dba5793f5664ba07dfddf596b7c60d"
+  integrity sha512-OOSLIcsNXTBlWXj1wJy1J6cpksCkWnPH9g//zbOS9FtX4rhYzcsK7XIZOut2m6BKxeLI6N0xlMgmvYNp3PaIww==
   dependencies:
+    "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"
     "@cityofzion/neon-core-next" "npm:@cityofzion/neon-core@^5.0.0"
-    "@cityofzion/neon-js" "^4.9.0"
-    "@cityofzion/neon-js-next" "npm:@cityofzion/neon-js@^5.0.0"
     "@cosmjs/proto-signing" "^0.28.10"
     "@cosmjs/stargate" "^0.28.10"
     "@grpc/grpc-js" "^1.3.2"
@@ -5459,10 +5376,6 @@ carbon-js-sdk@^0.1.118:
     "@ledgerhq/hw-transport" "^6.3.0"
     "@ledgerhq/hw-transport-webhid" "^6.4.1"
     "@ledgerhq/hw-transport-webusb" "^6.3.0"
-    "@types/ripemd160" "^2.0.0"
-    "@types/w3c-web-hid" "^1.0.2"
-    "@types/w3c-web-usb" "^1.0.5"
-    "@types/ws" "^7.4.7"
     "@zilliqa-js/zilliqa" "^2.2.0"
     base58check "^2.0.0"
     bignumber.js "^9.0.1"
@@ -6096,7 +6009,7 @@ cross-fetch@^2.2.2:
     node-fetch "2.6.1"
     whatwg-fetch "2.0.4"
 
-cross-fetch@^3.1.4, cross-fetch@^3.1.5:
+cross-fetch@^3.1.4:
   version "3.1.5"
   resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.5.tgz"
   integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
