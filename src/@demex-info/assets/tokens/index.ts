@@ -12,6 +12,7 @@ export { ReactComponent as ASA } from "./ASA.svg";
 export { ReactComponent as ATOM } from "./ATOM.svg";
 export { ReactComponent as AVA } from "./AVA.svg";
 export { ReactComponent as AVAX } from "./AVAX.svg";
+export { ReactComponent as AXL } from "./AXL.svg";
 export { ReactComponent as BAKE } from "./BAKE.svg";
 export { ReactComponent as BAL } from "./BAL.svg";
 export { ReactComponent as BAND } from "./BAND.svg";
