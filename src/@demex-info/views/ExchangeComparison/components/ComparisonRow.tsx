@@ -115,6 +115,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& td": {
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
+          paddingBottom: "3rem",
         },
       },
     },

@@ -87,8 +87,8 @@ export const TradingVal: TradingRow[] = [{
   header: "Listing New Markets",
   values: {
     demex: "Anyone, Permissionless",
-    uniswap: "Team, Permissionless",
-    dydx: "Anyone, Permissionless",
+    uniswap: "Anyone, Permissionless",
+    dydx: "Team, Permissioned",
     serum: "Anyone, Permissionless",
   },
 }];

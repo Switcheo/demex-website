@@ -21,7 +21,7 @@ const TweetSection: React.FC = () => {
   const classes = useStyles();
   const contentfulClient = useSelector((state: RootState) => state.app.contentfulClient);
   const [tweetList, setTweetList] = useState(List<TweetData>());
-  const [currIndex, setCurrIndex] = useState(0);
+  const [currIndex, setCurrIndex] = useState(2);
   const [onLoad, setOnLoad] = useState(true);
   const [firstTweet, setFirstTweet] = useState(0);
   const [secondTweet, setSecondTweet] = useState(1);
@@ -48,11 +48,8 @@ const TweetSection: React.FC = () => {
 
   useEffect(() => {
     // update 1 card every 20s
-    // TODO: fix issue that on first load the first card will be repeated even though index = 3
     const interval = setInterval(() => {
-      if (onLoad) {
-        setCurrIndex(3);
-      } else if (currIndex === 5) {
+      if (currIndex === 5) {
         setCurrIndex(0);
       } else {
         setCurrIndex(currIndex + 1);
