@@ -16,6 +16,8 @@ const tokenNameMap: {
   BTCB: "BTC",
   BCFX: "CFX",
   "LKT.BEP20": "LKT",
+  LUNC: "LUNA",
+  USTC: "UST",
 };
 
 export interface CoinIconProps extends SvgIconProps {

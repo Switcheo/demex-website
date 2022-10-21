@@ -24,7 +24,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const tweetContent = contentArr[0];
   const tweetUrl = contentArr[1];
   const date = dayjs(tweetDate).format("MMM D");
-  const isReplyingTweet = replyingTo !== undefined;
+  const isReplyingTweet = replyingTo !== "";
 
   return (
     <Box className={clsx(className, classes.root)} onClick={() => goToLink(tweetUrl)}>
@@ -84,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: "1.5rem",
+    [theme.breakpoints.down("md")]: {
+      marginBottom: "0.75rem",
+    },
   },
   twitterIcon: {
     marginRight: "0.5rem",

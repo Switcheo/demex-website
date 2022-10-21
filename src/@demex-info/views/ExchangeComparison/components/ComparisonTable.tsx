@@ -58,13 +58,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
       linear-gradient(to right, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0)), 
       linear-gradient(to left, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0))`,
-  /* Shadows */
-  /* Shadow covers */
-  backgroundPosition: "left center, right center, left center, right center",
-  backgroundRepeat: "no-repeat",
-  backgroundColor: theme.palette.background.primary,
-  backgroundSize: "20px 100%, 20px 100%, 15px 100%, 15px 100%",
-  backgroundAttachment: "local, local, scroll, scroll",
+    /* Shadows */
+    /* Shadow covers */
+    backgroundPosition: "left center, right center, left center, right center",
+    backgroundRepeat: "no-repeat",
+    backgroundColor: theme.palette.background.primary,
+    backgroundSize: "20px 100%, 20px 100%, 15px 100%, 15px 100%",
+    backgroundAttachment: "local, local, scroll, scroll",
   },
   fillerCell: {
     borderBottom: "none",
@@ -104,7 +104,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-    height: "4.875rem",
+    paddingTop: "2rem",
+    paddingBottom: "2rem",
   },
   iconClass: {
     height: "1.875rem",
