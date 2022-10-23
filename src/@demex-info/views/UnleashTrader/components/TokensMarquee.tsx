@@ -112,10 +112,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    minHeight: "6.75rem",
+    maxHeight: "6.75rem",
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
       minWidth: "9rem",
-      minHeight: "5.25rem",
+      minHeight: "5.75rem",
+      maxHeight: "5.75rem",
     },
   },
   text: {
@@ -125,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
       ...theme.typography.h3,
       fontFamily: "Montserrat",
       color: theme.palette.text.primary,
-      marginTop: "0.25rem",
+      marginTop: "0.3rem",
     },
     [theme.breakpoints.only("sm")]: {
 			...theme.typography.body3,
@@ -133,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.h4,
         fontFamily: "Montserrat",
         color: theme.palette.text.primary,
-        marginTop: "0.25rem",
+        marginTop: "0.3rem",
       },
 		},
 		[theme.breakpoints.only("xs")]: {
@@ -142,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.title1,
         fontFamily: "Montserrat",
         color: theme.palette.text.primary,
-        marginTop: "0.25rem",
+        marginTop: "0.3rem",
       },
 		},
   },
