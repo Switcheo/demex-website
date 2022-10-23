@@ -5,17 +5,6 @@ import Long from "long";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";
 
-export interface MarketsState {
-  stats: MarketStatItem[];
-  list: MarketListMap;
-}
-
-export interface CandleStickItem {
-  time: Date;
-  close: number;
-  timestamp: number;
-}
-
 export interface MarketCandlesticks {
   market: string
   bars: number[]
@@ -138,26 +127,6 @@ export function isPerpetual(expiryTime?: string | Date): boolean {
 export function isExpired(market: MarketListItem): boolean {
   const expiryTime = moment(market.expiryTime);
   return !moment().isBefore(expiryTime);
-}
-
-export function parseMarketCandlesticks(candlesticks: Models.Candlestick[], market: MarketListItem, sdk: CarbonSDK | undefined): CandleStickItem[] {
-  if (typeof candlesticks !== "object" || candlesticks.length <= 0 || !sdk) {
-    return [];
-  }
-
-  return candlesticks.map((candlestick: Models.Candlestick) => {
-    const {
-      time = new Date("1970-01-01T00:00:00"),
-      close = "0",
-    } = candlestick;
-    const closeBN = parseNumber(close, BN_ZERO)!.shiftedBy(-DEC_SHIFT);
-    const adjustedClose = shiftByDiffDp(market, sdk, closeBN);
-    return {
-      time,
-      close: adjustedClose.toNumber(),
-      timestamp: moment(time).unix(),
-    };
-  });
 }
 
 export const shiftByDiffDp = (

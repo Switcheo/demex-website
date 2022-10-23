@@ -15,25 +15,6 @@ export function parseNumber(number: string | number = "0", defaultValue?: BigNum
 	return bnNumber;
 }
 
-export function toShorterNum(number: string | number | BigNumber): string {
-  let numberBN = BN_ZERO;
-  if (!BigNumber.isBigNumber(number)) {
-    numberBN = new BigNumber(number);
-  } else {
-    numberBN = number;
-  }
-  if (numberBN.gte(BN_BILLION)) {
-    return `${numberBN.dividedBy(BN_BILLION).decimalPlaces(2, 1).toString(10)}b`;
-  }
-  if (numberBN.gte(BN_MILLION) && numberBN.lt(BN_BILLION)) {
-    return `${numberBN.dividedBy(BN_MILLION).decimalPlaces(2, 1).toString(10)}m`;
-  }
-  if (numberBN.gte(BN_TENTHOUSAND) && numberBN.lt(BN_MILLION)) {
-    return `${numberBN.toFormat(0, 1)}`;
-  }
-  return formatUsdPrice(numberBN, false);
-}
-
 export function formatUsdPrice(number: string | number | BigNumber, includeDollarSign: boolean = true) {
   const dollarPortion = includeDollarSign ? "$" : "";
   if (!number) return `${dollarPortion}0.00`;
