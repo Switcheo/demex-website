@@ -36,7 +36,7 @@ const YourThoughts: React.FC = () =>  {
           color="textPrimary"
           className={classes.subtitle}
         >
-          We value your thoughts to bring Demex further. Check out our forum for community to discuss, propose, and execute ideas.
+          We value your thoughts to bring Demex further. Discuss, propose and execute ideas together with our community.
         </TypographyLabel>
         <Button
           className={clsx(classes.shareBtn, classes.btn)}
