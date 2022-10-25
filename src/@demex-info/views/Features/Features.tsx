@@ -1,3 +1,4 @@
+import { ExternalLink } from "@demex-info/assets";
 import { Cards, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
@@ -43,6 +44,7 @@ const Features: React.FC = () => {
               }}
             >
               Learn More
+              <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
             </Button>
           </Box>
         </Cards>
@@ -63,6 +65,7 @@ const Features: React.FC = () => {
             }}
           >
             Learn More
+            <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
           </Button>
         </Cards>
       </Box>
@@ -84,6 +87,7 @@ const Features: React.FC = () => {
             }}
           >
             Learn More
+            <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
           </Button>
         </Cards>
         <Cards className={classes.cards}>
@@ -103,6 +107,7 @@ const Features: React.FC = () => {
             }}
           >
             Learn More
+            <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
           </Button>
         </Cards>
       </Box>
@@ -315,6 +320,7 @@ const useStyles = makeStyles((theme) => ({
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
     textDecoration: "none",
+    whiteSpace: "nowrap",
     [theme.breakpoints.only("md")]: {
       ...theme.typography.title2,
     },
@@ -338,6 +344,11 @@ const useStyles = makeStyles((theme) => ({
       ...theme.typography.title3,
     },
 	},
+  gradientIcon: {
+    "& path": {
+      fill: "url(#demexLinearGradient)",
+    },
+  },
 }));
 
 export default Features;

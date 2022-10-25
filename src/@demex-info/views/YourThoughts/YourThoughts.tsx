@@ -80,8 +80,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: `url(${vector})`,
     backgroundSize: "cover",
     width: "100%",
-    height: "777px",
-    marginTop: "-8rem",
+    marginTop: "-30rem",
     [theme.breakpoints.down("sm")]: {
       height: "unset",
       marginTop: "-5rem",
@@ -105,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   btnDiv: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "11.5rem",
+    marginTop: "35rem",
     [theme.breakpoints.down("sm")]: {
       marginTop: "6.5rem",
     },

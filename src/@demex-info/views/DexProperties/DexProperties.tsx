@@ -31,13 +31,13 @@ const DexProperties: React.FC = () => {
         <USPListItem icon={Trade} header="Unrivalled Trading Journey">
           <Box className={classes.description}>
             <b>Designed to trade anything and everything.</b>&nbsp;
-            From futures to perpetuals, we&apos;ve got you covered. <b>Gain a market advantage.</b> Interchain leverage up to 150x, coming soon.
+            From futures to perpetuals, we&apos;ve got you covered. <b>Gain a market advantage.</b> Interchain leverage up to 50x. Money markets coming soon.
           </Box>
         </USPListItem>
         <USPListItem icon={Gateway} header="Secure">
           <Box className={classes.description}>
             <b>Secured.</b>&nbsp;
-            Built on Tendermint core, with over 20 validators. Robust insurance fund that mitigates socialized losses, coming soon.
+            Built on Tendermint core, secured by over 20 validators. Robust insurance fund that mitigates socialized losses, coming soon.
           </Box>
         </USPListItem>
         <USPListItem iconClass={classes.nitroSvg} icon={Performance} header="Nitro Fast Trades">
@@ -48,7 +48,7 @@ const DexProperties: React.FC = () => {
           </Box>
         </USPListItem>
         <Box className={classes.swirlBottom}>
-          <USPListItem icon={Liquidity} header="Liquidity/Interchain Gateway">
+          <USPListItem icon={Liquidity} header="Liquidity & Interchain Gateway">
             <Box className={clsx(classes.description, "lastDescription")}>
               <b>Access cross-chain markets and liquidity pools</b>&nbsp;
               and a variety of blockchains like Ethereum, BSC, Ziliqa, Neo3, Cosmos, Osmosis, Juno, Terra. Unlock liquidity rewards.&nbsp;

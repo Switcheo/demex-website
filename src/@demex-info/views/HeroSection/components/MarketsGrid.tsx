@@ -8,7 +8,7 @@ import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets,
+  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets, isPerpetual,
 } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
@@ -19,6 +19,7 @@ import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import { Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
 import clsx from "clsx";
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -119,9 +120,13 @@ const MarketsGrid: React.FC = () => {
   }, [stats, tokenClient, list, marketOption]);
 
   const futuresMarketsList = React.useMemo(() => {
-    return stats?.filter((stat: MarketStatItem) => {
+    const futuresStats = stats?.filter((stat: MarketStatItem) => {
+      return stat.marketType === MarkType.Futures;
+    });
+    return futuresStats?.filter((stat: MarketStatItem) => {
       const marketItem = list?.[stat.market] ?? {};
-      return (stat.marketType === MarkType.Futures && !isExpired(marketItem));
+      const formatExpiry = dayjs(marketItem.expiryTime).format("DD MMM YYYY");
+      return (!isExpired(marketItem) || isPerpetual(formatExpiry));
     });
   }, [stats, tokenClient, list, marketOption]);
 

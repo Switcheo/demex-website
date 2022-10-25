@@ -90,6 +90,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1.5),
     minWidth: "calc((80% - 56px)/ 6)",
     height: "100%",
+    "&.demex": {
+      borderLeft: `1px solid ${theme.palette.primary.main}`,
+      borderRight: `1px solid ${theme.palette.primary.main}`,
+      borderTop: `1px solid ${theme.palette.primary.main}`,
+    },
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 1.5),
     },

@@ -2,7 +2,7 @@ import { ExternalLink, SWTH } from "@demex-info/assets";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, Link, makeStyles } from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import React from "react";
 
 const PoweredBySwitcheo: React.FC = () => {
@@ -19,18 +19,21 @@ const PoweredBySwitcheo: React.FC = () => {
         </Box>
       </Box>
       <Box className={classes.description}>
-        <b>Carbon</b> is a Layer 2 protocol that&apos;s rooted at the core of <b>DeFi</b>, designed to support trading of  advanced financial instruments. The <b>native cryptocurrency</b> and <b>governance token</b> of Carbon is <b>SWTH</b>.
+        <Button
+          className={classes.learnMoreLink}
+          variant="text"
+          target="_blank"
+          href={StaticLinks.Docs.Cosmos}
+          classes={{
+            label: classes.linkText,
+          }}
+        >
+          Carbon
+          <SvgIcon className={classes.externalLink} component={ExternalLink} />
+        </Button>
+        is a Layer 2 protocol that&apos;s rooted at the core of <b>DeFi</b>, designed to support trading of  advanced financial instruments. The <b>native cryptocurrency</b> and <b>governance token</b> of Carbon is <b>SWTH</b>.
         <br /><br />
         <b>Demex</b> is a <b>Decentralised App (dApp)</b> built on Carbon, that serves as a decentralised exchange for a variety of crypto derivatives.&nbsp;
-        <Link
-					className={classes.linkText}
-					color="textPrimary"
-					key="cosmosLink"
-					href={StaticLinks.DemexDocs.About}
-					target="_blank"
-				>
-					Learn more
-				</Link>
       </Box>
       <Box className={classes.actionBtn}>
         <Button
@@ -79,9 +82,9 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "center",
     },
     [theme.breakpoints.only("xs")]: {
-			fontSize: "28px",
+      fontSize: "28px",
       lineHeight: "38px",
-		},
+    },
   },
   carbonSwth: {
     display: "flex",
@@ -113,8 +116,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     maxWidth: "64rem",
     "& > b": {
-			color: theme.palette.text.primary,
-		},
+      color: theme.palette.text.primary,
+    },
     [theme.breakpoints.down("md")]: {
       maxWidth: "50rem",
     },
@@ -124,10 +127,26 @@ const useStyles = makeStyles((theme) => ({
       margin: "2rem auto 0.75rem",
     },
   },
+	learnMoreLink: {
+		padding: "0 0 0.25rem",
+		"&:hover": {
+			backgroundColor: "transparent",
+			textDecoration: "underline",
+		},
+	},
 	linkText: {
-		textDecoration: "underline",
+		display: "flex",
+		alignItems: "center",
 		fontWeight: 700,
 		color: theme.palette.text.primary,
+		[theme.breakpoints.down("sm")]: {
+			...theme.typography.body2,
+			fontWeight: 700,
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.body3,
+			fontWeight: 700,
+		},
 	},
   actionBtn: {
     display: "flex",
@@ -141,17 +160,22 @@ const useStyles = makeStyles((theme) => ({
       "& a:first-child": {
         marginRight: "1rem",
       },
-		},
+    },
   },
   button: {
-		marginTop: "1.75rem",
-		minWidth: "12rem",
-		minHeight: "4rem",
-		[theme.breakpoints.down("sm")]: {
+    marginTop: "1.75rem",
+    minWidth: "12rem",
+    minHeight: "4rem",
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.title3,
-			marginTop: "2em",
+      marginTop: "2em",
       minWidth: "7.5rem",
       minHeight: "2.5rem",
+    },
+  },
+  externalLink: {
+		"& path": {
+			fill: theme.palette.text.primary,
 		},
 	},
   learnMoreLabel: {
@@ -160,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
     WebkitTextFillColor: "transparent",
     WebkitBackgroundClip: "text",
     textDecoration: "none",
+    whiteSpace: "nowrap",
   },
   linkIcon: {
     "& path": {

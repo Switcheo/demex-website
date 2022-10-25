@@ -1,8 +1,8 @@
-import { CosmosNetwork, InternetOfBlockchains, TendermintCore } from "@demex-info/assets/icons";
+import { CosmosNetwork, ExternalLink, InternetOfBlockchains, TendermintCore } from "@demex-info/assets/icons";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
-import { Box, Container, Hidden, Link, makeStyles } from "@material-ui/core";
+import { Box, Button, Container, Hidden, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
@@ -10,7 +10,7 @@ const USPSection: React.FC = () => {
 	const classes = useStyles();
 
 	return (
-    <Container maxWidth={false} className={classes.secondContainer}>
+		<Container maxWidth={false} className={classes.secondContainer}>
 			<Hidden xsDown>
 				<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.headline)}>
 					Powered by&nbsp;
@@ -29,20 +29,23 @@ const USPSection: React.FC = () => {
 					<SvgIcon className={classes.cosmosIcon} component={CosmosNetwork} />
 				</Box>
 			</Hidden>
-      <Box justifyContent="center" className={clsx(classes.text, classes.description)}>
-        Cosmos SDK is an open-source framework secured by Proof-of-Stake
-        consensus to build multi-asset public blockchains.&nbsp;
-				<Link
-					className={classes.linkText}
-					color="textPrimary"
-					key="cosmosLink"
-					href={StaticLinks.Docs.Cosmos}
+			<Box justifyContent="center" className={clsx(classes.text, classes.description)}>
+				Cosmos SDK is an open-source framework secured by Proof-of-Stake
+				consensus to build multi-asset public blockchains.&nbsp;
+				<Button
+					className={classes.learnMoreLink}
+					variant="text"
 					target="_blank"
+					href={StaticLinks.Docs.Cosmos}
+					classes={{
+						label: classes.linkText,
+					}}
 				>
 					Learn more
-				</Link>
-      </Box>
-      <Box className={classes.uspWrapper}>
+					<SvgIcon className={classes.externalLink} component={ExternalLink} />
+				</Button>
+			</Box>
+			<Box className={classes.uspWrapper}>
 				<Box>
 					<Box className={classes.headerSection}>
 						<SvgIcon className={classes.iconClass} component={InternetOfBlockchains} />
@@ -52,15 +55,18 @@ const USPSection: React.FC = () => {
 						<b>Cosmos</b> is the <b>Internet of Blockchains.</b>&nbsp;
 						It solves the hurdle of interoperatability by building a decentralized network of independent and scalable blockchains.&nbsp;
 						It has enabled streamlining of transactions, providing for the foundation for a new token economy.&nbsp;
-						<Link
-							className={classes.linkText}
-							color="textPrimary"
-							key="IBCLink"
-							href={StaticLinks.Docs.IBC}
+						<Button
+							className={classes.learnMoreLink}
+							variant="text"
 							target="_blank"
+							href={StaticLinks.Docs.Tendermint}
+							classes={{
+								label: classes.linkText,
+							}}
 						>
-							Learn more
-						</Link>
+							Learn More
+							<SvgIcon className={classes.externalLink} component={ExternalLink} />
+						</Button>
 					</Box>
 				</Box>
 				<Box>
@@ -70,19 +76,22 @@ const USPSection: React.FC = () => {
 					</Box>
 					<Box className={classes.contentSection}>
 						Tendermint Core is a blockchain application platform; it provides the equivalent of a web-server, database, and supporting libraries for blockchain applications written in any programming language.&nbsp;
-						<Link
-							className={classes.linkText}
-							color="textPrimary"
-							key="TendermintLink"
-							href={StaticLinks.Docs.Tendermint}
+						<Button
+							className={classes.learnMoreLink}
+							variant="text"
 							target="_blank"
+							href={StaticLinks.Docs.Tendermint}
+							classes={{
+								label: classes.linkText,
+							}}
 						>
 							Learn more
-						</Link>
+							<SvgIcon className={classes.externalLink} component={ExternalLink} />
+						</Button>
 					</Box>
 				</Box>
 			</Box>
-    </Container>
+		</Container>
 	);
 };
 
@@ -113,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.only("xs")]: {
 			fontSize: "28px",
-      lineHeight: "38px",
+			lineHeight: "38px",
 			marginLeft: 0,
 		},
 	},
@@ -139,16 +148,16 @@ const useStyles = makeStyles((theme) => ({
 			textAlign: "left",
 		},
 	},
-  uspWrapper: {
+	uspWrapper: {
 		display: "flex",
-    padding: "2.5rem 12.5rem 9.5rem",
+		padding: "2.5rem 12.5rem 9.5rem",
 		maxWidth: "1000px",
 		margin: "0 auto",
 		[theme.breakpoints.only("md")]: {
 			paddingLeft: 0,
 			paddingRight: 0,
 		},
-		[theme.breakpoints.up("md")]:{
+		[theme.breakpoints.up("md")]: {
 			"& > div": {
 				maxWidth: "488px",
 				"&:not(:last-child)": {
@@ -172,12 +181,12 @@ const useStyles = makeStyles((theme) => ({
 			paddingRight: 0,
 			paddingLeft: 0,
 		},
-  },
+	},
 	headerSection: {
-    ...theme.typography.h2,
-    color: theme.palette.text.primary,
-    display: "flex",
-    alignItems: "center",
+		...theme.typography.h2,
+		color: theme.palette.text.primary,
+		display: "flex",
+		alignItems: "center",
 		whiteSpace: "nowrap",
 		[theme.breakpoints.down("sm")]: {
 			...theme.typography.h3,
@@ -188,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: "18px",
 			lineHeight: "22px",
 		},
-  },
+	},
 	contentSection: {
 		...theme.typography.body1,
 		color: theme.palette.text.secondary,
@@ -205,17 +214,38 @@ const useStyles = makeStyles((theme) => ({
 			textAlign: "left",
 		},
 	},
-  iconClass: {
-    marginRight: "1rem",
+	iconClass: {
+		marginRight: "1rem",
 		[theme.breakpoints.down("sm")]: {
 			marginRight: 0,
 			marginBottom: "1rem",
 		},
-  },
+	},
+	externalLink: {
+		"& path": {
+			fill: theme.palette.text.primary,
+		},
+	},
+	learnMoreLink: {
+		padding: "0 0 0.25rem",
+		"&:hover": {
+			backgroundColor: "transparent",
+			textDecoration: "underline",
+		},
+	},
 	linkText: {
-		textDecoration: "underline",
+		display: "flex",
+		alignItems: "center",
 		fontWeight: 700,
 		color: theme.palette.text.primary,
+		[theme.breakpoints.down("sm")]: {
+			...theme.typography.body2,
+			fontWeight: 700,
+		},
+		[theme.breakpoints.only("xs")]: {
+			...theme.typography.body3,
+			fontWeight: 700,
+		},
 	},
 	cosmosIcon: {
 		position: "relative",

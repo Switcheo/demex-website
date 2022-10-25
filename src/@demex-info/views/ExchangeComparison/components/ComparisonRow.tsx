@@ -57,7 +57,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
         Object.keys(row.values).map((newKey: string) => {
           const valueItem = row.values?.[newKey] ?? false;
           return (
-            <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
+            <TableCell className={clsx(classes.rowCell, "rowCell", newKey, { demex: valueItem === "demex" })} key={`${row.header}-${newKey}`}>
               <Box className={classes.rowTextBox}>
                 <RenderGuard renderIf={typeof valueItem === "string"}>
                   <Typography className={classes.rowText} color="textPrimary">
@@ -109,6 +109,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         [theme.breakpoints.down("sm")]: {
           borderBottom: "none",
         },
+        "&.demex": {
+          borderLeft: `1px solid ${theme.palette.primary.main}`,
+          borderRight: `1px solid ${theme.palette.primary.main}`,
+        },
       },
     },
     "&:last-child": {
@@ -116,6 +120,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
           paddingBottom: "3rem",
+          "&.demex": {
+            borderBottom: `1px solid ${theme.palette.primary.main}`,
+          },
         },
       },
     },
@@ -155,6 +162,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowCell: {
     ...theme.typography.body2,
     padding: theme.spacing(2, 2.5),
+    "&.demex": {
+      border: `1px solid ${theme.palette.primary.main}`,
+    },
     "&:last-child": {
       padding: theme.spacing(2, 0, 2, 2.5),
     },
