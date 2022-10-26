@@ -74,7 +74,7 @@ export const DemexHosts: { [key: string]: string } = {
 export const StaticLinks = {
   JoinValidator: "https://github.com/Switcheo/tradehub",
   SwitcheoTokenArticle: "https://blog.switcheo.network/a-brave-new-chapter/",
-  CarbonNetwork: "https://carbon.network/",
+  CarbonNetwork: "https://docs.carbon.network/",
   // TermsConditions: "https://switcheo.network/terms-of-use",
   Blog: "https://blog.switcheo.com/",
   Api: {
