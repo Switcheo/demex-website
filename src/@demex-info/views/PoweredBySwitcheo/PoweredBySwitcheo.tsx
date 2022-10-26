@@ -23,7 +23,7 @@ const PoweredBySwitcheo: React.FC = () => {
           className={classes.learnMoreLink}
           variant="text"
           target="_blank"
-          href={StaticLinks.Docs.Cosmos}
+          href={StaticLinks.CarbonNetwork}
           classes={{
             label: classes.linkText,
           }}
