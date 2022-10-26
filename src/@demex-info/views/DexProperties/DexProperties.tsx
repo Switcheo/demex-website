@@ -37,7 +37,7 @@ const DexProperties: React.FC = () => {
         <USPListItem icon={Gateway} header="Secure">
           <Box className={classes.description}>
             <b>Secured.</b>&nbsp;
-            Built on Tendermint core, secured by over 20 validators. Robust insurance fund that mitigates socialized losses, coming soon.
+            Built on Tendermint Core, secured by over 20 validators. Robust insurance fund that mitigates socialized losses, coming soon.
           </Box>
         </USPListItem>
         <USPListItem iconClass={classes.nitroSvg} icon={Performance} header="Nitro Fast Trades">
