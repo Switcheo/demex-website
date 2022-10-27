@@ -15,9 +15,9 @@ const getLottieConfig = (animationData: any, className: string) => {
 };
 
 interface Props {
-	positionClass: string
-	containerClass: string
-	paddingClass: string
+	positionClass?: string
+	containerClass?: string
+	paddingClass?: string
 }
 
 const BackgroundAnimation: React.FC<Props> = (props: Props) => {
