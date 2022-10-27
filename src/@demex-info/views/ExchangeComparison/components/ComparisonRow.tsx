@@ -1,7 +1,8 @@
-import { CloseIcon, TickIcon } from "@demex-info/assets";
-import { RenderGuard } from "@demex-info/components";
+import { CloseIcon, ExternalLink, TickIcon } from "@demex-info/assets";
+import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
+import { StaticLinks } from "@demex-info/constants";
 import {
-  Box, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
+  Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
@@ -59,10 +60,39 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
           return (
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey, { demex: valueItem === "demex" })} key={`${row.header}-${newKey}`}>
               <Box className={classes.rowTextBox}>
-                <RenderGuard renderIf={typeof valueItem === "string"}>
+                <RenderGuard renderIf={typeof valueItem === "string" && valueItem !== "Cosmos IBC & PolyNetwork Alliance"}>
                   <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
+                </RenderGuard>
+                <RenderGuard renderIf={typeof valueItem === "string" && valueItem === "Cosmos IBC & PolyNetwork Alliance"}>
+                  <Box className={classes.rowText}>
+                    <Button
+                      className={classes.button}
+                      variant="text"
+                      target="_blank"
+                      href={StaticLinks.CosmosIBC}
+                      classes={{
+                        label: classes.linkLabel,
+                      }}
+                    >
+                      Cosmos IBC
+                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
+                    </Button>
+                    <TypographyLabel className={classes.ampersand}>&</TypographyLabel>
+                    <Button
+                      className={classes.button}
+                      variant="text"
+                      target="_blank"
+                      href={StaticLinks.PolyNetworkAlliance}
+                      classes={{
+                        label: classes.linkLabel,
+                      }}
+                    >
+                      PolyNetwork Alliance
+                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
+                    </Button>
+                  </Box>
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && valueItem}>
                   <TickIcon />
@@ -79,12 +109,12 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
                   <RenderGuard
                     renderIf={
                       Array.isArray(valueItem)
-                        && valueItem.length > 0
-                        && typeof valueItem[0] !== "string"
-                        && Boolean(valueItem[0]?.header)
+                      && valueItem.length > 0
+                      && typeof valueItem[0] !== "string"
+                      && Boolean(valueItem[0]?.header)
                     }
                   >
-                      <SubListCell valueItem={valueItem}  newKey={newKey} />
+                    <SubListCell valueItem={valueItem} newKey={newKey} />
                   </RenderGuard>
                 </RenderGuard>
               </Box>
@@ -140,6 +170,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "6rem",
     minWidth: "6rem",
     padding: theme.spacing(2, 3),
+    zIndex: 1,
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       ...theme.typography.title2,
@@ -162,9 +193,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowCell: {
     ...theme.typography.body2,
     padding: theme.spacing(2, 2.5),
-    "&.demex": {
-      border: `1px solid ${theme.palette.primary.main}`,
-    },
     "&:last-child": {
       padding: theme.spacing(2, 0, 2, 2.5),
     },
@@ -187,9 +215,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowText: {
     ...theme.typography.body2,
     alignItems: "center",
+    justifyContent: "center",
     display: "flex",
     textAlign: "center",
     maxWidth: "9.75rem",
+    flexWrap: "wrap",
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
@@ -205,6 +235,49 @@ const useStyles = makeStyles((theme: Theme) => ({
     minWidth: "10rem",
     [theme.breakpoints.only("xs")]: {
       minWidth: "unset",
+    },
+  },
+  linkLabel: {
+    ...theme.typography.body2,
+    display: "flex",
+    alignItems: "center",
+    color: theme.palette.text.primary,
+    whiteSpace: "nowrap",
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
+    },
+  },
+  button: {
+    padding: "0 0 0.25rem",
+    "&:hover": {
+      backgroundColor: "transparent",
+      textDecoration: "underline",
+    },
+  },
+  externalLink: {
+    "& path": {
+      fill: theme.palette.text.primary,
+    },
+    [theme.breakpoints.only("sm")]: {
+      height: "16px",
+      width: "16px",
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "16px",
+      width: "13px",
+    },
+  },
+  ampersand: {
+    ...theme.typography.body2,
+    marginBottom: "0.25rem",
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
     },
   },
 }));
