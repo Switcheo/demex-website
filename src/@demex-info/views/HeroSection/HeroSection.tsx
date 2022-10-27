@@ -1,17 +1,35 @@
 import { BackgroundAnimation } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { Box, Button, Container, makeStyles } from "@material-ui/core";
+import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
+	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
+	const [currIndex, setCurrIndex] = React.useState(0);
+
+	const displayText = ["Spot", "Futures", "Perpetuals"];
+
+	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
 	}, []);
+
+	useEffect(() => {
+    // update text every 5s
+    const interval = setInterval(() => {
+      if (currIndex === 2) {
+        setCurrIndex(0);
+      } else {
+        setCurrIndex(currIndex + 1);
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [currIndex]);
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
@@ -24,11 +42,11 @@ const HeroSection: React.FC = () => {
 				<Box className={classes.content}>
 					<Box className={clsx(classes.text, classes.tagline)}>
 						Trade&nbsp;
-						<Box>Anything</Box>
+						<Box>{displayText[currIndex]}</Box>
 					</Box>
 					<Box className={clsx(classes.text, classes.headline)}>
 						The Order Book DEX for the&nbsp;
-						<br />
+						{isDesktop && <br />}
 						Cosmos and Ethereum Ecosystems
 					</Box>
 
