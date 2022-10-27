@@ -1,3 +1,5 @@
+
+// import { StyleUtils } from "@demex-info/utils";
 import {
   Box, Hidden, makeStyles, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Theme,
@@ -30,7 +32,7 @@ const ComparisonTable: React.FC = () => {
                     className={clsx(classes.headerCell, cell.value)}
                     key={`svg-${cell.value}`}
                   >
-                    <Box className={classes.iconBox}>
+                    <Box className={clsx(classes.iconBox, { demex: cell.value === "demex" })}>
                       <Component className={clsx(classes.iconClass, cell.value)} />
                     </Box>
                   </TableCell>
@@ -75,6 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.palette.background.primary,
     borderBottom: `1px solid ${theme.palette.divider}`,
     minWidth: "12.5rem",
+    zIndex: 2,
     left: 0,
     padding: theme.spacing(3, 1.5, 3, 0),
     position: "sticky",
@@ -90,11 +93,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1.5),
     minWidth: "calc((80% - 56px)/ 6)",
     height: "100%",
-    "&.demex": {
-      borderLeft: `1px solid ${theme.palette.primary.main}`,
-      borderRight: `1px solid ${theme.palette.primary.main}`,
-      borderTop: `1px solid ${theme.palette.primary.main}`,
-    },
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 1.5),
     },
@@ -111,6 +109,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     paddingTop: "2rem",
     paddingBottom: "2rem",
+    "&.demex": {
+      height: "100%",
+      width: "100%",
+      boxSizing: "border-box",
+      border: "2px solid",
+      borderBottom: "none",
+      borderImageSlice: 1,
+      borderImageSource: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
+      borderRadius: "12px",
+      filter: "drop-shadow(0px 0px 12px #4035FF)",
+    },
   },
   iconClass: {
     height: "1.875rem",

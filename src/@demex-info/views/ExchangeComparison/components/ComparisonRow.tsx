@@ -1,6 +1,7 @@
 import { CloseIcon, ExternalLink, TickIcon } from "@demex-info/assets";
 import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
+import { StyleUtils } from "@demex-info/utils";
 import {
   Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
 } from "@material-ui/core";
@@ -139,9 +140,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         [theme.breakpoints.down("sm")]: {
           borderBottom: "none",
         },
-        "&.demex": {
-          borderLeft: `1px solid ${theme.palette.primary.main}`,
-          borderRight: `1px solid ${theme.palette.primary.main}`,
+        "&.demex > div": {
+          height: "80.5px",
+          width: "100%",
+          boxSizing: "border-box",
+          border: "2px solid",
+          borderBottom: "none",
+          borderTop: "none",
+          borderImageSlice: 1,
+          borderImageSource: StyleUtils.primaryGradient(theme),
+          borderRadius: "12px",
+          filter: "drop-shadow(0px 0px 12px #4035FF)",
         },
       },
     },
@@ -151,7 +160,19 @@ const useStyles = makeStyles((theme: Theme) => ({
           borderBottom: "none",
           paddingBottom: "3rem",
           "&.demex": {
-            borderBottom: `1px solid ${theme.palette.primary.main}`,
+            paddingBottom: 0,
+            "& > div": {
+              height: "112px",
+              border: "2px solid",
+              borderTop: "none",
+              borderImageSlice: 1,
+              borderImageSource: StyleUtils.primaryGradient(theme),
+              borderRadius: "12px",
+              filter: "drop-shadow(0px 0px 12px #4035FF)",
+              paddingTop: "1rem",
+              paddingBottom: "3rem",
+            },
+
           },
         },
       },
@@ -170,7 +191,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "6rem",
     minWidth: "6rem",
     padding: theme.spacing(2, 3),
-    zIndex: 1,
+    zIndex: 2,
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       ...theme.typography.title2,
@@ -193,6 +214,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowCell: {
     ...theme.typography.body2,
     padding: theme.spacing(2, 2.5),
+    "&.demex": {
+      padding: theme.spacing(0, 1.5),
+    },
     "&:last-child": {
       padding: theme.spacing(2, 0, 2, 2.5),
     },
@@ -252,6 +276,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   button: {
     padding: "0 0 0.25rem",
+    zIndex: 1,
     "&:hover": {
       backgroundColor: "transparent",
       textDecoration: "underline",
