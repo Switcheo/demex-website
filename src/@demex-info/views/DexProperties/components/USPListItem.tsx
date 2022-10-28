@@ -65,8 +65,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+    width: "273px",
     [theme.breakpoints.down("md")]: {
       height: "10rem",
+      width: "unset",
     },
   },
   svgIcon: {
@@ -91,8 +93,6 @@ const useStyles = makeStyles((theme) => ({
   textWrapper: {
     ...theme.typography.body1,
     color: theme.palette.text.primary,
-    position: "absolute",
-    left: "350px",
     width: "550px",
     "& > div:last-child": {
       width: "450px",

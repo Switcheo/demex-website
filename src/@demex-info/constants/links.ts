@@ -132,6 +132,8 @@ export const StaticLinks = {
     Tendermint: "https://docs.tendermint.com/",
   },
   Swth: "https://hub.carbon.network/buy",
+  CosmosIBC: "https://mapofzones.com/",
+  PolyNetworkAlliance: "https://www.poly.network/#/",
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {

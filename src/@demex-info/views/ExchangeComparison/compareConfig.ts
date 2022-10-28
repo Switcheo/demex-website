@@ -38,7 +38,7 @@ export interface ListItemHead {
 export const TradingVal: TradingRow[] = [{
   header: "Interoperability",
   values: {
-    demex: "PolyNetwork Alliance & Cosmos IBC",
+    demex: "Cosmos IBC & PolyNetwork Alliance",
     uniswap: "Ethereum & all bridged assets chain",
     dydx: "N/A",
     serum: "Wormhole",
