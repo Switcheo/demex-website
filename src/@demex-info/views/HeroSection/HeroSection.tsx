@@ -3,33 +3,22 @@ import { getDemexLink, Paths } from "@demex-info/constants";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
+// import { TypeAnimation } from "react-type-animation";
+import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
-	const [currIndex, setCurrIndex] = React.useState(0);
-
-	const displayText = ["Spot", "Futures", "Perpetuals"];
 
 	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
+	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"]
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
 	}, []);
-
-	useEffect(() => {
-    // update text every 5s
-    const interval = setInterval(() => {
-      if (currIndex === 2) {
-        setCurrIndex(0);
-      } else {
-        setCurrIndex(currIndex + 1);
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [currIndex]);
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
@@ -42,7 +31,13 @@ const HeroSection: React.FC = () => {
 				<Box className={classes.content}>
 					<Box className={clsx(classes.text, classes.tagline)}>
 						Trade&nbsp;
-						<Box>{displayText[currIndex]}</Box>
+						<TextLoop
+							interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
+						>
+							{items.map((item: string) => (
+								<span key={`${item}`}>{item}</span>
+							))}
+						</TextLoop>
 					</Box>
 					<Box className={clsx(classes.text, classes.headline)}>
 						The Order Book DEX for the&nbsp;
@@ -164,16 +159,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tagline: {
 		display: "flex",
-		"& > div": {
+		width: "150px",
+		"& > div > div > div > span": {
 			fontWeight: 700,
 			textDecoration: "underline",
 			color: theme.palette.text.primary,
 		},
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body3,
+			width: "107px",
 		},
 		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body4,
+			width: "95px",
 		},
 	},
 	headline: {
