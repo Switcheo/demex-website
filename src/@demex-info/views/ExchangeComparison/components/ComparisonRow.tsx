@@ -279,7 +279,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   ampersand: {
     ...theme.typography.body2,
-    marginBottom: "0.25rem",
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
