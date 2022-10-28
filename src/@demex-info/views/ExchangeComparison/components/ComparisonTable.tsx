@@ -1,5 +1,4 @@
-
-// import { StyleUtils } from "@demex-info/utils";
+import { StyleUtils } from "@demex-info/utils";
 import {
   Box, Hidden, makeStyles, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Theme,
@@ -33,6 +32,7 @@ const ComparisonTable: React.FC = () => {
                     key={`svg-${cell.value}`}
                   >
                     <Box className={clsx(classes.iconBox, { demex: cell.value === "demex" })}>
+                      {cell.value === "demex" && <Box className={classes.gradientBorder} />}
                       <Component className={clsx(classes.iconClass, cell.value)} />
                     </Box>
                   </TableCell>
@@ -93,6 +93,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 1.5),
     minWidth: "calc((80% - 56px)/ 6)",
     height: "100%",
+    "&.demex": {
+      padding: 0,
+    },
     "&:last-child": {
       padding: theme.spacing(0, 0, 0, 1.5),
     },
@@ -109,21 +112,37 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     paddingTop: "2rem",
     paddingBottom: "2rem",
+    position: "relative",
     "&.demex": {
-      height: "100%",
-      width: "100%",
-      boxSizing: "border-box",
-      border: "2px solid",
-      borderBottom: "none",
-      borderImageSlice: 1,
-      borderImageSource: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
-      borderRadius: "12px",
-      filter: "drop-shadow(0px 0px 12px #4035FF)",
+      width: "255px",
+      [theme.breakpoints.only("sm")]: {
+        width: "192px",
+      },
+      [theme.breakpoints.only("xs")]: {
+        width: "162px",
+      },
     },
   },
   iconClass: {
     height: "1.875rem",
     maxWidth: "9rem",
+    filter: "none",
+    "&.demex": {
+      position: "relative",
+    },
+  },
+  gradientBorder: {
+    position: "absolute",
+    padding: theme.spacing(0, 2.5),
+    height: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    border: "2px solid",
+    borderBottom: "none",
+    borderImageSlice: 1,
+    borderImageSource: StyleUtils.primaryGradient(theme),
+    borderRadius: "12px",
+    filter: "drop-shadow(0px 0px 12px #4035FF)",
   },
 }));
 

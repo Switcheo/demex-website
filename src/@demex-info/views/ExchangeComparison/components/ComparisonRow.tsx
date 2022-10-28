@@ -8,8 +8,6 @@ import {
 import clsx from "clsx";
 import React from "react";
 import { TradingRow } from "../compareConfig";
-import ListCell from "./ListCell";
-import SubListCell from "./SubListCell";
 
 interface Props {
   row: TradingRow;
@@ -59,14 +57,16 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
         Object.keys(row.values).map((newKey: string) => {
           const valueItem = row.values?.[newKey] ?? false;
           return (
-            <TableCell className={clsx(classes.rowCell, "rowCell", newKey, { demex: valueItem === "demex" })} key={`${row.header}-${newKey}`}>
-              <Box className={classes.rowTextBox}>
+            <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
+              <Box className={clsx(classes.rowTextBox, newKey)}>
                 <RenderGuard renderIf={typeof valueItem === "string" && valueItem !== "Cosmos IBC & PolyNetwork Alliance"}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "string" && valueItem === "Cosmos IBC & PolyNetwork Alliance"}>
+                  <Box className={classes.gradientBorder} />
                   <Box className={classes.rowText}>
                     <Button
                       className={classes.button}
@@ -96,27 +96,12 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
                   </Box>
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && valueItem}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <TickIcon />
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && !valueItem}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <CloseIcon />
-                </RenderGuard>
-                <RenderGuard renderIf={Array.isArray(valueItem)}>
-                  <RenderGuard renderIf={Array.isArray(valueItem) && valueItem.length > 0 && typeof valueItem[0] === "string"}>
-                    <ListCell valueItem={valueItem} newKey={newKey} />
-                  </RenderGuard>
-                </RenderGuard>
-                <RenderGuard renderIf={Array.isArray(valueItem)}>
-                  <RenderGuard
-                    renderIf={
-                      Array.isArray(valueItem)
-                      && valueItem.length > 0
-                      && typeof valueItem[0] !== "string"
-                      && Boolean(valueItem[0]?.header)
-                    }
-                  >
-                    <SubListCell valueItem={valueItem} newKey={newKey} />
-                  </RenderGuard>
                 </RenderGuard>
               </Box>
             </TableCell>
@@ -140,18 +125,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         [theme.breakpoints.down("sm")]: {
           borderBottom: "none",
         },
-        "&.demex > div": {
-          height: "80.5px",
-          width: "100%",
-          boxSizing: "border-box",
-          border: "2px solid",
-          borderBottom: "none",
-          borderTop: "none",
-          borderImageSlice: 1,
-          borderImageSource: StyleUtils.primaryGradient(theme),
-          borderRadius: "12px",
-          filter: "drop-shadow(0px 0px 12px #4035FF)",
-        },
       },
     },
     "&:last-child": {
@@ -161,18 +134,14 @@ const useStyles = makeStyles((theme: Theme) => ({
           paddingBottom: "3rem",
           "&.demex": {
             paddingBottom: 0,
-            "& > div": {
+            "& > div > div": {
               height: "112px",
-              border: "2px solid",
-              borderTop: "none",
-              borderImageSlice: 1,
-              borderImageSource: StyleUtils.primaryGradient(theme),
-              borderRadius: "12px",
-              filter: "drop-shadow(0px 0px 12px #4035FF)",
+              borderBottom: "2px solid",
+            },
+            "& > div > p": {
               paddingTop: "1rem",
               paddingBottom: "3rem",
             },
-
           },
         },
       },
@@ -215,7 +184,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2, 2.5),
     "&.demex": {
-      padding: theme.spacing(0, 1.5),
+      padding: theme.spacing(0),
     },
     "&:last-child": {
       padding: theme.spacing(2, 0, 2, 2.5),
@@ -259,6 +228,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     minWidth: "10rem",
     [theme.breakpoints.only("xs")]: {
       minWidth: "unset",
+    },
+    "&.demex": {
+      position: "relative",
+      width: "255px",
+      [theme.breakpoints.only("sm")]: {
+        width: "192px",
+      },
+      [theme.breakpoints.only("xs")]: {
+        width: "162px",
+      },
+    },
+    "&.rowText": {
+      position: "absolute",
     },
   },
   linkLabel: {
@@ -304,6 +286,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       ...theme.typography.body4,
     },
+  },
+  gradientBorder: {
+    position: "absolute",
+    padding: theme.spacing(0, 2.5),
+    height: "80.5px",
+    width: "100%",
+    boxSizing: "border-box",
+    border: "2px solid",
+    borderBottom: "none",
+    borderTop: "none",
+    borderImageSlice: 1,
+    borderImageSource: StyleUtils.primaryGradient(theme),
+    borderRadius: "12px",
+    filter: "drop-shadow(0px 0px 12px #4035FF)",
   },
 }));
 
