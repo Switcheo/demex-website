@@ -3,7 +3,6 @@ import { getDemexLink, Paths } from "@demex-info/constants";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-// import { TypeAnimation } from "react-type-animation";
 import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
 
@@ -14,7 +13,7 @@ const HeroSection: React.FC = () => {
 
 	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
-	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"]
+	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
