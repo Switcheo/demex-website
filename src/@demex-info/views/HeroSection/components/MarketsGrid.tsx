@@ -8,7 +8,7 @@ import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarketType, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets, isPerpetual,
+  MarketListMap, MarketStatItem, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets, isPerpetual,
 } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
@@ -38,7 +38,6 @@ const MarketsGrid: React.FC = () => {
   const tokenClient = sdk?.token;
   const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
-  const [marketOption] = React.useState<MarketType>(MarkType.Spot);
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [pools, setPools] = React.useState<Pool[]>([]);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
@@ -96,12 +95,7 @@ const MarketsGrid: React.FC = () => {
   const stats = useSelector((store: RootState) => store.app.marketStats);
 
   const marketsList = React.useMemo(() => {
-    return stats?.filter((stat: MarketStatItem) => {
-      const marketItem = list?.[stat.market] ?? {};
-      return marketOption === MarkType.Spot
-        ? (stat.marketType === MarkType.Spot)
-        : (stat.marketType === MarkType.Futures && !isExpired(marketItem));
-    }).sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
+    return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
       const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.base ?? "") ?? BN_ZERO;
@@ -112,12 +106,12 @@ const MarketsGrid: React.FC = () => {
       const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
     });
-  }, [list, stats, tokenClient, marketOption]);
+  }, [list, stats, tokenClient]);
 
   const spotMarketsList = React.useMemo(() => {
     return stats?.filter((stat: MarketStatItem) => {
       return stat.marketType === MarkType.Spot;});
-  }, [stats, tokenClient, list, marketOption]);
+  }, [stats, tokenClient, list]);
 
   const futuresMarketsList = React.useMemo(() => {
     const futuresStats = stats?.filter((stat: MarketStatItem) => {
@@ -128,7 +122,7 @@ const MarketsGrid: React.FC = () => {
       const formatExpiry = dayjs(marketItem.expiryTime).format("DD MMM YYYY");
       return (!isExpired(marketItem) || isPerpetual(formatExpiry));
     });
-  }, [stats, tokenClient, list, marketOption]);
+  }, [stats, tokenClient, list]);
 
   const { volume24H, coinsList } = React.useMemo((): {
     volume24H: BigNumber,
