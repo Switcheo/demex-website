@@ -1,11 +1,8 @@
 import YellowVectorTop from "@demex-info/assets/background/YellowVectorTop.svg";
 import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
-import { RootState } from "@demex-info/store/types";
 import { Box, Container, Hidden, makeStyles, Theme } from "@material-ui/core";
 import "animate.css";
-import { List } from "immutable";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import TweetCard from "./components/TweetCard";
 
 interface TweetData {
@@ -19,8 +16,7 @@ interface TweetData {
 
 const TweetSection: React.FC = () => {
   const classes = useStyles();
-  const contentfulClient = useSelector((state: RootState) => state.app.contentfulClient);
-  const [tweetList, setTweetList] = useState(List<TweetData>());
+  const [tweetList, setTweetList] = useState<TweetData[]>([]);
   const [currIndex, setCurrIndex] = useState(2);
   const [onLoad, setOnLoad] = useState(true);
   const [firstTweet, setFirstTweet] = useState(0);
@@ -28,23 +24,24 @@ const TweetSection: React.FC = () => {
   const [thirdTweet, setThirdTweet] = useState(2);
 
   useEffect(() => {
-    let newTweetList = List<TweetData>();
-    contentfulClient.getEntries({ content_type: "communityTweets" })
-      .then((response) => {
-        response.items.forEach((item: any, index) => {
-          const { mainContent, replyingTo, tweetDate, twitterName, twitterUsername } = item.fields;
-          newTweetList = newTweetList.push({
-            index,
-            mainContent,
-            replyingTo,
-            tweetDate,
-            twitterName: twitterName.content[0].content[0].value,
-            twitterUsername,
-          });
-        });
-        setTweetList(newTweetList);
+    (async () => {
+      const response = await fetch("https://api.dem.exchange/data/contentful");
+      const result = await response.json();
+      const newTweets = result.entries.items.map((item: any, index: number) => {
+        const { mainContent, replyingTo, tweetDate, twitterName, twitterUsername } = item.fields;
+        const tweet: TweetData = {
+          index,
+          mainContent,
+          replyingTo,
+          tweetDate,
+          twitterName: twitterName.content[0].content[0].value,
+          twitterUsername,
+        };
+        return tweet;
       });
-  }, [contentfulClient]);
+      setTweetList(newTweets);
+    })();
+  }, []);
 
   useEffect(() => {
     // update 1 card every 20s
@@ -65,7 +62,7 @@ const TweetSection: React.FC = () => {
         setCard(currIndex);
       }
     }, [updateCard]);
-    const tweet = tweetList.get(cardNo);
+    const tweet = tweetList[cardNo];
     return (
       <TweetCard
         className={updateCard ? "animate__animated animate__zoomIn" : ""}

@@ -26,7 +26,6 @@
     "bignumber.js": "^9.0.1",
     "carbon-js-sdk": "^0.2.8",
     "chart.js": "^3.2.0",
-    "contentful": "^7.14.6",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
     "gsap": "^3.6.1",
