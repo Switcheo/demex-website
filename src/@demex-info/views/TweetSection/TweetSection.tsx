@@ -25,9 +25,9 @@ const TweetSection: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://api.dem.exchange/data/contentful");
+      const response = await fetch("https://content.carbon.network/contentful/demex/communityTweets");
       const result = await response.json();
-      const newTweets = result.entries.items.map((item: any, index: number) => {
+      const newTweets = result.items.map((item: any, index: number) => {
         const { mainContent, replyingTo, tweetDate, twitterName, twitterUsername } = item.fields;
         const tweet: TweetData = {
           index,
