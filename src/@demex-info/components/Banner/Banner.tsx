@@ -28,10 +28,10 @@ const Banner: React.FC<Props> = (props: Props) => {
           <Box className={classes.header}>
             {headerText}
           </Box>
-          <Box className={classes.subHeader}>
+          <span className={classes.subHeader}>
             {subHeader}
             &nbsp;
-            <Box className={classes.gradientText}>
+            <span className={classes.gradientText}>
               {ctaLink && ctaText && (
                 <Link
                   className={classes.link}
@@ -43,8 +43,8 @@ const Banner: React.FC<Props> = (props: Props) => {
               )}
               &nbsp;
               {gradientText}
-            </Box>
-          </Box>
+            </span>
+          </span>
         </Box>
         {/* background vectors */}
         <SvgIcon className={classes.bannerBlueLeft} component={BannerBlueLeft} />
@@ -74,18 +74,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: "4px",
     boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.64)",
     position: "relative",
-    height: "4.75rem",
+    minHeight: "4.75rem",
     overflow: "hidden",
     zIndex: 5,
   },
 	bannerIcon: {
     zIndex: 1,
     padding: "0.75rem 1.5rem",
+    minWidth: "2.5rem",
+    minHeight: "2.5rem",
+    margin: "auto 0",
+    [theme.breakpoints.down("sm")]: {
+			padding: "0.5rem",
+		},
   },
   content: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    padding: "0.5rem 0.5rem 0.5rem 0",
     zIndex: 5,
   },
   header: {
@@ -96,7 +103,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   subHeader: {
     ...theme.typography.body3,
     color: theme.palette.text.secondary,
-    display: "flex",
   },
   link: {
     ...theme.typography.title3,
@@ -127,6 +133,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     right: "20%",
     zIndex: 1,
     height: "100%",
+    [theme.breakpoints.down("sm")]: {
+			display: "none",
+		},
   },
   bannerBlueRight: {
     position: "absolute",
