@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 5,
   },
 	bannerIcon: {
-    zIndex: 1,
+    zIndex: 3,
     padding: "0.75rem 1.5rem",
     minWidth: "2.5rem",
     minHeight: "2.5rem",
@@ -92,8 +92,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: "0.5rem 0.5rem 0.5rem 0",
+    padding: "0.875rem 1.5rem 0.875rem 0",
     zIndex: 5,
+    [theme.breakpoints.down("sm")]: {
+			padding: "0.5rem 0.5rem 0.5rem 0",
+		},
   },
   header: {
     ...theme.typography.title2,
