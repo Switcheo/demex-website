@@ -157,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
-			marginTop: "65px",
+			marginTop: 0,
 			height: "unset",
 		},
 		[theme.breakpoints.down("sm")]: {

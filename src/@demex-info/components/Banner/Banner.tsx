@@ -63,20 +63,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "5.5rem 3rem 1.5rem",
     zIndex: 10,
     [theme.breakpoints.down("sm")]: {
-			paddingLeft: "1.25rem",
-			paddingRight: "1.25rem",
+			paddingLeft: "0.75rem",
+			paddingRight: "0.75rem",
 		},
   },
   banner: {
     display: "flex",
     backgroundColor: theme.palette.snow,
-    background: "linear-gradient(298.71deg, #282B2D 32.3%, #000000 100%)",
+    background: StyleUtils.bannerGradient,
     borderRadius: "4px",
-    boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.64)",
+    boxShadow: StyleUtils.boxShadow(theme),
     position: "relative",
     minHeight: "4.75rem",
     overflow: "hidden",
     zIndex: 5,
+    [theme.breakpoints.down("sm")]: {
+      minHeight: "unset",
+		},
   },
 	bannerIcon: {
     zIndex: 3,
@@ -102,10 +105,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.title2,
     color: theme.palette.text.primary,
     marginBottom: "0.25rem",
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.title4,
+		},
   },
   subHeader: {
     ...theme.typography.body3,
     color: theme.palette.text.secondary,
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.body4,
+		},
   },
   link: {
     ...theme.typography.title3,
@@ -113,6 +122,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       textDecoration: "none",
     },
+    [theme.breakpoints.down("sm")]: {
+			...theme.typography.title4,
+		},
   },
   gradientText: {
     background: StyleUtils.warningGradient,
