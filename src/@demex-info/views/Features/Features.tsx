@@ -332,7 +332,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: "12rem",
 		minHeight: "4rem",
     "&.learnMore": {
-      maxWidth: "7.75rem",
+      maxWidth: "8.75rem",
     },
     [theme.breakpoints.down("md")]: {
       ...theme.typography.title2,

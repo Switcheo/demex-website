@@ -1,5 +1,4 @@
 import { CarbonSDK } from "carbon-js-sdk";
-import { createClient } from "contentful";
 import { AppActionTypes } from "./actions";
 import { AppState } from "./types";
 
@@ -14,11 +13,6 @@ const initial_state: AppState = {
   isAppReady: false,
   marketList: [],
   marketStats: [],
-  contentfulClient: createClient({
-    space: "zuuiz1tqvlit",
-    accessToken: "JivlR-h2xGiCQ02nkAP14NxcN9jPF4OZixTPfcmMCVI",
-    environment: "demex",
-  }),
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {

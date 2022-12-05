@@ -1,13 +1,19 @@
 import { BackgroundAnimation } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { Box, Button, Container, makeStyles } from "@material-ui/core";
+import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
+import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
+	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
+
+	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
+	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
@@ -24,11 +30,17 @@ const HeroSection: React.FC = () => {
 				<Box className={classes.content}>
 					<Box className={clsx(classes.text, classes.tagline)}>
 						Trade&nbsp;
-						<Box>Anything</Box>
+						<TextLoop
+							interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
+						>
+							{items.map((item: string) => (
+								<span key={`${item}`}>{item}</span>
+							))}
+						</TextLoop>
 					</Box>
 					<Box className={clsx(classes.text, classes.headline)}>
 						The Order Book DEX for the&nbsp;
-						<br />
+						{isDesktop && <br />}
 						Cosmos and Ethereum Ecosystems
 					</Box>
 
@@ -146,16 +158,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tagline: {
 		display: "flex",
-		"& > div": {
+		width: "150px",
+		"& > div > div > div > span": {
 			fontWeight: 700,
 			textDecoration: "underline",
 			color: theme.palette.text.primary,
 		},
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body3,
+			width: "107px",
 		},
 		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body4,
+			width: "95px",
 		},
 	},
 	headline: {

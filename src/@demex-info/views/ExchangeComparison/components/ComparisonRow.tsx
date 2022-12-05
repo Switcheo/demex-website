@@ -1,13 +1,13 @@
-import { CloseIcon, TickIcon } from "@demex-info/assets";
-import { RenderGuard } from "@demex-info/components";
+import { CloseIcon, ExternalLink, TickIcon } from "@demex-info/assets";
+import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
+import { StaticLinks } from "@demex-info/constants";
+import { StyleUtils } from "@demex-info/utils";
 import {
-  Box, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
+  Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { TradingRow } from "../compareConfig";
-import ListCell from "./ListCell";
-import SubListCell from "./SubListCell";
 
 interface Props {
   row: TradingRow;
@@ -57,35 +57,51 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
         Object.keys(row.values).map((newKey: string) => {
           const valueItem = row.values?.[newKey] ?? false;
           return (
-            <TableCell className={clsx(classes.rowCell, "rowCell", newKey, { demex: valueItem === "demex" })} key={`${row.header}-${newKey}`}>
-              <Box className={classes.rowTextBox}>
-                <RenderGuard renderIf={typeof valueItem === "string"}>
+            <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
+              <Box className={clsx(classes.rowTextBox, newKey)}>
+                <RenderGuard renderIf={typeof valueItem === "string" && valueItem !== "Cosmos IBC & PolyNetwork Alliance"}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
                 </RenderGuard>
+                <RenderGuard renderIf={typeof valueItem === "string" && valueItem === "Cosmos IBC & PolyNetwork Alliance"}>
+                  <Box className={classes.gradientBorder} />
+                  <Box className={classes.rowText}>
+                    <Button
+                      className={classes.button}
+                      variant="text"
+                      target="_blank"
+                      href={StaticLinks.CosmosIBC}
+                      classes={{
+                        label: classes.linkLabel,
+                      }}
+                    >
+                      Cosmos IBC
+                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
+                    </Button>
+                    <TypographyLabel className={classes.ampersand}>&</TypographyLabel>
+                    <Button
+                      className={classes.button}
+                      variant="text"
+                      target="_blank"
+                      href={StaticLinks.PolyNetworkAlliance}
+                      classes={{
+                        label: classes.linkLabel,
+                      }}
+                    >
+                      PolyNetwork Alliance
+                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
+                    </Button>
+                  </Box>
+                </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && valueItem}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <TickIcon />
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && !valueItem}>
+                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <CloseIcon />
-                </RenderGuard>
-                <RenderGuard renderIf={Array.isArray(valueItem)}>
-                  <RenderGuard renderIf={Array.isArray(valueItem) && valueItem.length > 0 && typeof valueItem[0] === "string"}>
-                    <ListCell valueItem={valueItem} newKey={newKey} />
-                  </RenderGuard>
-                </RenderGuard>
-                <RenderGuard renderIf={Array.isArray(valueItem)}>
-                  <RenderGuard
-                    renderIf={
-                      Array.isArray(valueItem)
-                        && valueItem.length > 0
-                        && typeof valueItem[0] !== "string"
-                        && Boolean(valueItem[0]?.header)
-                    }
-                  >
-                      <SubListCell valueItem={valueItem}  newKey={newKey} />
-                  </RenderGuard>
                 </RenderGuard>
               </Box>
             </TableCell>
@@ -109,10 +125,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         [theme.breakpoints.down("sm")]: {
           borderBottom: "none",
         },
-        "&.demex": {
-          borderLeft: `1px solid ${theme.palette.primary.main}`,
-          borderRight: `1px solid ${theme.palette.primary.main}`,
-        },
       },
     },
     "&:last-child": {
@@ -121,7 +133,15 @@ const useStyles = makeStyles((theme: Theme) => ({
           borderBottom: "none",
           paddingBottom: "3rem",
           "&.demex": {
-            borderBottom: `1px solid ${theme.palette.primary.main}`,
+            paddingBottom: 0,
+            "& > div > div": {
+              height: "112px",
+              borderBottom: "2px solid",
+            },
+            "& > div > p": {
+              paddingTop: "1rem",
+              paddingBottom: "3rem",
+            },
           },
         },
       },
@@ -140,6 +160,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "6rem",
     minWidth: "6rem",
     padding: theme.spacing(2, 3),
+    zIndex: 2,
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       ...theme.typography.title2,
@@ -163,7 +184,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2, 2.5),
     "&.demex": {
-      border: `1px solid ${theme.palette.primary.main}`,
+      padding: theme.spacing(0),
     },
     "&:last-child": {
       padding: theme.spacing(2, 0, 2, 2.5),
@@ -187,9 +208,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   rowText: {
     ...theme.typography.body2,
     alignItems: "center",
+    justifyContent: "center",
     display: "flex",
     textAlign: "center",
     maxWidth: "9.75rem",
+    flexWrap: "wrap",
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
@@ -206,6 +229,76 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       minWidth: "unset",
     },
+    "&.demex": {
+      position: "relative",
+      width: "255px",
+      [theme.breakpoints.only("sm")]: {
+        width: "192px",
+      },
+      [theme.breakpoints.only("xs")]: {
+        width: "162px",
+      },
+    },
+    "&.rowText": {
+      position: "absolute",
+    },
+  },
+  linkLabel: {
+    ...theme.typography.body2,
+    display: "flex",
+    alignItems: "center",
+    color: theme.palette.text.primary,
+    whiteSpace: "nowrap",
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
+    },
+  },
+  button: {
+    padding: 0,
+    zIndex: 1,
+    "&:hover": {
+      backgroundColor: "transparent",
+      textDecoration: "underline",
+    },
+  },
+  externalLink: {
+    "& path": {
+      fill: theme.palette.text.primary,
+    },
+    [theme.breakpoints.only("sm")]: {
+      height: "16px",
+      width: "16px",
+    },
+    [theme.breakpoints.only("xs")]: {
+      height: "16px",
+      width: "13px",
+    },
+  },
+  ampersand: {
+    ...theme.typography.body2,
+    [theme.breakpoints.only("sm")]: {
+      ...theme.typography.body3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
+    },
+  },
+  gradientBorder: {
+    position: "absolute",
+    padding: theme.spacing(0, 2.5),
+    height: "80.5px",
+    width: "100%",
+    boxSizing: "border-box",
+    border: "2px solid",
+    borderBottom: "none",
+    borderTop: "none",
+    borderImageSlice: 1,
+    borderImageSource: StyleUtils.primaryGradient(theme),
+    borderRadius: "12px",
+    filter: "drop-shadow(0px 0px 12px #4035FF)",
   },
 }));
 

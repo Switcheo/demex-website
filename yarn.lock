@@ -4541,13 +4541,6 @@ axios@0.21.1:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
-  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
-  dependencies:
-    follow-redirects "^1.10.0"
-
 axios@^0.21.0, axios@^0.21.1, axios@^0.21.2, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
@@ -5824,35 +5817,6 @@ content-type@~1.0.4:
   resolved "https://registry.npmjs.org/content-type/-/content-type-1.0.4.tgz"
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
 
-contentful-resolve-response@^1.3.0:
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/contentful-resolve-response/-/contentful-resolve-response-1.3.8.tgz#58835a1d0894a97ab42541a47f4175d11adaa978"
-  integrity sha512-y3ttLqttxAN8yh3KfXNF+5kbnJa/01VFV/Rr1GNCaTWEVp6S9VGsTa1GH1cSf5czrK4nM4LUG5r6SzgNg3OkWw==
-  dependencies:
-    fast-copy "^2.1.3"
-
-contentful-sdk-core@^6.5.0:
-  version "6.11.0"
-  resolved "https://registry.yarnpkg.com/contentful-sdk-core/-/contentful-sdk-core-6.11.0.tgz#0e2bf5a7270ac1f8937ae49e798bee614e20d087"
-  integrity sha512-ukKxiiHdCa/izTQbA3/VUPMQB2PZW5D2KYjV9WQVOc8QjmDhu1wpEDkYxYjOrUDgT5tM7xw6umpwlifxoYe9kQ==
-  dependencies:
-    fast-copy "^2.1.0"
-    lodash.isplainobject "^4.0.6"
-    lodash.isstring "^4.0.1"
-    p-throttle "^4.1.1"
-    qs "^6.9.4"
-
-contentful@^7.14.6:
-  version "7.15.2"
-  resolved "https://registry.yarnpkg.com/contentful/-/contentful-7.15.2.tgz#caa54e6c5e53f840949f2fef455dc9f52d969b88"
-  integrity sha512-hu+hq0mi7mR7TEKdDg+WyId25Oe4lgNi5WsrPKPlCNBKDQ0QOZly8Vyq/9LF2hR4cbn9tTnRWElIU9Q+JNgP7Q==
-  dependencies:
-    axios "^0.20.0"
-    contentful-resolve-response "^1.3.0"
-    contentful-sdk-core "^6.5.0"
-    fast-copy "^2.1.0"
-    json-stringify-safe "^5.0.1"
-
 convert-source-map@1.7.0, convert-source-map@^1.4.0, convert-source-map@^1.6.0, convert-source-map@^1.7.0:
   version "1.7.0"
   resolved "https://registry.npmjs.org/convert-source-map/-/convert-source-map-1.7.0.tgz"
@@ -6348,6 +6312,11 @@ curve25519-js@0.0.4:
   version "0.0.4"
   resolved "https://registry.npmjs.org/curve25519-js/-/curve25519-js-0.0.4.tgz"
   integrity sha512-axn2UMEnkhyDUPWOwVKBMVIzSQy2ejH2xRGy1wq81dqRwApXfIzfbE3hIX0ZRFBIihf/KDqK158DLwESu4AK1w==
+
+cxs@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/cxs/-/cxs-6.2.0.tgz#f11ca3bdaef154b93bdadca5df70f2cb3e37ca24"
+  integrity sha512-RGatb1BUwVMBzV8DRo9Kapc55bdGfAxMcukVk+ZzE3Ts8xaTve0GVz730kBDxjhEBU2LK+RPuAcjZb00Q3O24w==
 
 cyclist@^1.0.1:
   version "1.0.1"
@@ -7631,11 +7600,6 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/extsprintf/-/extsprintf-1.4.0.tgz"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
-
-fast-copy@^2.1.0, fast-copy@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/fast-copy/-/fast-copy-2.1.3.tgz#bf6e05ac3cb7a9d66fbf12c51dd4440e9ddd4afb"
-  integrity sha512-LDzYKNTHhD+XOp8wGMuCkY4eTxFZOOycmpwLBiuF3r3OjOmZnURRD8t2dUAbmKuXGbo/MGggwbSjcBdp8QT0+g==
 
 fast-deep-equal@3.1.1:
   version "3.1.1"
@@ -9813,7 +9777,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.npmjs.org/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
-json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
+json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==
@@ -10144,16 +10108,6 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npmjs.org/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
-
-lodash.isplainobject@^4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
-  integrity sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==
-
-lodash.isstring@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
-  integrity sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -11207,11 +11161,6 @@ p-retry@^3.0.1:
   dependencies:
     retry "^0.12.0"
 
-p-throttle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/p-throttle/-/p-throttle-4.1.1.tgz#80b1fbd358af40a8bfa1667f9dc8b72b714ad692"
-  integrity sha512-TuU8Ato+pRTPJoDzYD4s7ocJYcNSEZRvlxoq3hcPI2kZDZ49IQ1Wkj7/gDJc3X7XiEAAvRGtDzdXJI0tC3IL1g==
-
 p-timeout@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/p-timeout/-/p-timeout-3.2.0.tgz"
@@ -11424,6 +11373,11 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+performance-now@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+  integrity sha512-YHk5ez1hmMR5LOkb9iJkLKqoBlL7WD5M8ljC75ZfzXriuBIVNuecaXuU7e+hOwyqf24Wxhh7Vxgt7Hnw9288Tg==
 
 performance-now@^2.1.0:
   version "2.1.0"
@@ -12420,13 +12374,6 @@ qs@^6.4.0:
   dependencies:
     side-channel "^1.0.4"
 
-qs@^6.9.4:
-  version "6.11.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
-  integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
-  dependencies:
-    side-channel "^1.0.4"
-
 qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz"
@@ -12475,7 +12422,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.2.tgz"
   integrity sha512-dB15eXv3p2jDlbOiNLyMabYg1/sXvppd8DP2J3EOCQ0AkuSXCW2tP7mnVouVLJKgUMY6yP0kcQDVpLCN13h4Xg==
 
-raf@^3.4.1:
+raf@^3.1.0, raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.npmjs.org/raf/-/raf-3.4.1.tgz"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
@@ -12584,6 +12531,11 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.9.tgz"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-fast-compare@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
+  integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+
 react-fast-marquee@^1.3.5:
   version "1.3.5"
   resolved "https://registry.npmjs.org/react-fast-marquee/-/react-fast-marquee-1.3.5.tgz"
@@ -12610,6 +12562,15 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "17.0.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.1.tgz"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-motion@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.2.tgz#0dd3a69e411316567927917c6626551ba0607316"
+  integrity sha512-9q3YAvHoUiWlP3cK0v+w1N5Z23HXMj4IF4YuvjvWegWqNPfLXsOBE/V7UvQGpXxHFKRQQcNcVQE31g9SB/6qgQ==
+  dependencies:
+    performance-now "^0.2.0"
+    prop-types "^15.5.8"
+    raf "^3.1.0"
 
 react-redux@^7.2.2:
   version "7.2.2"
@@ -12708,6 +12669,15 @@ react-sparklines@^1.7.0:
   integrity sha512-bJFt9K4c5Z0k44G8KtxIhbG+iyxrKjBZhdW6afP+R7EnIq+iKjbWbEFISrf3WKNFsda+C46XAfnX0StS5fbDcg==
   dependencies:
     prop-types "^15.5.10"
+
+react-text-loop@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-text-loop/-/react-text-loop-2.3.0.tgz#c4035b1f3fb8216b34ed93f3160025fc7b1af3b7"
+  integrity sha512-tRLxdkhc1ojAICxERJNOWj3Ry7NIGmFQF4tR6cRVyL+5zVD+gj+8uGPvOgEBLuj2vmjTXLPvBMVVCnoAIy1+DA==
+  dependencies:
+    cxs "^6.2.0"
+    react-fast-compare "2.0.4"
+    react-motion "^0.5.2"
 
 react-transition-group@^4.4.0:
   version "4.4.1"
