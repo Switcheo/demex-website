@@ -1,8 +1,12 @@
+import { Nitron } from "@demex-info/assets";
 import { BackgroundAnimation } from "@demex-info/components";
+import { Banner } from "@demex-info/components/Banner";
 import { getDemexLink, Paths } from "@demex-info/constants";
+import { RootState } from "@demex-info/store/types";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
+import { useSelector } from "react-redux";
 import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
 
@@ -12,6 +16,7 @@ const HeroSection: React.FC = () => {
 	const [ready, setReady] = React.useState<boolean>(false);
 
 	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+	const net = useSelector((state: RootState) => state.app.network);
 
 	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
 
@@ -21,6 +26,14 @@ const HeroSection: React.FC = () => {
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
+			<Banner 
+				bannerIcon={Nitron}
+				headerText="Nitron by Demex is now LIVE!"
+				subHeader="Nitron is the money market for the Cosmos ecosystem."
+				ctaLink={getDemexLink(Paths.Nitron, net)}
+				ctaText="Click here"
+				gradientText="to lend, borrow, and mint assets from the most popular blockchains!"
+			/>
 			{
 				ready && (
 					<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
@@ -144,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 		padding: "0 3rem",
 		[theme.breakpoints.down("md")]: {
-			marginTop: "65px",
+			marginTop: 0,
 			height: "unset",
 		},
 		[theme.breakpoints.down("sm")]: {
