@@ -1,5 +1,5 @@
 import * as COINS from "@demex-info/assets";
-import { makeStyles, SvgIconProps } from "@material-ui/core";
+import { makeStyles, SvgIconProps, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
@@ -45,22 +45,26 @@ const CoinIcon: React.FunctionComponent<CoinIconProps> = (
     defaultIcon = undefined;
   }
 
-  const Icon = symbolToIcon[tokenName] || defaultIcon;
+  const selectedIcon = symbolToIcon[tokenName];
+  const Icon = selectedIcon ?? defaultIcon;
 
   return (
     <Icon
       {...rest}
-      className={clsx(classes.svg, className)}
+      className={clsx(classes.svg, className, { isDefault: !selectedIcon })}
     />
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   svg: {
     fontSize: "inherit",
     width: "2em",
     height: "2em",
+    "&.isDefault path": {
+      fill: theme.palette.common.white,
+    },
   },
-});
+}));
 
 export default CoinIcon;

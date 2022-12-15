@@ -1210,6 +1210,22 @@
     secure-random "1.1.2"
     wif "2.0.6"
 
+"@cityofzion/neon-js@^4.9.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-js/-/neon-js-4.9.0.tgz#39f46720cff76f807128d5882832a3d722d9fd25"
+  integrity sha512-YYeMbQGZJkC8Wq2UQt98OUys8f8tPCaXMplbV8GwiJEdG+PJJOFGg3NkvrDGUfcuasff0dcn8LWjXTPKPp+Gyw==
+  dependencies:
+    "@cityofzion/neon-api" "^4.9.0"
+    "@cityofzion/neon-core" "^4.9.0"
+    "@cityofzion/neon-nep5" "^4.9.0"
+
+"@cityofzion/neon-nep5@^4.9.0":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-nep5/-/neon-nep5-4.9.0.tgz#aa170bfa83c5ef75270d10951e02f87e7faf4f47"
+  integrity sha512-MSRXHl+UGYnh8f9FC7zZvMNRblnl496VxG3tjA+GIShtLR6u75/FK7syVXua9h8/khljL7qqSfnNqA+sy7q+eg==
+  dependencies:
+    "@cityofzion/neon-core" "^4.9.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.npmjs.org/@cnakazawa/watch/-/watch-1.0.4.tgz"
@@ -2622,9 +2638,9 @@
   resolved "https://registry.npmjs.org/@keplr-wallet/router/-/router-0.9.6.tgz"
   integrity sha512-TZfqkRwGOMk0nbgel41xLfD8ifM59WIXNt90rJjKynNT1/TOLTGxRDC8Ie5yY9Oak0lz7rmdrWNTOsvtWyuplA==
 
-"@keplr-wallet/stores@~0.9.0-alpha.10":
+"@keplr-wallet/stores@~0.9.12":
   version "0.9.18"
-  resolved "https://registry.npmjs.org/@keplr-wallet/stores/-/stores-0.9.18.tgz"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/stores/-/stores-0.9.18.tgz#5652d4a479131a2d5a88459c80a9925a137431f0"
   integrity sha512-F+u144HUqaxl/KxRfS8JJIgXTruYGQRHggLcsDxCZ/JohgwgTgQuURRfh+G/zlg438F2XYNU3sbUqQe1GWyEBw==
   dependencies:
     "@cosmjs/encoding" "^0.24.0-alpha.25"
@@ -2648,7 +2664,7 @@
     p-queue "^6.6.2"
     utility-types "^3.10.0"
 
-"@keplr-wallet/types@^0.9.12":
+"@keplr-wallet/types@^0.9.12", "@keplr-wallet/types@~0.9.12":
   version "0.9.12"
   resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.9.12.tgz"
   integrity sha512-vtAczeD3+CgGExSZCnU9Wzs9Y8BpdbOii+UjIFHwCR57OXFQphbWHh2j15QFpV4CbebpDcBzIm+/4IAyLeI0Yw==
@@ -2658,17 +2674,6 @@
     axios "^0.21.4"
     long "^4.0.0"
     secretjs "^0.17.0"
-
-"@keplr-wallet/types@~0.8.13":
-  version "0.8.13"
-  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.8.13.tgz"
-  integrity sha512-UaVATHmGaC5REyprLahyNIC3pZZQV+VTxMz10X3+hD6w2YgyLKimmqVg7ndVQhZrNZrVmMqgATl/UCCFgE6hlQ==
-  dependencies:
-    "@cosmjs/launchpad" "^0.24.0-alpha.25"
-    "@cosmjs/proto-signing" "^0.24.0-alpha.25"
-    axios "^0.21.0"
-    long "^4.0.0"
-    secretjs "^0.16.0"
 
 "@keplr-wallet/unit@^0.9.12":
   version "0.9.12"
@@ -4541,7 +4546,7 @@ axios@0.21.1:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.21.0, axios@^0.21.1, axios@^0.21.2, axios@^0.21.4:
+axios@^0.21.1, axios@^0.21.2, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -5352,19 +5357,20 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-carbon-js-sdk@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.2.8.tgz#0ee57007e6dba5793f5664ba07dfddf596b7c60d"
-  integrity sha512-OOSLIcsNXTBlWXj1wJy1J6cpksCkWnPH9g//zbOS9FtX4rhYzcsK7XIZOut2m6BKxeLI6N0xlMgmvYNp3PaIww==
+carbon-js-sdk@^0.3.13:
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.3.13.tgz#5defd8f74b1e2d38dcd274ce15db05e2c2e97296"
+  integrity sha512-Y535lciQJoIOFVqcKobbrb3ZoruNlRTg35pgUatH180IRGxzTKNAKSJUCG2n1KPqyIMcrqV59BKyhtuF7sfuFg==
   dependencies:
     "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"
     "@cityofzion/neon-core-next" "npm:@cityofzion/neon-core@^5.0.0"
+    "@cityofzion/neon-js" "^4.9.0"
     "@cosmjs/proto-signing" "^0.28.10"
     "@cosmjs/stargate" "^0.28.10"
     "@grpc/grpc-js" "^1.3.2"
-    "@keplr-wallet/stores" "~0.9.0-alpha.10"
-    "@keplr-wallet/types" "~0.8.13"
+    "@keplr-wallet/stores" "~0.9.12"
+    "@keplr-wallet/types" "~0.9.12"
     "@ledgerhq/hw-app-eth" "^6.11.2"
     "@ledgerhq/hw-transport" "^6.3.0"
     "@ledgerhq/hw-transport-webhid" "^6.4.1"
@@ -13373,22 +13379,6 @@ secp256r1@^0.0.3:
     elliptic "^6.2.3"
     nan "^2.2.1"
     safe-buffer "^5.1.0"
-
-secretjs@^0.16.0:
-  version "0.16.7"
-  resolved "https://registry.npmjs.org/secretjs/-/secretjs-0.16.7.tgz"
-  integrity sha512-HL2Ekui0TFQhWrzQ5IenI3a54IaD9UdXwdyYMMLhisQCm5/quMw/v4CxmjEro+b5FxlEYvWcgzFO6nntduywDg==
-  dependencies:
-    "@iov/crypto" "2.1.0"
-    "@iov/encoding" "2.1.0"
-    "@iov/utils" "2.0.2"
-    axios "0.21.1"
-    curve25519-js "0.0.4"
-    fast-deep-equal "3.1.1"
-    js-crypto-hkdf "0.7.3"
-    miscreant "0.3.2"
-    pako "1.0.11"
-    secure-random "1.1.2"
 
 secretjs@^0.17.0:
   version "0.17.5"
