@@ -24,6 +24,7 @@ export { ReactComponent as BCN } from "./BCN.svg";
 export { ReactComponent as BELT } from "./BELT.svg";
 export { ReactComponent as BHC } from "./BHC.svg";
 export { ReactComponent as BNB } from "./BNB.svg";
+export { ReactComponent as BNEO } from "./BNEO.svg";
 export { ReactComponent as BNT } from "./BNT.svg";
 export { ReactComponent as BTC } from "./BTC.svg";
 export { ReactComponent as BTCST } from "./BTCST.svg";
