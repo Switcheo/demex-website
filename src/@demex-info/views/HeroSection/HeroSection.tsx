@@ -1,7 +1,7 @@
 import { Nitron } from "@demex-info/assets";
 import { BackgroundAnimation } from "@demex-info/components";
 import { Banner } from "@demex-info/components/Banner";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
@@ -29,10 +29,11 @@ const HeroSection: React.FC = () => {
 			<Banner 
 				bannerIcon={Nitron}
 				headerText="Nitron by Demex is now LIVE!"
-				subHeader="Nitron is the money market for the Cosmos ecosystem."
-				ctaLink={getDemexLink(Paths.Nitron, net)}
-				ctaText="Click here"
-				gradientText="to lend, borrow, and mint assets from the most popular blockchains!"
+				subHeader="Lend, borrow, and mint assets from the most popular blockchains!"
+				ctaUrl={StaticLinks.DemexDocs.Nitron}
+				ctaText="Learn more"
+				buttonText={isDesktop ? "Explore Nitron" : "Explore"}
+				buttonUrl={getDemexLink(Paths.Nitron, net)}
 			/>
 			{
 				ready && (

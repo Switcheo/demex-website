@@ -126,6 +126,7 @@ export const StaticLinks = {
       Orderbook: "https://guide.dem.exchange/about-demex/master/features-overview#orderbook-model-on-amms",
       Crosschain: "https://guide.dem.exchange/about-demex/master/features-overview#cross-chain-compatibility",
     },
+    Nitron: "https://guide.dem.exchange/products/nitron",
   },
   Tendermint: "https://tendermint.com/core/",
   Docs: {
