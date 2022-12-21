@@ -74,8 +74,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "5.5rem 3rem 1.5rem",
     zIndex: 10,
     [theme.breakpoints.down("sm")]: {
-      paddingLeft: "0.75rem",
-      paddingRight: "0.75rem",
+      paddingLeft: "1.25rem",
+      paddingRight: "1.25rem",
+    },
+    "@media (max-width: 360px)": {
+      paddingLeft: "0.875rem",
+      paddingRight: "0.875rem",
     },
   },
   banner: {
