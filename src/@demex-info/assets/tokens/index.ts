@@ -98,6 +98,7 @@ export { ReactComponent as KLAY } from "./KLAY.svg";
 export { ReactComponent as KMD } from "./KMD.svg";
 export { ReactComponent as KNC } from "./KNC.svg";
 export { ReactComponent as KSM } from "./KSM.svg";
+export { ReactComponent as KUJI } from "./KUJI.svg";
 export { ReactComponent as LEO } from "./LEO.svg";
 export { ReactComponent as LET } from "./LET.svg";
 export { ReactComponent as LINK } from "./LINK.svg";
