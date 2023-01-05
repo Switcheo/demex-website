@@ -1,15 +1,16 @@
-import { OSMOGradient, OSMOSAirdropBannerMobile, OSMOSAirdropBanner } from "@demex-info/assets";
+import { OSMOGradient, OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
 import { BackgroundAnimation } from "@demex-info/components";
 import { Banner } from "@demex-info/components/Banner";
-import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
+import { StyleUtils } from "@demex-info/utils";
+import { renderToStaticMarkup } from "react-dom/server";
 import { useSelector } from "react-redux";
 import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
-import { renderToStaticMarkup } from "react-dom/server";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
@@ -35,7 +36,7 @@ const HeroSection: React.FC = () => {
 				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
 				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and earn up to <span className={classes.orangeStrong}>110 USDC!</span></span>}
 				ctaText="Learn more"
-				ctaUrl={StaticLinks.DemexDocs.Nitron}
+				ctaUrl={Paths.Competition.SignUp}
 				buttonText="Join Now"
 				buttonUrl={getDemexLink(Paths.Nitron, net)}
 				backgroundImg={bannerAsString}
@@ -241,7 +242,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	orangeStrong: {
 		fontWeight: 700,
-		background: "linear-gradient(90deg, #FFA800 0%, #FF5107 100%)",
+		background: StyleUtils.orangeGradient,
 		backgroundClip: "text",
 		WebkitTextFillColor: "transparent",
 		WebkitBackgroundClip: "text",

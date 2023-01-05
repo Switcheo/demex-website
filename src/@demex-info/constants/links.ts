@@ -51,6 +51,7 @@ export const Paths = {
 
   Competition: {
     Leaderboard: "/competition",
+    SignUp: "/competition/register",
   },
 
   Pools: {
