@@ -5,27 +5,28 @@ import {
   Box, BoxProps, Button, makeStyles, Theme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { ReactNode } from "react";
 import { SvgIcon } from "../SvgIcon";
 
 interface Props extends BoxProps {
   bannerIcon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
   headerText: string
-  subHeader: string
+  subHeader: ReactNode
   bannerIconClass?: string
   ctaText?: string
   ctaUrl?: string
   buttonText?: string
   buttonUrl?: string
+  backgroundImg?: string
 }
 
 const Banner: React.FC<Props> = (props: Props) => {
-  const { bannerIcon, headerText, subHeader, ctaText, ctaUrl, buttonText, buttonUrl, className, ...rest } = props;
+  const { bannerIcon, headerText, subHeader, ctaText, ctaUrl, buttonText, buttonUrl, className, backgroundImg, ...rest } = props;
   const classes = useStyles();
 
   return (
     <Box {...rest} className={clsx(className, classes.root)}>
-      <Box className={classes.banner}>
+      <Box className={clsx(classes.banner, backgroundImg ? "backgroundImg" : "")} style={{ backgroundImage: `url("data:image/svg+xml,${backgroundImg}")` }}>
         <Box className={classes.leftBanner}>
           <SvgIcon className={classes.bannerIcon} component={bannerIcon} />
           <Box className={classes.content}>
@@ -58,12 +59,18 @@ const Banner: React.FC<Props> = (props: Props) => {
           </Button>
         )}
         {/* background vectors */}
-        <SvgIcon className={classes.bannerBlueLeft} component={BannerBlueLeft} />
-        <SvgIcon className={classes.bannerBlueMiddle} component={BannerBlueMiddle} />
-        <SvgIcon className={classes.bannerBlueRight} component={BannerBlueRight} />
-        <SvgIcon className={classes.bannerOrange} component={BannerOrange} />
+        {
+          !backgroundImg && (
+            <React.Fragment>
+              <SvgIcon className={classes.bannerBlueLeft} component={BannerBlueLeft} />
+              <SvgIcon className={classes.bannerBlueMiddle} component={BannerBlueMiddle} />
+              <SvgIcon className={classes.bannerBlueRight} component={BannerBlueRight} />
+              <SvgIcon className={classes.bannerOrange} component={BannerOrange} />
+            </React.Fragment>
+          )
+        }
       </Box>
-    </Box>
+    </Box >
   );
 };
 
@@ -96,6 +103,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 5,
     [theme.breakpoints.down("sm")]: {
       minHeight: "unset",
+    },
+    "&.backgroundImg": {
+      background: "border-box",
+      backgroundSize: "105%",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      [theme.breakpoints.down(380)]: {
+        backgroundPosition: "unset",
+        backgroundSize: "auto",
+      },
     },
   },
   leftBanner: {

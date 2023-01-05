@@ -7,3 +7,4 @@ export { ReactComponent as MenuIcon } from "./Menu.svg";
 export { ReactComponent as Nitron } from "./Nitron.svg";
 export { ReactComponent as TendermintCore } from "./TendermintCore.svg";
 export { ReactComponent as TickIcon } from "./Tick.svg";
+export { ReactComponent as OSMOGradient } from "./OSMOGradient.svg";
