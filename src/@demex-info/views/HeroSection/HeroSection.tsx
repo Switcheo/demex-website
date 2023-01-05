@@ -2,13 +2,11 @@ import { OSMOGradient, OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@dem
 import { BackgroundAnimation } from "@demex-info/components";
 import { Banner } from "@demex-info/components/Banner";
 import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
+import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-import { StyleUtils } from "@demex-info/utils";
 import { renderToStaticMarkup } from "react-dom/server";
-import { useSelector } from "react-redux";
 import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
 
@@ -18,7 +16,6 @@ const HeroSection: React.FC = () => {
 	const [ready, setReady] = React.useState<boolean>(false);
 
 	const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-	const net = useSelector((state: RootState) => state.app.network);
 
 	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
 
