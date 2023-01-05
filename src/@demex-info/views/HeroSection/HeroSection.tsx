@@ -1,7 +1,7 @@
 import { OSMOGradient, OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
 import { BackgroundAnimation } from "@demex-info/components";
 import { Banner } from "@demex-info/components/Banner";
-import { getDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Button, Container, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
@@ -36,9 +36,9 @@ const HeroSection: React.FC = () => {
 				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
 				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and earn up to <span className={classes.orangeStrong}>110 USDC!</span></span>}
 				ctaText="Learn more"
-				ctaUrl={Paths.Competition.SignUp}
+				ctaUrl={StaticLinks.DemexDocs.Competition.Upcoming.Main}
 				buttonText="Join Now"
-				buttonUrl={getDemexLink(Paths.Nitron, net)}
+				buttonUrl={Paths.Competition.SignUp}
 				backgroundImg={bannerAsString}
 			/>
 			{

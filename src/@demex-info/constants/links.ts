@@ -128,6 +128,22 @@ export const StaticLinks = {
       Crosschain: "https://guide.dem.exchange/about-demex/master/features-overview#cross-chain-compatibility",
     },
     Nitron: "https://guide.dem.exchange/products/nitron",
+    Competition: {
+      Past: {
+        Main: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-and-top-traders-2",
+        TopGainers: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-and-top-traders-1#top-gainers",
+        TopTraders: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-and-top-traders-1#top-traders",
+      },
+      Current: {
+        Main: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-3-dec",
+        TopGainers: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-3-dec#top-gainers",
+        TopTraders: "https://guide.dem.exchange/competition/perpetuals-trading-competition/top-gainers-and-top-traders-2#top-traders",
+      },
+      Upcoming: {
+        Main: "https://guide.dem.exchange/competition/usdosmo-perpetuals-airdrop-campaign-jan-2023",
+        TopGainers: "https://guide.dem.exchange/competition/usdosmo-perpetuals-airdrop-campaign-jan-2023",
+      },
+    },
   },
   Tendermint: "https://tendermint.com/core/",
   Docs: {
