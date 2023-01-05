@@ -1,4 +1,4 @@
-import { Nitron } from "@demex-info/assets";
+import { OSMOGradient, OSMOSAirdropBannerMobile, OSMOSAirdropBanner } from "@demex-info/assets";
 import { BackgroundAnimation } from "@demex-info/components";
 import { Banner } from "@demex-info/components/Banner";
 import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
@@ -9,6 +9,7 @@ import React, { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import TextLoop from "react-text-loop";
 import MarketsGrid from "./components/MarketsGrid";
+import { renderToStaticMarkup } from "react-dom/server";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
@@ -20,20 +21,24 @@ const HeroSection: React.FC = () => {
 
 	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
 
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
+
 	useEffect(() => {
 		setTimeout(() => setReady(true));
 	}, []);
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
-			<Banner 
-				bannerIcon={Nitron}
-				headerText="Nitron by Demex is now LIVE!"
-				subHeader="Lend, borrow, and mint assets from the most popular blockchains!"
-				ctaUrl={StaticLinks.DemexDocs.Nitron}
+			<Banner
+				bannerIcon={OSMOGradient}
+				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
+				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and earn up to <span className={classes.orangeStrong}>110 USDC!</span></span>}
 				ctaText="Learn more"
-				buttonText={isDesktop ? "Explore Nitron" : "Explore"}
+				ctaUrl={StaticLinks.DemexDocs.Nitron}
+				buttonText="Join Now"
 				buttonUrl={getDemexLink(Paths.Nitron, net)}
+				backgroundImg={bannerAsString}
 			/>
 			{
 				ready && (
@@ -233,6 +238,13 @@ const useStyles = makeStyles((theme) => ({
 				...theme.typography.title3,
 			},
 		},
+	},
+	orangeStrong: {
+		fontWeight: 700,
+		background: "linear-gradient(90deg, #FFA800 0%, #FF5107 100%)",
+		backgroundClip: "text",
+		WebkitTextFillColor: "transparent",
+		WebkitBackgroundClip: "text",
 	},
 }));
 
