@@ -186,7 +186,7 @@ export function getExplorerLink(net: CarbonSDK.Network) {
 
 export function goToLink(link: string) {
   if (!link) return;
-  window.open(link, "_blank");
+  window.open(`https://app.dem.exchange${link}`, "_blank");
 }
 
 export interface NavLink {

@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
 			<Banner
 				bannerIcon={OSMOGradient}
 				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
-				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and earn up to <span className={classes.orangeStrong}>110 USDC!</span></span>}
+				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and <span className={classes.orangeStrong}>earn exciting rebates & rewards!</span></span>}
 				ctaText="Learn more"
 				ctaUrl={StaticLinks.DemexDocs.Competition.Upcoming.Main}
 				buttonText="Join Now"
