@@ -1,4 +1,4 @@
-import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
+import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube, GitBook } from "@demex-info/assets/logos";
 import { CarbonSDK } from "carbon-js-sdk";
 
 export enum LoginPage {
@@ -248,5 +248,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "github",
     href: StaticLinks.Socials.GitHub,
     component: GitHub,
+  },
+  GitBook: {
+    label: "gitbook",
+    href: StaticLinks.DemexDocs.Home,
+    component: GitBook,
   },
 };
