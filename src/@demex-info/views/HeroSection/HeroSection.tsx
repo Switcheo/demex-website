@@ -217,7 +217,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		[theme.breakpoints.down("md")]: {
 			alignItems: "center",
-		}
+		},
 	},
 	text: {
 		...theme.typography.body1,

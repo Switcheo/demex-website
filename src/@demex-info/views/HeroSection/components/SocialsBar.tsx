@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "space-around",
       backgroundColor: theme.palette.background.tertiary,
-      boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.64)",
+      boxShadow: `0px 0px 16px ${theme.palette.shadow}`,
       backdropFilter: "blur(2px)",
       padding: "0 2rem",
 		[theme.breakpoints.down("sm")]: {
