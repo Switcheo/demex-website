@@ -8,9 +8,8 @@ import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import TextLoop from "react-text-loop";
-import MarketsGrid from "./components/MarketsGrid";
 import { DesktopMobile } from "./assets";
-import SocialsBar from "./components/SocialsBar";
+import { MarketsGrid, SocialsBar } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
@@ -52,11 +51,9 @@ const HeroSection: React.FC = () => {
 							))}
 						</TextLoop>
 					</Box>
-					{
-					ready && (
+					{ready && (
 						<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
-					)
-					}
+					)}
 			<Container maxWidth={false} className={classes.contentContainer}>
 				<Box className={classes.left}>
 

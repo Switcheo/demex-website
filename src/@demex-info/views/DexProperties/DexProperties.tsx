@@ -23,7 +23,7 @@ const DexProperties: React.FC = () => {
         <Box className={classes.uspList}>
           <USPListItem icon={Decentralised} header="Truly Decentralized">
             <Box className={classes.description}>
-            No registration or custody transfer required. <br/> Create any market and trade any asset, right from your wallet.
+              No registration or custody transfer required. <br/> Create any market and trade any asset, right from your wallet.
             </Box>
           </USPListItem>
           <USPListItem icon={Trade} header="Unrivalled Trading Instruments">
@@ -33,14 +33,16 @@ const DexProperties: React.FC = () => {
           </USPListItem>
           <USPListItem icon={Performance} header="Nitro Fast Trades">
             <Box className={classes.description}>
-            With a 1.9s blocktime, we&apos;re 400x faster than Ethereum. <br/>
-            Your trades execute instantly, just like on your favourite CEX. 
+              With a 1.9s blocktime, we&apos;re 400x faster than Ethereum. 
+                {!isMobile && <br/>}
+              &nbsp;Your trades execute instantly, just like on your favourite CEX. 
             </Box>
           </USPListItem>
           <USPListItem icon={Liquidity} header="Liquidity & Interchain Gateway" >
               <Box className={clsx(classes.description)}>
-              Our unique combination of features promotes a liquidity <br/>
-              flywheel and give traders the best of all worlds.
+                Our unique combination of features promotes a liquidity 
+                  {!isMobile && <br/>} 
+                &nbsp;flywheel and give traders the best of all worlds.
               </Box>
             </USPListItem>
         </Box>
