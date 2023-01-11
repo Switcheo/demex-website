@@ -13,3 +13,4 @@ export { ReactComponent as Telegram } from "./Telegram.svg";
 export { ReactComponent as Twitter } from "./Twitter.svg";
 export { ReactComponent as Uniswap } from "./Uniswap.svg";
 export { ReactComponent as Youtube } from "./Youtube.svg";
+export { ReactComponent as GitBook } from "./GitBook.svg";

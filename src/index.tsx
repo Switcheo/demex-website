@@ -10,7 +10,7 @@ import "typeface-roboto";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { lazy } from "@loadable/component";
-import { UnleashTrader, USPSection } from "@demex-info/views";
+import { UnleashTrader } from "@demex-info/views";
 
 const rootElement = document.getElementById("root");
 const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
@@ -28,10 +28,9 @@ render(
     <PreferenceThemeProvider>
       <MainLayout>
         <HeroSection />
-        <USPSection />
-        <UnleashTrader />
         <Suspense fallback={null}>
           <DexProperties />
+          <UnleashTrader />
           <PoweredBySwitcheo />
           <Features />
           <TweetSection />

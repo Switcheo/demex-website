@@ -80,7 +80,7 @@ const TweetSection: React.FC = () => {
       <Hidden smDown><BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} /></Hidden>
       <Container maxWidth={false} className={classes.contentContainer}>
         <Box className={classes.mainHeader}>
-          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>Don’t Just Trust Us</TypographyLabel>
+          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>Don’t Trust, Verify</TypographyLabel>
         </Box>
         <TypographyLabel boxClass={classes.subtextBox} className={classes.subtext}>
           Check out what others are saying.

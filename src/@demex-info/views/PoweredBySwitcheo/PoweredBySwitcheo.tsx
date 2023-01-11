@@ -3,6 +3,8 @@ import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, makeStyles } from "@material-ui/core";
+import YellowVectorBottom from "@demex-info/assets/background/YellowVectorBottom.svg";
+
 import React from "react";
 
 const PoweredBySwitcheo: React.FC = () => {
@@ -19,7 +21,9 @@ const PoweredBySwitcheo: React.FC = () => {
         </Box>
       </Box>
       <Box className={classes.description}>
-        <Button
+          <b>Demex</b> is a Decentralised App (dApp) built on&nbsp;
+
+          <Button
           className={classes.learnMoreLink}
           variant="text"
           target="_blank"
@@ -27,13 +31,18 @@ const PoweredBySwitcheo: React.FC = () => {
           classes={{
             label: classes.linkText,
           }}
-        >
+          > 
           Carbon
           <SvgIcon className={classes.externalLink} component={ExternalLink} />
-        </Button>
-        is a Layer 2 protocol that&apos;s rooted at the core of <b>DeFi</b>, designed to support trading of  advanced financial instruments. The <b>native cryptocurrency</b> and <b>governance token</b> of Carbon is <b>SWTH</b>.
+          </Button> 
+
+        a Layer 2 protocol designed to support trading of <b>advanced financial instruments</b>. 
+        <br /> <br />
+        The native governance token of Carbon is <b>$SWTH</b>, which can be staked to <b>earn from all fees</b> paid on Demex.
+        
+        {/* is a Layer 2 protocol that&apos;s rooted at the core of <b>DeFi</b>, designed to support trading of  advanced financial instruments. The <b>native cryptocurrency</b> and <b>governance token</b> of Carbon is <b>SWTH</b>.
         <br /><br />
-        <b>Demex</b> is a <b>Decentralised App (dApp)</b> built on Carbon, that serves as a decentralised exchange for a variety of crypto derivatives.&nbsp;
+        <b>Demex</b> is a <b>Decentralised App (dApp)</b> built on Carbon, that serves as a decentralised exchange for a variety of crypto derivatives.&nbsp;  */}
       </Box>
       <Box className={classes.actionBtn}>
         <Button
@@ -64,10 +73,14 @@ const PoweredBySwitcheo: React.FC = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+		zIndex: 1,
     background: "linear-gradient(180deg, rgba(41, 204, 196, 0.05) 0%, rgba(26, 29, 31, 0) 100%)",
     padding: "3.125rem 3.125rem 1rem",
+    marginBottom: "10rem",
     [theme.breakpoints.down("md")]: {
-      padding: "3.75rem 1rem",
+      background: `url(${YellowVectorBottom}) no-repeat bottom left`,
+      paddingBottom: "25rem",
+      marginBottom: "-12rem",
     },
   },
   header: {

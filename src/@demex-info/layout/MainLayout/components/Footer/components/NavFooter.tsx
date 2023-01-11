@@ -7,7 +7,7 @@ import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
-import SocialLinkBox from "./SocialLinkBox";
+// import SocialLinkBox from "./SocialLinkBox";
 
 interface NavLinkMap {
   title: string;
@@ -96,7 +96,7 @@ const NavFooter: React.FC = () => {
                 </Box>
               );
             })}
-            <SocialLinkBox />
+            {/* <SocialLinkBox /> */}
           </Hidden>
           <Hidden smUp>
             <React.Fragment>
@@ -150,7 +150,6 @@ const NavFooter: React.FC = () => {
                     return null;
                   })}
                 </Box>
-                <SocialLinkBox />
               </Box>
             </React.Fragment>
           </Hidden>

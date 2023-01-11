@@ -37,23 +37,13 @@ const USPListItem: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    flexDirection: "column",
+    marginBottom: "2rem",
     alignItems: "center",
-    justifyContent: "space-between",
-    width: "51rem",
-    height: "15.5rem",
-    [theme.breakpoints.down("md")]: {
-      marginTop: "1rem",
-      flexDirection: "column",
-      width: "50%",
-      height: "unset",
-      justifyContent: "flex-start",
-      alignItems: "center",
-      "&:last-child": {
-        width: "100vw",
-      },
-    },
+    width: "40%",
+    height: "unset",
+    justifyContent: "flex-start",
     [theme.breakpoints.only("xs")]: {
-      marginTop: "1rem",
       flexDirection: "column",
       width: "100%",
       justifyContent: "center",
@@ -82,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
     color:theme.palette.text.primary,
     marginBottom: "1.5rem",
     whiteSpace: "nowrap",
+    textAlign: "center",
     [theme.breakpoints.down("md")]: {
       marginBottom: "1rem",
       ...theme.typography.h3,
@@ -93,25 +84,15 @@ const useStyles = makeStyles((theme) => ({
   textWrapper: {
     ...theme.typography.body1,
     color: theme.palette.text.primary,
-    width: "550px",
-    "& > div:last-child": {
-      width: "450px",
-      [theme.breakpoints.down("md")]: {
-        width: "50%",
-        margin: "0 auto",
-      },
-      [theme.breakpoints.only("xs")]: {
-        width: "unset",
-        maxWidth: "20rem",
-      },
-    },
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    left: "unset",
+    position: "unset",
     [theme.breakpoints.down("md")]: {
       ...theme.typography.body2,
-      width: "100%",
-      textAlign: "center",
-      margin: "0 auto",
-      left: "unset",
-      position: "unset",
     },
   },
 }));

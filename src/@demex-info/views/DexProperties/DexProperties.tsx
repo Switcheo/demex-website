@@ -1,64 +1,50 @@
 import BlueVectorBottom from "@demex-info/assets/background/BlueVectorBottom.svg";
-import BlueVectorTop from "@demex-info/assets/background/BlueVectorTop.svg";
-import { BackgroundAnimation, SvgIcon, TypographyLabel } from "@demex-info/components";
-import { Box, Hidden, makeStyles } from "@material-ui/core";
+import { TypographyLabel } from "@demex-info/components";
+import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
-import { Decentralised, Gateway, Graphic, Liquidity, Performance, Trade } from "./assets";
+import {  Performance, Trade, Decentralised, Liquidity } from "./assets";
 import { USPListItem } from "./components";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(classes.root, classes.swirlBottom)}>
       <Box>
         <Box className={classes.mainHeader}>
-          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>A DEX Built Right</TypographyLabel>
+          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>This is FTX,&nbsp;
+          {isMobile && <br />}
+          If It Was Built Right</TypographyLabel>
         </Box>
         <Box className={classes.uspList}>
           <USPListItem icon={Decentralised} header="Truly Decentralized">
             <Box className={classes.description}>
-              <b>You call the shots.</b>&nbsp;
-              Tap into a world of permissionless token listings & market creations. Powered by SWTH — Make Demex your own, the power is in your hands.
+            No registration or custody transfer required. <br/> Create any market and trade any asset, right from your wallet.
             </Box>
           </USPListItem>
-          <USPListItem icon={Trade} header="Unrivalled Trading Journey">
+          <USPListItem icon={Trade} header="Unrivalled Trading Instruments">
             <Box className={classes.description}>
-              <b>Designed to trade anything and everything.</b>&nbsp;
-              From futures to perpetuals, we&apos;ve got you covered. <b>Gain a market advantage.</b> Interchain leverage up to 50x. Money markets coming soon.
-            </Box>
-          </USPListItem>
-          <USPListItem icon={Gateway} header="Secure">
-            <Box className={classes.description}>
-              <b>Secured.</b>&nbsp;
-              Built on Tendermint Core, secured by over 20 validators. Robust insurance fund that mitigates socialized losses, coming soon.
+              Perform any financial transaction you&apos;ll ever need.<br/> From money markets to perpetuals, we&apos;ve got you covered. 
             </Box>
           </USPListItem>
           <USPListItem icon={Performance} header="Nitro Fast Trades">
             <Box className={classes.description}>
-              <b>Think speed.</b>&nbsp;We&apos;re 400x faster than Ethereum.&nbsp;
-              <b>Powerful and robust.</b> Transactions in the blink of an eye.&nbsp;
-              <b>10,000 TPS bursts, 2s block times.</b>
+            With a 1.9s blocktime, we&apos;re 400x faster than Ethereum. <br/>
+            Your trades execute instantly, just like on your favourite CEX. 
             </Box>
           </USPListItem>
-          <Box className={classes.swirlBottom}>
-            <USPListItem icon={Liquidity} header="Liquidity & Interchain Gateway">
-              <Box className={clsx(classes.description, "lastDescription")}>
-                <b>Access cross-chain markets and liquidity pools</b>&nbsp;
-                and a variety of blockchains like Ethereum, BSC, Ziliqa, Neo3, Cosmos, Osmosis, Juno, Terra. Unlock liquidity rewards.&nbsp;
-                <b>In-built bridge, with access to native tokens.</b>
+          <USPListItem icon={Liquidity} header="Liquidity & Interchain Gateway" >
+              <Box className={clsx(classes.description)}>
+              Our unique combination of features promotes a liquidity <br/>
+              flywheel and give traders the best of all worlds.
               </Box>
             </USPListItem>
-          </Box>
         </Box>
       </Box>
-      <Hidden mdDown>
-        <Box className={classes.graphicsWrapper}>
-          <BackgroundAnimation positionClass={classes.position} containerClass={classes.container} />
-          <SvgIcon className={classes.svgIcon} component={Graphic} />
-        </Box>
-      </Hidden>
     </Box>
   );
 };
@@ -66,37 +52,38 @@ const DexProperties: React.FC = () => {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    overflow: "hidden",
-    paddingLeft: "3.5rem",
+    flexDirection: "column",
+    alignItems: "center",
+    flexWrap: "wrap",
+    overflowY: "visible",
     paddingBottom: "10rem",
     paddingTop: "6rem",
+		zIndex: 2,
     [theme.breakpoints.down("md")]: {
       padding: 0,
-    },
-    "@media (min-width: 2660px)": {
-      margin: "0 auto",
+      marginBottom: "-10rem",
+      
     },
   },
-  mainHeader: {
+    mainHeader: { 
     [theme.breakpoints.down("md")]: {
-      height: "310px",
-      background: `url(${BlueVectorTop}) no-repeat top right`,
+      marginTop: "3rem",
+      height: "100px",
     },
   },
   typoContainer: {
-    [theme.breakpoints.down("md")]: {
       height: "100%",
-      width: "100%",
+      width: "auto",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-    },
+      margin: "0 auto",
   },
   typography: {
     ...theme.typography.h1,
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.h2,
-      whiteSpace: "nowrap",
+      whiteSpace: "wrap",
       textAlign: "center",
     },
     [theme.breakpoints.only("xs")]: {
@@ -117,21 +104,14 @@ const useStyles = makeStyles((theme) => ({
       ...theme.typography.body3,
       padding: "0rem 1rem",
     },
-    "&.lastDescription": {
-      [theme.breakpoints.down("md")]: {
-        maxWidth: "30%",
-      },
-    },
   },
   uspList: {
     marginTop: "3rem",
-    "&: nth-child(5)": {
-      marginLeft: "-32px",
-    },
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "2rem",
+    justifyContent: "center",
     [theme.breakpoints.down("md")]: {
-      display: "flex",
-      flexWrap: "wrap",
-      marginTop: "-7.5rem",
       "&: nth-child(5)": {
         marginLeft: 0,
       },
@@ -169,8 +149,8 @@ const useStyles = makeStyles((theme) => ({
   },
   swirlBottom: {
     [theme.breakpoints.down("md")]: {
-      height: "310px",
       background: `url(${BlueVectorBottom}) no-repeat bottom left`,
+      paddingBottom: "10rem",
     },
     [theme.breakpoints.only("md")]: {
       paddingBottom: "5rem",
