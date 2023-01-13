@@ -226,11 +226,8 @@ const useStyles = makeStyles((theme) => ({
   },
   assets: {
     width: "100%",
-    marginTop: "1.5rem",
+    margin: "1.5rem auto",
     [theme.breakpoints.down("sm")]: {
-        margin: "1rem auto",
-    },
-    [theme.breakpoints.only("lg")]: {
         margin: "1rem auto",
     },
   },

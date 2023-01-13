@@ -3,7 +3,7 @@ import { TypographyLabel } from "@demex-info/components";
 import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
-import {  Performance, Trade, Decentralised, Liquidity } from "./assets";
+import {  Performance, Trade, Decentralized, Liquidity } from "./assets";
 import { USPListItem } from "./components";
 
 const DexProperties: React.FC = () => {
@@ -21,7 +21,7 @@ const DexProperties: React.FC = () => {
           If It Was Built Right</TypographyLabel>
         </Box>
         <Box className={classes.uspList}>
-          <USPListItem icon={Decentralised} header="Truly Decentralized">
+          <USPListItem icon={Decentralized} header="Truly Decentralized">
             <Box className={classes.description}>
               No registration or custody transfer required. <br/> Create any market and trade any asset, right from your wallet.
             </Box>

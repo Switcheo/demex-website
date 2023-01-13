@@ -32,11 +32,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     backgroundColor: theme.palette.background.base,
-		zIndex: 1,
+    zIndex: 1,
     marginTop: "0.5rem",
     alignItems: "center",
     marginBottom: "10rem",
-    maxWidth: "100%",
     [theme.breakpoints.down("md")]: {
       marginBottom: "5rem",
       

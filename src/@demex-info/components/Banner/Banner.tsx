@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     boxSizing: "border-box",
     backgroundColor: "transparent",
-    padding: "5.5rem 3rem 1.5rem",
+    padding: "5.5rem 0 1.5rem",
     zIndex: 10,
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "1.25rem",
@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: StyleUtils.boxShadow(theme),
     position: "relative",
     minHeight: "4.75rem",
+    width: "98vw",
     overflow: "hidden",
     zIndex: 5,
     [theme.breakpoints.down("sm")]: {

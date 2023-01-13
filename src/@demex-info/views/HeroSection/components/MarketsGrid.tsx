@@ -6,9 +6,9 @@ import {
 } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils";
+import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, getCollateral } from "@demex-info/utils";
 import {
-  MarketListMap, MarketStatItem, MarkType, isExpired, parseMarketListMap, parseMarketStats, getAllMarkets, isPerpetual,
+  MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets, 
 } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
@@ -19,7 +19,7 @@ import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import { Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
 import clsx from "clsx";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,6 +28,7 @@ const TokenPopover = lazy(() => import("./TokenPopover"));
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [runPools] = useAsyncTask("runPools");
+  const [runCollateral] = useAsyncTask("runCollateral");
   const classes = useStyles();
   const [ws] = useWebsocket();
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const MarketsGrid: React.FC = () => {
 
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [pools, setPools] = React.useState<Pool[]>([]);
+  const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
 
@@ -49,6 +51,7 @@ const MarketsGrid: React.FC = () => {
     runPools(async () => {
       try {
         const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
+        
         const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
         setPools(poolsData);
 
@@ -62,7 +65,8 @@ const MarketsGrid: React.FC = () => {
         console.error(err);
       }
     });
-  };
+  }; 
+
   const reloadData = () => {
     if (!sdk?.query || !ws || !ws.connected) return;
 
@@ -82,13 +86,28 @@ const MarketsGrid: React.FC = () => {
     });
   };
 
+  const reloadCollateral = () => {
+    if (!sdk?.query || !ws) return;
+
+    runCollateral(async () => {
+      try {
+        const response = await getCollateral(sdk);
+        setCollateral(response);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }; 
+
   useEffect(() => {
     if (sdk && ws && ws?.connected) {
       reloadData();
       reloadPools();
+      reloadCollateral();
     }
     return () => { };
   }, [sdk, ws]);
+
 
   const listResponse = useSelector((store: RootState) => store.app.marketList);
   const list: MarketListMap = parseMarketListMap(listResponse);
@@ -108,21 +127,15 @@ const MarketsGrid: React.FC = () => {
     });
   }, [list, stats, tokenClient]);
 
-  const spotMarketsList = React.useMemo(() => {
-    return stats?.filter((stat: MarketStatItem) => {
-      return stat.marketType === MarkType.Spot;});
-  }, [stats, tokenClient, list]);
+  const totalValueLocked = React.useMemo((): BigNumber => {
+    let totalLiquidity : BigNumber = BN_ZERO;
 
-  const futuresMarketsList = React.useMemo(() => {
-    const futuresStats = stats?.filter((stat: MarketStatItem) => {
-      return stat.marketType === MarkType.Futures;
+    pools.forEach((p : Pool) => {
+      totalLiquidity = totalLiquidity.plus(getTotalUSDPrice(sdk, p));
     });
-    return futuresStats?.filter((stat: MarketStatItem) => {
-      const marketItem = list?.[stat.market] ?? {};
-      const formatExpiry = dayjs(marketItem.expiryTime).format("DD MMM YYYY");
-      return (!isExpired(marketItem) || isPerpetual(formatExpiry));
-    });
-  }, [stats, tokenClient, list]);
+
+    return totalLiquidity.plus(collateral);
+  }, [pools, collateral]);
 
   const { volume24H, coinsList } = React.useMemo((): {
     volume24H: BigNumber,
@@ -192,9 +205,10 @@ const MarketsGrid: React.FC = () => {
   };
 
   const volumeCountUp = useRollingNum(volume24H, 2, 2);
-  const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
+  const liquidityCountUp = useRollingNum(totalValueLocked, 2, 2);
+  // const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
   const coinsCountUp = useRollingNum(coinsList.length, 0, 2);
-  const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
+  // const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
   const poolsCountUp = useRollingNum(pools.length, 0, 2);
 
   return (
@@ -223,8 +237,8 @@ const MarketsGrid: React.FC = () => {
       <Grid item xs={12} sm={6} lg={3}>
         <Cards className={classes.marketsCard}>
           <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
-            Markets
-            <Hidden xsDown>
+            Total Value Locked
+            {/* <Hidden xsDown>
               <Button
                 onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
                 className={classes.viewAll}
@@ -233,7 +247,7 @@ const MarketsGrid: React.FC = () => {
               >
                 View
               </Button>
-            </Hidden>
+            </Hidden> */}
           </Box>
           <Box
             display="flex"
@@ -246,7 +260,10 @@ const MarketsGrid: React.FC = () => {
             </RenderGuard>
             <RenderGuard renderIf={!statLoading}>
               <Box display="flex" alignItems="baseline" width="100%" justifyContent="space-between">
-                <Box display="flex" alignItems="baseline">
+                <TypographyLabel className={classes.gridContent}>
+                  ${liquidityCountUp}
+                </TypographyLabel>
+                {/* <Box display="flex" alignItems="baseline">
                   <TypographyLabel className={classes.gridContent}>
                     {spotCountUp}
                   </TypographyLabel>
@@ -268,7 +285,7 @@ const MarketsGrid: React.FC = () => {
                   >
                     View
                   </Button>
-                </Hidden>
+                </Hidden> */}
               </Box>
             </RenderGuard>
           </Box>
