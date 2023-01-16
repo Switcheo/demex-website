@@ -24,7 +24,7 @@ const ExchangeComparison: React.FC = () => {
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.textSecSlide, { open: titleView })}>
           <TypographyLabel className={classes.header}>
-            Trade On the Best
+            What makes Demex Different?
           </TypographyLabel>
         </Box>
         <Box className={clsx(

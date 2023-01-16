@@ -221,7 +221,7 @@ const MarketsGrid: React.FC = () => {
             mb={1}
           >
             <TypographyLabel className={classes.gridHeader}>
-              Volume (24H)
+              Trading Volume (24H)
             </TypographyLabel>
           </Box>
           <RenderGuard renderIf={statLoading}>

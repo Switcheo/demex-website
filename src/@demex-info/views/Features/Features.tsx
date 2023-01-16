@@ -8,6 +8,8 @@ import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Crosschain, Derivatives, LiquidityPools, Orderbooks, Nitron } from "./assets";
+import OrangeVectorTop from "@demex-info/assets/background/OrangeVectorTop.svg";
+
 
 const Features: React.FC = () => {
   const classes = useStyles();
@@ -124,14 +126,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    [theme.breakpoints.only("sm")]: {
-      margin: 0,
-      padding: "2.5rem 1.75rem 0rem",
+    [theme.breakpoints.down("md")]: {
+      background: `url(${OrangeVectorTop}) no-repeat top right`,
+      padding: "13rem 0 0",
+      marginTop: "-10rem",
     },
-    [theme.breakpoints.only("xs")]: {
-      margin: 0,
-      padding: "2.5rem 0.75rem 0rem",
-    },
+    // [theme.breakpoints.only("sm")]: {
+    //   margin: 0,
+    //   padding: "2.5rem 1.75rem 0rem",
+    // },
+    // [theme.breakpoints.only("xs")]: {
+    //   margin: 0,
+    //   padding: "2.5rem 0.75rem 0rem",
+    // },
   },
   cards: {
     display: "flex",

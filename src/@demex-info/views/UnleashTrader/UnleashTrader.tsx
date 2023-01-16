@@ -15,11 +15,10 @@ const UnleashTrader: React.FC<Props> = () => {
         <BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
       </Hidden>
       <TypographyLabel className={classes.mainHeader}>
-        Unleash the Trader in You
+        Unlimited Connections 
       </TypographyLabel>
       <TypographyLabel boxClass={classes.subtextBox} className={classes.subtext}>
-        Reimagine open markets with the first cross-chain decentralized exchange to support unlimited financial markets.
-        Enjoy a plethora of trading products at your fingertips without ever losing ownership of your funds.
+        We&apos;re connected to virtually any chain. Trade any market, token, or instrument right now.
       </TypographyLabel>
       <MarketsMarquee />
       <TokensMarquee />

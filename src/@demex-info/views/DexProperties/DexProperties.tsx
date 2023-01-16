@@ -21,7 +21,7 @@ const DexProperties: React.FC = () => {
           If It Was Built Right</TypographyLabel>
         </Box>
         <Box className={classes.uspList}>
-          <USPListItem icon={Decentralized} header="Truly Decentralized">
+          <USPListItem icon={Decentralized} header="True Decentralization">
             <Box className={classes.description}>
               No registration or custody transfer required. <br/> Create any market and trade any asset, right from your wallet.
             </Box>
@@ -38,7 +38,7 @@ const DexProperties: React.FC = () => {
               &nbsp;Your trades execute instantly, just like on your favourite CEX. 
             </Box>
           </USPListItem>
-          <USPListItem icon={Liquidity} header="Liquidity & Interchain Gateway" >
+          <USPListItem icon={Liquidity} header="Deep Liquidity" >
               <Box className={clsx(classes.description)}>
                 Our unique combination of features promotes a liquidity 
                   {!isMobile && <br/>} 
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "10rem",
     paddingTop: "6rem",
 		zIndex: 2,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       padding: 0,
       marginBottom: "-10rem",
       
@@ -80,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "center",
       margin: "0 auto",
+      textAlign: "center",
   },
   typography: {
     ...theme.typography.h1,
