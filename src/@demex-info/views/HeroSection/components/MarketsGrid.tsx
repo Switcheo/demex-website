@@ -482,9 +482,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: theme.spacing(4.25),
     right: theme.spacing(-1.25),
     zIndex: 5,
-    [theme.breakpoints.only("xs")]: {
-      width: "11rem",
-    },
   },
   innerDiv: {
     display: "flex",
@@ -512,7 +509,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   labelBox: {
     cursor: "pointer",
-    zIndex: 5,
+    zIndex: 100,
     [theme.breakpoints.only("xs")]: {
       width: "8rem",
     },

@@ -120,6 +120,8 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("sm")]: {
 			padding: "0 0.75rem",
 			overflow: "hidden",
+			paddingBottom: "15rem",
+			marginBottom: "-15rem",
 		},
 	},
 	position: {
@@ -146,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.only("lg")]: {
 			width: "1480px",
 		},
-		[theme.breakpoints.only("md")]: {
+		[theme.breakpoints.down("md")]: {
 			maxWidth: "unset",
 			margin: "-70% ​-100%",
 		},
@@ -212,6 +214,9 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "flex-start",
 		justifyContent: "center",
+		[theme.breakpoints.up("md")]: {
+			paddingLeft: "4rem",
+		},
 		[theme.breakpoints.down("md")]: {
 			alignItems: "center",
 		},
@@ -318,7 +323,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	graphicsWrapper: {
 		overflow: "hidden",
-		marginLeft: "-3rem",
+		marginLeft: "-9rem",
 		[theme.breakpoints.up("xl")]: {
 			overflow: "visible",
 		},

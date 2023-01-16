@@ -189,6 +189,11 @@ export function goToLink(link: string) {
   window.open(`https://app.dem.exchange${link}`, "_blank");
 }
 
+export function goToExternalLink(link: string) {
+  if (!link) return;
+  window.open(`${link}`, "_blank");
+}
+
 export interface NavLink {
   showIcon?: boolean | undefined;
   label: string;

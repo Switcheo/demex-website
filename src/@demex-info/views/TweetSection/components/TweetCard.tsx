@@ -1,6 +1,6 @@
 import { ExternalLink, Twitter } from "@demex-info/assets";
 import { RenderGuard } from "@demex-info/components";
-import { goToLink } from "@demex-info/constants";
+import { goToExternalLink } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
@@ -27,7 +27,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const isReplyingTweet = replyingTo !== "";
 
   return (
-    <Box className={clsx(className, classes.root)} onClick={() => goToLink(tweetUrl)}>
+    <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)}>
       <Box className={classes.topSection}>
         <Box>
           <Box className={classes.accountName}>

@@ -37,10 +37,10 @@ const PoweredBySwitcheo: React.FC = () => {
           > 
           Carbon
           {isDesktop && <SvgIcon className={classes.externalLink} component={ExternalLink} />}
-
+,
           </Button> 
 
-        , a Layer 2 protocol designed to support trading of <b>advanced financial instruments</b>. 
+         &nbsp;a Layer 2 protocol designed to support trading of <b>advanced financial instruments</b>. 
         <br /> <br />
         The native governance token of Carbon is <b>$SWTH</b>, which can be staked to <b>earn from all fees</b> paid on Demex.
       </Box>
@@ -184,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
 		"& path": {
 			fill: theme.palette.text.primary,
 		},
+    width: "1.25rem",
 	},
   learnMoreLabel: {
     background: StyleUtils.primaryGradientHover(theme),

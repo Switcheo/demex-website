@@ -233,10 +233,7 @@ const useStyles = makeStyles((theme) => ({
   },
   assets: {
     width: "100%",
-    margin: "1.5rem auto",
-    [theme.breakpoints.down("sm")]: {
-        margin: "1rem auto",
-    },
+    margin: "-2rem auto",
   },
   actionBtn: {
     display: "flex",
