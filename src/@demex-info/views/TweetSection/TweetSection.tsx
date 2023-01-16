@@ -1,4 +1,4 @@
-import YellowVectorTop from "@demex-info/assets/background/YellowVectorTop.svg";
+import BlueVectorTop from "@demex-info/assets/background/BlueVectorTop.svg";
 import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
 import { Box, Container, Hidden, makeStyles, Theme } from "@material-ui/core";
 import "animate.css";
@@ -83,7 +83,7 @@ const TweetSection: React.FC = () => {
           <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>Don’t Trust, Verify</TypographyLabel>
         </Box>
         <TypographyLabel boxClass={classes.subtextBox} className={classes.subtext}>
-          Check out what others are saying.
+          See what others are saying
         </TypographyLabel>
         <Box className={classes.tweets}>
           {selectTweet(firstTweet, !onLoad && currIndex % 3 === 0, setFirstTweet)}
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "310px",
     },
     [theme.breakpoints.down("sm")]: {
-      background: `url(${YellowVectorTop}) no-repeat top right`,
+      background: `url(${BlueVectorTop}) no-repeat top right`,
     },
   },
   typography: {

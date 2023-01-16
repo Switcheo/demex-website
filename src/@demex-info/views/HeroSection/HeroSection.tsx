@@ -319,6 +319,9 @@ const useStyles = makeStyles((theme) => ({
 	graphicsWrapper: {
 		overflow: "hidden",
 		marginLeft: "-3rem",
+		[theme.breakpoints.up("xl")]: {
+			overflow: "visible",
+		},
 	},
 	svgIcon: {
 		position: "relative",

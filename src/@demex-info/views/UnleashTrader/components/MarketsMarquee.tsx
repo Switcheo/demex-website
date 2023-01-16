@@ -1,5 +1,5 @@
 import { Cards } from "@demex-info/components/Cards";
-import { DEC_SHIFT, getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { DEC_SHIFT, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
 import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
@@ -37,6 +37,11 @@ const MarketsMarquee: React.FC<Props> = () => {
   const network = useSelector((store: RootState) => store.app.network);
   const markets = useSelector((store: RootState) => store.app.marketList);
   const marketStatsList = useSelector((store: RootState) => store.app.marketStats);
+	const [ready, setReady] = React.useState<boolean>(false);
+
+  useEffect(() => {
+		setTimeout(() => setReady(true));
+	}, []);
 
   const [candleSticks, setCandleSticks] = React.useState<MarketCandlesticks[] | null>(null);
 
@@ -118,56 +123,61 @@ const MarketsMarquee: React.FC<Props> = () => {
   });
 
   const goToMarket = (market: string) => {
-    goToLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
+    goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
   const speed = theme.breakpoints.down("sm") ? 8 : 20;
 
   return (
-    <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
-      {
-        filteredCards.map((card: MarketCard) => {
-          const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
-          return (
-            <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
-              <Box width="50%">
-                <Box display="flex" className={classes.marketName}>
-                  {card.baseSymbol}
-                  {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
-                  {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
-                  {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
-                </Box>
-                <Box display="flex" alignItems="baseline" mt={0.25}>
-                  <Box className={classes.priceName}>
-                    {card.lastPrice.toFormat(card.priceDp)}
+    <React.Fragment>
+      {ready && 
+        <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover >
+          {
+            filteredCards.map((card: MarketCard) => {
+              const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
+              return (
+                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
+                  <Box width="50%">
+                    <Box display="flex" className={classes.marketName}>
+                      {card.baseSymbol}
+                      {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
+                      {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
+                      {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
+                    </Box>
+                    <Box display="flex" alignItems="baseline" mt={0.25}>
+                      <Box className={classes.priceName}>
+                        {card.lastPrice.toFormat(card.priceDp)}
+                      </Box>
+                      <Box
+                        className={clsx(
+                          classes.changeText,
+                          {
+                            [classes.positive]: card.change24H.gt(0),
+                            [classes.negative]: card.change24H.lt(0),
+                          },
+                        )}
+                      >
+                        {card.change24H.gte(0) ? "+" : ""}{toPercentage(card.change24H, 2)}%
+                      </Box>
+                    </Box>
+                    <Box className={classes.volumeText}>
+                      24h Vol. &nbsp;
+                      {formatUsdPrice(card.usdVolume)}
+                    </Box>
                   </Box>
-                  <Box
-                    className={clsx(
-                      classes.changeText,
-                      {
-                        [classes.positive]: card.change24H.gt(0),
-                        [classes.negative]: card.change24H.lt(0),
-                      },
-                    )}
-                  >
-                    {card.change24H.gte(0) ? "+" : ""}{toPercentage(card.change24H, 2)}%
+                  <Box className={classes.sparklineBox}>
+                    <Sparklines data={candleSticks?.find((bar: any) => bar.market === card.stat?.market)?.bars} svgWidth={100} svgHeight={60}>
+                      <SparklinesLine style={{ fill: "none", strokeWidth: 2 }} color={sparklineColor} />
+                    </Sparklines>
                   </Box>
-                </Box>
-                <Box className={classes.volumeText}>
-                  24h Vol. &nbsp;
-                  {formatUsdPrice(card.usdVolume)}
-                </Box>
-              </Box>
-              <Box className={classes.sparklineBox}>
-                <Sparklines data={candleSticks?.find((bar: any) => bar.market === card.stat?.market)?.bars} svgWidth={100} svgHeight={60}>
-                  <SparklinesLine style={{ fill: "none", strokeWidth: 2 }} color={sparklineColor} />
-                </Sparklines>
-              </Box>
-            </Cards>
-          );
-        })
+                </Cards>
+              );
+            })
+          }
+        </Marquee>
       }
-    </Marquee>
+    </React.Fragment>
+
   );
 };
 

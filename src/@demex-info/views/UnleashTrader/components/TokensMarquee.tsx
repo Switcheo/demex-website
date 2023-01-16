@@ -6,7 +6,7 @@ import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
 import { Box, makeStyles, useTheme } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
 
@@ -26,6 +26,11 @@ const TokensMarquee: React.FC<Props> = () => {
   const markets = useSelector((store: RootState) => store.app.marketList);
   const marketList: MarketListMap = parseMarketListMap(markets);
   const marketStatsList = useSelector((store: RootState) => store.app.marketStats);
+  const [ready, setReady] = React.useState<boolean>(false);
+
+  useEffect(() => {
+		setTimeout(() => setReady(true));
+	}, []);
 
   const { baseMarketList } = React.useMemo((): {
     baseMarketList: BaseDenomMarket[],
@@ -69,23 +74,28 @@ const TokensMarquee: React.FC<Props> = () => {
   const speed = theme.breakpoints.down("sm") ? 8 : 20;
 
   return (
-    <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
-      {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
-        const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
-        return (
-          <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
-            <Box className={classes.text}>
-              Token
-              <Box className={classes.tokenValue}>
-                {tokenName}
-                <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
-              </Box>
-            </Box>
-            <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
-          </Cards>
-        );
-      })}
-    </Marquee>
+    <React.Fragment>
+      {ready && 
+        <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
+          {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
+            const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
+            return (
+              <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
+                <Box className={classes.text}>
+                  Token
+                  <Box className={classes.tokenValue}>
+                    {tokenName}
+                    <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
+                  </Box>
+                </Box>
+                <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
+              </Cards>
+            );
+          })}
+        </Marquee>
+      }
+    </React.Fragment>
+
   );
 };
 
