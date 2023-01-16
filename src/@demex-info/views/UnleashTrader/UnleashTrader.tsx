@@ -11,7 +11,7 @@ const UnleashTrader: React.FC<Props> = () => {
 
   return (
     <Box className={classes.root}>
-      <Hidden smDown>
+      <Hidden mdDown>
         <BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
       </Hidden>
       <TypographyLabel className={classes.mainHeader}>
@@ -73,14 +73,14 @@ const useStyles = makeStyles((theme) => ({
       left: "50%",
       height: "calc(100vh + 40rem)",
     },
-    [theme.breakpoints.down("md")]: {
-      overflow: "hidden",
-      top: "-125px",
-      minHeight: "60rem",
-    },
-    [theme.breakpoints.down("xs")]: {
-      top: "-200px",
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   overflow: "hidden",
+    //   top: "-125px",
+    //   minHeight: "60rem",
+    // },
+    // [theme.breakpoints.down("xs")]: {
+    //   top: "-200px",
+    // },
   },
   container: {
     zIndex: -2,

@@ -1,5 +1,5 @@
 import { BannerBlueLeft, BannerBlueMiddle, BannerBlueRight, BannerOrange, ExternalLink } from "@demex-info/assets";
-import { goToLink } from "@demex-info/constants";
+import { goToExternalLink } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
 import {
   Box, BoxProps, Button, makeStyles, Theme,
@@ -37,7 +37,7 @@ const Banner: React.FC<Props> = (props: Props) => {
               <Box>{subHeader} &nbsp;</Box>
               {ctaText && ctaUrl && (
                 <Button
-                  onClick={() => goToLink(ctaUrl)}
+                  onClick={() => goToExternalLink(ctaUrl)}
                   className={classes.linkButton}
                   variant="text"
                   color="secondary"
@@ -52,7 +52,7 @@ const Banner: React.FC<Props> = (props: Props) => {
         {buttonText && buttonUrl && (
           <Button
             variant="contained"
-            onClick={() => goToLink(buttonUrl)}
+            onClick={() => goToExternalLink(buttonUrl)}
             className={classes.actionButton}
           >
             {buttonText}
@@ -110,10 +110,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundSize: "105%",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      [theme.breakpoints.down(380)]: {
-        backgroundPosition: "unset",
-        backgroundSize: "auto",
-      },
     },
   },
   leftBanner: {

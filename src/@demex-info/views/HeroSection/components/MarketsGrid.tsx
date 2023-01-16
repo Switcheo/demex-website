@@ -1,6 +1,6 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { getDemexLink, goToLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
@@ -302,7 +302,7 @@ const MarketsGrid: React.FC = () => {
               Liquidity Pools
               <Hidden xsDown>
                 <Button
-                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  onClick={() => goToExternalLink(getDemexLink(Paths.Pools.List, network))}
                   className={classes.viewAll}
                   variant="text"
                   color="secondary"
@@ -333,7 +333,7 @@ const MarketsGrid: React.FC = () => {
               </Box>
               <Hidden smUp>
                 <Button
-                  onClick={() => goToLink(getDemexLink(Paths.Pools.List, network))}
+                  onClick={() => goToExternalLink(getDemexLink(Paths.Pools.List, network))}
                   className={classes.viewAll}
                   variant="text"
                   color="secondary"

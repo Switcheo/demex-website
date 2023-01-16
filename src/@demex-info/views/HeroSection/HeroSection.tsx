@@ -78,7 +78,7 @@ const HeroSection: React.FC = () => {
 						<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.altText)}>
 							<b>Powered by </b>&nbsp;
 							<Box display="flex" justifyContent="center" alignItems="center">
-								<Box className={classes.purpleGradient}>Cosmos SDK</Box>
+								<Box className={classes.purpleGradient}><b>Cosmos SDK</b></Box>
 							</Box>
 						</Box>
 

@@ -44,7 +44,7 @@ const CoinIcon: React.FunctionComponent<CoinIconProps> = (
   if (hideUnknown) {
     defaultIcon = undefined;
   }
-
+  
   const selectedIcon = symbolToIcon[tokenName];
   const Icon = selectedIcon ?? defaultIcon;
 

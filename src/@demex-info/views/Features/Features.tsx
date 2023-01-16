@@ -150,6 +150,10 @@ const useStyles = makeStyles((theme) => ({
       padding: "1rem 0.75rem",
       marginBottom: "1rem",
     },
+    [theme.breakpoints.down("md")]: {
+      padding: "1.5rem 0.75rem",
+      marginBottom: "1rem",
+    },
   },
   header: {
     ...theme.typography.h1,
@@ -278,7 +282,7 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("md")]: {
       ...theme.typography.title2,
-      minWidth: "7.75rem",
+      minWidth: "max-content",
       minHeight: "2.5rem",
     },
     [theme.breakpoints.down("sm")]: {
