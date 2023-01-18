@@ -27,12 +27,8 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       href: getDemexLink(Paths.Trade, net),
     },
     {
-      label: "Pools",
+      label: "Earn",
       href: getDemexLink(Paths.Pools.List, net),
-    },
-    {
-      label: "Staking",
-      href: getDemexLink(Paths.Stake.List, net),
     },
     
     // {

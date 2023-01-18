@@ -204,12 +204,12 @@ const MarketsGrid: React.FC = () => {
     setOpenTokens(false);
   };
 
-  const volumeCountUp = useRollingNum(volume24H, 2, 2);
-  const liquidityCountUp = useRollingNum(totalValueLocked, 2, 2);
+  const volumeCountUp = useRollingNum(volume24H, 2, 4);
+  const liquidityCountUp = useRollingNum(totalValueLocked, 2, 4);
   // const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
-  const coinsCountUp = useRollingNum(coinsList.length, 0, 2);
+  const coinsCountUp = useRollingNum(coinsList.length, 0, 4);
   // const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
-  const poolsCountUp = useRollingNum(pools.length, 0, 2);
+  const poolsCountUp = useRollingNum(pools.length, 0, 4);
 
   return (
     <Grid container spacing={4} className={classes.innerDiv}>
@@ -238,16 +238,6 @@ const MarketsGrid: React.FC = () => {
         <Cards className={classes.marketsCard}>
           <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
             Total Value Locked
-            {/* <Hidden xsDown>
-              <Button
-                onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-                className={classes.viewAll}
-                variant="text"
-                color="secondary"
-              >
-                View
-              </Button>
-            </Hidden> */}
           </Box>
           <Box
             display="flex"
@@ -263,29 +253,6 @@ const MarketsGrid: React.FC = () => {
                 <TypographyLabel className={classes.gridContent}>
                   ${liquidityCountUp}
                 </TypographyLabel>
-                {/* <Box display="flex" alignItems="baseline">
-                  <TypographyLabel className={classes.gridContent}>
-                    {spotCountUp}
-                  </TypographyLabel>
-                  &nbsp;
-                  <TypographyLabel className={classes.gridSubtitle}>Spot</TypographyLabel>
-                  <TypographyLabel className={classes.gridContent} marginLeft={2}>
-                    {futuresCountUp}
-                  </TypographyLabel>
-                  &nbsp;
-                  <TypographyLabel className={classes.gridSubtitle}>Futures</TypographyLabel>
-                  <TypographyLabel className={clsx(classes.gridSubtitle, "primary")}>and more</TypographyLabel>
-                </Box>
-                <Hidden smUp>
-                  <Button
-                    onClick={() => goToLink(getDemexLink(Paths.Trade, network))}
-                    className={classes.viewAll}
-                    variant="text"
-                    color="secondary"
-                  >
-                    View
-                  </Button>
-                </Hidden> */}
               </Box>
             </RenderGuard>
           </Box>
