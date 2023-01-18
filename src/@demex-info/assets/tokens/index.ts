@@ -71,6 +71,7 @@ export { ReactComponent as FET } from "./FET.svg";
 export { ReactComponent as FIL } from "./FIL.svg";
 export { ReactComponent as FLM } from "./FLM.svg";
 export { ReactComponent as FLOW } from "./FLOW.svg";
+export { ReactComponent as FLUID } from "./FLUID.svg";
 export { ReactComponent as FRANK } from "./FRANK.svg";
 export { ReactComponent as FTM } from "./FTM.svg";
 export { ReactComponent as FTT } from "./FTT.svg";

@@ -9,4 +9,7 @@ export const StyleUtils = {
   boxShadow: (theme: Theme) => `0px 0px 16px ${theme.palette.shadow}`,
   bannerGradient: "linear-gradient(298.71deg, #282B2D 32.3%, #000000 100%)",
   orangeGradient: "linear-gradient(90deg, #FFA800 0%, #FF5107 100%)",
+  buttonGradient: (theme: Theme) => `linear-gradient(270deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+  primaryTextGradient: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)", // also accent Blue | Info
+  dropShadow: (theme: Theme) => `0px 0px 16px ${theme.palette.shadow}`,
 };

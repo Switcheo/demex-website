@@ -64,7 +64,10 @@ export const Paths = {
     UnlockTokens: "/pools/unlock/:pool_denom",
   },
 
-  Nitron: "/nitron",
+  Nitron: {
+    Main: "/nitron",
+    Liquidations: "/liquidations",
+  },
 };
 
 export const DemexHosts: { [key: string]: string } = {

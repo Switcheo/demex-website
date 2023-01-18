@@ -1,10 +1,14 @@
-import { ExternalLink } from "@demex-info/assets/icons";
-import { getDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, goToExternalLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
 import { RootState } from "@demex-info/store/types";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
+import { ExternalLink, MenuPools, MenuStake, Nitron, NitronLiquidations } from "../assets";
+import OptionsDropdown from "./OptionsDropdown";
+
+
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();
@@ -20,25 +24,13 @@ const HeaderMenu: React.FC = () => {
       href: getDemexLink(Paths.Trade, net),
     },
     {
-      label: "Pools",
-      href: getDemexLink(Paths.Pools.List, net),
-    },
-    {
-      label: "Staking",
-      href: getDemexLink(Paths.Stake.List, net),
+      label: "Earn",
+      href: undefined,
     },
     {
       label: "Competition",
       href: getDemexLink(Paths.Competition.Leaderboard, net),
     },
-    // {
-    //   label: "Leaderboard",
-    //   href: Paths.Leaderboard,
-    // },
-    // {
-    //   label: "Explorer",
-    //   href: getExplorerLink(net),
-    // },
     {
       showIcon: true,
       label: "Ecosystem",
@@ -46,10 +38,41 @@ const HeaderMenu: React.FC = () => {
     },
   ];
 
+  const earnLinks = React.useMemo((): DropdownMenuItem[] => {
+    const initTextLinks: DropdownMenuItem[] = [{
+      key: "pools",
+      label: "Pools",
+      onClick: () => goToExternalLink(getDemexLink(Paths.Pools.List, net)),
+      startIcon: MenuPools,
+      startIconType: "fill",
+    }, {
+      key: "nitron",
+      label: "Nitron",
+      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Main, net)),
+      startIcon: Nitron,
+      startIconType: "fill",
+    }, {
+      key: "liquidations",
+      label: "Nitron Liquidations",
+      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Liquidations, net)),
+      startIcon: NitronLiquidations,
+      startIconType: "stroke",
+    }, {
+      key: "staking",
+      onClick: () => goToExternalLink("https://hub.carbon.network/stake"),
+      label: "Stake",
+      startIcon: MenuStake,
+      startIconType: "stroke",
+      endIcon: ExternalLink,
+      endIconType: "fill",
+    }];
+    return initTextLinks;
+  }, [net]) // eslint-disable-line
+
   return (
     <Hidden smDown>
       {navLinksArr.map((navLink: NavLink) => {
-        if (navLink?.href) {
+        if (navLink.href !== undefined) {
           return (
             <Box key={`menu-tab-${navLink.label}`} className={classes.tabWrapper}>
               <Button
@@ -60,6 +83,7 @@ const HeaderMenu: React.FC = () => {
                 target="_blank"
               >
                 {navLink.label}
+            &nbsp;
                 {navLink?.showIcon && (
                   <ExternalLink />
                 )}
@@ -67,8 +91,13 @@ const HeaderMenu: React.FC = () => {
               <Box className={classes.activeIndicator} />
             </Box>
           );
+        } else {
+          return (
+            <OptionsDropdown
+              items={earnLinks}
+            />
+            );
         }
-        return null;
       })}
     </Hidden>
   );

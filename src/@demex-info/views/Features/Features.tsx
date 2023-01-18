@@ -47,8 +47,7 @@ const Features: React.FC = () => {
               className={classes.button}
               variant="contained"
               target="_blank"
-              href={getDemexLink(Paths.Nitron, net)}
-
+              href={getDemexLink(Paths.Nitron.Main, net)}
             >
               Explore Nitron
             </Button>

@@ -7,6 +7,7 @@ import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } f
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile } from "./assets";
 import { MarketsGrid, SocialsBar } from "./components";
@@ -16,9 +17,14 @@ const HeroSection: React.FC = () => {
 	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
 
+	const [titleRef, titleView] = useInView({
+		threshold: 0.7,
+		triggerOnce: true,
+	});
+
 	const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
-	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "Atom", "AAVE", "Wrapped Bitcoin", "Gold", "Anything"];
+	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "ATOM", "AAVE", "Gold", "Anything"];
 
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 	const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
@@ -40,47 +46,47 @@ const HeroSection: React.FC = () => {
 				buttonUrl={Paths.Competition.SignUp}
 				backgroundImg={bannerAsString}
 			/>
-			
-					<Box className={clsx(classes.text, classes.tagline)}>
-						Trade&nbsp;
-						<TextLoop
-							interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
-						>
-							{items.map((item: string) => (
-								<span key={`${item}`}>{item}</span>
-							))}
-						</TextLoop>
-					</Box>
-					{ready && (
-						<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
-					)}
-			<Container maxWidth={false} className={classes.contentContainer}>
+
+			<Box className={clsx(classes.text, classes.tagline)}>
+				Trade&nbsp;
+				<TextLoop
+					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
+				>
+					{items.map((item: string) => (
+						<span key={`${item}`}>{item}</span>
+					))}
+				</TextLoop>
+			</Box>
+			{ready && (
+				<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
+			)}
+			<div ref={titleRef} >
+			<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
 				<Box className={classes.left}>
-
-				<Box className={classes.content}>
+					<Box className={classes.content}>
 				
-					<Box className={clsx(classes.text, classes.headline)}>
-						The Only DEX You Need
-					</Box>
-
-					<Box className={clsx(classes.text, classes.description)}>
-						Trade derivatives, lend or borrow tokens,&nbsp; 
-						
-						{isDesktop && <br />} 
-						
-						mint stablecoins, and provide liquidity on the
-						<span className={classes.altText}>
-&nbsp;
-						{isDesktop && <br />} 
-						most extensive decentralized platform ever.
-						</span>
-					</Box>
-						<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.altText)}>
-							<b>Powered by </b>&nbsp;
-							<Box display="flex" justifyContent="center" alignItems="center">
-								<Box className={classes.purpleGradient}><b>Cosmos SDK</b></Box>
-							</Box>
+						<Box className={clsx(classes.text, classes.headline)}>
+							The Only DEX You Need
 						</Box>
+
+						<Box className={clsx(classes.text, classes.description)}>
+							Trade derivatives, lend or borrow tokens,&nbsp; 
+							
+							{isDesktop && <br />} 
+							
+							mint stablecoins, and provide liquidity on the
+							<span className={classes.altText}>
+	&nbsp;
+							{isDesktop && <br />} 
+							most extensive decentralized platform ever.
+							</span>
+					</Box>
+					<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.altText)}>
+						<b>Powered by </b>&nbsp;
+						<Box display="flex" justifyContent="center" alignItems="center">
+							<Box className={classes.purpleGradient}><b>Cosmos SDK</b></Box>
+						</Box>
+					</Box>
 
 
 					<Button
@@ -100,11 +106,13 @@ const HeroSection: React.FC = () => {
 					</Box> 
 				</Hidden>
 
-			</Container>
+				</Container>
+			</div>
 				<Suspense fallback={null}>
 					<MarketsGrid />
 				</Suspense>
-		</Box>
+			</Box>
+
 	);
 };
 
@@ -200,6 +208,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 0,
+		opacity: 0,
+		transform: "translate(0px, 60px)",
+		transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
+		"&.open": {
+			opacity: 1,
+			transform: "translate(0px,0px)",
+		},
 		[theme.breakpoints.down("md")]: {
 			marginTop: 0,
 			height: "unset",
