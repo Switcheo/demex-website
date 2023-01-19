@@ -10,7 +10,7 @@ import { QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import Long from "long";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -131,6 +131,7 @@ const MarketsMarquee: React.FC<Props> = () => {
   return (
     <React.Fragment>
       {ready && 
+      <Suspense fallback={null}>
         <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover >
           {
             filteredCards.map((card: MarketCard) => {
@@ -175,7 +176,9 @@ const MarketsMarquee: React.FC<Props> = () => {
             })
           }
         </Marquee>
+        </Suspense>
       }
+
     </React.Fragment>
 
   );

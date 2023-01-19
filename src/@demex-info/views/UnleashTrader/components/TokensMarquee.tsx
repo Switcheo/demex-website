@@ -6,7 +6,7 @@ import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
 import { Box, makeStyles, useTheme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
 
@@ -76,6 +76,7 @@ const TokensMarquee: React.FC<Props> = () => {
   return (
     <React.Fragment>
       {ready && 
+        <Suspense fallback={null}>
         <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
           {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
             const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
@@ -93,6 +94,7 @@ const TokensMarquee: React.FC<Props> = () => {
             );
           })}
         </Marquee>
+        </Suspense>
       }
     </React.Fragment>
 

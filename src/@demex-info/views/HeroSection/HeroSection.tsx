@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
 	const [ready, setReady] = React.useState<boolean>(false);
 
 	const [titleRef, titleView] = useInView({
-		threshold: 0.7,
+		threshold: 0.2,
 		triggerOnce: true,
 	});
 
