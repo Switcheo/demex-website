@@ -126,7 +126,7 @@ const MarketsMarquee: React.FC<Props> = () => {
     goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
-  const speed = theme.breakpoints.down("sm") ? 8 : 20;
+  const speed = theme.breakpoints.down("sm") ? 8 : 30;
 
   return (
     <React.Fragment>
