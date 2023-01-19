@@ -3,6 +3,7 @@ import { TypographyLabel } from "@demex-info/components";
 import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
+import TextLoop from "react-text-loop";
 import {  Performance, Trade, Decentralized, Liquidity } from "./assets";
 import { USPListItem } from "./components";
 
@@ -11,12 +12,23 @@ const DexProperties: React.FC = () => {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+	const items = ["Coinbase", "Bitfinex", "Binance", "KuCoin", "Gemini", "Huobi", "OKX", "FTX"];
+
 
   return (
     <Box className={clsx(classes.root, classes.swirlBottom)}>
       <Box>
         <Box className={classes.mainHeader}>
-          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>This is FTX,&nbsp;
+          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>This is&nbsp;
+          <TextLoop
+          mask={true}
+					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
+				>
+					{items.map((item: string) => (
+						<span key={`${item}`}>{item}</span>
+					))}
+				</TextLoop>
+          ,&nbsp;
           {isMobile && <br />}
           If It Was Built Right</TypographyLabel>
         </Box>

@@ -50,7 +50,7 @@ const HeroSection: React.FC = () => {
 			<Box className={clsx(classes.text, classes.tagline)}>
 				Trade&nbsp;
 				<TextLoop
-					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
+					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
 				>
 					{items.map((item: string) => (
 						<span key={`${item}`}>{item}</span>
