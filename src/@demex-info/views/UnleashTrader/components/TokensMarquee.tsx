@@ -4,7 +4,7 @@ import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
-import { Box, makeStyles, useTheme } from "@material-ui/core";
+import { Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
@@ -71,11 +71,11 @@ const TokensMarquee: React.FC<Props> = () => {
     goToExternalLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
-  const speed = theme.breakpoints.down("sm") ? 8 : 30;
+  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 30;
 
   return (
     <React.Fragment>
-      {ready && 
+      {ready &&  
         <Suspense fallback={null}>
         <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
           {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
@@ -83,7 +83,7 @@ const TokensMarquee: React.FC<Props> = () => {
             return (
               <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
                 <Box className={classes.text}>
-                  Token
+                  Token {speed}
                   <Box className={classes.tokenValue}>
                     {tokenName}
                     <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>

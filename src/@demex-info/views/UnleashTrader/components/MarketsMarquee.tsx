@@ -3,7 +3,7 @@ import { DEC_SHIFT, goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
 import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
-import { Box, makeStyles, useTheme } from "@material-ui/core";
+import { Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import { Models, TokenUtils } from "carbon-js-sdk";
 import { QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec";
@@ -126,7 +126,8 @@ const MarketsMarquee: React.FC<Props> = () => {
     goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
-  const speed = theme.breakpoints.down("sm") ? 8 : 30;
+  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 30;
+
 
   return (
     <React.Fragment>
@@ -140,7 +141,7 @@ const MarketsMarquee: React.FC<Props> = () => {
                 <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
                   <Box width="50%">
                     <Box display="flex" className={classes.marketName}>
-                      {card.baseSymbol}
+                      {card.baseSymbol} 
                       {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
                       {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
                       {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
