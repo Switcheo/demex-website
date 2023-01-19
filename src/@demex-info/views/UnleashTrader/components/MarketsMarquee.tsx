@@ -131,7 +131,7 @@ const MarketsMarquee: React.FC<Props> = () => {
 
   return (
     <React.Fragment>
-      {ready && 
+      {ready && (
       <Suspense fallback={null}>
         <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover >
           {
@@ -177,9 +177,8 @@ const MarketsMarquee: React.FC<Props> = () => {
             })
           }
         </Marquee>
-        </Suspense>
-      }
-
+      </Suspense>
+      )}
     </React.Fragment>
 
   );

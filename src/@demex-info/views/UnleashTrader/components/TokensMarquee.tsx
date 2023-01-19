@@ -75,27 +75,27 @@ const TokensMarquee: React.FC<Props> = () => {
 
   return (
     <React.Fragment>
-      {ready &&  
+      {ready && (
         <Suspense fallback={null}>
-        <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
-          {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
-            const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
-            return (
-              <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
-                <Box className={classes.text}>
-                  Token {speed}
-                  <Box className={classes.tokenValue}>
-                    {tokenName}
-                    <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} speed={speed} pauseOnHover>
+            {sortBaseMarkets.map((baseMarket: BaseDenomMarket) => {
+              const tokenName = sdk?.token.getTokenName(baseMarket.base) ?? "";
+              return (
+                <Cards key={baseMarket.base} onClick={() => goToMarket(baseMarket.marketName)} className={classes.cards}>
+                  <Box className={classes.text}>
+                    Token
+                    <Box className={classes.tokenValue}>
+                      {tokenName}
+                      <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
+                    </Box>
                   </Box>
-                </Box>
-                <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
-              </Cards>
-            );
-          })}
-        </Marquee>
+                  <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
+                </Cards>
+              );
+            })}
+          </Marquee>
         </Suspense>
-      }
+      )}
     </React.Fragment>
 
   );
