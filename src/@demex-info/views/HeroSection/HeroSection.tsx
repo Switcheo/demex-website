@@ -229,7 +229,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "flex-start",
 		justifyContent: "center",
-		[theme.breakpoints.up("md")]: {
+		[theme.breakpoints.up("lg")]: {
 			paddingLeft: "4rem",
 		},
 		[theme.breakpoints.down("md")]: {

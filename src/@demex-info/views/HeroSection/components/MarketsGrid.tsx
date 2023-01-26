@@ -28,7 +28,6 @@ const TokenPopover = lazy(() => import("./TokenPopover"));
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [runPools] = useAsyncTask("runPools");
-  const [runCollateral] = useAsyncTask("runCollateral");
   const classes = useStyles();
   const [ws] = useWebsocket();
   const dispatch = useDispatch();
@@ -73,6 +72,8 @@ const MarketsGrid: React.FC = () => {
     fetchData(async () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
+        const response = await getCollateral(sdk);
+        setCollateral(response);
         dispatch(actions.App.setMarketList(listResponse));
 
         const statsResponse = await sdk.query.marketstats.MarketStats({});
@@ -86,24 +87,10 @@ const MarketsGrid: React.FC = () => {
     });
   };
 
-  const reloadCollateral = () => {
-    if (!sdk?.query || !ws) return;
-
-    runCollateral(async () => {
-      try {
-        const response = await getCollateral(sdk);
-        setCollateral(response);
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  }; 
-
   useEffect(() => {
     if (sdk && ws && ws?.connected) {
       reloadData();
       reloadPools();
-      reloadCollateral();
     }
     return () => { };
   }, [sdk, ws]);

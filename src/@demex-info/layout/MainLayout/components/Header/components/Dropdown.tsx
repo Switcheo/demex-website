@@ -5,6 +5,9 @@ import {
   import React from "react";
   
 import { StyleUtils } from "@demex-info/utils";
+import { SvgIcon } from "@demex-info/components";
+import { CaretDown } from "../assets"  ;
+
   
   interface Props extends React.DOMAttributes<any> {
     label: string | React.ReactNode
@@ -40,6 +43,9 @@ import { StyleUtils } from "@demex-info/utils";
             <div className={clsx(classes.label, newLblClass)}>
               {label}
             </div>
+              <div className={clsx(classes.dropDownIconContainer)}>
+                <SvgIcon className={clsx(classes.icon, dropdownOpen ? classes.open : classes.close)} component={CaretDown} />
+              </div>
             <div className={classes.bottomHighLight} />
           </div>
   
@@ -107,6 +113,22 @@ import { StyleUtils } from "@demex-info/utils";
     },
     disabled: {
       display: "none",
+    },
+    icon: {
+      transition: "all 0.2s ease-in-out",
+      fontSize: "0.375rem",
+    },
+    open: {
+      transform: "rotate(180deg)",
+      "& path": {
+        fill: "url(#demexLinearGradient)",
+      },
+    },
+    close: {
+        "& path": {
+          fill: theme.palette.text.secondary,
+        },
+
     },
   }));
   

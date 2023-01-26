@@ -71,7 +71,7 @@ const TokensMarquee: React.FC<Props> = () => {
     goToExternalLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
-  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 30;
+  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;
 
   return (
     <React.Fragment>

@@ -126,7 +126,7 @@ const MarketsMarquee: React.FC<Props> = () => {
     goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
-  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 30;
+  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;
 
 
   return (

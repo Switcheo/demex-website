@@ -20,7 +20,7 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
   const { openDrawer, closeDrawer, items } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tab: {
     ...theme.typography.body2,
-    padding: "20px 20px",
+    padding: "20px 0",
     paddingLeft: "10px",
     height: "100%",
     borderRadius: 0,
@@ -177,12 +177,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.text.primary,
       textShadow: `.5px 0 0 ${theme.palette.text.primary}`,
     },
-    "@media (min-width: 960px) and (max-width: 1056px)": {
-      padding: theme.spacing(0, 3),
-      "&:first-child": {
-        paddingLeft: theme.spacing(2.5),
-      },
-    },
+    // "@media (min-width: 960px) and (max-width: 1056px)": {
+    //   paddingLeft: 0,
+    //   "&:first-child": {
+    //     paddingLeft: theme.spacing(2.5),
+    //   },
+    // },
   },
   menuList: {
     paddingBottom: 0,
