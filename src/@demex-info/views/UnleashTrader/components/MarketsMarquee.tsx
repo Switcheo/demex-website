@@ -45,37 +45,43 @@ const MarketsMarquee: React.FC<Props> = () => {
 
   const [candleSticks, setCandleSticks] = React.useState<MarketCandlesticks[] | null>(null);
 
-  const cards: MarketCard[] = markets.map((market:Models.Market) => {
-    const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
-    const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
-    const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
-    const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride).toUpperCase() ?? "";
-    const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride).toUpperCase() ?? "";
-    const baseUsd = sdk?.token.getUSDValue(market?.base ?? "") ?? BN_ZERO;
-    const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
-    const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
-    const diffDp = baseDp - quoteDp;
-    const dailyVolume = stat?.dayVolume.shiftedBy(-baseDp) ?? 0;
-    const usdVolume = baseUsd.times(dailyVolume);
-    
-    const { tickSize } = getAdjustedTickLotSize(market, sdk);
-    const priceDp = getDecimalPlaces(tickSize.toString(10));
-    const lastPrice = stat?.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
-    const openPrice = stat?.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
-    const closePrice = stat?.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
-    const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
+  const cards = React.useMemo((): MarketCard[] => {
+    return markets.map((market: Models.Market) => {
+      const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
+      const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
+      const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
+      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride).toUpperCase() ?? "";
+      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride).toUpperCase() ?? "";
+      const baseUsd = sdk?.token.getUSDValue(market?.base ?? "") ?? BN_ZERO;
+      const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
+      const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
+      const diffDp = baseDp - quoteDp;
+      const dailyVolume = stat?.dayVolume.shiftedBy(-baseDp) ?? 0;
+      const usdVolume = baseUsd.times(dailyVolume);
 
-    return {
-      stat,
-      baseSymbol,
-      quoteSymbol,
-      expiry,
-      priceDp,
-      lastPrice,
-      usdVolume,
-      change24H,
-    };
-  });
+      const { tickSize } = getAdjustedTickLotSize(market, sdk);
+      const priceDp = getDecimalPlaces(tickSize.toString(10));
+      const lastPrice = stat?.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
+      const openPrice = stat?.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
+      const closePrice = stat?.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
+      const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
+
+      return {
+        stat,
+        baseSymbol,
+        quoteSymbol,
+        expiry,
+        priceDp,
+        lastPrice,
+        usdVolume,
+        change24H,
+      };
+    });
+  }, [markets, marketStatsList, sdk?.token]);
+
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [cards]);
 
   useEffect(() => {
     const candlestickPromises = markets.map((market: Models.Market) => {
@@ -133,7 +139,7 @@ const MarketsMarquee: React.FC<Props> = () => {
     <React.Fragment>
       {ready && (
       <Suspense fallback={null}>
-        <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover >
+        <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
           {
             filteredCards.map((card: MarketCard) => {
               const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
