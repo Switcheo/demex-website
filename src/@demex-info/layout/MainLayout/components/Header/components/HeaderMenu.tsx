@@ -5,10 +5,8 @@ import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { ExternalLink, MenuPools, MenuStake, Nitron, NitronLiquidations } from "../assets";
+import { ExternalLink, GLPCompounder, MenuPools, MenuStake } from "../assets";
 import OptionsDropdown from "./OptionsDropdown";
-
-
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();
@@ -16,12 +14,12 @@ const HeaderMenu: React.FC = () => {
 
   const navLinksArr: NavLink[] = [
     {
-      label: "Markets",
-      href: getDemexLink(Paths.Markets.List, net),
-    },
-    {
       label: "Trade",
       href: getDemexLink(Paths.Trade, net),
+    },
+    {
+      label: "Nitron",
+      href: getDemexLink(Paths.Nitron.Main, net),
     },
     {
       label: "Earn",
@@ -46,20 +44,14 @@ const HeaderMenu: React.FC = () => {
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
-      key: "nitron",
-      label: "Nitron",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Main, net)),
-      startIcon: Nitron,
+      key: "glp-compounder",
+      label: "GLP Compounder",
+      onClick: () => goToExternalLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
+      startIcon: GLPCompounder,
       startIconType: "fill",
     }, {
-      key: "liquidations",
-      label: "Nitron Liquidations",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Liquidations, net)),
-      startIcon: NitronLiquidations,
-      startIconType: "stroke",
-    }, {
       key: "staking",
-      onClick: () => goToExternalLink("https://hub.carbon.network/stake"),
+      onClick: () => goToExternalLink(StaticLinks.CarbonhubStake),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",
@@ -83,7 +75,7 @@ const HeaderMenu: React.FC = () => {
                 target="_blank"
               >
                 {navLink.label}
-            &nbsp;
+                &nbsp;
                 {navLink?.showIcon && (
                   <ExternalLink />
                 )}
@@ -95,8 +87,9 @@ const HeaderMenu: React.FC = () => {
           return (
             <OptionsDropdown
               items={earnLinks}
+              key={`menu-tab-${navLink.label}`}
             />
-            );
+          );
         }
       })}
     </Hidden>

@@ -1,13 +1,13 @@
 import { CloseIcon } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { SvgIcon } from "@demex-info/components";
-import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToExternalLink, Paths, StaticLinks } from "@demex-info/constants";
 import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { ExternalLink, MenuPools, MenuStake, Nitron, NitronLiquidations } from "../assets";
+import { ExternalLink, GLPCompounder, MenuPools, MenuStake } from "../assets";
 
 import { ArrowLeftGradient } from "../assets";
 
@@ -32,20 +32,14 @@ const EarnSlider: React.FC<Props> = (props: Props) => {
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
-      key: "nitron",
-      label: "Nitron",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Main, net)),
-      startIcon: Nitron,
+      key: "glp-compounder",
+      label: "GLP Compounder",
+      onClick: () => goToExternalLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
+      startIcon: GLPCompounder,
       startIconType: "fill",
     }, {
-      key: "liquidations",
-      label: "Nitron Liquidations",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Nitron.Liquidations, net)),
-      startIcon: NitronLiquidations,
-      startIconType: "stroke",
-    }, {
       key: "staking",
-      onClick: () => goToExternalLink("https://hub.carbon.network/stake"),
+      onClick: () => goToExternalLink(StaticLinks.CarbonhubStake),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",
