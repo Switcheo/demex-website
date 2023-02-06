@@ -64,6 +64,10 @@ export const Paths = {
     UnlockTokens: "/pools/unlock/:pool_denom",
   },
 
+  Strategy: {
+    GLPWrapper: "/strategy/glp-compounder",
+  },
+
   Nitron: {
     Main: "/nitron",
     Liquidations: "/liquidations",
@@ -157,6 +161,7 @@ export const StaticLinks = {
   Swth: "https://hub.carbon.network/buy",
   CosmosIBC: "https://mapofzones.com/",
   PolyNetworkAlliance: "https://www.poly.network/#/",
+  CarbonhubStake: "https://hub.carbon.network/stake",
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {
