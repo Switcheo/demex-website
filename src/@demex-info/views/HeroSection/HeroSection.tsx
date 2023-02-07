@@ -1,12 +1,12 @@
-import { OSMOGradient, OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
+// import { OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
 import { BackgroundAnimation, SvgIcon } from "@demex-info/components";
-import { Banner } from "@demex-info/components/Banner";
-import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
+// import { Banner } from "@demex-info/components/Banner";
+import { getDemexLink, Paths } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+// import { renderToStaticMarkup } from "react-dom/server";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile } from "./assets";
@@ -26,8 +26,8 @@ const HeroSection: React.FC = () => {
 
 	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "ATOM", "AAVE", "Gold", "Anything"];
 
-	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-	const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
+	// const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	// const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
@@ -36,7 +36,11 @@ const HeroSection: React.FC = () => {
 	return (
 		<Box component="section" className={clsx(classes.root)}>
 			<SocialsBar />
-			<Banner
+
+			{/* TODO: Comment out when you uncomment ann banner */}
+			<Box mt="5.5rem" />
+			{/* TODO: Uncomment when you launch ann banner for competition */}
+			{/* <Banner
 				bannerIcon={OSMOGradient}
 				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
 				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and <span className={classes.orangeStrong}>earn exciting rebates & rewards!</span></span>}
@@ -45,7 +49,7 @@ const HeroSection: React.FC = () => {
 				buttonText="Join Now"
 				buttonUrl={Paths.Competition.SignUp}
 				backgroundImg={bannerAsString}
-			/>
+			/> */}
 
 			<Box className={clsx(classes.text, classes.tagline)}>
 				Trade&nbsp;
