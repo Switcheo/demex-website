@@ -1,28 +1,38 @@
 # Demex Website
 
-## Available Scripts
+This repository contains code for the [Demex Homepage UI](https://dem.exchange/).
+## Environments
+|Environment   |Github branch   |URL   |
+|---|---|---|
+|Production   |[master](https://github.com/Switcheo/demex-website)   |https://dem.exchange/   |
+|Staging   |[staging](https://github.com/Switcheo/demex-website/tree/staging)   |https://staging.dem.exchange/   |
 
-In the project directory, you can run:
+## Requirements
+- Node.js v18 and above (you can change the version using [NVM](https://tecadmin.net/install-nvm-macos-with-homebrew/) or [Homebrew](https://www.denisbouquet.com/change-node-version-using-homebrew/))
 
-### `yarn start`
+## Setting up localhost
+1. On the command line, run `cd /path/to/demex-website` to go to the root folder of the project.
+2. Run `yarn install --ignore-engines` to install dependencies.
+3. Run `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Linking local `carbon-js-sdk`
+1. On the command line, run `cd /path/to/carbon-js-sdk` to go to the root directory of the `carbon-js-sdk` project.
+2. Then run the following:
+```#bash
+# install ts-node, typescript
+yarn global add ts-node typescript
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# install local dependencies
+yarn --ignore-engines
 
-### `yarn build`
+# build the SDK lib folder
+yarn build
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# link local carbon-js-sdk
+yarn link
+```
+3. Return to the root directory of Demex Homepage project by running `cd /path/to/demex-website`.
+4. Run `yarn link carbon-js-sdk` to link local SDK to this project.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn serve`
-
-Serves the build folder locally at [http://localhost:8080](http://localhost:8080) using [http-server](https://github.com/http-party/http-server).\
-Use this to simulate production environment.
+## Deploying project on staging/production website
+Follow the instructions in this [document](https://www.notion.so/switcheo/Create-Release-ee70ba6e76fe48ac8f2e98dffdfc6c77).

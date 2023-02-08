@@ -23,8 +23,8 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
   const navLinksArr: NavLink[] = [
     {
-      label: "Markets",
-      href: getDemexLink(Paths.Markets.List, net),
+      label: "Trade",
+      href: getDemexLink(Paths.Trade, net),
     },
     {
       label: "Nitron",
