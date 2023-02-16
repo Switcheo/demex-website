@@ -41,9 +41,11 @@ jobs:
           command: |
             aws configure set preview.cloudfront true
             if [ "${CIRCLE_BRANCH}" = "staging" ]; then
+              echo 'REACT_APP_GA_MEASUREMENT_ID=G-R664T0KJ8Y' >> .env
               aws s3 sync build s3://demex-site/staging/ --delete
               aws cloudfront create-invalidation --distribution-id="E1BX9CZRIQU7CR" --paths=/*
             elif [ "${CIRCLE_BRANCH}" = "master" ]; then
+              echo 'REACT_APP_GA_MEASUREMENT_ID=G-687E0E3ZG7' >> .env
               aws s3 sync build s3://demex-site/prod/ --delete
               aws cloudfront create-invalidation --distribution-id="E25DL70OEAKNPX" --paths=/*
             fi

@@ -1,4 +1,4 @@
-import { PreferenceThemeProvider } from "@demex-info/components";
+import { GoogleAnalytics, PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";
 import { store } from "@demex-info/store";
 import HeroSection from "@demex-info/views/HeroSection/HeroSection";
@@ -26,6 +26,7 @@ const Footer = lazy(() => import("@demex-info/layout/MainLayout/components/Foote
 render(
   <Provider store={store}>
     <PreferenceThemeProvider>
+      <GoogleAnalytics />
       <MainLayout>
         <HeroSection />
         <Suspense fallback={null}>
