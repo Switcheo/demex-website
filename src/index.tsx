@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv";
 import { GoogleAnalytics, PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";
 import { store } from "@demex-info/store";
@@ -11,6 +12,8 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { lazy } from "@loadable/component";
 import { UnleashTrader } from "@demex-info/views";
+
+dotenv.config();
 
 const rootElement = document.getElementById("root");
 const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
