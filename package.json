@@ -28,7 +28,6 @@
     "carbon-js-sdk": "^0.3.41",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
-    "dotenv": "^16.0.3",
     "eslint": "^7.23.0",
     "gsap": "^3.6.1",
     "http-server": "^0.12.3",
@@ -57,9 +56,13 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
+    "build:master": "REACT_APP_GA_MEASUREMENT_ID=G-687E0E3ZG7 yarn build",
+    "build:staging": "REACT_APP_GA_MEASUREMENT_ID=G-R664T0KJ8Y yarn build",
     "compress": "sh dist/scripts/release.sh",
-    "release": "yarn build && yarn compress",
+    "release": "echo 'Please use yarn release:master or release:staging'",
+    "release:staging": "yarn build:staging && yarn compress",
+    "release:master": "yarn build:master && yarn compress",
     "serve": "yarn build && http-server ./build",
     "lint": "yarn run eslint . --ext .ts,.tsx",
     "upgrade-sdk": "yarn upgrade carbon-js-sdk@latest"

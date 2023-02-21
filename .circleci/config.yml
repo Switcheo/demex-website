@@ -28,11 +28,6 @@ jobs:
       - run:
           name: build ReactJS project
           command: |
-            if [ "${CIRCLE_BRANCH}" = "staging" ]; then
-              echo 'REACT_APP_GA_MEASUREMENT_ID=G-R664T0KJ8Y' >> .env
-            elif [ "${CIRCLE_BRANCH}" = "master" ]; then
-              echo 'REACT_APP_GA_MEASUREMENT_ID=G-687E0E3ZG7' >> .env
-            fi
             yarn build
 
       - run:
