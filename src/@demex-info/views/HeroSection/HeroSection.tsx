@@ -7,6 +7,7 @@ import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } f
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 // import { renderToStaticMarkup } from "react-dom/server";
+import { SWTH } from "@demex-info/assets";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile } from "./assets";
@@ -65,57 +66,61 @@ const HeroSection: React.FC = () => {
 				<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
 			)}
 			<div ref={titleRef} >
-			<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
-				<Box className={classes.left}>
-					<Box className={classes.content}>
-				
-						<Box className={clsx(classes.text, classes.headline)}>
-							The Only DEX You Need
+				<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
+					<Box className={classes.left}>
+						<Box className={classes.content}>
+
+							<Box className={clsx(classes.text, classes.headline)}>
+								The Only DEX You Need
+							</Box>
+
+							<Box className={clsx(classes.text, classes.description)}>
+								Trade derivatives, lend or borrow tokens,&nbsp;
+
+								{isDesktop && <br />}
+
+								mint stablecoins, and provide liquidity on the
+								<span className={classes.altText}>
+									&nbsp;
+									{isDesktop && <br />}
+									most extensive decentralized platform ever.
+								</span>
+							</Box>
+							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
+								<Box className={classes.carbonWrapper}>
+									Powered by
+									<SvgIcon className={classes.carbonLogo} component={SWTH} />
+									<span style={{ color: "#8CF2FD" }}>Carbon</span>,
+								</Box>
+								a&nbsp;
+								<span className={classes.purpleGradient}>Cosmos SDK</span>
+								AppChain
+							</Box>
+
+
+							<Button
+								className={classes.button}
+								variant="contained"
+								target="_blank"
+								href={getDemexLink(Paths.Trade)}
+							>
+								Launch App
+							</Button>
 						</Box>
-
-						<Box className={clsx(classes.text, classes.description)}>
-							Trade derivatives, lend or borrow tokens,&nbsp; 
-							
-							{isDesktop && <br />} 
-							
-							mint stablecoins, and provide liquidity on the
-							<span className={classes.altText}>
-	&nbsp;
-							{isDesktop && <br />} 
-							most extensive decentralized platform ever.
-							</span>
 					</Box>
-					<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.altText)}>
-						<b>Powered by </b>&nbsp;
-						<Box display="flex" justifyContent="center" alignItems="center">
-							<Box className={classes.purpleGradient}><b>Cosmos SDK</b></Box>
+
+					<Hidden mdDown>
+						<Box className={classes.graphicsWrapper}>
+							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
 						</Box>
-					</Box>
-
-
-					<Button
-						className={classes.button}
-						variant="contained"
-						target="_blank"
-						href={getDemexLink(Paths.Trade)}
-					>
-						Launch App
-					</Button>
-				</Box>
-				</Box>
-
-				<Hidden mdDown>
-					<Box className={classes.graphicsWrapper}>
-						<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
-					</Box> 
-				</Hidden>
+					</Hidden>
 
 				</Container>
 			</div>
-				<Suspense fallback={null}>
-					<MarketsGrid />
-				</Suspense>
-			</Box>
+			<Suspense fallback={null}>
+				<MarketsGrid />
+			</Suspense>
+		</Box>
 
 	);
 };
@@ -128,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 		height: "maxContent",
-		
+
 		[theme.breakpoints.down("sm")]: {
 			padding: "0 0.75rem",
 			overflow: "hidden",
@@ -356,6 +361,27 @@ const useStyles = makeStyles((theme) => ({
 		backgroundClip: "text",
 		WebkitTextFillColor: "transparent",
 		WebkitBackgroundClip: "text",
+		marginRight: "0.25rem",
+	},
+	carbonWrapper: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		"&.carbon": {
+			color: "#8CF2FD",
+		},
+		[theme.breakpoints.up("sm")]: {
+			marginRight: "0.25rem",
+		},
+	},
+	carbonLogo: {
+		margin: "0 0.25rem",
+		width: "19px",
+		height: "19px",
+		[theme.breakpoints.only("xs")]: {
+			width: "16px",
+			height: "16px",
+		},
 	},
 }));
 
