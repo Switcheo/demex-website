@@ -1,5 +1,5 @@
 import { Cards } from "@demex-info/components/Cards";
-import { DEC_SHIFT, goToLink, Paths } from "@demex-info/constants";
+import { goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
 import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
@@ -61,9 +61,9 @@ const MarketsMarquee: React.FC<Props> = () => {
 
       const { tickSize } = getAdjustedTickLotSize(market, sdk);
       const priceDp = getDecimalPlaces(tickSize.toString(10));
-      const lastPrice = stat?.lastPrice.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
-      const openPrice = stat?.dayOpen.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
-      const closePrice = stat?.dayClose.shiftedBy(-DEC_SHIFT).shiftedBy(diffDp) ?? BN_ZERO;
+      const lastPrice = stat?.lastPrice.shiftedBy(diffDp) ?? BN_ZERO;
+      const openPrice = stat?.dayOpen.shiftedBy(diffDp) ?? BN_ZERO;
+      const closePrice = stat?.dayClose.shiftedBy(diffDp) ?? BN_ZERO;
       const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
 
       return {
