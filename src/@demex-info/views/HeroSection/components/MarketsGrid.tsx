@@ -76,8 +76,8 @@ const MarketsGrid: React.FC = () => {
         setCollateral(response);
         dispatch(actions.App.setMarketList(listResponse));
 
-        const statsResponse = await sdk.query.marketstats.MarketStats({});
-        const marketStatItems = statsResponse.marketstats.map((stat: Models.MarketStats) => (
+        const marketStatresponse = await ws.request<{ result: WSModels.MarketStat}>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{ result: WSModels.MarketStat}>;
+        const marketStatItems = Object.values(marketStatresponse.data.result).map((stat: WSModels.MarketStat) => (
           parseMarketStats(stat)),
         );
         dispatch(actions.App.setMarketStats(marketStatItems));
