@@ -44,6 +44,7 @@ const MarketsGrid: React.FC = () => {
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
+  const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
 
   const reloadPools = () => {
     if (!sdk?.query || !ws) return;
@@ -86,6 +87,8 @@ const MarketsGrid: React.FC = () => {
         const configJsonResponse = await fetch(`https://raw.githubusercontent.com/Switcheo/demex-webapp-config/master/configs/${network}.json`);
         const configJsonData = await configJsonResponse.json();
         const blacklistedMarkets = configJsonData?.blacklisted_markets?.map((market: string) => market.toLowerCase()) ?? [];
+        const blacklistedTokens = configJsonData?.blacklisted_tokens?.map((token: string) => token.toLowerCase()) ?? [];
+        setTokenBlacklist(blacklistedTokens);
 
         const filteredMarkets = marketStatItems.filter((market) => !blacklistedMarkets.includes(market.market.toLowerCase()) || !defaultMarketBlacklist.includes(market.market.toLowerCase()));
         dispatch(actions.App.setMarketStats(filteredMarkets));
@@ -149,10 +152,10 @@ const MarketsGrid: React.FC = () => {
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 
-      if (!coinsList.includes(baseDenom) && baseDenom.length > 0) {
+      if (!coinsList.includes(baseDenom) && baseDenom.length > 0 && !tokenBlacklist.includes(baseDenom)) {
         coinsList.push(baseDenom);
       }
-      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0) {
+      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0 && !tokenBlacklist.includes(quoteDenom)) {
         coinsList.push(quoteDenom);
       }
     });
