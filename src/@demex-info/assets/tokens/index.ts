@@ -205,7 +205,7 @@ export { ReactComponent as WAVE } from "./WAVE.svg";
 export { ReactComponent as WBNB } from "./WBNB.svg";
 export { ReactComponent as WBTC } from "./WBTC.svg";
 export { ReactComponent as WRX } from "./WRX.svg";
-export { ReactComponent as wstETH } from "./wstETH.svg";
+export { ReactComponent as WSTETH } from "./wstETH.svg";
 export { ReactComponent as XCAD } from "./XCAD.svg";
 export { ReactComponent as XDC } from "./XDC.svg";
 export { ReactComponent as XEM } from "./XEM.svg";
