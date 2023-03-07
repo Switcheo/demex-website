@@ -1,6 +1,7 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
 import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
+import { mainnetMarketBlackList } from "@demex-info/constants/markets";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
@@ -80,7 +81,8 @@ const MarketsGrid: React.FC = () => {
         const marketStatItems = Object.values(marketStatresponse.data.result).map((stat: WSModels.MarketStat) => (
           parseMarketStats(stat)),
         );
-        dispatch(actions.App.setMarketStats(marketStatItems));
+        const filteredMarkets = marketStatItems.filter((market) => !mainnetMarketBlackList.includes(market.market.toLowerCase()));
+        dispatch(actions.App.setMarketStats(filteredMarkets));
       } catch (err) {
         console.error(err);
       }

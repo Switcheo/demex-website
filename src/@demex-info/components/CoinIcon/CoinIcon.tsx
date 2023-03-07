@@ -18,6 +18,7 @@ const tokenNameMap: {
   "LKT.BEP20": "LKT",
   LUNC: "LUNA",
   USTC: "UST",
+  USD: "CUSD",
 };
 
 export interface CoinIconProps extends SvgIconProps {
