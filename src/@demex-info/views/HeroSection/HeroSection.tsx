@@ -355,6 +355,9 @@ const useStyles = makeStyles((theme) => ({
 	svgIcon: {
 		position: "relative",
 		left: "50px",
+		[theme.breakpoints.down(1400)]: {
+			width: "1000px",
+		},
 	},
 	purpleGradient: {
 		background: StyleUtils.purpleGradient,
