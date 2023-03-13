@@ -57,8 +57,8 @@
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
-    "build:master": "REACT_APP_GA_MEASUREMENT_ID=G-687E0E3ZG7 yarn build",
-    "build:staging": "REACT_APP_GA_MEASUREMENT_ID=G-R664T0KJ8Y yarn build",
+    "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW yarn build",
+    "build:staging": "REACT_APP_GA_MEASUREMENT_ID=GTM-PWC6ZDF yarn build",
     "compress": "sh dist/scripts/release.sh",
     "release": "echo 'Please use yarn release:master or release:staging'",
     "release:staging": "yarn build:staging && yarn compress",
