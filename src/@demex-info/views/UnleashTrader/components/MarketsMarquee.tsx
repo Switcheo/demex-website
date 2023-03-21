@@ -50,14 +50,14 @@ const MarketsMarquee: React.FC<Props> = () => {
       const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
       const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
       const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
-      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride).toUpperCase() ?? "";
-      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride).toUpperCase() ?? "";
-      const baseUsd = sdk?.token.getUSDValue(market?.base ?? "") ?? BN_ZERO;
+      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride) ?? "";
+      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride) ?? "";
+      const quoteUsd = sdk?.token.getUSDValue(market?.quote ?? "") ?? BN_ZERO;
       const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
       const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
       const diffDp = baseDp - quoteDp;
-      const dailyVolume = stat?.dayVolume.shiftedBy(-baseDp) ?? 0;
-      const usdVolume = baseUsd.times(dailyVolume);
+      const dailyVolume = stat?.dayQuoteVolume.shiftedBy(-quoteDp) ?? 0;
+      const usdVolume = quoteUsd.times(dailyVolume);
 
       const { tickSize } = getAdjustedTickLotSize(market, sdk);
       const priceDp = getDecimalPlaces(tickSize.toString(10));

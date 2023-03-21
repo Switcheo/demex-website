@@ -115,10 +115,10 @@ const MarketsGrid: React.FC = () => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
       const marketItemA = list?.[marketA.market] ?? {};
       const marketItemB = list?.[marketB.market] ?? {};
-      const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.base ?? "") ?? BN_ZERO;
-      const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.base ?? "") ?? BN_ZERO;
-      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.base ?? "", marketA.dayVolume) ?? BN_ZERO;
-      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.base ?? "", marketB.dayVolume) ?? BN_ZERO;
+      const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.quote ?? "") ?? BN_ZERO;
+      const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.quote ?? "") ?? BN_ZERO;
+      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.quote ?? "", marketA.dayQuoteVolume) ?? BN_ZERO;
+      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.quote ?? "", marketB.dayQuoteVolume) ?? BN_ZERO;
       const usdVolumeA = symbolUsdA.times(dailyVolumeA);
       const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
@@ -147,8 +147,8 @@ const MarketsGrid: React.FC = () => {
       const baseDenom = marketItem?.base ?? "";
       const quoteDenom = marketItem?.quote ?? "";
 
-      const symbolUsd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
-      const adjustedVolume = sdk?.token.toHuman(baseDenom, market.dayVolume) ?? BN_ZERO;
+      const symbolUsd = sdk?.token.getUSDValue(quoteDenom) ?? BN_ZERO;
+      const adjustedVolume = sdk?.token.toHuman(quoteDenom, market.dayQuoteVolume) ?? BN_ZERO;
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 

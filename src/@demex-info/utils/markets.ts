@@ -25,6 +25,7 @@ export interface MarketListMap {
 export interface MarketStatItem {
   dayOpen: BigNumber;
   dayClose: BigNumber;
+  dayQuoteVolume: BigNumber;
   dayVolume: BigNumber;
   lastPrice: BigNumber;
   market: string;
@@ -110,6 +111,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     ...marketStats,
     dayOpen: parseNumber(marketStats.day_open, BN_ZERO)!,
     dayClose: parseNumber(marketStats.day_close, BN_ZERO)!,
+    dayQuoteVolume: parseNumber(marketStats.day_quote_volume, BN_ZERO)!,
     dayVolume: parseNumber(marketStats.day_volume, BN_ZERO)!,
     lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
