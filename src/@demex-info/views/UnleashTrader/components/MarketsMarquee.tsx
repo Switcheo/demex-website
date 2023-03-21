@@ -50,8 +50,8 @@ const MarketsMarquee: React.FC<Props> = () => {
       const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
       const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
       const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
-      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride).toUpperCase() ?? "";
-      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride).toUpperCase() ?? "";
+      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride) ?? "";
+      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride) ?? "";
       const quoteUsd = sdk?.token.getUSDValue(market?.quote ?? "") ?? BN_ZERO;
       const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
       const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
