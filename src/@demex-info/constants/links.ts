@@ -126,13 +126,13 @@ export const StaticLinks = {
     },
     Trade: {
       Spot: "https://guide.dem.exchange/products/trading-spot-markets",
-      Futures: "https://guide.dem.exchange/products/futures/trading-futures-on-demex",
+      Futures: "https://guide.dem.exchange/trade/derivatives-trading",
     },
     Fees: "https://guide.dem.exchange/getting-started/fees",
     About: "https://guide.dem.exchange/about-demex/master",
     Features: {
       Orderbook: "https://guide.dem.exchange/about-demex/master/features-overview#orderbook-model-on-amms",
-      Crosschain: "https://guide.dem.exchange/about-demex/master/features-overview#cross-chain-compatibility",
+      Crosschain: "https://guide.dem.exchange/trade/introduction#cross-chain-interopability",
     },
     Nitron: "https://guide.dem.exchange/products/nitron",
     Competition: {
