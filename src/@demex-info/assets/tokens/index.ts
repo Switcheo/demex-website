@@ -224,6 +224,7 @@ export { ReactComponent as XVG } from "./XVG.svg";
 export { ReactComponent as XVS } from "./XVS.svg";
 export { ReactComponent as YAM } from "./YAM.svg";
 export { ReactComponent as YFI } from "./YFI.svg";
+export { ReactComponent as YIELDUSD } from "./YIELDUSD.svg";
 export { ReactComponent as ZEC } from "./ZEC.svg";
 export { ReactComponent as ZEN } from "./ZEN.svg";
 export { ReactComponent as ZIL } from "./ZIL.svg";
