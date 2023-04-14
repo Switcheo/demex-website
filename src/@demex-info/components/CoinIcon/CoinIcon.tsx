@@ -20,6 +20,7 @@ const tokenNameMap: {
   USTC: "UST",
   USD: "CUSD",
   AMPLUNA: "ampLUNA",
+  AMPKUJI: "ampKUJI",
 };
 
 export interface CoinIconProps extends SvgIconProps {
