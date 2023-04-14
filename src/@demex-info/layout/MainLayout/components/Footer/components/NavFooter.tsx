@@ -31,7 +31,7 @@ const NavFooter: React.FC = () => {
       href: getDemexLink(Paths.Nitron.Main, net),
     }, {
       label: "GLP Compounder",
-      href: getDemexLink(Paths.Strategy.GLPWrapper, net)
+      href: getDemexLink(Paths.Strategy.GLPWrapper, net),
     }],
   }, {
     title: "Resources",
