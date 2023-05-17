@@ -1,7 +1,7 @@
 import { CloseIcon } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { SvgIcon } from "@demex-info/components";
-import { getDemexLink, goToExternalLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
 import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
@@ -39,12 +39,10 @@ const EarnSlider: React.FC<Props> = (props: Props) => {
       startIconType: "fill",
     }, {
       key: "staking",
-      onClick: () => goToExternalLink(StaticLinks.CarbonhubStake),
+      onClick: () => goToExternalLink(getDemexLink(Paths.Stake.List, net)),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",
-      endIcon: ExternalLink,
-      endIconType: "fill",
     }];
     return initTextLinks;
   }, [net]) // eslint-disable-line

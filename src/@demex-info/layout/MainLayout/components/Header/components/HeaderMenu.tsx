@@ -51,12 +51,10 @@ const HeaderMenu: React.FC = () => {
       startIconType: "fill",
     }, {
       key: "staking",
-      onClick: () => goToExternalLink(StaticLinks.CarbonhubStake),
+      onClick: () => goToExternalLink(getDemexLink(Paths.Stake.List, net)),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",
-      endIcon: ExternalLink,
-      endIconType: "fill",
     }];
     return initTextLinks;
   }, [net]) // eslint-disable-line
