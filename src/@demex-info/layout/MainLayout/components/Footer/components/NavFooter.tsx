@@ -32,6 +32,9 @@ const NavFooter: React.FC = () => {
     }, {
       label: "GLP Compounder",
       href: getDemexLink(Paths.Strategy.GLPWrapper, net),
+    }, {
+      label: "Stake",
+      href: getDemexLink(Paths.Stake.List, net),
     }],
   }, {
     title: "Resources",
