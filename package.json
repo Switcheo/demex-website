@@ -25,7 +25,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.0.1",
-    "carbon-js-sdk": "^0.4.11",
+    "carbon-js-sdk": "^0.4.20",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -55,6 +55,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "preinstall": "yarn config set ignore-engines true",
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
     "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW yarn build",
