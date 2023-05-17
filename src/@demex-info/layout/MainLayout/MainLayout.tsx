@@ -28,7 +28,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
         const sdk = await CarbonSDK.instance({
           network: net,
         });
-        await sdk.token.reloadUSDValues();
+        await sdk.token.reloadDenomGeckoMap().then(() => sdk.token.reloadUSDValues());
         dispatch(actions.App.setSDK(sdk));
       } catch (err) {
         console.error(err);
