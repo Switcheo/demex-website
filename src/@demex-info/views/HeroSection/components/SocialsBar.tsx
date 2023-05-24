@@ -11,6 +11,7 @@ const SocialsBar: React.FC = () => {
     SocialLnks.Twitter,
     SocialLnks.Telegram,
     SocialLnks.Discord,
+    SocialLnks.Blog,
     SocialLnks.GitHub,
     SocialLnks.GitBook,
   ];

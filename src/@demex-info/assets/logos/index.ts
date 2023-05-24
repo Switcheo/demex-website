@@ -1,3 +1,4 @@
+export { ReactComponent as Blog } from "./Blog.svg";
 export { ReactComponent as Demex } from "./Demex.svg";
 export { ReactComponent as DemexLogo } from "./DemexLogo.svg";
 export { ReactComponent as Discord } from "./Discord.svg";
