@@ -23,7 +23,7 @@ const SocialsBar: React.FC = () => {
           return (
             <IconButton
               href={socialLnk.href}
-              target="_blank"
+              target={socialLnk.label === "blog" ? "_self" : "_blank"}
               className={classes.iconBtn}
               key={socialLnk.label}
               color="secondary"

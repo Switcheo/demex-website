@@ -208,6 +208,7 @@ export interface NavLink {
   label: string;
   path?: string;
   href?: string;
+  external?: boolean;
 }
 
 export interface ExtSocialLnk {

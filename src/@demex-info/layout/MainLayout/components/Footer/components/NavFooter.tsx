@@ -7,7 +7,6 @@ import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
-// import SocialLinkBox from "./SocialLinkBox";
 
 interface NavLinkMap {
   title: string;
@@ -41,21 +40,26 @@ const NavFooter: React.FC = () => {
     items: [{
       label: "API",
       href: StaticLinks.Api.Home,
+      external: true,
     }, {
       label: "Explorer",
       href: getExplorerLink(net),
+      external: true,
     }, {
       label: "Docs",
       href: StaticLinks.DemexDocs.Home,
+      external: true,
     }, {
       label: "User Feedback",
       href: StaticLinks.Feedback,
+      external: true,
     }],
   }, {
     title: "About Demex",
     items: [{
       label: "Ecosystem",
       href: StaticLinks.CarbonNetwork,
+      external: true,
     }, {
       label: "Blog",
       href: StaticLinks.DemexBlog,
@@ -85,7 +89,7 @@ const NavFooter: React.FC = () => {
                           color="textPrimary"
                           key={navItem.label}
                           href={navItem?.href}
-                          target="_blank"
+                          target={navItem.external ? "_blank" : "_self"}
                         >
                           {navItem.label}
                         </Link>
