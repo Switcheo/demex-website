@@ -1,4 +1,4 @@
-import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube, GitBook } from "@demex-info/assets/logos";
+import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 import { CarbonSDK } from "carbon-js-sdk";
 
 export enum LoginPage {
@@ -152,6 +152,7 @@ export const StaticLinks = {
       },
     },
   },
+  DemexBlog: "https://blog.dem.exchange/",
   Tendermint: "https://tendermint.com/core/",
   Docs: {
     Cosmos: "https://docs.cosmos.network/main/intro/overview.html",
@@ -266,5 +267,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "gitbook",
     href: StaticLinks.DemexDocs.Home,
     component: GitBook,
+  },
+  Blog: {
+    label: "blog",
+    href: StaticLinks.DemexBlog,
+    component: Blog,
   },
 };

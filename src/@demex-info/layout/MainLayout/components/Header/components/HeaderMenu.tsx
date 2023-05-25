@@ -30,6 +30,10 @@ const HeaderMenu: React.FC = () => {
       href: getDemexLink(Paths.Competition.Leaderboard, net),
     },
     {
+      label: "Blog",
+      href: StaticLinks.DemexBlog,
+    },
+    {
       showIcon: true,
       label: "Ecosystem",
       href: StaticLinks.CarbonNetwork,
