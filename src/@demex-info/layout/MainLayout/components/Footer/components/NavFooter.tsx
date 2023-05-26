@@ -7,6 +7,7 @@ import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
+import { ExternalLink } from "../../Header/assets";
 
 interface NavLinkMap {
   title: string;
@@ -46,7 +47,7 @@ const NavFooter: React.FC = () => {
       href: getExplorerLink(net),
       external: true,
     }, {
-      label: "Docs",
+      label: "Guide",
       href: StaticLinks.DemexDocs.Home,
       external: true,
     }, {
@@ -92,6 +93,7 @@ const NavFooter: React.FC = () => {
                           target={navItem.external ? "_blank" : "_self"}
                         >
                           {navItem.label}
+                          {navItem.external && <ExternalLink />}
                         </Link>
                       );
                     }
@@ -228,12 +230,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body3,
     display: "block",
     marginTop: "0.625rem",
+    "& svg": {
+      marginLeft: theme.spacing(0.5),
+      scale: 0.8,
+      "& path": {
+        fill: theme.palette.text.primary,
+      },
+    },
     "&:hover": {
       background: StyleUtils.primaryGradient(theme),
       backgroundClip: "text",
       WebkitTextFillColor: "transparent",
       WebkitBackgroundClip: "text",
       textDecoration: "none",
+      "& svg path": {
+        fill: "url(#demexLinearGradient)",
+      },
     },
   },
   navTxt: {
