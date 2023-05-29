@@ -74,7 +74,7 @@ const HeaderMenu: React.FC = () => {
                 className={classes.navLink}
                 key={navLink.label}
                 href={navLink?.href}
-                target="_blank"
+                target={navLink.showIcon ? "_blank" : "_self"}
               >
                 {navLink.label}
                 &nbsp;
