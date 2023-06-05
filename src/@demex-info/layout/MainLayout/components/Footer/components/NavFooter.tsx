@@ -64,6 +64,7 @@ const NavFooter: React.FC = () => {
     }, {
       label: "Blog",
       href: StaticLinks.DemexBlog,
+      external: true,
     }, /* {
       label: "T&C",
       href: StaticLinks.TermsConditions,

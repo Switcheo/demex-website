@@ -1,4 +1,4 @@
-import { getDemexLink, goToExternalLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
 import { RootState } from "@demex-info/store/types";
 import { StyleUtils } from "@demex-info/utils/styles";
@@ -30,6 +30,7 @@ const HeaderMenu: React.FC = () => {
       href: getDemexLink(Paths.Competition.Leaderboard, net),
     },
     {
+      showIcon: true,
       label: "Blog",
       href: StaticLinks.DemexBlog,
     },
@@ -44,18 +45,18 @@ const HeaderMenu: React.FC = () => {
     const initTextLinks: DropdownMenuItem[] = [{
       key: "pools",
       label: "Pools",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Pools.List, net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Pools.List, net)),
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
       key: "glp-compounder",
       label: "GLP Compounder",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
       startIcon: GLPCompounder,
       startIconType: "fill",
     }, {
       key: "staking",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Stake.List, net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",

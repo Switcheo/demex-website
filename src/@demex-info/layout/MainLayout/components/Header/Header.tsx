@@ -1,6 +1,6 @@
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
-import { getDemexLink, LoginPage, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
@@ -17,10 +17,6 @@ const Header: React.FC = () => {
   const network = useSelector((state: RootState) => state.app.network);
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
-
-  const goToLink = (link: string) => {
-    window.open(link, "_blank");
-  };
 
   const handleOpen = () => {
     setOpenMenu(true);
@@ -56,7 +52,7 @@ const Header: React.FC = () => {
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
+            onClick={() => goToDemexLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>
