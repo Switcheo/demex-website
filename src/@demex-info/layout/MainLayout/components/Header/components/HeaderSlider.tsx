@@ -37,6 +37,10 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
     {
       label: "Competition",
       href: getDemexLink(Paths.Competition.Leaderboard, net),
+    }, {
+      showIcon: true,
+      label: "Blog",
+      href: StaticLinks.DemexBlog,
     },
     {
       showIcon: true,
