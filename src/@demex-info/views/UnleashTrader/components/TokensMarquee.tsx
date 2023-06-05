@@ -1,6 +1,6 @@
 import { CoinIcon, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { getDemexLink, goToExternalLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice } from "@demex-info/utils";
 import { MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
@@ -68,7 +68,7 @@ const TokensMarquee: React.FC<Props> = () => {
   });
 
   const goToMarket = (market: string) => {
-    goToExternalLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
+    goToDemexLink(getDemexLink(`${Paths.Trade}/${market ?? ""}`, network));
   };
 
   const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;

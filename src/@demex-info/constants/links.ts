@@ -203,6 +203,13 @@ export function goToExternalLink(link: string) {
   window.open(`${link}`, "_blank");
 }
 
+
+export function goToDemexLink(link: string) {
+  if (!link) return;
+  window.open(`${link}`, "_self");
+}
+
+
 export interface NavLink {
   showIcon?: boolean | undefined;
   label: string;
