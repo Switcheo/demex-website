@@ -1,7 +1,9 @@
 import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
+import { lazy } from "@loadable/component";
 import { Box, Hidden, makeStyles } from "@material-ui/core";
 import React from "react";
-import { MarketsMarquee, TokensMarquee } from "./components";
+const MarketsMarquee = lazy(() => import("./components/MarketsMarquee"));
+const TokensMarquee = lazy(() => import("./components/TokensMarquee"));
 
 interface Props {
 
