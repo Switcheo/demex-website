@@ -1,8 +1,9 @@
-import { useAsyncTask, useWebsocket } from "@demex-info/hooks";
+import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { MarketCandlesticks } from "@demex-info/utils/markets";
 import { Box, makeStyles } from "@material-ui/core";
-import { Models, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { Models } from "carbon-js-sdk";
+import { Candlestick, QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec";
 import Long from "long";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -18,8 +19,6 @@ export const MarketSparkline = ({
   lineProps,
 }: Props) => {
   const classes = useStyles();
-
-  const [ws] = useWebsocket();
   const sdk = useSelector((store: RootState) => store.app.sdk);
 
   const [candleStick, setCandleStick] = React.useState<MarketCandlesticks | null>(null);
@@ -34,20 +33,21 @@ export const MarketSparkline = ({
     };
 
     fetchBars(async () => {
-      if (!ws || !ws.connected) return;
+      if (!sdk || !sdk?.query) return;
+
+      const params: QueryCandlesticksRequest = {
+        market: market.name,
+        resolution: new Long(60),
+        from: new Long(Math.floor(new Date(new Date().setDate(new Date().getDate() - 7)).getTime() / 1000)),
+        to: new Long(Math.floor(new Date().getTime() / 1000)),
+      };
 
       try {
-        const params = {
-          market: market.name,
-          resolution: new Long(60).toString(),
-          from: new Long(Math.floor(new Date(new Date().setDate(new Date().getDate() - 7)).getTime() / 1000)).toNumber(),
-          to: new Long(Math.floor(new Date().getTime() / 1000)).toNumber(),
-        };
-        const response = await ws.request<{ result: WSModels.Candlestick[] }>(WSConnectorTypes.WSRequest.Candlesticks, params) as WSResult<{ result: WSModels.Candlestick[] }>;
+        const response = await sdk?.query.broker.Candlesticks(params);
 
         marketBarsData = {
           market: market.name,
-          bars: response.data.result.map((candleStick: WSModels.Candlestick) => parseFloat(candleStick.close)),
+          bars: response.candlesticks.map((candleStick: Candlestick) => parseFloat(candleStick.close)),
         };
         setCandleStick(marketBarsData);
       } catch (err) {
@@ -58,9 +58,9 @@ export const MarketSparkline = ({
 
   // Only load on component mount w/o any intention for live updates
   useEffect(() => {
-    if (!ws || !ws?.connected || loadingBars) return;
+    if (!sdk || loadingBars) return;
     reloadBars();
-  }, [ws]);
+  }, [sdk]);
 
   return (
     <Box className={classes.sparklineBox}>
