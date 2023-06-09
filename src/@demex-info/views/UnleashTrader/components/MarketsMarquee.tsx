@@ -11,10 +11,7 @@ import dayjs from "dayjs";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
-
-import { lazy } from "@loadable/component";
-const MarketSparkline = lazy(() => import("./MarketSparkline"));
-
+import MarketSparkline from "./MarketSparkline";
 
 interface MarketCard {
   stat?: MarketStatItem;
