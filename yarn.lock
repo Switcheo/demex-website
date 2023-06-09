@@ -3800,6 +3800,11 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/webpack-env@^1.18.1":
+  version "1.18.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.18.1.tgz#49699bb508961e14a3bfb68c78cd87b296889d1d"
+  integrity sha512-D0HJET2/UY6k9L6y3f5BL+IDxZmPkYmPT4+qBrRdmRLYRuV0qNKizMgTvYxXZYn+36zjPeoDZAEYBCM6XB+gww==
+
 "@types/webpack-sources@*":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@types/webpack-sources/-/webpack-sources-2.1.0.tgz"
@@ -5646,10 +5651,10 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-carbon-js-sdk@^0.4.20:
-  version "0.4.20"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.4.20.tgz#87e5b4219553f35184e28a66b724b8c7929739b0"
-  integrity sha512-Lkwk4P4XbJh+v0ta68jx65QGHCKd03CwulSa64qJJ5ILtscEUWItr3M3SfO0vaaJnqIlR2GhHexkCdVDmMzesQ==
+carbon-js-sdk@^0.4.31:
+  version "0.4.31"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.4.31.tgz#f2e300cf3be25f5d28f9af6af4dda6e1138d130e"
+  integrity sha512-+mL2u5Vfj7N5XLfxbFluFGyTGlSVDEgXfaG97tPzkeGKfT8TE5ICfsRngBOteAvqQ8JbJSvWaC6cvtb72wQvAw==
   dependencies:
     "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"

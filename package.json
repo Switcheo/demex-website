@@ -25,7 +25,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.0.1",
-    "carbon-js-sdk": "^0.4.20",
+    "carbon-js-sdk": "^0.4.31",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -92,6 +92,7 @@
   "devDependencies": {
     "@types/loadable__component": "^5.13.4",
     "@types/react-sparklines": "^1.7.2",
+    "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "eslint-plugin-react": "^7.22.0"
