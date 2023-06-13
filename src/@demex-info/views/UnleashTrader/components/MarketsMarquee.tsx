@@ -2,18 +2,16 @@ import { Cards } from "@demex-info/components/Cards";
 import { goToLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
-import { getAdjustedTickLotSize, isPerpetual, MarketCandlesticks, MarketStatItem } from "@demex-info/utils/markets";
-import { Box, makeStyles, useTheme, useMediaQuery } from "@material-ui/core";
+import { getAdjustedTickLotSize, isPerpetual, MarketStatItem } from "@demex-info/utils/markets";
+import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import { Models, TokenUtils } from "carbon-js-sdk";
-import { QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec";
 import clsx from "clsx";
 import dayjs from "dayjs";
-import Long from "long";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
 import { useSelector } from "react-redux";
-import { Sparklines, SparklinesLine } from "react-sparklines";
+import MarketSparkline from "./MarketSparkline";
 
 interface MarketCard {
   stat?: MarketStatItem;
@@ -24,6 +22,7 @@ interface MarketCard {
   lastPrice: BigNumber;
   usdVolume: BigNumber;
   change24H: BigNumber;
+  market: Models.Market;
 }
 
 interface Props {
@@ -34,16 +33,13 @@ const MarketsMarquee: React.FC<Props> = () => {
   const classes = useStyles();
 
   const sdk = useSelector((store: RootState) => store.app.sdk);
-  const network = useSelector((store: RootState) => store.app.network);
   const markets = useSelector((store: RootState) => store.app.marketList);
   const marketStatsList = useSelector((store: RootState) => store.app.marketStats);
-	const [ready, setReady] = React.useState<boolean>(false);
+  const [ready, setReady] = React.useState<boolean>(false);
 
   useEffect(() => {
-		setTimeout(() => setReady(true));
-	}, []);
-
-  const [candleSticks, setCandleSticks] = React.useState<MarketCandlesticks[] | null>(null);
+    setTimeout(() => setReady(true));
+  }, []);
 
   const cards = React.useMemo((): MarketCard[] => {
     return markets.map((market: Models.Market) => {
@@ -75,6 +71,7 @@ const MarketsMarquee: React.FC<Props> = () => {
         lastPrice,
         usdVolume,
         change24H,
+        market,
       };
     });
   }, [markets, marketStatsList, sdk?.token]);
@@ -83,42 +80,6 @@ const MarketsMarquee: React.FC<Props> = () => {
     window.dispatchEvent(new Event("resize"));
   }, [cards]);
 
-  useEffect(() => {
-    const candlestickPromises = markets.map((market: Models.Market) => {
-      try {
-        const request: QueryCandlesticksRequest = {
-          market: market.name,
-          resolution: new Long(60),
-          from: new Long(Math.floor(new Date(new Date().setDate(new Date().getDate() - 7)).getTime() / 1000)),
-          to: new Long(Math.floor(new Date().getTime() / 1000)),
-        };
-        return sdk?.query.broker.Candlesticks(request).then((res) => {
-          return {
-            market: market.name,
-            bars: res.candlesticks.map((candlestick: Models.Candlestick) => parseFloat(candlestick.close)),
-          };
-        }).catch((err) => {
-          console.error(err);
-          return {
-            market: market.name,
-            bars: [],
-          };
-        });
-      } catch (err) {
-        console.error(err);
-        return {
-          market: market.name,
-          bars: [],
-        };
-      }
-    });
-    Promise.all(candlestickPromises).then((results: any) => {
-      const candlesticks = results as MarketCandlesticks[];
-      setCandleSticks(candlesticks);
-    });
-    return () => { };
-  }, [markets, sdk, network]);
-  
   // only display markets with 24H volume > $100 in desc order
   const filteredCards = cards.filter((card: MarketCard) => {
     return card.usdVolume.gt(100);
@@ -138,16 +99,15 @@ const MarketsMarquee: React.FC<Props> = () => {
   return (
     <React.Fragment>
       {ready && (
-      <Suspense fallback={null}>
-        <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
-          {
-            filteredCards.map((card: MarketCard) => {
+        <Suspense fallback={null}>
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
+            {filteredCards.map((card: MarketCard) => {
               const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
               return (
                 <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
                   <Box width="50%">
                     <Box display="flex" className={classes.marketName}>
-                      {card.baseSymbol} 
+                      {card.baseSymbol}
                       {card.stat?.marketType === "futures" && !isPerpetual(card.expiry) && ` - ${card.expiry}`}
                       {card.stat?.marketType === "futures" && isPerpetual(card.expiry) && "-PERP"}
                       {card.stat?.marketType === "spot" && <Box>/{card.quoteSymbol}</Box>}
@@ -173,20 +133,20 @@ const MarketsMarquee: React.FC<Props> = () => {
                       {formatUsdPrice(card.usdVolume)}
                     </Box>
                   </Box>
-                  <Box className={classes.sparklineBox}>
-                    <Sparklines data={candleSticks?.find((bar: any) => bar.market === card.stat?.market)?.bars} svgWidth={100} svgHeight={60}>
-                      <SparklinesLine style={{ fill: "none", strokeWidth: 2 }} color={sparklineColor} />
-                    </Sparklines>
-                  </Box>
+                  <MarketSparkline
+                    market={card.market}
+                    lineProps={{
+                      color: sparklineColor,
+                    }}
+                  />
                 </Cards>
               );
             })
-          }
-        </Marquee>
-      </Suspense>
+            }
+          </Marquee>
+        </Suspense>
       )}
     </React.Fragment>
-
   );
 };
 
@@ -212,15 +172,15 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.title2,
     color: theme.palette.text.primary,
     whiteSpace: "nowrap",
-    "& > div" : {
+    "& > div": {
       color: theme.palette.text.secondary,
     },
     [theme.breakpoints.only("sm")]: {
-			...theme.typography.title3,
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.title4,
-		},
+      ...theme.typography.title3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title4,
+    },
   },
   priceName: {
     ...theme.typography.h4,
@@ -253,18 +213,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.25rem",
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body4,
-    },
-  },
-  sparklineBox: {
-    width: "45%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    [theme.breakpoints.down("sm")]: {
-      paddingTop: 0,
-      paddingBottom: 0,
     },
   },
   marketsCard: {
