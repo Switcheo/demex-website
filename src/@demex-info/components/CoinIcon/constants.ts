@@ -17,6 +17,9 @@ export const TokenNameMap: Record<string, string> = {
   USD: "CUSD",
   AMPLUNA: "ampLUNA",
   AMPKUJI: "ampKUJI",
+  "USDC.E": "USDC",
+  "RATOM": "rATOM",
+  "RSWTH": "rSWTH",
 };
 
 export const TokenAssets = importAssets(
