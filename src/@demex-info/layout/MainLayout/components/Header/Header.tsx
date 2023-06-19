@@ -7,6 +7,7 @@ import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } fro
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
+import { eskimi } from "@demex-info/utils";
 
 const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
@@ -24,6 +25,11 @@ const Header: React.FC = () => {
 
   const handleClose = () => {
     setOpenMenu(false);
+  };
+
+  const handleConnect = () => {
+    eskimi("track", "Conversion");
+    goToDemexLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network));
   };
 
   return (
@@ -52,7 +58,7 @@ const Header: React.FC = () => {
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            onClick={() => goToDemexLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
+            onClick={() => handleConnect()}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>
