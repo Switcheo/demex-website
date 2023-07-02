@@ -26,7 +26,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.1.0",
-    "carbon-js-sdk": "^0.5.0",
+    "carbon-js-sdk": "^0.5.1",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -56,6 +56,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "preinstall": "yarn config set ignore-engines true",
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
     "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW yarn build",
@@ -96,6 +97,7 @@
   "devDependencies": {
     "@types/loadable__component": "^5.13.4",
     "@types/react-sparklines": "^1.7.2",
+    "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "eslint-plugin-react": "^7.22.0"

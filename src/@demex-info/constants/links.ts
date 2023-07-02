@@ -1,4 +1,4 @@
-import { Discord, Facebook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube, GitBook } from "@demex-info/assets/logos";
+import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 import { CarbonSDK } from "carbon-js-sdk";
 
 export enum LoginPage {
@@ -126,13 +126,13 @@ export const StaticLinks = {
     },
     Trade: {
       Spot: "https://guide.dem.exchange/products/trading-spot-markets",
-      Futures: "https://guide.dem.exchange/products/futures/trading-futures-on-demex",
+      Futures: "https://guide.dem.exchange/trade/futures",
     },
     Fees: "https://guide.dem.exchange/getting-started/fees",
-    About: "https://guide.dem.exchange/about-demex/master",
+    About: "https://guide.carbon.network/swth/tokenomics",
     Features: {
       Orderbook: "https://guide.dem.exchange/about-demex/master/features-overview#orderbook-model-on-amms",
-      Crosschain: "https://guide.dem.exchange/about-demex/master/features-overview#cross-chain-compatibility",
+      Crosschain: "https://guide.dem.exchange/trade/introduction#cross-chain-interopability",
     },
     Nitron: "https://guide.dem.exchange/products/nitron",
     Competition: {
@@ -152,6 +152,7 @@ export const StaticLinks = {
       },
     },
   },
+  DemexBlog: "https://blog.dem.exchange/",
   Tendermint: "https://tendermint.com/core/",
   Docs: {
     Cosmos: "https://docs.cosmos.network/main/intro/overview.html",
@@ -202,11 +203,19 @@ export function goToExternalLink(link: string) {
   window.open(`${link}`, "_blank");
 }
 
+
+export function goToDemexLink(link: string) {
+  if (!link) return;
+  window.open(`${link}`, "_self");
+}
+
+
 export interface NavLink {
   showIcon?: boolean | undefined;
   label: string;
   path?: string;
   href?: string;
+  external?: boolean;
 }
 
 export interface ExtSocialLnk {
@@ -266,5 +275,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "gitbook",
     href: StaticLinks.DemexDocs.Home,
     component: GitBook,
+  },
+  Blog: {
+    label: "blog",
+    href: StaticLinks.DemexBlog,
+    component: Blog,
   },
 };

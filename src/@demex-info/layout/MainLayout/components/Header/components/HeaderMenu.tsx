@@ -1,4 +1,4 @@
-import { getDemexLink, goToExternalLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
 import { RootState } from "@demex-info/store/types";
 import { StyleUtils } from "@demex-info/utils/styles";
@@ -31,6 +31,11 @@ const HeaderMenu: React.FC = () => {
     },
     {
       showIcon: true,
+      label: "Blog",
+      href: StaticLinks.DemexBlog,
+    },
+    {
+      showIcon: true,
       label: "Ecosystem",
       href: StaticLinks.CarbonNetwork,
     },
@@ -40,23 +45,21 @@ const HeaderMenu: React.FC = () => {
     const initTextLinks: DropdownMenuItem[] = [{
       key: "pools",
       label: "Pools",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Pools.List, net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Pools.List, net)),
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
       key: "glp-compounder",
       label: "GLP Compounder",
-      onClick: () => goToExternalLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
       startIcon: GLPCompounder,
       startIconType: "fill",
     }, {
       key: "staking",
-      onClick: () => goToExternalLink(StaticLinks.CarbonhubStake),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
       label: "Stake",
       startIcon: MenuStake,
       startIconType: "stroke",
-      endIcon: ExternalLink,
-      endIconType: "fill",
     }];
     return initTextLinks;
   }, [net]) // eslint-disable-line
@@ -72,7 +75,7 @@ const HeaderMenu: React.FC = () => {
                 className={classes.navLink}
                 key={navLink.label}
                 href={navLink?.href}
-                target="_blank"
+                target={navLink.showIcon ? "_blank" : "_self"}
               >
                 {navLink.label}
                 &nbsp;

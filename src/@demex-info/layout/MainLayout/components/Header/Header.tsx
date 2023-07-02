@@ -1,12 +1,13 @@
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
-import { getDemexLink, LoginPage, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
+import { eskimi } from "@demex-info/utils";
 
 const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
@@ -18,16 +19,17 @@ const Header: React.FC = () => {
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
-  const goToLink = (link: string) => {
-    window.open(link, "_blank");
-  };
-
   const handleOpen = () => {
     setOpenMenu(true);
   };
 
   const handleClose = () => {
     setOpenMenu(false);
+  };
+
+  const handleConnect = () => {
+    eskimi("track", "Conversion");
+    goToDemexLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network));
   };
 
   return (
@@ -56,7 +58,7 @@ const Header: React.FC = () => {
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            onClick={() => goToLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network))}
+            onClick={() => handleConnect()}
           >
             {widthXs ? "Connect" : "Connect Wallet"}
           </Button>

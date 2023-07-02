@@ -1,58 +1,55 @@
-import * as COINS from "@demex-info/assets";
-import { makeStyles, SvgIconProps, Theme } from "@material-ui/core";
+/* eslint-disable no-unused-vars */
+import AttachMoney from "@demex-info/assets/icons/AttachMoney.svg";
+import { makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
+import { TokenAssets, TokenNameMap } from "./constants";
 
-const symbolToIcon: { [symbol: string]: any } = {
-  ...COINS,
-  "1INCH": COINS.INCH,
-};
-
-const tokenNameMap: {
-  [index: string]: string;
-} = {
-  IUSD: "USD",
-  NNEO: "NEO",
-  BTCB: "BTC",
-  BCFX: "CFX",
-  "LKT.BEP20": "LKT",
-  LUNC: "LUNA",
-  USTC: "UST",
-  USD: "CUSD",
-};
-
-export interface CoinIconProps extends SvgIconProps {
+export interface CoinIconProps extends ComponentPropsWithoutRef<"img"> {
   denom?: string;
   outlined?: boolean;
   hideUnknown?: boolean;
 }
 
-const CoinIcon: React.FunctionComponent<CoinIconProps> = (
-  props: CoinIconProps,
-) => {
-  const { denom, className, outlined, hideUnknown, ...rest } = props;
-  const classes = useStyles();
-
+const getTokenName = (
+  denom: CoinIconProps["denom"],
+  outlined: CoinIconProps["outlined"] = false,
+): string => {
   let tokenName = (denom ?? "").toUpperCase();
-  if (tokenNameMap[tokenName]) {
-    tokenName = tokenNameMap[tokenName];
+  if (TokenNameMap[tokenName]) {
+    tokenName = TokenNameMap[tokenName];
   }
   if (outlined) {
     tokenName += "Outlined";
   }
-  let defaultIcon: any = COINS.AttachMoney;
+  return tokenName;
+};
 
-  if (hideUnknown) {
-    defaultIcon = undefined;
-  }
-  
-  const selectedIcon = symbolToIcon[tokenName];
-  const Icon = selectedIcon ?? defaultIcon;
+const CoinIcon: React.FunctionComponent<CoinIconProps> = ({
+  denom,
+  outlined = false,
+  hideUnknown = false,
+  className,
+  ...rest
+}: CoinIconProps) => {
+  const classes = useStyles();
 
+  const tokenName = getTokenName(denom, outlined);
+  const iconFile = `${tokenName}.svg`;
+  const fallbackIconFile = AttachMoney;
+
+  const hasAsset: boolean = !!TokenAssets?.[iconFile];
+  if (!hasAsset && hideUnknown) return null;
   return (
-    <Icon
+    <img
+      src={TokenAssets?.[iconFile]?.default ?? fallbackIconFile}
+      alt={tokenName}
+      className={clsx(
+        classes.svg, 
+        className,
+        { isDefault: !hasAsset },
+      )}
       {...rest}
-      className={clsx(classes.svg, className, { isDefault: !selectedIcon })}
     />
   );
 };
@@ -60,10 +57,9 @@ const CoinIcon: React.FunctionComponent<CoinIconProps> = (
 const useStyles = makeStyles((theme: Theme) => ({
   svg: {
     fontSize: "inherit",
-    width: "2em",
-    height: "2em",
-    "&.isDefault path": {
-      fill: theme.palette.common.white,
+    borderRadius: "100%",
+    "&.isDefault": {
+      filter: "invert(1)",
     },
   },
 }));

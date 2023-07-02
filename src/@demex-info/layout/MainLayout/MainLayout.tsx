@@ -7,8 +7,11 @@ import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
+import { eskimi } from "@demex-info/utils";
 
 interface Props extends BoxProps { }
+
+const ESKIMI_ID = process.env.ESKIMI_ID;
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
@@ -20,6 +23,10 @@ const MainLayout: React.FC<Props> = (props: Props) => {
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       window.location.href = "/";
     }
+
+    if (ESKIMI_ID) {
+      eskimi("init", ESKIMI_ID);
+    }
   }, []);
 
   useEffect(() => {
@@ -28,22 +35,22 @@ const MainLayout: React.FC<Props> = (props: Props) => {
         const sdk = await CarbonSDK.instance({
           network: net,
         });
-        await sdk.token.reloadUSDValues();
+        await sdk.token.reloadDenomGeckoMap().then(() => sdk.token.reloadUSDValues());
         dispatch(actions.App.setSDK(sdk));
       } catch (err) {
         console.error(err);
       }
     });
-    return () => {};
+    return () => { };
   }, [net]);
 
-	const classes = useStyles();
-	return (
+  const classes = useStyles();
+  return (
     <main className={clsx(classes.app, className)} {...rest}>
       <Header />
       {children}
     </main>
-	);
+  );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -53,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     position: "relative",
     maxWidth: "100%",
+    overFlowX: "hidden",
   },
   filler: {
     height: "3.3125rem",

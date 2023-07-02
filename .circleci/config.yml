@@ -28,6 +28,9 @@ jobs:
       - run:
           name: build ReactJS project
           command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              echo 'ESKIMI_ID=31136' >> .env
+            fi
             yarn build
 
       - run:

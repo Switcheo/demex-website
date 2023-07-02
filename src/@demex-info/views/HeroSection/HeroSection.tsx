@@ -2,7 +2,7 @@
 import { BackgroundAnimation, SvgIcon } from "@demex-info/components";
 // import { Banner } from "@demex-info/components/Banner";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { StyleUtils } from "@demex-info/utils";
+import { eskimi, StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
@@ -33,6 +33,10 @@ const HeroSection: React.FC = () => {
 	useEffect(() => {
 		setTimeout(() => setReady(true));
 	}, []);
+
+	const handleLaunchApp = () => {
+		eskimi("track", "Conversion");
+	};
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
@@ -102,6 +106,7 @@ const HeroSection: React.FC = () => {
 								className={classes.button}
 								variant="contained"
 								target="_blank"
+								onClick={handleLaunchApp}
 								href={getDemexLink(Paths.Trade)}
 							>
 								Launch App
