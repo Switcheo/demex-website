@@ -1,13 +1,12 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
 import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
-import { defaultMarketBlacklist } from "@demex-info/constants/markets";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, getCollateral } from "@demex-info/utils";
+import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, getCollateral } from "@demex-info/utils"; // eslint-disable-line
 import {
   MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets, 
 } from "@demex-info/utils/markets";
@@ -18,13 +17,26 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Models, WSModels, WSResult, WSConnectorTypes } from "carbon-js-sdk";
+import { Models, WSModels, WSResult, WSConnectorTypes, TypeUtils } from "carbon-js-sdk";
 import clsx from "clsx";
-// import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const TokenPopover = lazy(() => import("./TokenPopover"));
+
+interface WSData {
+  block_height: number;
+  channel?: string;
+  update_type: string;
+}
+
+interface MarketStatWSData extends WSData {
+  result: TypeUtils.SimpleMap<WSModels.MarketStat>;
+}
+
+interface PoolWSData extends WSData {
+  result: TypeUtils.SimpleMap<WSModels.Pool>;
+}
 
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
@@ -40,35 +52,39 @@ const MarketsGrid: React.FC = () => {
   const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
-  const [pools, setPools] = React.useState<Pool[]>([]);
+  const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
 
-  const reloadPools = () => {
+  const reloadPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws) return;
 
     runPools(async () => {
       try {
-        const response = await ws.request<{ result: WSModels.Pool[] }>(WSConnectorTypes.WSRequest.Pools, {}) as WSResult<{ result: WSModels.Pool[] }>;
-        
-        const poolsData: Pool[] = parseLiquidityPools(response.data.result, sdk!.token);
-        setPools(poolsData);
-
         const poolsRewards = await sdk!.lp.getWeeklyRewards();
 
         const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
         setCommitCurve(curveResponse.commitmentCurve);
 
         setWeeklyRewards(poolsRewards ?? BN_ZERO);
+
+        ws.subscribe(poolsSubscribeParams, (result: any) => {
+          const resultData = result as WSResult<PoolWSData>;
+          if (resultData.data.update_type === "full_state") {
+            const poolsData: Pool[] = parseLiquidityPools(resultData.data.result, sdk!.token);
+            setPools(poolsData);
+            ws.unsubscribe(poolsSubscribeParams);
+          }
+        });
       } catch (err) {
         console.error(err);
       }
     });
   }; 
 
-  const reloadData = () => {
+  const reloadData = (marketSubcribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws || !ws.connected) return;
 
     fetchData(async () => {
@@ -79,11 +95,6 @@ const MarketsGrid: React.FC = () => {
         const response = await getCollateral(sdk);
         setCollateral(response);
 
-        const marketStatresponse = await ws.request<{ result: WSModels.MarketStat}>(WSConnectorTypes.WSRequest.MarketStats, {}) as WSResult<{ result: WSModels.MarketStat}>;
-        const marketStatItems = Object.values(marketStatresponse.data.result).map((stat: WSModels.MarketStat) => (
-          parseMarketStats(stat)),
-        );
-
         // handle blacklist markets
         const configJsonResponse = await fetch(`https://raw.githubusercontent.com/Switcheo/demex-webapp-config/master/configs/${network}.json`);
         const configJsonData = await configJsonResponse.json();
@@ -91,8 +102,20 @@ const MarketsGrid: React.FC = () => {
         const blacklistedTokens = configJsonData?.blacklisted_tokens?.map((token: string) => token.toLowerCase()) ?? [];
         setTokenBlacklist(blacklistedTokens);
 
-        const filteredMarkets = marketStatItems.filter((market) => !blacklistedMarkets.includes(market.market.toLowerCase()) || !defaultMarketBlacklist.includes(market.market.toLowerCase()));
-        dispatch(actions.App.setMarketStats(filteredMarkets));
+        ws.subscribe(marketSubcribeParams, (result: any) => {
+          const resultData = result as WSResult<MarketStatWSData>;
+          if (resultData.data.update_type === "full_state") {
+            const marketStatItems = Object.values(resultData.data.result ?? {});
+            const filteredMarkets = marketStatItems.reduce((prev: MarketStatItem[], market: WSModels.MarketStat) => {
+              if (blacklistedMarkets.includes(market.market)) return prev;
+              const marketStatItem = parseMarketStats(market);
+              prev.push(marketStatItem);
+              return prev;
+            }, []);
+            dispatch(actions.App.setMarketStats(filteredMarkets));
+            ws.unsubscribe(marketSubcribeParams);
+          }
+        });
       } catch (err) {
         console.error(err);
       }
@@ -100,11 +123,21 @@ const MarketsGrid: React.FC = () => {
   };
 
   useEffect(() => {
+    const marketStatsSubscribeParams: WSConnectorTypes.WsSubscriptionParams = {
+      channel: WSConnectorTypes.WSChannel.market_stats,
+    };
+    const poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams = {
+      channel: WSConnectorTypes.WSChannel.pools,
+    };
+
     if (sdk && ws && ws?.connected) {
-      reloadData();
-      reloadPools();
+      reloadData(marketStatsSubscribeParams);
+      reloadPools(poolsSubscribeParams);
     }
-    return () => { };
+    return () => {
+      ws?.unsubscribe(marketStatsSubscribeParams);
+      ws?.unsubscribe(poolsSubscribeParams);
+    };
   }, [sdk, ws]);
 
 

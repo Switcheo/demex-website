@@ -4,9 +4,10 @@
   "private": true,
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^14.1.1",
-    "@cosmjs/encoding": "^0.28.7",
-    "@cosmjs/stargate": "^0.28.7",
-    "@cosmjs/tendermint-rpc": "^0.28.7",
+    "@cosmjs/cosmwasm-stargate": "~0.29.5",
+    "@cosmjs/stargate": "~0.29.5",
+    "@cosmjs/tendermint-rpc": "~0.29.5",
+    "@ledgerhq/hw-app-eth": "~6.31.0",
     "@loadable/component": "^5.15.2",
     "@material-ui/core": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.57",
@@ -24,8 +25,8 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
-    "bignumber.js": "^9.0.1",
-    "carbon-js-sdk": "^0.4.32",
+    "bignumber.js": "^9.1.0",
+    "carbon-js-sdk": "^0.5.1",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -87,7 +88,11 @@
     ]
   },
   "resolutions": {
-    "postcss-safe-parser": "^4.0.0"
+    "postcss-safe-parser": "^4.0.0",
+    "@ledgerhq/hw-app-eth": "~6.24.1",
+    "@ledgerhq/hw-transport-webhid": "~6.24.1",
+    "@ledgerhq/hw-transport-webusb": "~6.24.1",
+    "@ledgerhq/devices": "~6.24.1"
   },
   "devDependencies": {
     "@types/loadable__component": "^5.13.4",
