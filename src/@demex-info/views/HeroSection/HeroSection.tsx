@@ -10,7 +10,7 @@ import React, { Suspense, useEffect } from "react";
 import { SWTH } from "@demex-info/assets";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
-import { DesktopMobile } from "./assets";
+import { DesktopMobile, Mobile } from "./assets";
 import { MarketsGrid, SocialsBar } from "./components";
 
 const HeroSection: React.FC = () => {
@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
 			{ready && (
 				<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
 			)}
-			<div ref={titleRef} >
+			<div className={classes.containerWrapper} ref={titleRef}>
 				<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
 					<Box className={classes.left}>
 						<Box className={classes.content}>
@@ -114,11 +114,17 @@ const HeroSection: React.FC = () => {
 						</Box>
 					</Box>
 
-					<Hidden mdDown>
+					<Hidden smDown>
 						<Box className={classes.graphicsWrapper}>
 							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
 						</Box>
 					</Hidden>
+
+          <Hidden mdUp>
+            <Box className={classes.mobileGraphicsWrapper}>
+              <SvgIcon component={Mobile} />
+            </Box>
+          </Hidden>
 
 				</Container>
 			</div>
@@ -199,27 +205,27 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		width: "50%",
 		[theme.breakpoints.down("md")]: {
-			width: "100%",
+			width: "auto",
 			height: "unset",
 			paddingTop: "2.265rem",
 			alignItems: "center",
 			padding: "0",
+			marginBottom: "50px",
 		},
-		[theme.breakpoints.only("sm")]: {
+		[theme.breakpoints.down("sm")]: {
 			height: "unset",
-			marginBottom: "80px",
+      width: "100%",
 		},
 		[theme.breakpoints.only("xs")]: {
 			padding: "2.265rem 0 0",
 			height: "unset",
-			marginBottom: "80px",
 		},
 	},
 	contentContainer: {
 		marginTop: "3rem",
 		position: "relative",
 		display: "flex",
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
 		padding: 0,
 		opacity: 0,
@@ -236,6 +242,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("sm")]: {
 			padding: "0",
+      justifyContent: "center",
+      flexDirection: "column",
 		},
 	},
 	content: {
@@ -351,12 +359,21 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	graphicsWrapper: {
+    position: "relative",
 		overflow: "hidden",
 		marginLeft: "-9rem",
 		[theme.breakpoints.up("xl")]: {
 			overflow: "visible",
 		},
+    [theme.breakpoints.down("md")]: {
+			width: "60%",
+		},
 	},
+  mobileGraphicsWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "50px",
+  },
 	svgIcon: {
 		position: "relative",
 		left: "50px",
@@ -391,6 +408,9 @@ const useStyles = makeStyles((theme) => ({
 			height: "16px",
 		},
 	},
+  containerWrapper: {
+    maxWidth: "100%",
+  },
 }));
 
 export default HeroSection;
