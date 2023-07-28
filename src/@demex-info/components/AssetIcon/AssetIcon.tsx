@@ -26,10 +26,13 @@ const AssetIcon: React.FunctionComponent<Props> = (
   let denomA = inputDenomA;
   let denomB = inputDenomB;
 
-  const symbols = sdk?.token.getTokenName(denom ?? "").split("-") ?? [];
+  let symbols: string[] = [];
+  if (denom && !denom.startsWith("ibc/")) {
+    symbols = sdk?.token.getTokenName(denom).split("-") ?? [];
+  }
+
   if (symbols.length > 1) {
-    denomA = symbols[0];
-    denomB = symbols[1];
+    [denomA, denomB] = symbols;
   }
 
   return (

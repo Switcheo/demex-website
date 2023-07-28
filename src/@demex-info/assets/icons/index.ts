@@ -5,6 +5,7 @@ export { ReactComponent as ExternalLink } from "./ExternalLink.svg";
 export { ReactComponent as InternetOfBlockchains } from "./InternetOfBlockchains.svg";
 export { ReactComponent as MenuIcon } from "./Menu.svg";
 export { ReactComponent as Nitron } from "./Nitron.svg";
+export { ReactComponent as Placeholder } from "./Placeholder.svg";
 export { ReactComponent as TendermintCore } from "./TendermintCore.svg";
 export { ReactComponent as TickIcon } from "./Tick.svg";
 export { ReactComponent as OSMOGradient } from "./OSMOGradient.svg";

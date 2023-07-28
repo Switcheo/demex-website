@@ -376,7 +376,7 @@ const MarketsGrid: React.FC = () => {
                             <CoinIcon
                               className={clsx(classes.coinIcon, `coin-${index}`)}
                               key={coin}
-                              denom={coinName.toLowerCase()}
+                              denom={coinName}
                             />
                           );
                         }
