@@ -89,7 +89,7 @@ const TokensMarquee: React.FC<Props> = () => {
                       <TypographyLabel className={clsx(classes.usdValue, classes.text)}>{baseMarket.usdValue}</TypographyLabel>
                     </Box>
                   </Box>
-                  <CoinIcon className={classes.coinSvg} denom={tokenName.toLowerCase()} />
+                  <CoinIcon className={classes.coinSvg} denom={tokenName} />
                 </Cards>
               );
             })}

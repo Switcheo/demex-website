@@ -7,3 +7,5 @@ export const lottieDefaultOptions = {
     preserveAspectRatio: "xMidYMid slice",
   },
 };
+
+export const TOKEN_ICON_REPO_URL = "https://raw.githubusercontent.com/Switcheo/token-icons/main/tokens/:token_name.:file_type";
