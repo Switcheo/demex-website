@@ -1,13 +1,9 @@
-// import { OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
-import { BackgroundAnimation, SvgIcon } from "@demex-info/components";
-// import { Banner } from "@demex-info/components/Banner";
+import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { eskimi, StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-// import { renderToStaticMarkup } from "react-dom/server";
-import { SWTH } from "@demex-info/assets";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile, Mobile } from "./assets";
@@ -93,7 +89,7 @@ const HeroSection: React.FC = () => {
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
 								<Box className={classes.carbonWrapper}>
 									Powered by
-									<SvgIcon className={classes.carbonLogo} component={SWTH} />
+									<CoinIcon className={classes.carbonLogo} denom="SWTH" />
 									<span style={{ color: "#8CF2FD" }}>Carbon</span>,
 								</Box>
 								a&nbsp;
