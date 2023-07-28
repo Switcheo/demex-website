@@ -372,16 +372,18 @@ const MarketsGrid: React.FC = () => {
                   <ClickAwayListener onClickAway={handleClose}>
                     <Box
                       position="relative"
+                      minHeight={38}
+                      display="flex"
+                      alignItems="center"
                       onMouseEnter={handleOpen}
                       onFocus={handleOpen}
                       onMouseLeave={handleClose}
-                      onTouchEnd={handleToggle}
-                      minHeight={38}
                     >
                       <Box
                         className={classes.labelBox}
                         display="flex"
                         alignItems="center"
+                        onTouchEnd={handleToggle}
                       >
                         {coinsList.map((coin: string, index: number) => {
                           if (index <= 3) {
@@ -527,9 +529,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     cursor: "pointer",
     zIndex: 100,
     [theme.breakpoints.only("xs")]: {
-      width: "8rem",
-    },
-    "@media (max-width: 400px)": {
       width: "unset",
     },
   },
