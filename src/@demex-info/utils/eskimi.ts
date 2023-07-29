@@ -1,5 +1,5 @@
 let init = false;
-const ESKIMI_ID = process.env.ESKIMI_ID;
+const ESKIMI_ID = process.env.REACT_APP_ESKIMI_ID;
 
 const initEskimi = () => {
   if (init || !ESKIMI_ID) return;
