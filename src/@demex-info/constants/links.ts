@@ -165,7 +165,7 @@ export const StaticLinks = {
   CarbonhubStake: "https://hub.carbon.network/stake",
   FluoDocs: {
     DevnetLaunch: "https://dev-app.dem.exchange/pools",
-    Home: "https://guide.dem.exchange/community/incentivized-public-testnet",
+    PublicDevnet: "https://guide.dem.exchange/community/incentivized-public-testnet",
   },
 };
 

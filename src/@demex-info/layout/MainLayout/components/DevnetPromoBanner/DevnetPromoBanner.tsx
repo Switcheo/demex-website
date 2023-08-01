@@ -21,7 +21,7 @@ const DevnetPromoBanner: React.FC = () => {
         </Button>
         <Button
           variant="outlined"
-          href={StaticLinks.FluoDocs.Home}
+          href={StaticLinks.FluoDocs.PublicDevnet}
           target="_blank"
           className={classes.bannerButton}
         >
