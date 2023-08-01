@@ -1,5 +1,5 @@
-import { ExternalLink, SWTH } from "@demex-info/assets";
-import { SvgIcon } from "@demex-info/components";
+import { ExternalLink } from "@demex-info/assets";
+import { CoinIcon, SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
@@ -19,7 +19,7 @@ const PoweredBySwitcheo: React.FC = () => {
         Secured by&nbsp;
         <Box className={classes.carbonSwth}>
           Carbon&nbsp;
-          <SvgIcon className={classes.swthLogo} component={SWTH} />
+          <CoinIcon className={classes.swthLogo} denom="SWTH" />
           &nbsp;SWTH
         </Box>
       </Box>

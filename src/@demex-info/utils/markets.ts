@@ -4,6 +4,7 @@ import { CarbonSDK, Models, WSModels } from "carbon-js-sdk";
 import Long from "long";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";
+import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
 
 export interface MarketCandlesticks {
   market: string
@@ -25,6 +26,7 @@ export interface MarketListMap {
 export interface MarketStatItem {
   dayOpen: BigNumber;
   dayClose: BigNumber;
+  dayQuoteVolume: BigNumber;
   dayVolume: BigNumber;
   lastPrice: BigNumber;
   market: string;
@@ -45,39 +47,15 @@ export const MarkType: { [key: string]: MarketType } = {
 export type MarketType = "spot" | "futures";
 
 export async function getAllMarkets(sdk: CarbonSDK): Promise<Models.Market[]> {
-  const limit = new Long(100);
+  const limit = new Long(10000);
   const offset = Long.UZERO;
-  const countTotal = true;
 
-  let allMarkets: Models.Market[] = [];
-  let key = new Uint8Array();
-
-  const initMarkets = await sdk.query.market.MarketAll({
-    pagination: {
-      limit, offset, countTotal, key, reverse: false,
-    },
+  const { markets } = await sdk.query.market.MarketAll({
+    pagination: PageRequest.fromPartial({
+      limit, offset,
+    }),
   });
-  const grandTotal = initMarkets.pagination?.total.toNumber() ?? 0;
-  key = initMarkets.pagination?.nextKey ?? new Uint8Array();
-  allMarkets = allMarkets.concat(initMarkets.markets);
-
-  if (initMarkets.markets.length === grandTotal) {
-    return allMarkets;
-  }
-
-  const iterations = Math.ceil(grandTotal / limit.toNumber()) - 1;
-  for (let ii = 0; ii < iterations; ii++) {
-    // eslint-disable-next-line no-await-in-loop
-    const markets = await sdk.query.market.MarketAll({
-      pagination: {
-        limit, offset, countTotal, key, reverse: false,
-      },
-    });
-    key = markets.pagination?.nextKey ?? new Uint8Array();
-    allMarkets = allMarkets.concat(markets.markets ?? []);
-  }
-
-  return allMarkets;
+  return markets;
 }
 
 export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
@@ -110,6 +88,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     ...marketStats,
     dayOpen: parseNumber(marketStats.day_open, BN_ZERO)!,
     dayClose: parseNumber(marketStats.day_close, BN_ZERO)!,
+    dayQuoteVolume: parseNumber(marketStats.day_quote_volume, BN_ZERO)!,
     dayVolume: parseNumber(marketStats.day_volume, BN_ZERO)!,
     lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,

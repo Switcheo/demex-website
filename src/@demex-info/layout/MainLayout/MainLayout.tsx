@@ -28,22 +28,22 @@ const MainLayout: React.FC<Props> = (props: Props) => {
         const sdk = await CarbonSDK.instance({
           network: net,
         });
-        await sdk.token.reloadUSDValues();
+        await sdk.token.reloadDenomGeckoMap().then(() => sdk.token.reloadUSDValues());
         dispatch(actions.App.setSDK(sdk));
       } catch (err) {
         console.error(err);
       }
     });
-    return () => {};
+    return () => { };
   }, [net]);
 
-	const classes = useStyles();
-	return (
+  const classes = useStyles();
+  return (
     <main className={clsx(classes.app, className)} {...rest}>
       <Header />
       {children}
     </main>
-	);
+  );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     position: "relative",
     maxWidth: "100%",
+    overFlowX: "hidden",
   },
   filler: {
     height: "3.3125rem",

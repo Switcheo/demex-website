@@ -37,6 +37,10 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
     {
       label: "Competition",
       href: getDemexLink(Paths.Competition.Leaderboard, net),
+    }, {
+      showIcon: true,
+      label: "Blog",
+      href: StaticLinks.DemexBlog,
     },
     {
       showIcon: true,
@@ -47,7 +51,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
   const goToLink = (item: NavLink) => {
     if (item?.href) {
-      window.open(item.href, "_blank");
+      window.open(item.href, item.showIcon ? "_blank" : "_self");
     }
   };
 

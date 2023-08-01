@@ -1,7 +1,9 @@
 import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
+import { lazy } from "@loadable/component";
 import { Box, Hidden, makeStyles } from "@material-ui/core";
 import React from "react";
-import { MarketsMarquee, TokensMarquee } from "./components";
+const MarketsMarquee = lazy(() => import("./components/MarketsMarquee"));
+const TokensMarquee = lazy(() => import("./components/TokensMarquee"));
 
 interface Props {
 
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   position: {
     position: "absolute",
     left: 0,
-    width: "50vw",
+    width: "50%",
     overflow: "hidden",
     [theme.breakpoints.up("lg")]: {
       top: "-30rem",

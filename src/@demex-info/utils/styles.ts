@@ -13,3 +13,8 @@ export const StyleUtils = {
   primaryTextGradient: "linear-gradient(270deg, #007AFF 0%, #00B2FF 100%)", // also accent Blue | Info
   dropShadow: (theme: Theme) => `0px 0px 16px ${theme.palette.shadow}`,
 };
+
+export const importAssets = (r: any) => r.keys().reduce((imgs: { [x: string]: any; }, itm: string) => {
+  imgs[itm.replace("./", "")] = r(itm);
+  return imgs;
+}, {});

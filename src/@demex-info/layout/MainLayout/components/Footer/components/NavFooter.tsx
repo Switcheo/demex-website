@@ -7,7 +7,7 @@ import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
-// import SocialLinkBox from "./SocialLinkBox";
+import { ExternalLink } from "../../Header/assets";
 
 interface NavLinkMap {
   title: string;
@@ -27,38 +27,44 @@ const NavFooter: React.FC = () => {
       label: "Pools",
       href: getDemexLink(Paths.Pools.List, net),
     }, {
-      label: "Staking",
-      href: getDemexLink(Paths.Stake.List, net),
-    }, /* {
-      label: "Leaderboard",
-      href: getDemexLink(Paths.Leaderboard, net)
+      label: "Nitron",
+      href: getDemexLink(Paths.Nitron.Main, net),
     }, {
-      label: "Insurance Fund",
-      href: getDemexLink(Paths.InsuranceFund, net),
-    } */ ],
+      label: "GLP Compounder",
+      href: getDemexLink(Paths.Strategy.GLPWrapper, net),
+    }, {
+      label: "Stake",
+      href: getDemexLink(Paths.Stake.List, net),
+    }],
   }, {
     title: "Resources",
     items: [{
       label: "API",
       href: StaticLinks.Api.Home,
+      external: true,
     }, {
       label: "Explorer",
       href: getExplorerLink(net),
+      external: true,
     }, {
-      label: "Docs",
+      label: "Guide",
       href: StaticLinks.DemexDocs.Home,
+      external: true,
     }, {
       label: "User Feedback",
       href: StaticLinks.Feedback,
+      external: true,
     }],
   }, {
     title: "About Demex",
     items: [{
       label: "Ecosystem",
       href: StaticLinks.CarbonNetwork,
+      external: true,
     }, {
       label: "Blog",
-      href: StaticLinks.Blog,
+      href: StaticLinks.DemexBlog,
+      external: true,
     }, /* {
       label: "T&C",
       href: StaticLinks.TermsConditions,
@@ -85,9 +91,10 @@ const NavFooter: React.FC = () => {
                           color="textPrimary"
                           key={navItem.label}
                           href={navItem?.href}
-                          target="_blank"
+                          target={navItem.external ? "_blank" : "_self"}
                         >
                           {navItem.label}
+                          {navItem.external && <ExternalLink />}
                         </Link>
                       );
                     }
@@ -224,12 +231,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body3,
     display: "block",
     marginTop: "0.625rem",
+    "& svg": {
+      marginLeft: theme.spacing(0.5),
+      scale: 0.8,
+      "& path": {
+        fill: theme.palette.text.primary,
+      },
+    },
     "&:hover": {
       background: StyleUtils.primaryGradient(theme),
       backgroundClip: "text",
       WebkitTextFillColor: "transparent",
       WebkitBackgroundClip: "text",
       textDecoration: "none",
+      "& svg path": {
+        fill: "url(#demexLinearGradient)",
+      },
     },
   },
   navTxt: {

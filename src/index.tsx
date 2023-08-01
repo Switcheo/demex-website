@@ -11,7 +11,6 @@ import "typeface-roboto";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { lazy } from "@loadable/component";
-import { UnleashTrader } from "@demex-info/views";
 
 dotenv.config();
 
@@ -19,6 +18,7 @@ const rootElement = document.getElementById("root");
 const render = rootElement?.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render;
 
 const DexProperties = lazy(() => import("@demex-info/views/DexProperties/DexProperties"));
+const UnleashTrader = lazy(() => import("@demex-info/views/UnleashTrader/UnleashTrader"));
 const PoweredBySwitcheo = lazy(() => import("@demex-info/views/PoweredBySwitcheo/PoweredBySwitcheo"));
 const TweetSection = lazy(() => import("@demex-info/views/TweetSection/TweetSection"));
 const ExchangeComparison = lazy(() => import("@demex-info/views/ExchangeComparison/ExchangeComparison"));

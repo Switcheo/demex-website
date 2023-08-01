@@ -1,15 +1,12 @@
-// import { OSMOSAirdropBanner, OSMOSAirdropBannerMobile } from "@demex-info/assets";
-import { BackgroundAnimation, SvgIcon } from "@demex-info/components";
-// import { Banner } from "@demex-info/components/Banner";
+import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { StyleUtils } from "@demex-info/utils";
+import { eskimi, StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
-// import { renderToStaticMarkup } from "react-dom/server";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
-import { DesktopMobile } from "./assets";
+import { DesktopMobile, Mobile } from "./assets";
 import { MarketsGrid, SocialsBar } from "./components";
 
 const HeroSection: React.FC = () => {
@@ -32,6 +29,10 @@ const HeroSection: React.FC = () => {
 	useEffect(() => {
 		setTimeout(() => setReady(true));
 	}, []);
+
+	const handleLaunchApp = () => {
+		eskimi("track", "Conversion");
+	};
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
@@ -64,58 +65,69 @@ const HeroSection: React.FC = () => {
 			{ready && (
 				<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
 			)}
-			<div ref={titleRef} >
-			<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
-				<Box className={classes.left}>
-					<Box className={classes.content}>
-				
-						<Box className={clsx(classes.text, classes.headline)}>
-							The Only DEX You Need
+			<div className={classes.containerWrapper} ref={titleRef}>
+				<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
+					<Box className={classes.left}>
+						<Box className={classes.content}>
+
+							<Box className={clsx(classes.text, classes.headline)}>
+								The Only DEX You Need
+							</Box>
+
+							<Box className={clsx(classes.text, classes.description)}>
+								Trade derivatives, lend or borrow tokens,&nbsp;
+
+								{isDesktop && <br />}
+
+								mint stablecoins, and provide liquidity on the
+								<span className={classes.altText}>
+									&nbsp;
+									{isDesktop && <br />}
+									most extensive decentralized platform ever.
+								</span>
+							</Box>
+							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
+								<Box className={classes.carbonWrapper}>
+									Powered by
+									<CoinIcon className={classes.carbonLogo} denom="SWTH" />
+									<span style={{ color: "#8CF2FD" }}>Carbon</span>,
+								</Box>
+								a&nbsp;
+								<span className={classes.purpleGradient}>Cosmos SDK</span>
+								AppChain
+							</Box>
+
+
+							<Button
+								className={classes.button}
+								variant="contained"
+								target="_blank"
+								onClick={handleLaunchApp}
+								href={getDemexLink(Paths.Trade)}
+							>
+								Launch App
+							</Button>
 						</Box>
-
-						<Box className={clsx(classes.text, classes.description)}>
-							Trade derivatives, lend or borrow tokens,&nbsp; 
-							
-							{isDesktop && <br />} 
-							
-							mint stablecoins, and provide liquidity on the
-							<span className={classes.altText}>
-	&nbsp;
-							{isDesktop && <br />} 
-							most extensive decentralized platform ever.
-							</span>
 					</Box>
-					<Box display="flex" justifyContent="center" alignItems="center" className={clsx(classes.text, classes.altText)}>
-						<b>Powered by </b>&nbsp;
-						<Box display="flex" justifyContent="center" alignItems="center">
-							<Box className={classes.purpleGradient}><b>Cosmos SDK</b></Box>
+
+					<Hidden smDown>
+						<Box className={classes.graphicsWrapper}>
+							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
 						</Box>
-					</Box>
+					</Hidden>
 
-
-					<Button
-						className={classes.button}
-						variant="contained"
-						target="_blank"
-						href={getDemexLink(Paths.Trade)}
-					>
-						Launch App
-					</Button>
-				</Box>
-				</Box>
-
-				<Hidden mdDown>
-					<Box className={classes.graphicsWrapper}>
-						<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
-					</Box> 
-				</Hidden>
+          <Hidden mdUp>
+            <Box className={classes.mobileGraphicsWrapper}>
+              <SvgIcon component={Mobile} />
+            </Box>
+          </Hidden>
 
 				</Container>
 			</div>
-				<Suspense fallback={null}>
-					<MarketsGrid />
-				</Suspense>
-			</Box>
+			<Suspense fallback={null}>
+				<MarketsGrid />
+			</Suspense>
+		</Box>
 
 	);
 };
@@ -128,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 		height: "maxContent",
-		
+
 		[theme.breakpoints.down("sm")]: {
 			padding: "0 0.75rem",
 			overflow: "hidden",
@@ -189,27 +201,27 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		width: "50%",
 		[theme.breakpoints.down("md")]: {
-			width: "100%",
+			width: "auto",
 			height: "unset",
 			paddingTop: "2.265rem",
 			alignItems: "center",
 			padding: "0",
+			marginBottom: "50px",
 		},
-		[theme.breakpoints.only("sm")]: {
+		[theme.breakpoints.down("sm")]: {
 			height: "unset",
-			marginBottom: "80px",
+      width: "100%",
 		},
 		[theme.breakpoints.only("xs")]: {
 			padding: "2.265rem 0 0",
 			height: "unset",
-			marginBottom: "80px",
 		},
 	},
 	contentContainer: {
 		marginTop: "3rem",
 		position: "relative",
 		display: "flex",
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
 		padding: 0,
 		opacity: 0,
@@ -226,6 +238,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("sm")]: {
 			padding: "0",
+      justifyContent: "center",
+      flexDirection: "column",
 		},
 	},
 	content: {
@@ -341,22 +355,58 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	graphicsWrapper: {
+    position: "relative",
 		overflow: "hidden",
 		marginLeft: "-9rem",
 		[theme.breakpoints.up("xl")]: {
 			overflow: "visible",
 		},
+    [theme.breakpoints.down("md")]: {
+			width: "60%",
+		},
 	},
+  mobileGraphicsWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "50px",
+  },
 	svgIcon: {
 		position: "relative",
 		left: "50px",
+		[theme.breakpoints.down(1400)]: {
+			width: "1000px",
+		},
 	},
 	purpleGradient: {
 		background: StyleUtils.purpleGradient,
 		backgroundClip: "text",
 		WebkitTextFillColor: "transparent",
 		WebkitBackgroundClip: "text",
+		marginRight: "0.25rem",
 	},
+	carbonWrapper: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		"&.carbon": {
+			color: "#8CF2FD",
+		},
+		[theme.breakpoints.up("sm")]: {
+			marginRight: "0.25rem",
+		},
+	},
+	carbonLogo: {
+		margin: "0 0.25rem",
+		width: "19px",
+		height: "19px",
+		[theme.breakpoints.only("xs")]: {
+			width: "16px",
+			height: "16px",
+		},
+	},
+  containerWrapper: {
+    maxWidth: "100%",
+  },
 }));
 
 export default HeroSection;
