@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     borderBottom: `1px solid ${theme.palette.divider}`,
+    zIndex: 1100, //zIndex for menu drawer is 1200
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
       padding: theme.spacing(2, 1.5),
