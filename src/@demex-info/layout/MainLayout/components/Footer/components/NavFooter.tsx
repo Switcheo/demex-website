@@ -56,7 +56,7 @@ const NavFooter: React.FC = () => {
       external: true,
     }, {
       label: "Brand Assets",
-      href: StaticLinks.Feedback,
+      href: StaticLinks.BrandAssets,
       external: true,
     }],
   }, {
