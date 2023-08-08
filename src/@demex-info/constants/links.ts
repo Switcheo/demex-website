@@ -163,6 +163,11 @@ export const StaticLinks = {
   CosmosIBC: "https://mapofzones.com/",
   PolyNetworkAlliance: "https://www.poly.network/#/",
   CarbonhubStake: "https://hub.carbon.network/stake",
+  FluoDocs: {
+    DevnetLaunch: "https://dev-app.dem.exchange/pools",
+    PublicDevnet: "https://guide.dem.exchange/community/incentivized-devnet-event",
+    Airdrop: "https://fluofinance.com/airdrop",
+  },
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {
