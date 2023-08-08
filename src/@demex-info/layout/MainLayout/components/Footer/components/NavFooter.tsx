@@ -54,6 +54,10 @@ const NavFooter: React.FC = () => {
       label: "User Feedback",
       href: StaticLinks.Feedback,
       external: true,
+    }, {
+      label: "Brand Assets",
+      href: StaticLinks.Feedback,
+      external: true,
     }],
   }, {
     title: "About Demex",
