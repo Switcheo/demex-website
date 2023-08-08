@@ -6,7 +6,6 @@ import { CarbonSDK } from "carbon-js-sdk";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DevnetPromoBanner } from "./components/DevnetPromoBanner";
 import Header from "./components/Header";
 
 interface Props extends BoxProps { }
@@ -41,7 +40,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   return (
     <main className={clsx(classes.app, className)} {...rest}>
-      <DevnetPromoBanner />
+      {/* <DevnetPromoBanner /> */}
       <Header />
       {children}
     </main>
