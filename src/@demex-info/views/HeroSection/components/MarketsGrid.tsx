@@ -13,7 +13,7 @@ import {
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
 import {
-  Backdrop, Box, Button, Grid, Hidden, makeStyles, Theme,
+  Box, Button, ClickAwayListener, Grid, Hidden, makeStyles, Theme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -236,6 +236,14 @@ const MarketsGrid: React.FC = () => {
     setOpenTokens(false);
   };
 
+  const handleToggle = () => {
+    if (openTokens) {
+      handleClose();
+    } else {
+      handleOpen();
+    }
+  };
+
   const volumeCountUp = useRollingNum(volume24H, 2, 4);
   const liquidityCountUp = useRollingNum(totalValueLocked, 2, 4);
   // const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
@@ -361,47 +369,58 @@ const MarketsGrid: React.FC = () => {
                   </TypographyLabel>
                 </RenderGuard>
                 <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
-                  <Box position="relative">
+                  <ClickAwayListener onClickAway={handleClose}>
                     <Box
-                      className={classes.labelBox}
+                      position="relative"
+                      minHeight={38}
                       display="flex"
                       alignItems="center"
                       onMouseEnter={handleOpen}
                       onFocus={handleOpen}
+                      onMouseLeave={handleClose}
                     >
-                      {coinsList.map((coin: string, index: number) => {
-                        if (index <= 3) {
-                          const coinName = sdk?.token.getTokenName(coin) ?? "";
-                          return (
-                            <CoinIcon
-                              className={clsx(classes.coinIcon, `coin-${index}`)}
-                              key={coin}
-                              denom={coinName.toLowerCase()}
-                            />
-                          );
+                      <Box
+                        className={classes.labelBox}
+                        display="flex"
+                        alignItems="center"
+                        onTouchEnd={handleToggle}
+                      >
+                        {coinsList.map((coin: string, index: number) => {
+                          if (index <= 3) {
+                            const coinName = sdk?.token.getTokenName(coin) ?? "";
+                            return (
+                              <CoinIcon
+                                className={clsx(classes.coinIcon, `coin-${index}`)}
+                                key={coin}
+                                denom={coinName}
+                              />
+                            );
+                          }
+                          return null;
+                        })}
+                        {
+                          coinsList.length > 4 && (
+                            <Box>
+                              <TypographyLabel
+                                className={classes.plusLabel}
+                              >
+                                +{coinsList.length - 4}
+                              </TypographyLabel>
+                            </Box>
+                          )
                         }
-                        return null;
-                      })}
-                      {
-                        coinsList.length > 4 && (
-                          <Box>
-                            <TypographyLabel
-                              className={classes.plusLabel}
-                            >
-                              +{coinsList.length - 4}
-                            </TypographyLabel>
-                          </Box>
-                        )
-                      }
+                      </Box>
+                      <Box>
+                        <Box className={classes.dropdownInner}>
+                          {
+                            openTokens && (
+                              <TokenPopover tokens={coinsList} />
+                            )
+                          }
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box className={classes.dropdownContainer}>
-                      {
-                        openTokens && (
-                          <TokenPopover tokens={coinsList} />
-                        )
-                      }
-                    </Box>
-                  </Box>
+                  </ClickAwayListener>
                 </RenderGuard>
                 <RenderGuard renderIf={statLoading}>
                   <Box alignItems="center" display="flex" justifyContent="center">
@@ -409,13 +428,13 @@ const MarketsGrid: React.FC = () => {
                   </Box>
                 </RenderGuard>
               </Box>
-              <Backdrop
+              {/* <Backdrop
                 className={classes.backdrop}
                 open={openTokens}
                 invisible
                 onClick={handleClose}
                 onMouseEnter={handleClose}
-              />
+              /> */}
             </React.Fragment>
           }
         </Cards>
@@ -476,7 +495,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "120px",
     },
   },
-  dropdownContainer: {
+  dropdownInner: {
     position: "absolute",
     top: theme.spacing(4.25),
     right: theme.spacing(-1.25),
@@ -510,9 +529,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     cursor: "pointer",
     zIndex: 100,
     [theme.breakpoints.only("xs")]: {
-      width: "8rem",
-    },
-    "@media (max-width: 400px)": {
       width: "unset",
     },
   },

@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.primary,
     minHeight: "4rem",
     padding: theme.spacing(0, 6),
-    position: "fixed",
+    position: "sticky",
     top: 0,
     width: `calc(100vw - ${theme.spacing(12)}px)`,
     zIndex: 1100, //zIndex for menu drawer is 1200

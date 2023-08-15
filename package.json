@@ -59,7 +59,7 @@
     "preinstall": "yarn config set ignore-engines true",
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
-    "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW yarn build",
+    "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW REACT_APP_ESKIMI_ID=31136 yarn build",
     "build:staging": "REACT_APP_GA_MEASUREMENT_ID=GTM-PWC6ZDF yarn build",
     "compress": "sh dist/scripts/release.sh",
     "release": "echo 'Please use yarn release:master or release:staging'",

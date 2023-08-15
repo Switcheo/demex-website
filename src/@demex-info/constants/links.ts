@@ -95,6 +95,7 @@ export const StaticLinks = {
   },
   ContactUs: "https://support.switcheo.network/en/",
   Feedback: "https://ideas.dem.exchange/",
+  BrandAssets: "https://switcheo.notion.site/Demex-Media-Kits-3e7e361505bb401eb457418eced382a1",
   Socials: {
     Facebook: "https://www.facebook.com/SwitcheoExchange",
     LinkedIn: "https://www.linkedin.com/company/switcheonetwork/",
@@ -163,6 +164,11 @@ export const StaticLinks = {
   CosmosIBC: "https://mapofzones.com/",
   PolyNetworkAlliance: "https://www.poly.network/#/",
   CarbonhubStake: "https://hub.carbon.network/stake",
+  FluoDocs: {
+    DevnetLaunch: "https://dev-app.dem.exchange/pools",
+    PublicDevnet: "https://guide.dem.exchange/community/incentivized-devnet-event",
+    Airdrop: "https://fluofinance.com/airdrop",
+  },
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {

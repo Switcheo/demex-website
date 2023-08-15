@@ -1,55 +1,60 @@
 /* eslint-disable no-unused-vars */
-import AttachMoney from "@demex-info/assets/icons/AttachMoney.svg";
-import { makeStyles, Theme } from "@material-ui/core";
+import { Placeholder } from "@demex-info/assets/icons";
+import { TOKEN_ICON_REPO_URL } from "@demex-info/constants";
+import { SvgIconProps, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { ComponentPropsWithoutRef } from "react";
-import { TokenAssets, TokenNameMap } from "./constants";
+import React from "react";
+import { SvgIcon } from "../SvgIcon";
 
-export interface CoinIconProps extends ComponentPropsWithoutRef<"img"> {
-  denom?: string;
-  outlined?: boolean;
-  hideUnknown?: boolean;
+export interface CoinIconProps extends SvgIconProps {
+  denom?: string
 }
 
-const getTokenName = (
-  denom: CoinIconProps["denom"],
-  outlined: CoinIconProps["outlined"] = false,
-): string => {
-  let tokenName = (denom ?? "").toUpperCase();
-  if (TokenNameMap[tokenName]) {
-    tokenName = TokenNameMap[tokenName];
-  }
-  if (outlined) {
-    tokenName += "Outlined";
-  }
-  return tokenName;
+const getTokenIconURL = (symbol: string, fileType: string) => {
+  return TOKEN_ICON_REPO_URL.replace(":token_name", symbol).replace(":file_type", fileType);
+};
+
+const tokenNameMap: {
+  [index: string]: string
+} = {
+  "LKT.BEP20": "LKT",
+  BTCB: "BTC",
+  USD: "cUSD",
+  SWTHB: "SWTH",
+  USTC: "UST",
+  CUSDC: "USDC",
 };
 
 const CoinIcon: React.FunctionComponent<CoinIconProps> = ({
   denom,
-  outlined = false,
-  hideUnknown = false,
   className,
   ...rest
 }: CoinIconProps) => {
   const classes = useStyles();
+  const [imageSrcIndex, setImageSrcIndex] = React.useState(0);
+  const [imageSrcError, setImageSrcError] = React.useState(false);
 
-  const tokenName = getTokenName(denom, outlined);
-  const iconFile = `${tokenName}.svg`;
-  const fallbackIconFile = AttachMoney;
+  let symbolToFetch = denom ?? "";
+  symbolToFetch = tokenNameMap[symbolToFetch] ?? symbolToFetch;
 
-  const hasAsset: boolean = !!TokenAssets?.[iconFile];
-  if (!hasAsset && hideUnknown) return null;
-  return (
-    <img
-      src={TokenAssets?.[iconFile]?.default ?? fallbackIconFile}
-      alt={tokenName}
-      className={clsx(
-        classes.svg, 
-        className,
-        { isDefault: !hasAsset },
-      )}
+  const imageSrcArray = symbolToFetch ? ["svg", "png"].map((fileType) => getTokenIconURL(symbolToFetch, fileType)) : [];
+
+  const handleImgSrcError = () => {
+    if (imageSrcIndex < imageSrcArray.length - 1) {
+      setImageSrcIndex(imageSrcIndex + 1);
+    } else {
+      console.error(symbolToFetch);
+      setImageSrcError(true);
+    }
+  };
+
+  return !imageSrcError && symbolToFetch ? (
+    <img className={clsx(classes.svg, className)} src={imageSrcArray[imageSrcIndex]} onError={handleImgSrcError} alt={symbolToFetch} />
+  ) : (
+    <SvgIcon
+      component={Placeholder}
       {...rest}
+      className={clsx(classes.svg, className)}
     />
   );
 };
@@ -58,9 +63,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   svg: {
     fontSize: "inherit",
     borderRadius: "100%",
-    "&.isDefault": {
-      filter: "invert(1)",
-    },
   },
 }));
 

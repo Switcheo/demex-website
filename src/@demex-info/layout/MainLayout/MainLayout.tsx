@@ -7,11 +7,8 @@ import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
-import { eskimi } from "@demex-info/utils";
 
 interface Props extends BoxProps { }
-
-const ESKIMI_ID = process.env.ESKIMI_ID;
 
 const MainLayout: React.FC<Props> = (props: Props) => {
   const { children, className, ...rest } = props;
@@ -22,10 +19,6 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       window.location.href = "/";
-    }
-
-    if (ESKIMI_ID) {
-      eskimi("init", ESKIMI_ID);
     }
   }, []);
 
@@ -47,6 +40,7 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   return (
     <main className={clsx(classes.app, className)} {...rest}>
+      {/* <DevnetPromoBanner /> */}
       <Header />
       {children}
     </main>
