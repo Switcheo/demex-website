@@ -26,7 +26,7 @@ const HeaderMenu: React.FC = () => {
       href: undefined,
     },
     {
-      label: "Competition",
+      label: "Promotions",
       href: getDemexLink(Paths.Competition.Leaderboard, net),
     },
     {
