@@ -8,21 +8,19 @@ import clsx from "clsx";
 import Dropdown from "./Dropdown";
 
 interface Props {
-  openDrawer?: boolean
-  closeDrawer?: () => void
-  items: DropdownMenuItem[]
+  openDrawer?: boolean;
+  closeDrawer?: () => void;
+  items: DropdownMenuItem[];
+  title: string;
 }
 
 const OptionsDropdown: React.FC<Props> = (props: Props) => {
-  const { openDrawer, closeDrawer, items } = props;
+  const { openDrawer, closeDrawer, items, title } = props;
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
-
-
 
   const openMoreDropdown = () => {
     setOpenDropdown(true);
@@ -80,7 +78,7 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
             onClick={() => { }}
             disableRipple
           >
-            Earn
+            {title}
           </Button>
           <Box className={clsx(classes.activeIndicator)} />
         </Box>

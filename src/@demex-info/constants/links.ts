@@ -219,7 +219,7 @@ export function goToDemexLink(link: string) {
   window.open(`${link}`, "_self");
 }
 
-export interface DropdownMenuItem extends React.DOMAttributes<any> {
+export interface DropdownMenuItem extends DOMAttributes<any> {
   key: string
   className?: string
   label: string | ReactNode
@@ -236,7 +236,7 @@ export interface NavLink {
   path?: string;
   href?: string;
   external?: boolean;
-  dropdownItems?: 
+  dropdownItems?: DropdownMenuItem[];
 }
 
 export interface ExtSocialLnk {

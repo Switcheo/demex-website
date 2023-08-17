@@ -1,13 +1,12 @@
 import { CloseIcon, ExternalLink } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { SvgIcon } from "@demex-info/components";
-import { getDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
+import { NavLink } from "@demex-info/constants";
+import useHeaderLinks from "@demex-info/hooks/useHeaderLinks";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React, { Suspense, useState } from "react";
-import { useSelector } from "react-redux";
 import { ArrowRightGradient } from "../assets";
-import EarnSlider from "./EarnSlider";
+import SubMenuSlider from "./SubMenuSlider";
 
 interface Props {
   open: boolean;
@@ -17,37 +16,8 @@ interface Props {
 const HeaderSlider: React.FC<Props> = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
+  const navLinksArr = useHeaderLinks();
   const [earnOpen, setEarnOpen] = useState<boolean>(false);
-
-  const net = useSelector((state: RootState) => state.app.network);
-
-  const navLinksArr: NavLink[] = [
-    {
-      label: "Trade",
-      href: getDemexLink(Paths.Trade, net),
-    },
-    {
-      label: "Nitron",
-      href: getDemexLink(Paths.Nitron.Main, net),
-    },
-    {
-      label: "Earn",
-      href: undefined,
-    },
-    {
-      label: "Promotions",
-      href: getDemexLink(Paths.Competition.Leaderboard, net),
-    }, {
-      showIcon: true,
-      label: "Blog",
-      href: StaticLinks.DemexBlog,
-    },
-    {
-      showIcon: true,
-      label: "Ecosystem",
-      href: StaticLinks.CarbonNetwork,
-    },
-  ];
 
   const goToLink = (item: NavLink) => {
     if (item?.href) {
@@ -87,23 +57,25 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
           <Box className={classes.innerDiv}>
             <MenuList>
               {navLinksArr.map((navLink: NavLink) => {
-                return navLink.href ?
-                  (<MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
+                return !!navLink.dropdownItems?.length ? ( // eslint-disable-line
+                  <MenuItem className={classes.menuItem} key={navLink.label} onClick={handleEarnOpen}>
                     <Box display="flex" alignItems="center">
                       {navLink.label}
-                      {navLink.showIcon && (
-                        <ExternalLink className={classes.externalSvg} />
-                      )}
                     </Box>
+                    <SvgIcon className={classes.icon} component={ArrowRightGradient} />
                   </MenuItem>
-                  ) : (
-                    <MenuItem className={classes.menuItem} key={navLink.label} onClick={handleEarnOpen}>
+                ) : (
+                  <React.Fragment>
+                    <MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
                       <Box display="flex" alignItems="center">
                         {navLink.label}
+                        {navLink.showIcon && (
+                          <ExternalLink className={classes.externalSvg} />
+                        )}
                       </Box>
-                      <SvgIcon className={classes.icon} component={ArrowRightGradient} />
                     </MenuItem>
-                  );
+                  </React.Fragment>
+                );
               })}
             </MenuList>
           </Box>
@@ -115,7 +87,8 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
         </Box>
       </Drawer>
       <Suspense fallback={null}>
-        <EarnSlider earnOpen={earnOpen} onClose={handleEarnClose} />
+        <SubMenuSlider open={earnOpen} onClose={handleEarnClose} />
+        {/* <SubMenuSlider  /> */}
       </Suspense>
     </React.Fragment>
   );

@@ -1,55 +1,28 @@
 import { CloseIcon } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { SvgIcon } from "@demex-info/components";
-import { getDemexLink, goToDemexLink, DropdownMenuItem, Paths } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
+import { DropdownMenuItem } from "@demex-info/constants";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
-import { ExternalLink, GLPCompounder, MenuPools, MenuStake } from "../assets";
+import { ExternalLink } from "../assets";
 
 import { ArrowLeftGradient } from "../assets";
 
 
 interface Props {
-  earnOpen: boolean;
+  open: boolean;
   onClose: () => void;
+  items?: DropdownMenuItem[];
 }
 
-const EarnSlider: React.FC<Props> = (props: Props) => {
-  const { earnOpen, onClose } = props;
+const SubMenuSlider: React.FC<Props> = (props: Props) => {
+  const { open, onClose, items = [] } = props;
   const classes = useStyles();
-
-  const net = useSelector((state: RootState) => state.app.network);
-
-
-  const earnLinks = React.useMemo((): DropdownMenuItem[] => {
-    const initTextLinks: DropdownMenuItem[] = [{
-      key: "pools",
-      label: "Pools",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Pools.List, net)),
-      startIcon: MenuPools,
-      startIconType: "fill",
-    }, {
-      key: "glp-compounder",
-      label: "GLP Compounder",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
-      startIcon: GLPCompounder,
-      startIconType: "fill",
-    }, {
-      key: "staking",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
-      label: "Stake",
-      startIcon: MenuStake,
-      startIconType: "stroke",
-    }];
-    return initTextLinks;
-  }, [net]) // eslint-disable-line
 
   return (
     <Drawer
       anchor="left"
-      open={earnOpen}
+      open={open}
       onClose={onClose}
       classes={{
         paper: classes.drawer,
@@ -73,7 +46,7 @@ const EarnSlider: React.FC<Props> = (props: Props) => {
         <Divider className={classes.divider} />
         <Box className={classes.innerDiv}>
           <MenuList>
-            {earnLinks.map((item: DropdownMenuItem) => (
+            {items.map((item: DropdownMenuItem) => (
               <MenuItem className={classes.menuItem} key={item.key} onClick={item.onClick}>
                 <Box display="flex" alignItems="center">
                   {item.label}
@@ -193,4 +166,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default EarnSlider;
+export default SubMenuSlider;
