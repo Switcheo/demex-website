@@ -7,3 +7,5 @@ export { ReactComponent as MenuPools } from "./MenuPools.svg";
 export { ReactComponent as MenuStake } from "./MenuStake.svg";
 export { ReactComponent as Nitron } from "./Nitron.svg";
 export { ReactComponent as NitronLiquidations } from "./NitronLiquidations.svg";
+export { ReactComponent as ReferralIcon } from "./Referral.svg";
+export { ReactComponent as TrophyIcon } from "./Trophy.svg";
