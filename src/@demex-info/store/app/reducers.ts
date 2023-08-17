@@ -13,6 +13,10 @@ const initial_state: AppState = {
   isAppReady: false,
   marketList: [],
   marketStats: [],
+
+  // component open state
+  earnOpen: false,
+  promotionsOpen: false,
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -52,6 +56,16 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       marketStats: actions.stats,
+    };
+  case AppActionTypes.SET_EARN_DRAWER_OPEN:
+    return {
+      ...state,
+      earnOpen: actions.earnOpen,
+    };
+  case AppActionTypes.SET_PROMOTIONS_DRAWER_OPEN:
+    return {
+      ...state,
+      promotionsOpen: actions.promotionsOpen,
     };
 	default:
 		return state;

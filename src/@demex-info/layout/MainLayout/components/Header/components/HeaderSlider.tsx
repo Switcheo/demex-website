@@ -4,7 +4,7 @@ import { SvgIcon } from "@demex-info/components";
 import { NavLink } from "@demex-info/constants";
 import useHeaderLinks from "@demex-info/hooks/useHeaderLinks";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
-import React, { Suspense, useState } from "react";
+import React from "react";
 import { ArrowRightGradient } from "../assets";
 import SubMenuSlider from "./SubMenuSlider";
 
@@ -16,21 +16,12 @@ interface Props {
 const HeaderSlider: React.FC<Props> = (props: Props) => {
   const { open, onClose } = props;
   const classes = useStyles();
-  const navLinksArr = useHeaderLinks();
-  const [earnOpen, setEarnOpen] = useState<boolean>(false);
+  const { fullNavLinks, dropdownNavLinks } = useHeaderLinks();
 
   const goToLink = (item: NavLink) => {
     if (item?.href) {
       window.open(item.href, item.showIcon ? "_blank" : "_self");
     }
-  };
-
-  const handleEarnOpen = () => {
-    setEarnOpen(true);
-  };
-
-  const handleEarnClose = () => {
-    setEarnOpen(false);
   };
 
   return (
@@ -56,25 +47,23 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
           <Divider className={classes.divider} />
           <Box className={classes.innerDiv}>
             <MenuList>
-              {navLinksArr.map((navLink: NavLink) => {
-                return !!navLink.dropdownItems?.length ? ( // eslint-disable-line
-                  <MenuItem className={classes.menuItem} key={navLink.label} onClick={handleEarnOpen}>
+              {fullNavLinks.map((navLink: NavLink) => {
+                return (!!navLink.dropdownItems?.length && typeof navLink.open !== 'undefined') ? ( // eslint-disable-line
+                  <MenuItem className={classes.menuItem} key={navLink.label} onClick={navLink.onHandleOpen}>
                     <Box display="flex" alignItems="center">
                       {navLink.label}
                     </Box>
                     <SvgIcon className={classes.icon} component={ArrowRightGradient} />
                   </MenuItem>
                 ) : (
-                  <React.Fragment>
-                    <MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
-                      <Box display="flex" alignItems="center">
-                        {navLink.label}
-                        {navLink.showIcon && (
-                          <ExternalLink className={classes.externalSvg} />
-                        )}
-                      </Box>
-                    </MenuItem>
-                  </React.Fragment>
+                  <MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
+                    <Box display="flex" alignItems="center">
+                      {navLink.label}
+                      {navLink.showIcon && (
+                        <ExternalLink className={classes.externalSvg} />
+                      )}
+                    </Box>
+                  </MenuItem>
                 );
               })}
             </MenuList>
@@ -86,10 +75,9 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
           </Box>
         </Box>
       </Drawer>
-      <Suspense fallback={null}>
-        <SubMenuSlider open={earnOpen} onClose={handleEarnClose} />
-        {/* <SubMenuSlider  /> */}
-      </Suspense>
+      {dropdownNavLinks.map((navLink: NavLink) => (
+        <SubMenuSlider key={navLink.label} open={navLink.open ?? false} onClose={navLink.onHandleClose} items={navLink.dropdownItems} />
+      ))}
     </React.Fragment>
   );
 };

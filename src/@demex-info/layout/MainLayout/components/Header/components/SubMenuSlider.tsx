@@ -11,12 +11,12 @@ import { ArrowLeftGradient } from "../assets";
 
 interface Props {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   items?: DropdownMenuItem[];
 }
 
 const SubMenuSlider: React.FC<Props> = (props: Props) => {
-  const { open, onClose, items = [] } = props;
+  const { open, onClose = () => { }, items = [] } = props;
   const classes = useStyles();
 
   return (

@@ -8,11 +8,11 @@ import OptionsDropdown from "./OptionsDropdown";
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();
-  const navLinksArr = useHeaderLinks();
+  const { fullNavLinks } = useHeaderLinks();
 
   return (
     <Hidden smDown>
-      {navLinksArr.map((navLink: NavLink) => {
+      {fullNavLinks.map((navLink: NavLink) => {
         if (!!navLink.dropdownItems?.length) { // eslint-disable-line no-extra-boolean-cast
           return (
             <OptionsDropdown

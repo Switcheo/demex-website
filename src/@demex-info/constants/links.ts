@@ -27,7 +27,7 @@ export const Paths = {
     Order: "/account/orders",
     Settings: "/account/settings",
     Trade: "/account/trades",
-    Referrals: '/account/referrals',
+    Referrals: "/account/referrals",
   },
 
   Errors: {
@@ -237,6 +237,11 @@ export interface NavLink {
   href?: string;
   external?: boolean;
   dropdownItems?: DropdownMenuItem[];
+
+  // to control slider open state
+  open?: boolean;
+  onHandleOpen?: () => void
+  onHandleClose?: () => void
 }
 
 export interface ExtSocialLnk {

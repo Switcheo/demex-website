@@ -1,13 +1,28 @@
 import { DropdownMenuItem, NavLink, Paths, StaticLinks, getDemexLink, goToDemexLink } from "@demex-info/constants";
 import { GLPCompounder, MenuPools, MenuStake, ReferralIcon, TrophyIcon } from "@demex-info/layout/MainLayout/components/Header/assets";
+import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-export default () => {
+interface LinksReturn {
+  fullNavLinks: NavLink[];
+  dropdownNavLinks: NavLink[];
+}
+
+export default (): LinksReturn => {
+  const dispatch = useDispatch();
   const net = useSelector((state: RootState) => state.app.network);
+  const earnOpen = useSelector((state: RootState) => state.app.earnOpen);
+  const promotionsOpen = useSelector((state: RootState) => state.app.promotionsOpen);
 
-  const navLinksArr: NavLink[] = useMemo(() => {
+  const handleEarnOpen = () => dispatch(actions.App.setEarnDrawerOpen(true));
+  const handleEarnClose = () => dispatch(actions.App.setEarnDrawerOpen(false));
+
+  const handlePromotionsOpen = () => dispatch(actions.App.setPromotionsDrawerOpen(true));
+  const handlePromotionsClose = () => dispatch(actions.App.setPromotionsDrawerOpen(false));
+
+  return useMemo(() => {
     const earnLinks: DropdownMenuItem[] = [{
       key: "pools",
       label: "Pools",
@@ -32,7 +47,7 @@ export default () => {
       label: "Demex Mega Marathon",
       onClick: () => goToDemexLink(getDemexLink(Paths.Competition.Leaderboard, net)),
       startIcon: TrophyIcon,
-      startIconType: "stroke",
+      startIconType: "fill",
     }, {
       key: "referrals",
       label: "Referrals",
@@ -53,11 +68,17 @@ export default () => {
         label: "Earn",
         href: undefined,
         dropdownItems: earnLinks,
+        open: earnOpen,
+        onHandleOpen: handleEarnOpen,
+        onHandleClose: handleEarnClose,
       },
       {
         label: "Promotions",
         href: undefined,
         dropdownItems: promotionLinks,
+        open: promotionsOpen,
+        onHandleOpen: handlePromotionsOpen,
+        onHandleClose: handlePromotionsClose,
       },
       {
         showIcon: true,
@@ -70,8 +91,10 @@ export default () => {
         href: StaticLinks.CarbonNetwork,
       },
     ];
-    return navLinksArr;
-  }, [net]);
-  
-  return navLinksArr;
-}
+    const dropdownNavLinks = navLinksArr.filter((link: NavLink) => !!link.dropdownItems?.length && typeof link.open !== undefined && link.onHandleClose && link.onHandleOpen);
+    return {
+      fullNavLinks: navLinksArr,
+      dropdownNavLinks: dropdownNavLinks,
+    };
+  }, [net, earnOpen, promotionsOpen]);
+};
