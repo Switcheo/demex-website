@@ -35,7 +35,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
       href: undefined,
     },
     {
-      label: "Competition",
+      label: "Promotions",
       href: getDemexLink(Paths.Competition.Leaderboard, net),
     }, {
       showIcon: true,
@@ -88,23 +88,23 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
             <MenuList>
               {navLinksArr.map((navLink: NavLink) => {
                 return navLink.href ?
-                ( <MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
-                  <Box display="flex" alignItems="center">
-                    {navLink.label}
-                    {navLink.showIcon && (
-                      <ExternalLink className={classes.externalSvg} />
-                    )}
-                  </Box>
-                </MenuItem>
-                ) : (
-                <MenuItem className={classes.menuItem} key={navLink.label} onClick={handleEarnOpen}>
-                  <Box display="flex" alignItems="center">
-                    {navLink.label}
-                  </Box>
-                    <SvgIcon className={classes.icon} component={ArrowRightGradient} />
-                </MenuItem>
-                );
-            })}
+                  (<MenuItem className={classes.menuItem} key={navLink.label} onClick={() => goToLink(navLink)}>
+                    <Box display="flex" alignItems="center">
+                      {navLink.label}
+                      {navLink.showIcon && (
+                        <ExternalLink className={classes.externalSvg} />
+                      )}
+                    </Box>
+                  </MenuItem>
+                  ) : (
+                    <MenuItem className={classes.menuItem} key={navLink.label} onClick={handleEarnOpen}>
+                      <Box display="flex" alignItems="center">
+                        {navLink.label}
+                      </Box>
+                      <SvgIcon className={classes.icon} component={ArrowRightGradient} />
+                    </MenuItem>
+                  );
+              })}
             </MenuList>
           </Box>
         </div>

@@ -95,6 +95,7 @@ export const StaticLinks = {
   },
   ContactUs: "https://support.switcheo.network/en/",
   Feedback: "https://ideas.dem.exchange/",
+  BrandAssets: "https://switcheo.notion.site/Demex-Media-Kits-3e7e361505bb401eb457418eced382a1",
   Socials: {
     Facebook: "https://www.facebook.com/SwitcheoExchange",
     LinkedIn: "https://www.linkedin.com/company/switcheonetwork/",
