@@ -1,8 +1,7 @@
 import { CloseIcon } from "@demex-info/assets/icons";
 import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
 import { SvgIcon } from "@demex-info/components";
-import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
-import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
+import { getDemexLink, goToDemexLink, DropdownMenuItem, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { Box, Divider, Drawer, IconButton, makeStyles, MenuItem, MenuList, Theme } from "@material-ui/core";
 import React from "react";

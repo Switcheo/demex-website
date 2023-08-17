@@ -1,11 +1,10 @@
-import { getDemexLink, goToDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
-import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
+import { getDemexLink, goToDemexLink, DropdownMenuItem, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { ExternalLink, GLPCompounder, MenuPools, MenuStake } from "../assets";
+import { ExternalLink, GLPCompounder, MenuPools, MenuStake, ReferralIcon, TrophyIcon } from "../assets";
 import OptionsDropdown from "./OptionsDropdown";
 
 const HeaderMenu: React.FC = () => {
@@ -27,7 +26,7 @@ const HeaderMenu: React.FC = () => {
     },
     {
       label: "Promotions",
-      href: getDemexLink(Paths.Competition.Leaderboard, net),
+      href: undefined,
     },
     {
       showIcon: true,
@@ -62,6 +61,22 @@ const HeaderMenu: React.FC = () => {
       startIconType: "stroke",
     }];
     return initTextLinks;
+  }, [net]) // eslint-disable-line
+
+  const promotionLinks = React.useMemo((): DropdownMenuItem[] => {
+    return [{
+      key: "demex-mega-marathon",
+      label: "Demex Mega Marathon",
+      onClick: () => goToDemexLink(getDemexLink(Paths.Competition.Leaderboard, net)),
+      startIcon: TrophyIcon,
+      startIconType: "stroke",
+    }, {
+      key: "referrals",
+      label: "Referrals",
+      onClick: () => goToDemexLink(getDemexLink(Paths.Account.Referrals, net)),
+      startIcon: ReferralIcon,
+      startIconType: "fill",
+    }];
   }, [net]) // eslint-disable-line
 
   return (

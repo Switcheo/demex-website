@@ -1,14 +1,11 @@
-
-import MenuListItems, { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
+import { DropdownMenuItem } from "@demex-info/constants";
+import MenuListItems from "@demex-info/layout/MainLayout/common/MenuItem";
 import { StyleUtils } from "@demex-info/utils";
 import { Box, Button, Divider, Drawer, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
 import Dropdown from "./Dropdown";
-
-
-
 
 interface Props {
   openDrawer?: boolean
