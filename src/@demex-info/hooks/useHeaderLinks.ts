@@ -38,7 +38,7 @@ export default (): LinksReturn => {
     }, {
       key: "staking",
       onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
-      label: "Stake",
+      label: "Stake SWTH",
       startIcon: MenuStake,
       startIconType: "stroke",
     }];
