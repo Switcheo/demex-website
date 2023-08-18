@@ -1,5 +1,6 @@
 import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
 import { CarbonSDK } from "carbon-js-sdk";
+import { DOMAttributes, FunctionComponent, ReactNode, SVGProps } from "react";
 
 export enum LoginPage {
   Ledger = "ledger", // eslint-disable-line no-unused-vars
@@ -26,6 +27,7 @@ export const Paths = {
     Order: "/account/orders",
     Settings: "/account/settings",
     Trade: "/account/trades",
+    Referrals: "/account/referrals",
   },
 
   Errors: {
@@ -52,6 +54,8 @@ export const Paths = {
   Competition: {
     Leaderboard: "/competition",
     SignUp: "/competition/register",
+
+    MegaMarathon: "/marathon",
   },
 
   Pools: {
@@ -215,6 +219,16 @@ export function goToDemexLink(link: string) {
   window.open(`${link}`, "_self");
 }
 
+export interface DropdownMenuItem extends DOMAttributes<any> {
+  key: string
+  className?: string
+  label: string | ReactNode
+  startIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
+  startIconType?: "stroke" | "fill"
+  endIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
+  endIconType?: "stroke" | "fill"
+  showIcon?: boolean
+}
 
 export interface NavLink {
   showIcon?: boolean | undefined;
@@ -222,6 +236,12 @@ export interface NavLink {
   path?: string;
   href?: string;
   external?: boolean;
+  dropdownItems?: DropdownMenuItem[];
+
+  // to control slider open state
+  open?: boolean;
+  onHandleOpen?: () => void
+  onHandleClose?: () => void
 }
 
 export interface ExtSocialLnk {
