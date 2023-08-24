@@ -1,4 +1,5 @@
 import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
+import { TipsIcon } from "@demex-info/assets/icons";
 import { CarbonSDK } from "carbon-js-sdk";
 import { DOMAttributes, FunctionComponent, ReactNode, SVGProps } from "react";
 
@@ -306,5 +307,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "blog",
     href: StaticLinks.DemexBlog,
     component: Blog,
+  },
+  Tips: {
+    label: "feedback",
+    href: StaticLinks.Feedback,
+    component: TipsIcon,
   },
 };
