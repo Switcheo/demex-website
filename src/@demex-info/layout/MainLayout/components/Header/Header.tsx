@@ -34,7 +34,7 @@ const Header: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.innerHeader}>
+      <Box className={classes.innerHeader}  >
         <Box display="flex" alignItems="center">
           <Hidden mdUp>
             {
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 6),
     position: "sticky",
     top: 0,
-    width: `calc(100vw - ${theme.spacing(12)}px)`,
+    maxWidth: "100%",
     zIndex: 1100, //zIndex for menu drawer is 1200
     borderBottom: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.only("md")]: {

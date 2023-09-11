@@ -8,7 +8,7 @@ import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, getCollateral } from "@demex-info/utils"; // eslint-disable-line
 import {
-  MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets, 
+  MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets,
 } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
@@ -82,7 +82,7 @@ const MarketsGrid: React.FC = () => {
         console.error(err);
       }
     });
-  }; 
+  };
 
   const reloadData = (marketSubcribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws || !ws.connected) return;
@@ -91,7 +91,7 @@ const MarketsGrid: React.FC = () => {
       try {
         const listResponse: Models.Market[] = await getAllMarkets(sdk);
         dispatch(actions.App.setMarketList(listResponse));
-        
+
         const response = await getCollateral(sdk);
         setCollateral(response);
 
@@ -160,9 +160,9 @@ const MarketsGrid: React.FC = () => {
   }, [list, stats, tokenClient]);
 
   const totalValueLocked = React.useMemo((): BigNumber => {
-    let totalLiquidity : BigNumber = BN_ZERO;
+    let totalLiquidity: BigNumber = BN_ZERO;
 
-    pools.forEach((p : Pool) => {
+    pools.forEach((p: Pool) => {
       totalLiquidity = totalLiquidity.plus(getTotalUSDPrice(sdk, p));
     });
 
@@ -503,7 +503,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     display: "flex",
-    marginTop: "8.25rem",
+    marginTop: "5.25rem",
     position: "relative",
     margin: theme.spacing(0, "auto"),
     width: "100%",

@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
 			<SocialsBar />
 
 			{/* TODO: Comment out when you uncomment ann banner */}
-			<Box mt="5.5rem" />
+			<Box mt="4.5rem" />
 			{/* TODO: Uncomment when you launch ann banner for competition */}
 			{/* <Banner
 				bannerIcon={OSMOGradient}
@@ -116,11 +116,11 @@ const HeroSection: React.FC = () => {
 						</Box>
 					</Hidden>
 
-          <Hidden mdUp>
-            <Box className={classes.mobileGraphicsWrapper}>
-              <SvgIcon component={Mobile} />
-            </Box>
-          </Hidden>
+					<Hidden mdUp>
+						<Box className={classes.mobileGraphicsWrapper}>
+							<SvgIcon component={Mobile} />
+						</Box>
+					</Hidden>
 
 				</Container>
 			</div>
@@ -210,7 +210,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("sm")]: {
 			height: "unset",
-      width: "100%",
+			width: "100%",
 		},
 		[theme.breakpoints.only("xs")]: {
 			padding: "2.265rem 0 0",
@@ -218,7 +218,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	contentContainer: {
-		marginTop: "3rem",
 		position: "relative",
 		display: "flex",
 		justifyContent: "space-between",
@@ -238,8 +237,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("sm")]: {
 			padding: "0",
-      justifyContent: "center",
-      flexDirection: "column",
+			justifyContent: "center",
+			flexDirection: "column",
 		},
 	},
 	content: {
@@ -263,7 +262,6 @@ const useStyles = makeStyles((theme) => ({
 	tagline: {
 		display: "flex",
 		width: "150px",
-		marginTop: "1rem",
 		"& > div > div > div > span": {
 			fontWeight: 700,
 			textDecoration: "underline",
@@ -355,26 +353,23 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	graphicsWrapper: {
-    position: "relative",
+		position: "relative",
 		overflow: "hidden",
 		marginLeft: "-9rem",
-		[theme.breakpoints.up("xl")]: {
-			overflow: "visible",
-		},
-    [theme.breakpoints.down("md")]: {
+		[theme.breakpoints.down("md")]: {
 			width: "60%",
 		},
 	},
-  mobileGraphicsWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "50px",
-  },
+	mobileGraphicsWrapper: {
+		display: "flex",
+		justifyContent: "center",
+		marginBottom: "50px",
+	},
 	svgIcon: {
+		height: "500px",
 		position: "relative",
-		left: "50px",
 		[theme.breakpoints.down(1400)]: {
-			width: "1000px",
+			width: "55vw",
 		},
 	},
 	purpleGradient: {
@@ -404,9 +399,9 @@ const useStyles = makeStyles((theme) => ({
 			height: "16px",
 		},
 	},
-  containerWrapper: {
-    maxWidth: "100%",
-  },
+	containerWrapper: {
+		maxWidth: "100%",
+	},
 }));
 
 export default HeroSection;
