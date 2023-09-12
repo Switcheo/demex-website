@@ -6,7 +6,7 @@ import {
 } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, getCollateral } from "@demex-info/utils"; // eslint-disable-line
+import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, calculateTradingFee, getCollateral } from "@demex-info/utils"; // eslint-disable-line
 import {
   MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets, 
 } from "@demex-info/utils/markets";
@@ -17,8 +17,9 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Models, WSModels, WSResult, WSConnectorTypes, TypeUtils } from "carbon-js-sdk";
+import { Insights, Models, WSModels, WSResult, WSConnectorTypes, TypeUtils } from "carbon-js-sdk";
 import clsx from "clsx";
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -55,6 +56,7 @@ const MarketsGrid: React.FC = () => {
   const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
+  const [poolVolumes, setPoolVolumes] = React.useState<TypeUtils.SimpleMap<BigNumber>>({});
   const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
 
@@ -69,6 +71,35 @@ const MarketsGrid: React.FC = () => {
         setCommitCurve(curveResponse.commitmentCurve);
 
         setWeeklyRewards(poolsRewards ?? BN_ZERO);
+
+        const until = dayjs();
+        const from = until.subtract(1, "day");
+        const poolVolume = await sdk.insights.PoolsVolume({
+          from: from.unix().toString(),
+          until: until.unix().toString(),
+          interval: "hour",
+        }) as Insights.InsightsQueryResponse<Insights.QueryGetPoolsVolumeResponse>;
+        const poolsVolumeAll = poolVolume.result.entries;
+  
+        const volumeMarketObj: TypeUtils.SimpleMap<BigNumber> = {};
+        poolsVolumeAll.forEach((volumeAll: {
+          date: string;
+          volumeValue: string;
+          totalVolumeValue: string;
+          markets: Insights.PoolsVolume[];
+        }) => {
+          const allMarkets = volumeAll.markets ?? [];
+          allMarkets.forEach((market) => {
+            const latestVolume = parseNumber(market.volumeValue, BN_ZERO)!;
+            const poolIdStr = market.poolId.toString(10);
+            if (!volumeMarketObj[poolIdStr]) {
+              volumeMarketObj[poolIdStr] = latestVolume;
+            } else {
+              volumeMarketObj[poolIdStr] = volumeMarketObj[poolIdStr].plus(latestVolume);
+            }
+          });
+        });
+        setPoolVolumes(volumeMarketObj);
 
         ws.subscribe(poolsSubscribeParams, (result: any) => {
           const resultData = result as WSResult<PoolWSData>;
@@ -213,6 +244,10 @@ const MarketsGrid: React.FC = () => {
       weightTotal = weightTotal.plus(p.rewardsWeight ?? BN_ZERO);
     });
     pools.forEach((pool: Pool) => {
+      const poolTotal = getTotalUSDPrice(sdk, pool);
+      const volumeBN = poolVolumes[pool.poolId.toString(10) ?? "0"] ?? BN_ZERO;
+      const shareOfPool = constantLP.div(poolTotal);
+      const tradingFee = calculateTradingFee(volumeBN, pool.swapFee, shareOfPool);
       if (pool.rewardsWeight.gt(0)) {
         const indivApy = estimateApyUSD({
           sdk,
@@ -221,12 +256,13 @@ const MarketsGrid: React.FC = () => {
           totalWeight: weightTotal,
           boostFactor: maxBoostBN,
           notionalLp: constantLP,
+          tradingFee,
         });
         maxVal = maxVal.lt(indivApy) ? indivApy : maxVal;
       }
     });
     return maxVal;
-  }, [pools, weeklyRewards, sdk, commitCurve]);
+  }, [pools, weeklyRewards, sdk, commitCurve, poolVolumes]);
 
   const handleOpen = () => {
     setOpenTokens(true);
