@@ -503,7 +503,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   innerDiv: {
     display: "flex",
-    marginTop: "5.25rem",
+    marginTop: "6vh",
     position: "relative",
     margin: theme.spacing(0, "auto"),
     width: "100%",

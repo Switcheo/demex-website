@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
 			<SocialsBar />
 
 			{/* TODO: Comment out when you uncomment ann banner */}
-			<Box mt="4.5rem" />
+			<Box mt="8vh" />
 			{/* TODO: Uncomment when you launch ann banner for competition */}
 			{/* <Banner
 				bannerIcon={OSMOGradient}
