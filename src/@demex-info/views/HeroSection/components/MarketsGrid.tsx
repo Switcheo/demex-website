@@ -63,7 +63,7 @@ const MarketsGrid: React.FC = () => {
 
     runPools(async () => {
       try {
-        const poolsRewards = await sdk!.lp.getWeeklyRewards();
+        const poolsRewards = await sdk!.lp.getWeeklyRewardsRealInflation();
 
         const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
         setCommitCurve(curveResponse.commitmentCurve);
