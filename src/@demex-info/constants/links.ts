@@ -104,8 +104,8 @@ export const StaticLinks = {
   Socials: {
     Facebook: "https://www.facebook.com/SwitcheoExchange",
     LinkedIn: "https://www.linkedin.com/company/switcheonetwork/",
-    SwitcheoTwitter: "https://twitter.com/SwitcheoNetwork",
-    DemexTwitter: "https://twitter.com/demexchange",
+    SwitcheoTwitter: "https://x.com/SwitcheoNetwork",
+    DemexTwitter: "https://x.com/demexchange",
     Reddit: "https://www.reddit.com/r/Switcheo/",
     Telegram: "https://t.me/carbon_ecosystem",
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
