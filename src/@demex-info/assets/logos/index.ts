@@ -14,5 +14,6 @@ export { ReactComponent as Serum } from "./Serum.svg";
 export { ReactComponent as Telegram } from "./Telegram.svg";
 export { ReactComponent as Twitter } from "./Twitter.svg";
 export { ReactComponent as Uniswap } from "./Uniswap.svg";
+export { ReactComponent as X } from "./X.svg";
 export { ReactComponent as Youtube } from "./Youtube.svg";
 
