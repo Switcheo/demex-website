@@ -90,9 +90,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   twitterIcon: {
     marginRight: "0.5rem",
-    "& path": {
-      fill: "url(#demexLinearGradient)",
-    },
   },
   accountName: {
     ...theme.typography.title1,
