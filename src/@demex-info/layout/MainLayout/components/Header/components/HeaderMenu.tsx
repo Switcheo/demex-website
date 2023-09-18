@@ -1,80 +1,34 @@
-import { getDemexLink, goToDemexLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
-import { DropdownMenuItem } from "@demex-info/layout/MainLayout/common/MenuItem";
-import { RootState } from "@demex-info/store/types";
+import { NavLink } from "@demex-info/constants";
+import useHeaderLinks from "@demex-info/hooks/useHeaderLinks";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
-import { ExternalLink, GLPCompounder, MenuPools, MenuStake } from "../assets";
+import { ExternalLink } from "../assets";
 import OptionsDropdown from "./OptionsDropdown";
 
 const HeaderMenu: React.FC = () => {
   const classes = useStyles();
-  const net = useSelector((state: RootState) => state.app.network);
-
-  const navLinksArr: NavLink[] = [
-    {
-      label: "Trade",
-      href: getDemexLink(Paths.Trade, net),
-    },
-    {
-      label: "Nitron",
-      href: getDemexLink(Paths.Nitron.Main, net),
-    },
-    {
-      label: "Earn",
-      href: undefined,
-    },
-    {
-      label: "Competition",
-      href: getDemexLink(Paths.Competition.Leaderboard, net),
-    },
-    {
-      showIcon: true,
-      label: "Blog",
-      href: StaticLinks.DemexBlog,
-    },
-    {
-      showIcon: true,
-      label: "Ecosystem",
-      href: StaticLinks.CarbonNetwork,
-    },
-  ];
-
-  const earnLinks = React.useMemo((): DropdownMenuItem[] => {
-    const initTextLinks: DropdownMenuItem[] = [{
-      key: "pools",
-      label: "Pools",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Pools.List, net)),
-      startIcon: MenuPools,
-      startIconType: "fill",
-    }, {
-      key: "glp-compounder",
-      label: "GLP Compounder",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
-      startIcon: GLPCompounder,
-      startIconType: "fill",
-    }, {
-      key: "staking",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
-      label: "Stake",
-      startIcon: MenuStake,
-      startIconType: "stroke",
-    }];
-    return initTextLinks;
-  }, [net]) // eslint-disable-line
+  const { fullNavLinks } = useHeaderLinks();
 
   return (
     <Hidden smDown>
-      {navLinksArr.map((navLink: NavLink) => {
-        if (navLink.href !== undefined) {
+      {fullNavLinks.map((navLink: NavLink) => {
+        if (!!navLink.dropdownItems?.length) { // eslint-disable-line no-extra-boolean-cast
+          return (
+            <OptionsDropdown
+              items={navLink.dropdownItems}
+              key={`menu-tab-${navLink.label}`}
+              title={navLink.label}
+            />
+          );
+        } else {
           return (
             <Box key={`menu-tab-${navLink.label}`} className={classes.tabWrapper}>
               <Button
                 variant="text"
                 className={classes.navLink}
                 key={navLink.label}
-                href={navLink?.href}
+                href={navLink?.href ?? ""}
                 target={navLink.showIcon ? "_blank" : "_self"}
               >
                 {navLink.label}
@@ -85,13 +39,6 @@ const HeaderMenu: React.FC = () => {
               </Button>
               <Box className={classes.activeIndicator} />
             </Box>
-          );
-        } else {
-          return (
-            <OptionsDropdown
-              items={earnLinks}
-              key={`menu-tab-${navLink.label}`}
-            />
           );
         }
       })}

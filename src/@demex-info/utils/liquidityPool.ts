@@ -7,10 +7,12 @@ import { TokenClient } from "carbon-js-sdk/lib/clients";
 export const constantLP = new BigNumber(1000);
 
 export interface Pool {
+  poolId: number;
   denom: string;
   rewardsWeight: BigNumber;
   totalCommitment: BigNumber;
   sharesAmount: BigNumber;
+  swapFee: BigNumber;
 
   denomA: string;
   amountA: BigNumber;
@@ -40,7 +42,9 @@ export const parseLiquidityPools = (data: WSPools, tokenClient: TokenClient): Po
     const adjustedShares = tokenClient.toHuman(pool?.denom, sharesAmt);
     const totalCommitBN = parseNumber(total_commitment, BN_ZERO)!;
     const adjustedCommit = tokenClient.toHuman(pool?.denom ?? "", totalCommitBN);
+    const swapFee = parseNumber(pool?.swap_fee, BN_ZERO)!;
     return {
+      poolId: pool.id,
       denom: pool?.denom ?? "",
       denomA: pool?.denom_a ?? "",
       amountA: adjustedAmtA,
@@ -49,6 +53,7 @@ export const parseLiquidityPools = (data: WSPools, tokenClient: TokenClient): Po
       sharesAmount: adjustedShares,
       rewardsWeight: parseNumber(rewards_weight, BN_ZERO)!,
       totalCommitment: adjustedCommit,
+      swapFee,
     };
   });
 };
@@ -106,6 +111,7 @@ export function getLPRewards(rewardsParams: LPRewardsParams) {
 
 interface ApyParams extends LPRewardsParams {
   notionalLp?: BigNumber
+  tradingFee?: BigNumber
 }
 
 /**
@@ -119,10 +125,11 @@ interface ApyParams extends LPRewardsParams {
  * @param boostFactor boost factor of staked tokens
  * @param commitPower user's commitment power
  * @param notionalLp user's pool liquidity (in usd)
+ * @param tradingFee trading fee of pool
  */
 export function estimateAPY(apyParams: ApyParams) {
   const {
-    sdk, pool, poolsRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1), commitPower = undefined, notionalLp = BN_ZERO,
+    sdk, pool, poolsRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1), commitPower = undefined, notionalLp = BN_ZERO, tradingFee = BN_ZERO,
   } = apyParams;
   const swthRewards = getLPRewards({
     sdk,
@@ -133,7 +140,22 @@ export function estimateAPY(apyParams: ApyParams) {
     boostFactor,
     commitPower,
   });
-  return notionalLp.isZero() ? BN_ZERO : swthRewards.div(notionalLp).times(52).shiftedBy(2);
+  const totalRewards = tradingFee?.plus(swthRewards) ?? swthRewards;
+  return notionalLp.isZero() ? BN_ZERO : totalRewards.div(notionalLp).times(52).shiftedBy(2);
+}
+
+/**
+ *
+ * calculate trading fee in 7 days
+ * tradingFee = (Pool Volume) * Swap Fee * (user share of pool)
+ * @param poolVolume
+ * @param swapFee
+ * @param shares of pool
+ */
+
+export function calculateTradingFee(poolVolume: BigNumber, swapFee: BigNumber, userShare: BigNumber) {
+  const tradingFee = poolVolume.times(swapFee).times(userShare).times(7);
+  return tradingFee;
 }
 
 /**
@@ -146,15 +168,16 @@ export function estimateAPY(apyParams: ApyParams) {
  * @param totalWeight total rewards weight for all pools
  * @param boostFactor boost factor of staked tokens
  * @param notionalLp user's pool liquidity (in usd)
+ * @param tradingFee trading fee of pool
  */
 export function estimateApyUSD(apyUSDParams: ApyParams) {
   const {
-    sdk, pool, poolsRewards, totalWeight, boostFactor = new BigNumber(1), notionalLp = BN_ZERO,
+    sdk, pool, poolsRewards, totalWeight, boostFactor = new BigNumber(1), notionalLp = BN_ZERO, tradingFee = BN_ZERO,
   } = apyUSDParams;
   const poolTotal = getTotalUSDPrice(sdk, pool);
   const amountLP = poolTotal.isZero() ? BN_ZERO : notionalLp.div(poolTotal).times(pool.sharesAmount);
   return estimateAPY({
-    sdk, pool, poolsRewards, totalWeight, amountLP, boostFactor, notionalLp,
+    sdk, pool, poolsRewards, totalWeight, amountLP, boostFactor, notionalLp, tradingFee,
   });
 }
 

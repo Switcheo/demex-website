@@ -9,8 +9,12 @@ export interface AppState {
   ws: WSConnector | undefined;
   usdPrices: USDPrices;
   isAppReady: boolean;
-  marketList: Models.Market[],
-  marketStats: MarketStatItem[],
+  marketList: Models.Market[];
+  marketStats: MarketStatItem[];
+
+// component open state
+  earnOpen: boolean; // control earn slider open/close
+  promotionsOpen: boolean; // control promotions slider open/close
 }
 
 export interface USDPrices {

@@ -1,5 +1,7 @@
-import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, Twitter, Youtube } from "@demex-info/assets/logos";
+import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, X, Youtube } from "@demex-info/assets/logos";
+import { TipsIcon } from "@demex-info/assets/icons";
 import { CarbonSDK } from "carbon-js-sdk";
+import { DOMAttributes, FunctionComponent, ReactNode, SVGProps } from "react";
 
 export enum LoginPage {
   Ledger = "ledger", // eslint-disable-line no-unused-vars
@@ -26,6 +28,7 @@ export const Paths = {
     Order: "/account/orders",
     Settings: "/account/settings",
     Trade: "/account/trades",
+    Referrals: "/account/referrals",
   },
 
   Errors: {
@@ -52,6 +55,8 @@ export const Paths = {
   Competition: {
     Leaderboard: "/competition",
     SignUp: "/competition/register",
+
+    MegaMarathon: "/marathon",
   },
 
   Pools: {
@@ -99,8 +104,8 @@ export const StaticLinks = {
   Socials: {
     Facebook: "https://www.facebook.com/SwitcheoExchange",
     LinkedIn: "https://www.linkedin.com/company/switcheonetwork/",
-    SwitcheoTwitter: "https://twitter.com/SwitcheoNetwork",
-    DemexTwitter: "https://twitter.com/demexchange",
+    SwitcheoTwitter: "https://x.com/SwitcheoNetwork",
+    DemexTwitter: "https://x.com/demexchange",
     Reddit: "https://www.reddit.com/r/Switcheo/",
     Telegram: "https://t.me/carbon_ecosystem",
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
@@ -215,6 +220,16 @@ export function goToDemexLink(link: string) {
   window.open(`${link}`, "_self");
 }
 
+export interface DropdownMenuItem extends DOMAttributes<any> {
+  key: string
+  className?: string
+  label: string | ReactNode
+  startIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
+  startIconType?: "stroke" | "fill"
+  endIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
+  endIconType?: "stroke" | "fill"
+  showIcon?: boolean
+}
 
 export interface NavLink {
   showIcon?: boolean | undefined;
@@ -222,6 +237,12 @@ export interface NavLink {
   path?: string;
   href?: string;
   external?: boolean;
+  dropdownItems?: DropdownMenuItem[];
+
+  // to control slider open state
+  open?: boolean;
+  onHandleOpen?: () => void
+  onHandleClose?: () => void
 }
 
 export interface ExtSocialLnk {
@@ -245,7 +266,7 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
   Twitter: {
     label: "twitter",
     href: StaticLinks.Socials.DemexTwitter,
-    component: Twitter,
+    component: X,
   },
   Reddit: {
     label: "reddit",
@@ -286,5 +307,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "blog",
     href: StaticLinks.DemexBlog,
     component: Blog,
+  },
+  Tips: {
+    label: "feedback",
+    href: StaticLinks.Feedback,
+    component: TipsIcon,
   },
 };

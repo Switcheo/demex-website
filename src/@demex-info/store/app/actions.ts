@@ -11,6 +11,10 @@ export const AppActionTypes = {
   SET_IS_APP_READY: "SET_IS_APP_READY",
   SET_MARKETS: "SET_MARKETS",
   SET_MARKET_STATS: "SET_MARKET_STATS",
+
+  // component open state actions
+  SET_EARN_DRAWER_OPEN: "SET_EARN_DRAWER_OPEN",
+  SET_PROMOTIONS_DRAWER_OPEN: "SET_PROMOTIONS_DRAWER_OPEN",
 };
 
 export function setSDK(sdk: CarbonSDK) {
@@ -52,5 +56,19 @@ export function setMarketStats(stats: MarketStatItem[]) {
   return {
     type: AppActionTypes.SET_MARKET_STATS,
     stats,
+  };
+}
+
+export function setEarnDrawerOpen(earnOpen: boolean) {
+  return {
+    type: AppActionTypes.SET_EARN_DRAWER_OPEN,
+    earnOpen,
+  };
+}
+
+export function setPromotionsDrawerOpen(promotionsOpen: boolean) {
+  return {
+    type: AppActionTypes.SET_PROMOTIONS_DRAWER_OPEN,
+    promotionsOpen,
   };
 }

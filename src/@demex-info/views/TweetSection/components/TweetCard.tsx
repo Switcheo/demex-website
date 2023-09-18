@@ -1,4 +1,4 @@
-import { ExternalLink, Twitter } from "@demex-info/assets";
+import { ExternalLink, X } from "@demex-info/assets";
 import { RenderGuard } from "@demex-info/components";
 import { goToExternalLink } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
@@ -31,7 +31,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
       <Box className={classes.topSection}>
         <Box>
           <Box className={classes.accountName}>
-            <Twitter className={classes.twitterIcon} />
+            <X className={classes.twitterIcon} />
             {twitterName}
           </Box>
           <Box className={clsx(classes.text, classes.username)}>
@@ -90,9 +90,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   twitterIcon: {
     marginRight: "0.5rem",
-    "& path": {
-      fill: "url(#demexLinearGradient)",
-    },
   },
   accountName: {
     ...theme.typography.title1,
