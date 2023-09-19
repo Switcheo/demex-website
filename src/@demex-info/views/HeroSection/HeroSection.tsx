@@ -290,7 +290,13 @@ const useStyles = makeStyles((theme) => ({
 				display: "none",
 			},
 		},
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.down("sm")]: {
+			textAlign: "center",
+			"& > br": {
+				display: "none",
+			},
+		},
+		[theme.breakpoints.up("md")]: {
 			fontSize: "56px",
 			lineHeight: "56px",
 		},
@@ -316,11 +322,15 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("md")]: {
 			marginBottom: "1.5rem",
 		},
+		[theme.breakpoints.down("sm")]: {
+			textAlign: "center",
+		},
 		[theme.breakpoints.only("md")]: {
 			...theme.typography.body1,
 		},
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body2,
+
 		},
 		[theme.breakpoints.only("xs")]: {
 			...theme.typography.body3,
