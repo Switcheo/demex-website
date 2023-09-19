@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
 						<Box className={classes.content}>
 
 							<Box className={clsx(classes.text, classes.headline)}>
-								The Only DEX You Need
+								The Only DEX <br></br>You Need
 							</Box>
 
 							<Box className={clsx(classes.text, classes.description)}>
@@ -246,10 +246,10 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "flex-start",
 		justifyContent: "center",
-		[theme.breakpoints.up("lg")]: {
-			paddingLeft: "4rem",
+		[theme.breakpoints.up("md")]: {
+			paddingLeft: "5rem",
 		},
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.down("sm")]: {
 			alignItems: "center",
 		},
 	},
@@ -284,10 +284,15 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "48px",
 		textAlign: "left",
 		color: theme.palette.text.primary,
+		[theme.breakpoints.up("lg")]: {
+			whiteSpace: "nowrap",
+			"& > br": {
+				display: "none",
+			},
+		},
 		[theme.breakpoints.down("md")]: {
 			fontSize: "56px",
 			lineHeight: "56px",
-			textAlign: "center",
 		},
 		[theme.breakpoints.only("sm")]: {
 			fontSize: "40px",
@@ -303,14 +308,16 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
-		width: "70%",
+		width: "100%",
 		marginBottom: "2.5rem",
 		[theme.breakpoints.down("lg")]: {
 			width: "90%",
 		},
 		[theme.breakpoints.down("md")]: {
-			textAlign: "center",
 			marginBottom: "1.5rem",
+		},
+		[theme.breakpoints.only("md")]: {
+			...theme.typography.body1,
 		},
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body2,
@@ -345,6 +352,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	altText: {
 		color: theme.palette.text.primary,
+		[theme.breakpoints.only("md")]: {
+			...theme.typography.body1,
+		},
 		[theme.breakpoints.only("sm")]: {
 			...theme.typography.body2,
 		},
@@ -400,7 +410,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	containerWrapper: {
-		maxWidth: "100%",
+		width: "100%",
 	},
 }));
 
