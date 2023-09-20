@@ -41,15 +41,19 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed",
     zIndex: 999,
+    width: "265px",
     border: "1px solid",
     borderColor: theme.palette.background.divider,
     borderRadius: "12px",
     bottom: "2rem",
     right: "2rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
     backgroundColor: theme.palette.background.tertiary,
     boxShadow: `0px 0px 16px ${theme.palette.shadow}`,
     backdropFilter: "blur(2px)",
-    padding: "1rem 1rem",
+    padding: "1rem",
     [theme.breakpoints.down("sm")]: {
       left: "50%",
       right: 0,
@@ -57,9 +61,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iconBtn: {
-    "&:not(:last-child)": {
-      paddingRight: "1rem",
-    },
     "&:hover": {
       backgroundColor: theme.palette.action.hover,
       borderRadius: "50%",

@@ -284,7 +284,7 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "48px",
 		textAlign: "left",
 		color: theme.palette.text.primary,
-		[theme.breakpoints.up("lg")]: {
+		[theme.breakpoints.up("xl")]: {
 			whiteSpace: "nowrap",
 			"& > br": {
 				display: "none",
@@ -420,7 +420,12 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	containerWrapper: {
-		width: "100%",
+		[theme.breakpoints.only("lg")]: {
+			width: "100%",
+		},
+		[theme.breakpoints.only("md")]: {
+			width: "100%",
+		},
 	},
 }));
 
