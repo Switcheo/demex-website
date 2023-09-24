@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
 							<Box className={clsx(classes.text, classes.description)}>
 								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the 
 								<span className={classes.altText}>
-									{' '}most extensive decentralized platform ever.
+									{" "}most extensive decentralized platform ever.
 								</span>
 							</Box>
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
@@ -312,7 +312,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	description: {
-		maxWidth: '380px',
+		maxWidth: "380px",
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
@@ -320,6 +320,10 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "2.5rem",
 		[theme.breakpoints.down("lg")]: {
 			width: "90%",
+		},
+		[theme.breakpoints.up("xl")]: {
+			maxWidth: "none",
+			width: "700px",
 		},
 		[theme.breakpoints.down("md")]: {
 			marginBottom: "1.5rem",
