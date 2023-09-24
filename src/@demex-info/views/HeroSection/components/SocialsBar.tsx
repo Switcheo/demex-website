@@ -2,8 +2,6 @@ import { ExtSocialLnk, SocialLnks } from "@demex-info/constants";
 import { Box, IconButton, makeStyles } from "@material-ui/core";
 import React from "react";
 
-
-
 const SocialsBar: React.FC = () => {
   const classes = useStyles();
 
@@ -14,6 +12,7 @@ const SocialsBar: React.FC = () => {
     SocialLnks.Blog,
     SocialLnks.GitHub,
     SocialLnks.GitBook,
+    SocialLnks.Tips,
   ];
 
   return (

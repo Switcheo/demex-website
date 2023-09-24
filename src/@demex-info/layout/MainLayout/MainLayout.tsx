@@ -40,7 +40,6 @@ const MainLayout: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   return (
     <main className={clsx(classes.app, className)} {...rest}>
-      {/* <DevnetPromoBanner /> */}
       <Header />
       {children}
     </main>
