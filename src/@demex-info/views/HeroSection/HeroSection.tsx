@@ -75,15 +75,9 @@ const HeroSection: React.FC = () => {
 							</Box>
 
 							<Box className={clsx(classes.text, classes.description)}>
-								Trade derivatives, lend or borrow tokens,&nbsp;
-
-								{isDesktop && <br />}
-
-								mint stablecoins, and provide liquidity on the
+								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the 
 								<span className={classes.altText}>
-									&nbsp;
-									{isDesktop && <br />}
-									most extensive decentralized platform ever.
+									{' '}most extensive decentralized platform ever.
 								</span>
 							</Box>
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
@@ -279,6 +273,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	headline: {
+
 		...theme.typography.h1,
 		fontSize: "48px",
 		lineHeight: "48px",
@@ -309,8 +304,15 @@ const useStyles = makeStyles((theme) => ({
 			lineHeight: "38px",
 			width: "80%",
 		},
+		// on headline text break, always break in between DEX and You Need
+		"& > br":{
+			"@media (max-width: 630px)": {
+				display: "block",
+			},
+		},
 	},
 	description: {
+		maxWidth: '380px',
 		marginTop: "1.75rem",
 		fontSize: "20px",
 		lineHeight: "24px",
