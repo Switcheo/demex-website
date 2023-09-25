@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
 							<Box className={clsx(classes.text, classes.description)}>
 								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the 
 								<span className={classes.altText}>
-									{" "}most extensive decentralized platform ever.
+								&nbsp;most extensive decentralized platform ever.
 								</span>
 							</Box>
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
