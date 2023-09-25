@@ -3,7 +3,7 @@ import { DemexLogo } from "@demex-info/assets/logos";
 import { getDemexLink, goToDemexLink, LoginPage, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { lazy } from "@loadable/component";
-import { Box, Button, Hidden, IconButton, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
+import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui/core";
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
@@ -13,7 +13,6 @@ const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
 const Header: React.FC = () => {
   const classes = useStyles();
-  const widthXs = useMediaQuery("@media (max-width: 599px)");
 
   const network = useSelector((state: RootState) => state.app.network);
 
@@ -60,7 +59,7 @@ const Header: React.FC = () => {
             className={classes.loginBtn}
             onClick={() => handleConnect()}
           >
-            {widthXs ? "Launch" : "Launch App"}
+            Launch App
           </Button>
         </Box>
       </Box>
