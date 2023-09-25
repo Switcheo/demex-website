@@ -60,7 +60,7 @@ const Header: React.FC = () => {
             className={classes.loginBtn}
             onClick={() => handleConnect()}
           >
-            {widthXs ? "Connect" : "Connect Wallet"}
+            {widthXs ? "Connect" : "Launch App"}
           </Button>
         </Box>
       </Box>
