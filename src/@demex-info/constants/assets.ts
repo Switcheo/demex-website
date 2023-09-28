@@ -1,5 +1,7 @@
 export const DEC_SHIFT = 18;
 
+export const SWTH_DECIMALS = 8;
+
 export const lottieDefaultOptions = {
   loop: true,
   autoplay: true,
