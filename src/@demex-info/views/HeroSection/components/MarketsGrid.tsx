@@ -1,6 +1,6 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, SWTH_DECIMALS, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
@@ -66,11 +66,14 @@ const MarketsGrid: React.FC = () => {
     runPools(async () => {
       try {
         const poolsRewards = await sdk!.lp.getWeeklyRewardsRealInflation();
+        const swthToken = sdk.token.getNativeToken();
+        const swthDecimals = swthToken?.decimals ?? SWTH_DECIMALS;
+        const poolsRewardsShifted = poolsRewards.shiftedBy(-swthDecimals);
 
         const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
         setCommitCurve(curveResponse.commitmentCurve);
 
-        setWeeklyRewards(poolsRewards ?? BN_ZERO);
+        setWeeklyRewards(poolsRewardsShifted ?? BN_ZERO);
 
         const until = dayjs();
         const from = until.subtract(1, "day");
