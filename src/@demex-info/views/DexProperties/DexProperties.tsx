@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
       padding: "0rem 1rem",
+      maxWidth: "400px",
     },
   },
   uspList: {
