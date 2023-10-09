@@ -33,7 +33,7 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               echo 'ESKIMI_ID=31136' >> .env
-              echo 'REACT_APP_GA_MEASUREMENT_ID=GTM-K7DDL24' >> .env
+              echo 'REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW' >> .env
             fi
             yarn build
 
