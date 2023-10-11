@@ -24,17 +24,17 @@ const NavFooter: React.FC = () => {
       label: "Trade",
       href: getDemexLink(Paths.Trade, net),
     }, {
-      label: "Pools",
-      href: getDemexLink(Paths.Pools.List, net),
-    }, {
       label: "Nitron",
       href: getDemexLink(Paths.Nitron.Main, net),
     }, {
-      label: "GLP Compounder",
-      href: getDemexLink(Paths.Strategy.GLPWrapper, net),
+      label: "Pools",
+      href: getDemexLink(Paths.Pools.List, net),
     }, {
       label: "Stake SWTH",
       href: getDemexLink(Paths.Stake.List, net),
+    }, {
+      label: "GLP Compounder",
+      href: getDemexLink(Paths.Strategy.GLPWrapper, net),
     }],
   }, {
     title: "Resources",

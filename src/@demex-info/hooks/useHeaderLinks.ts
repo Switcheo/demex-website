@@ -30,17 +30,17 @@ export default (): LinksReturn => {
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
-      key: "glp-compounder",
-      label: "GLP Compounder",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
-      startIcon: GLPCompounder,
-      startIconType: "fill",
-    }, {
       key: "staking",
       onClick: () => goToDemexLink(getDemexLink(Paths.Stake.List, net)),
       label: "Stake SWTH",
       startIcon: MenuStake,
       startIconType: "stroke",
+    }, {
+      key: "glp-compounder",
+      label: "GLP Compounder",
+      onClick: () => goToDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
+      startIcon: GLPCompounder,
+      startIconType: "fill",
     }];
     const promotionLinks: DropdownMenuItem[] = [{
       key: "demex-mega-marathon",
