@@ -77,6 +77,8 @@ export const Paths = {
     Main: "/nitron",
     Liquidations: "/liquidations",
   },
+
+  Promotions: "/promotions",
 };
 
 export const DemexHosts: { [key: string]: string } = {
