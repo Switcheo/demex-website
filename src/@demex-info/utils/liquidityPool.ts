@@ -77,7 +77,7 @@ export const parseLiquidityPools = (data: WSPools, tokenClient: TokenClient): Po
 interface LPRewardsParams {
   sdk: CarbonSDK | undefined;
   pool: Pool;
-  poolsRewards: BigNumber;
+  blockRewards: BigNumber;
   totalWeight: BigNumber;
   amountLP?: BigNumber;
   boostFactor?: BigNumber;
@@ -85,28 +85,27 @@ interface LPRewardsParams {
 }
 /**
  *
- * Returns swth lp rewards in usd (amount depends on pool weight and user commitment power)
+ * Returns block lp rewards in usd (amount depends on pool weight and user commitment power)
  *
  * @param sdk carbon sdk instance (for retrieving usd values, etc.)
  * @param pool pool data
- * @param poolsRewards total swth LP rewards
+ * @param blockRewards total weekly block rewards (consists of swth inflationary + block rewards)
  * @param totalWeight total rewards weight for all pools
  * @param amountLP total LP tokens staked (used only if commitPower is undefined)
  * @param boostFactor boost factor of staked tokens (used only if commitPower is undefined)
  * @param commitPower user's commitment power (if not provided, take amountLP * boostFactor to get commitPower)
  */
 export function getLPRewards(rewardsParams: LPRewardsParams) {
-  const { sdk, pool, poolsRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1) } = rewardsParams;
-  const swthUSD = sdk?.token.getUSDValue("swth") ?? BN_ZERO;
+  const { pool, blockRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1) } = rewardsParams;
   const userCommit = rewardsParams.commitPower
     ? rewardsParams.commitPower
     : amountLP.times(boostFactor);
 
-  // swthRewardsPoolUsd = poolsRewards * (rewardsWeight / totalWeight) * swthUsd
-  const swthRewardsPoolUsd = getWeeklyRewards(poolsRewards, pool.rewardsWeight, totalWeight).times(swthUSD);
+  // blockRewardsPoolUsd = poolsRewards * (rewardsWeight / totalWeight) * swthUsd
+  const blockRewardsPoolUsd = getWeeklyRewards(blockRewards, pool.rewardsWeight, totalWeight);
   const adjustedTotalCommit = pool.totalCommitment.plus(userCommit); // adjust totalCommit based on user's individual power
-  // swthRewardsUserUsd = swthRewardsPoolUsd * (userCommitPower / adjustedTotalCommit)
-  return adjustedTotalCommit.isZero() ? BN_ZERO : swthRewardsPoolUsd.times(userCommit.div(adjustedTotalCommit));
+  // blockRewardsUserUsd = blockRewardsPoolUsd * (userCommitPower / adjustedTotalCommit)
+  return adjustedTotalCommit.isZero() ? BN_ZERO : blockRewardsPoolUsd.times(userCommit.div(adjustedTotalCommit));
 }
 
 interface ApyParams extends LPRewardsParams {
@@ -119,7 +118,7 @@ interface ApyParams extends LPRewardsParams {
  * return estimated APY (for detailed calculation, please refer to the following resources: https://www.notion.so/switcheo/Calculating-LP-APY-Pseudocode-f20f51dda7164e779c4680479eb628f2)
  * @param sdk carbon sdk instance (for retrieving usd values, etc.)
  * @param pool pool data
- * @param poolsRewards total swth LP rewards
+ * @param blockRewards total swth LP rewards
  * @param totalWeight total rewards weight for all pools
  * @param amountLP total LP tokens staked
  * @param boostFactor boost factor of staked tokens
@@ -129,18 +128,18 @@ interface ApyParams extends LPRewardsParams {
  */
 export function estimateAPY(apyParams: ApyParams) {
   const {
-    sdk, pool, poolsRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1), commitPower = undefined, notionalLp = BN_ZERO, tradingFee = BN_ZERO,
+    sdk, pool, blockRewards, totalWeight, amountLP = BN_ZERO, boostFactor = new BigNumber(1), commitPower = undefined, notionalLp = BN_ZERO, tradingFee = BN_ZERO,
   } = apyParams;
-  const swthRewards = getLPRewards({
+  const blockRewardsWeekly = getLPRewards({
     sdk,
     pool,
-    poolsRewards,
+    blockRewards,
     totalWeight,
     amountLP,
     boostFactor,
     commitPower,
   });
-  const totalRewards = tradingFee?.plus(swthRewards) ?? swthRewards;
+  const totalRewards = tradingFee?.plus(blockRewardsWeekly) ?? blockRewardsWeekly;
   return notionalLp.isZero() ? BN_ZERO : totalRewards.div(notionalLp).times(52).shiftedBy(2);
 }
 
@@ -164,7 +163,7 @@ export function calculateTradingFee(poolVolume: BigNumber, swapFee: BigNumber, u
  * Used for calculating APY given constant value (e.g. $1000 of staked LP tokens)
  * @param sdk carbon sdk instance (for retrieving usd values, etc.)
  * @param pool pool data
- * @param poolsRewards total swth LP rewards
+ * @param blockRewards total weekly block rewards (consists of swth inflationary + block rewards)
  * @param totalWeight total rewards weight for all pools
  * @param boostFactor boost factor of staked tokens
  * @param notionalLp user's pool liquidity (in usd)
@@ -172,12 +171,12 @@ export function calculateTradingFee(poolVolume: BigNumber, swapFee: BigNumber, u
  */
 export function estimateApyUSD(apyUSDParams: ApyParams) {
   const {
-    sdk, pool, poolsRewards, totalWeight, boostFactor = new BigNumber(1), notionalLp = BN_ZERO, tradingFee = BN_ZERO,
+    sdk, pool, blockRewards, totalWeight, boostFactor = new BigNumber(1), notionalLp = BN_ZERO, tradingFee = BN_ZERO,
   } = apyUSDParams;
   const poolTotal = getTotalUSDPrice(sdk, pool);
   const amountLP = poolTotal.isZero() ? BN_ZERO : notionalLp.div(poolTotal).times(pool.sharesAmount);
   return estimateAPY({
-    sdk, pool, poolsRewards, totalWeight, amountLP, boostFactor, notionalLp, tradingFee,
+    sdk, pool, blockRewards, totalWeight, amountLP, boostFactor, notionalLp, tradingFee,
   });
 }
 
