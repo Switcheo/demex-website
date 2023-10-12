@@ -2,15 +2,16 @@ import { useAsyncTask } from "@demex-info/hooks";
 import { RootState } from "@demex-info/store/types";
 import { MarketCandlesticks } from "@demex-info/utils/markets";
 import { Box, makeStyles } from "@material-ui/core";
-import { Models } from "carbon-js-sdk";
-import { Candlestick, QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec";
+import { Candlestick } from "carbon-js-sdk/lib/codec/broker/candlestick";
+import { QueryCandlesticksRequest } from "carbon-js-sdk/lib/codec/broker/query";
+import { Market } from "carbon-js-sdk/lib/codec/market/market";
 import Long from "long";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Sparklines, SparklinesLine, SparklinesLineProps } from "react-sparklines";
 
 interface Props {
-  market: Models.Market,
+  market: Market,
   lineProps?: Partial<SparklinesLineProps>,
 }
 
