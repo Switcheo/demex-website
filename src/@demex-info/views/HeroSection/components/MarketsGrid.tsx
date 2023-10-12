@@ -1,15 +1,13 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { getDemexLink, goToDemexLink, SWTH_DECIMALS, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, Paths, SWTH_DECIMALS } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, constantLP, estimateApyUSD, parseLiquidityPools, parseNumber, Pool, getTotalUSDPrice, calculateTradingFee, getCollateral } from "@demex-info/utils"; // eslint-disable-line
-import {
-  MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats, getAllMarkets,
-} from "@demex-info/utils/markets";
+import { BN_ZERO, calculateTradingFee, constantLP, estimateApyUSD, getCollateral, getTotalUSDPrice, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils"; // eslint-disable-line
+import { getAllMarkets, MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
 import {
@@ -17,7 +15,9 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Insights, Models, WSModels, WSResult, WSConnectorTypes, TypeUtils } from "carbon-js-sdk";
+import { Insights, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { CommitmentCurve } from "carbon-js-sdk/lib/codec/liquiditypool/reward";
+import { Market } from "carbon-js-sdk/lib/codec/market/market";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -57,7 +57,7 @@ const MarketsGrid: React.FC = () => {
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
   const [poolVolumes, setPoolVolumes] = React.useState<TypeUtils.SimpleMap<BigNumber>>({});
-  const [commitCurve, setCommitCurve] = React.useState<Models.CommitmentCurve | undefined>(undefined);
+  const [commitCurve, setCommitCurve] = React.useState<CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
 
   const reloadPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
@@ -83,7 +83,7 @@ const MarketsGrid: React.FC = () => {
           interval: "hour",
         }) as Insights.InsightsQueryResponse<Insights.QueryGetPoolsVolumeResponse>;
         const poolsVolumeAll = poolVolume.result.entries;
-  
+
         const volumeMarketObj: TypeUtils.SimpleMap<BigNumber> = {};
         poolsVolumeAll.forEach((volumeAll: {
           date: string;
@@ -123,7 +123,7 @@ const MarketsGrid: React.FC = () => {
 
     fetchData(async () => {
       try {
-        const listResponse: Models.Market[] = await getAllMarkets(sdk);
+        const listResponse: Market[] = await getAllMarkets(sdk);
         dispatch(actions.App.setMarketList(listResponse));
 
         const response = await getCollateral(sdk);
