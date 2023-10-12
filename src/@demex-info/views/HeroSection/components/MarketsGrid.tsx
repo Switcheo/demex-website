@@ -1,6 +1,6 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { getDemexLink, goToDemexLink, Paths, SWTH_DECIMALS } from "@demex-info/constants";
+import { DEC_SHIFT, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
@@ -39,6 +39,13 @@ interface PoolWSData extends WSData {
   result: TypeUtils.SimpleMap<WSModels.Pool>;
 }
 
+interface BalanceDistributionObj {
+  date: string;
+  amountValue: string;
+  totalAmountValue: string;
+  tokens: Insights.BalanceDistribution[];
+}
+
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [runPools] = useAsyncTask("runPools");
@@ -55,7 +62,8 @@ const MarketsGrid: React.FC = () => {
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
-  const [weeklyRewards, setWeeklyRewards] = React.useState<BigNumber>(BN_ZERO);
+  const [blockRewards, setBlockRewards] = React.useState<BalanceDistributionObj[]>([]);
+  const [liquidityProviderReward, setLiquidityProviderReward] = React.useState<BigNumber>(BN_ZERO);
   const [poolVolumes, setPoolVolumes] = React.useState<TypeUtils.SimpleMap<BigNumber>>({});
   const [commitCurve, setCommitCurve] = React.useState<CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
@@ -65,21 +73,29 @@ const MarketsGrid: React.FC = () => {
 
     runPools(async () => {
       try {
-        const poolsRewards = await sdk!.lp.getWeeklyRewardsRealInflation();
-        const swthToken = sdk.token.getNativeToken();
-        const swthDecimals = swthToken?.decimals ?? SWTH_DECIMALS;
-        const poolsRewardsShifted = poolsRewards.shiftedBy(-swthDecimals);
+        const utcOffset = dayjs().utcOffset();
+        const endBlockRewardsSnapshotTime = dayjs().subtract(utcOffset, "minute");
+        const startBlockRewardsSnapshotTime = endBlockRewardsSnapshotTime.subtract(24, "hour");
+        const distributedResponse = await sdk!.insights.BalanceDistribution({
+          interval: "hour",
+          from: startBlockRewardsSnapshotTime.unix().toString(),
+          until: endBlockRewardsSnapshotTime.unix().toString(),
+        }) as Insights.InsightsQueryResponse<Insights.QueryGetBalanceDistributionResponse>;
+        const blockRewardsArr = distributedResponse.result.entries ?? [];
+        setBlockRewards(blockRewardsArr);
 
         const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
         setCommitCurve(curveResponse.commitmentCurve);
 
-        setWeeklyRewards(poolsRewardsShifted ?? BN_ZERO);
+        const params = await sdk.query.distribution.Params({});
+        const liquidityProviderReward = parseNumber(params.params?.liquidityProviderReward, BN_ZERO)!.shiftedBy(-DEC_SHIFT);
+        setLiquidityProviderReward(liquidityProviderReward);
 
-        const until = dayjs();
-        const from = until.subtract(1, "day");
+        const endPoolVolumeSnapshotTime = dayjs();
+        const startPoolVolumeSnapshotTime = endPoolVolumeSnapshotTime.subtract(1, "day");
         const poolVolume = await sdk.insights.PoolsVolume({
-          from: from.unix().toString(),
-          until: until.unix().toString(),
+          from: startPoolVolumeSnapshotTime.unix().toString(),
+          until: endPoolVolumeSnapshotTime.unix().toString(),
           interval: "hour",
         }) as Insights.InsightsQueryResponse<Insights.QueryGetPoolsVolumeResponse>;
         const poolsVolumeAll = poolVolume.result.entries;
@@ -234,6 +250,18 @@ const MarketsGrid: React.FC = () => {
     };
   }, [marketsList, list, sdk?.token]);
 
+  const blockRewardsUsdWeekly = React.useMemo(() => {
+    let totalBlockRewards24H: BigNumber = BN_ZERO;
+    for (const rewardEntry of blockRewards) {
+      for (const token of rewardEntry?.tokens) {
+        const tokenAmt = tokenClient?.toHuman(token.denom, parseNumber(token.balance, BN_ZERO)!) ?? BN_ZERO;
+        const usdValue = (tokenClient?.getUSDValue(token.denom) ?? BN_ZERO).times(tokenAmt);
+        totalBlockRewards24H = totalBlockRewards24H.plus(usdValue);
+      }
+    }
+    return totalBlockRewards24H.times(liquidityProviderReward).times(7);
+  }, [blockRewards, liquidityProviderReward, tokenClient]);
+
   const maxAPR = React.useMemo((): BigNumber => {
     let weightTotal: BigNumber = BN_ZERO;
     let weightedPools: number = 0;
@@ -255,7 +283,7 @@ const MarketsGrid: React.FC = () => {
         const indivApy = estimateApyUSD({
           sdk,
           pool,
-          poolsRewards: weeklyRewards,
+          blockRewards: blockRewardsUsdWeekly,
           totalWeight: weightTotal,
           boostFactor: maxBoostBN,
           notionalLp: constantLP,
@@ -265,7 +293,7 @@ const MarketsGrid: React.FC = () => {
       }
     });
     return maxVal;
-  }, [pools, weeklyRewards, sdk, commitCurve, poolVolumes]);
+  }, [pools, blockRewardsUsdWeekly, sdk, commitCurve, poolVolumes]);
 
   const handleOpen = () => {
     setOpenTokens(true);
