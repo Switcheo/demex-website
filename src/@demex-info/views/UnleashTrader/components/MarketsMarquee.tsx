@@ -5,7 +5,8 @@ import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-
 import { getAdjustedTickLotSize, isPerpetual, MarketStatItem } from "@demex-info/utils/markets";
 import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import BigNumber from "bignumber.js";
-import { Models, TokenUtils } from "carbon-js-sdk";
+import { TokenUtils } from "carbon-js-sdk";
+import { Market } from "carbon-js-sdk/lib/codec/market/market";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { Suspense, useEffect } from "react";
@@ -22,7 +23,7 @@ interface MarketCard {
   lastPrice: BigNumber;
   usdVolume: BigNumber;
   change24H: BigNumber;
-  market: Models.Market;
+  market: Market;
 }
 
 interface Props {
@@ -42,7 +43,7 @@ const MarketsMarquee: React.FC<Props> = () => {
   }, []);
 
   const cards = React.useMemo((): MarketCard[] => {
-    return markets.map((market: Models.Market) => {
+    return markets.map((market: Market) => {
       const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
       const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
       const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";

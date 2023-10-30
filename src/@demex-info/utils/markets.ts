@@ -1,10 +1,11 @@
 import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
-import { CarbonSDK, Models, WSModels } from "carbon-js-sdk";
+import { CarbonSDK, WSModels } from "carbon-js-sdk";
+import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
+import { Market } from "carbon-js-sdk/lib/codec/market/market";
 import Long from "long";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";
-import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
 
 export interface MarketCandlesticks {
   market: string
@@ -46,7 +47,7 @@ export const MarkType: { [key: string]: MarketType } = {
 
 export type MarketType = "spot" | "futures";
 
-export async function getAllMarkets(sdk: CarbonSDK): Promise<Models.Market[]> {
+export async function getAllMarkets(sdk: CarbonSDK): Promise<Market[]> {
   const limit = new Long(10000);
   const offset = Long.UZERO;
 
@@ -58,13 +59,13 @@ export async function getAllMarkets(sdk: CarbonSDK): Promise<Models.Market[]> {
   return markets;
 }
 
-export function parseMarketListMap(marketList: Models.Market[]): MarketListMap {
+export function parseMarketListMap(marketList: Market[]): MarketListMap {
   if (typeof marketList !== "object" || marketList.length <= 0) {
     return {};
   }
 
   const listMarket: MarketListMap = {};
-  marketList.forEach((market: Models.Market) => {
+  marketList.forEach((market: Market) => {
     const {
       name = "",
       marketType = "",
@@ -125,7 +126,7 @@ export const shiftByDiffDp = (
 };
 
 export function getAdjustedTickLotSize(
-  market: Models.Market | null | undefined, sdk?: CarbonSDK,
+  market: Market | null | undefined, sdk?: CarbonSDK,
 ): TickLotSizes {
   if (!market || !sdk?.token) {
     return {
