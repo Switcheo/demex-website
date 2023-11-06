@@ -244,9 +244,6 @@ const MarketsGrid: React.FC = () => {
       }
     });
 
-    // new definition: $1 traded = $1 buy and $1 sell = $2 volume
-    volume24H = volume24H.times(2);
-
     return {
       volume24H,
       coinsList,
