@@ -19,13 +19,10 @@ interface Props {
 const TweetCard: React.FC<Props> = (props: Props) => {
   const { mainContent, tweetDate, replyingTo, twitterName, twitterUsername, className } = props;
   const classes = useStyles();
-
-  const contentArr = mainContent.split("/link/");
+  
+  const contentArr = mainContent.split("\n\n");
   const tweetContent = contentArr[0];
-  const detailsArr = contentArr[1]?.split("/image/") ?? [];
-  const tweetUrl = detailsArr[0];
-  const tweetPic = detailsArr[1];
-  const tweetPicUrl = "https://" + tweetPic;
+  const tweetUrl = contentArr[1];
   const date = dayjs(tweetDate).format("MMM D");
   const isReplyingTweet = replyingTo !== "";
 
@@ -42,7 +39,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
             <Box className={classes.secondaryText}>{date}</Box>
           </Box>
         </Box>
-        <ExternalLink className={classes.linkIcon} />
+        <ExternalLink className={classes.linkIcon}/>
       </Box>
       <RenderGuard renderIf={isReplyingTweet}>
         <Box display="flex" whiteSpace="nowrap" mb={1} className={classes.text}>
@@ -55,11 +52,6 @@ const TweetCard: React.FC<Props> = (props: Props) => {
           {tweetContent}
         </Box>
       </Box>
-      <RenderGuard renderIf={tweetPic !== undefined}>
-        <Box display="flex" justifyContent="center">
-          <img src={tweetPicUrl} className={classes.img} />
-        </Box>
-      </RenderGuard>
     </Box>
   );
 };
@@ -69,8 +61,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxSizing: "border-box",
     backgroundColor: theme.palette.background.primary,
     width: "430px",
-    minHeight: "264px",
-    height: "min-content",
+    height: "264px",
     boxShadow: StyleUtils.boxShadow(theme),
     borderRadius: "4px",
     padding: "2rem 2.5rem",
@@ -87,11 +78,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "186px",
       padding: "1rem 0.75rem",
     },
-  },
-  img: {
-    maxWidth: "100%",
-    maxHeight: "185px",
-    marginTop: theme.spacing(1),
   },
   topSection: {
     display: "flex",
