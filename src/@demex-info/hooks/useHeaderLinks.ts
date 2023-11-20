@@ -1,5 +1,5 @@
 import { DropdownMenuItem, NavLink, Paths, StaticLinks, getDemexLink, goToDemexLink } from "@demex-info/constants";
-import { GLPCompounder, MenuPools, MenuStake } from "@demex-info/layout/MainLayout/components/Header/assets";
+import { GLPCompounder, LaunchVaults, MenuPools, MenuStake } from "@demex-info/layout/MainLayout/components/Header/assets";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { useMemo } from "react";
@@ -21,6 +21,12 @@ export default (): LinksReturn => {
 
   return useMemo(() => {
     const earnLinks: DropdownMenuItem[] = [{
+      key: "perp-pool-manage",
+      label: "Perp Pool",
+      onClick: () => goToDemexLink(getDemexLink(Paths.Vaults.Manage.replace(":id/:tab", "2/deposit"), net)),
+      startIcon: LaunchVaults,
+      startIconType: "fill",
+    }, {
       key: "pools",
       label: "Pools",
       onClick: () => goToDemexLink(getDemexLink(Paths.Pools.List, net)),

@@ -79,6 +79,10 @@ export const Paths = {
   },
 
   Promotions: "/promotions",
+
+  Vaults: {
+    Manage: "/vaults/:id/:tab?",
+  },
 };
 
 export const DemexHosts: { [key: string]: string } = {
