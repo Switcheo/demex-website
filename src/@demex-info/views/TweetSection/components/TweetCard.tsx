@@ -2,7 +2,7 @@ import { ExternalLink, X } from "@demex-info/assets";
 import { RenderGuard } from "@demex-info/components";
 import { goToExternalLink } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
-import { Box, makeStyles, Theme } from "@material-ui/core";
+import { Box, Theme, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React from "react";
@@ -28,9 +28,10 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const tweetPicUrl = "https://" + tweetPic;
   const date = dayjs(tweetDate).format("MMM D");
   const isReplyingTweet = replyingTo !== "";
+  const havePic = tweetPic !== undefined;
 
   return (
-    <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)}>
+    <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)} style={{ height: havePic ? "426px" : "264px" }}>
       <Box className={classes.topSection}>
         <Box>
           <Box className={classes.accountName}>
@@ -55,8 +56,8 @@ const TweetCard: React.FC<Props> = (props: Props) => {
           {tweetContent}
         </Box>
       </Box>
-      <RenderGuard renderIf={tweetPic !== undefined}>
-        <Box display="flex" justifyContent="center">
+      <RenderGuard renderIf={havePic}>
+        <Box display="flex" justifyContent="center" className={classes.tweetPicContainer}>
           <img src={tweetPicUrl} className={classes.img} />
         </Box>
       </RenderGuard>
@@ -67,10 +68,10 @@ const TweetCard: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: theme.palette.background.primary,
     width: "430px",
-    minHeight: "264px",
-    height: "min-content",
     boxShadow: StyleUtils.boxShadow(theme),
     borderRadius: "4px",
     padding: "2rem 2.5rem",
@@ -84,14 +85,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      height: "186px",
+      minHeight: 0,
+      height: "min-content",
       padding: "1rem 0.75rem",
     },
   },
   img: {
     maxWidth: "100%",
     maxHeight: "185px",
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
+  tweetPicContainer: {
+    marginTop: "auto",
   },
   topSection: {
     display: "flex",
@@ -165,12 +170,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   tweetContent: {
     color: theme.palette.text.secondary,
     display: "-webkit-box",
-    WebkitLineClamp: 5,
     WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 4,
     overflow: "hidden",
-    "&.isReplyingTweet": {
-      WebkitLineClamp: 4,
-    },
   },
 }));
 
