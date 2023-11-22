@@ -31,7 +31,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const havePic = tweetPic !== undefined;
 
   return (
-    <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)} style={{ height: havePic ? "426px" : "264px" }}>
+    <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)} style={{ height: havePic ? "426px" : "227px" }}>
       <Box className={classes.topSection}>
         <Box>
           <Box className={classes.accountName}>
@@ -169,6 +169,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tweetContent: {
     color: theme.palette.text.secondary,
+    lineClamp: 4,
     display: "-webkit-box",
     WebkitBoxOrient: "vertical",
     WebkitLineClamp: 4,
