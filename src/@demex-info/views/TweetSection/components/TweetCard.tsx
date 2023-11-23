@@ -23,12 +23,10 @@ const TweetCard: React.FC<Props> = (props: Props) => {
   const contentArr = mainContent.split("/link/");
   const tweetContent = contentArr[0];
   const detailsArr = contentArr[1]?.split("/image/") ?? [];
-  const tweetUrl = detailsArr[0];
+  const tweetUrl = detailsArr[0] ?? "";
   const tweetPic = detailsArr[1];
-  const tweetPicUrl = "https://" + tweetPic;
   const date = dayjs(tweetDate).format("MMM D");
   const isReplyingTweet = replyingTo !== "";
-  const havePic = tweetPic !== undefined;
 
   return (
     <Box className={clsx(className, classes.root)} onClick={() => goToExternalLink(tweetUrl)}>
@@ -56,9 +54,9 @@ const TweetCard: React.FC<Props> = (props: Props) => {
           {tweetContent}
         </Box>
       </Box>
-      <RenderGuard renderIf={havePic}>
+      <RenderGuard renderIf={tweetPic !== undefined}>
         <Box display="flex" justifyContent="center" className={classes.tweetPicContainer}>
-          <img src={tweetPicUrl} className={classes.img} />
+          <img src={`https://${tweetPic}`} className={classes.img} />
         </Box>
       </RenderGuard>
     </Box>
