@@ -2,7 +2,7 @@ import { ExternalLink, X } from "@demex-info/assets";
 import { RenderGuard } from "@demex-info/components";
 import { goToExternalLink } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils/styles";
-import { Box, makeStyles, Theme } from "@material-ui/core";
+import { Box, Theme, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React from "react";
@@ -19,10 +19,12 @@ interface Props {
 const TweetCard: React.FC<Props> = (props: Props) => {
   const { mainContent, tweetDate, replyingTo, twitterName, twitterUsername, className } = props;
   const classes = useStyles();
-  
-  const contentArr = mainContent.split("\n\n");
+
+  const contentArr = mainContent.split("/link/");
   const tweetContent = contentArr[0];
-  const tweetUrl = contentArr[1];
+  const detailsArr = contentArr[1]?.split("/image/") ?? [];
+  const tweetUrl = detailsArr[0] ?? "";
+  const tweetPic = detailsArr[1];
   const date = dayjs(tweetDate).format("MMM D");
   const isReplyingTweet = replyingTo !== "";
 
@@ -39,7 +41,7 @@ const TweetCard: React.FC<Props> = (props: Props) => {
             <Box className={classes.secondaryText}>{date}</Box>
           </Box>
         </Box>
-        <ExternalLink className={classes.linkIcon}/>
+        <ExternalLink className={classes.linkIcon} />
       </Box>
       <RenderGuard renderIf={isReplyingTweet}>
         <Box display="flex" whiteSpace="nowrap" mb={1} className={classes.text}>
@@ -52,6 +54,11 @@ const TweetCard: React.FC<Props> = (props: Props) => {
           {tweetContent}
         </Box>
       </Box>
+      <RenderGuard renderIf={tweetPic !== undefined}>
+        <Box display="flex" justifyContent="center" className={classes.tweetPicContainer}>
+          <img src={`https://${tweetPic}`} className={classes.img} />
+        </Box>
+      </RenderGuard>
     </Box>
   );
 };
@@ -59,9 +66,11 @@ const TweetCard: React.FC<Props> = (props: Props) => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: theme.palette.background.primary,
     width: "430px",
-    height: "264px",
+    height: "426px",
     boxShadow: StyleUtils.boxShadow(theme),
     borderRadius: "4px",
     padding: "2rem 2.5rem",
@@ -75,9 +84,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      height: "186px",
+      minHeight: 0,
+      height: "min-content",
       padding: "1rem 0.75rem",
     },
+  },
+  img: {
+    maxWidth: "100%",
+    maxHeight: "185px",
+    marginTop: theme.spacing(2),
+  },
+  tweetPicContainer: {
+    marginTop: "auto",
   },
   topSection: {
     display: "flex",
@@ -150,13 +168,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tweetContent: {
     color: theme.palette.text.secondary,
+    lineClamp: 4,
     display: "-webkit-box",
-    WebkitLineClamp: 5,
     WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 4,
     overflow: "hidden",
-    "&.isReplyingTweet": {
-      WebkitLineClamp: 4,
-    },
   },
 }));
 
