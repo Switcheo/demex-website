@@ -27,6 +27,9 @@ const NavFooter: React.FC = () => {
       label: "Nitron",
       href: getDemexLink(Paths.Nitron.Main, net),
     }, {
+      label: "Perp Pool",
+      href: getDemexLink(Paths.Vaults.Manage.replace(":id/:tab", "2/deposit"), net),
+    }, {
       label: "Pools",
       href: getDemexLink(Paths.Pools.List, net),
     }, {
