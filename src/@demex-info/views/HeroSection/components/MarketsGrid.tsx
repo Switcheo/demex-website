@@ -1,6 +1,6 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { DEC_SHIFT, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
+import { DEC_SHIFT, HIDE_FIRST_PERP_POOL_MAINNET, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import {
   useAsyncTask, useRollingNum, useWebsocket,
 } from "@demex-info/hooks";
@@ -15,7 +15,10 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Insights, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { Insights, NumberUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
+import { Pool as PerpPool, PoolDetails } from "carbon-js-sdk/lib/codec/perpspool/pool";
+import { QueryAllPoolsResponse, QueryAllPoolInfoResponse } from "carbon-js-sdk/lib/codec/perpspool/query";
 import { CommitmentCurve } from "carbon-js-sdk/lib/codec/liquiditypool/reward";
 import { Market } from "carbon-js-sdk/lib/codec/market/market";
 import clsx from "clsx";
@@ -46,9 +49,28 @@ interface BalanceDistributionObj {
   tokens: Insights.BalanceDistribution[];
 }
 
+export interface PerpPoolProps {
+  pool: PerpPool;
+  poolInfo: PerpPoolInfo;
+}
+
+export interface PerpPoolInfo {
+  availableAmount: BigNumber;
+  totalInPositionAmount: BigNumber;
+  totalShareAmount: BigNumber;
+  totalNavAmount: BigNumber;
+  totalUpnlAmount: BigNumber;
+}
+
+export interface SetPerpPoolProps extends PerpPoolProps {
+  id: string;
+}
+
+
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
-  const [runPools] = useAsyncTask("runPools");
+  const [runSpotPools] = useAsyncTask("runSpotPools");
+  const [runPerpPools] = useAsyncTask("runPerpPools");
   const classes = useStyles();
   const [ws] = useWebsocket();
   const dispatch = useDispatch();
@@ -61,6 +83,7 @@ const MarketsGrid: React.FC = () => {
 
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
+  const [perpPools, setPerpPools] = React.useState<SetPerpPoolProps[]>([]);
   const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
   const [blockRewards, setBlockRewards] = React.useState<BalanceDistributionObj[]>([]);
   const [liquidityProviderReward, setLiquidityProviderReward] = React.useState<BigNumber>(BN_ZERO);
@@ -68,10 +91,49 @@ const MarketsGrid: React.FC = () => {
   const [commitCurve, setCommitCurve] = React.useState<CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
 
-  const reloadPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
+  const reloadPerpPools = () => {
+    if (!sdk?.query) return;
+
+    runPerpPools(async () => {
+      try {
+        const { pools: rawPools } = await sdk.query.perpspool.PoolAll({
+          pagination: PageRequest.fromPartial({ limit: 1e6 }),
+        }) as QueryAllPoolsResponse;
+        const poolInfos = await sdk.query.perpspool.PoolInfoAll({
+          pagination: PageRequest.fromPartial({ limit: 1e6 }),
+        }) as QueryAllPoolInfoResponse;
+        // hide first pool in mainnet
+        const pools = HIDE_FIRST_PERP_POOL_MAINNET(sdk.network)
+          ? rawPools.filter((p) => p.pool?.id.toString() !== "1")
+          : rawPools.filter((p) => p.pool);
+    
+        const initialPerpPoolsState: SetPerpPoolProps[] = pools.map((poolResult: PoolDetails) => {
+          const poolId = poolResult.pool!.id.toString();
+          const info = poolInfos.pools[Number(poolId) - 1] ?? {};
+          const initialPoolData: SetPerpPoolProps = {
+            id: poolId,
+            pool: poolResult.pool!,
+            poolInfo: {
+              availableAmount: NumberUtils.bnOrZero(info?.availableAmount),
+              totalInPositionAmount: NumberUtils.bnOrZero(info?.totalInPositionAmount),
+              totalShareAmount: NumberUtils.bnOrZero(info?.totalShareAmount),
+              totalNavAmount: NumberUtils.bnOrZero(info?.totalNavAmount),
+              totalUpnlAmount: NumberUtils.bnOrZero(info?.totalUpnlAmount),
+            },
+          };
+          return initialPoolData;
+        });
+        setPerpPools(initialPerpPoolsState);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  };
+
+  const reloadSpotPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws) return;
 
-    runPools(async () => {
+    runSpotPools(async () => {
       try {
         const utcOffset = dayjs().utcOffset();
         const endBlockRewardsSnapshotTime = dayjs().subtract(utcOffset, "minute");
@@ -182,7 +244,8 @@ const MarketsGrid: React.FC = () => {
 
     if (sdk && ws && ws?.connected) {
       reloadData(marketStatsSubscribeParams);
-      reloadPools(poolsSubscribeParams);
+      reloadSpotPools(poolsSubscribeParams);
+      reloadPerpPools();
     }
     return () => {
       ws?.unsubscribe(marketStatsSubscribeParams);
@@ -211,13 +274,16 @@ const MarketsGrid: React.FC = () => {
 
   const totalValueLocked = React.useMemo((): BigNumber => {
     let totalLiquidity: BigNumber = BN_ZERO;
-
     pools.forEach((p: Pool) => {
       totalLiquidity = totalLiquidity.plus(getTotalUSDPrice(sdk, p));
     });
-
+    perpPools.forEach((p: SetPerpPoolProps) => {
+      const underlyingDecimals = sdk?.token.getDecimals(p.pool.depositDenom) ?? 0;
+      const totalNavAmount = NumberUtils.bnOrZero(p.poolInfo.totalNavAmount).shiftedBy(-underlyingDecimals);
+      totalLiquidity = totalLiquidity.plus(totalNavAmount);
+    });
     return totalLiquidity.plus(collateral);
-  }, [pools, collateral]);
+  }, [pools, collateral, perpPools, sdk?.token]);
 
   const { volume24H, coinsList } = React.useMemo((): {
     volume24H: BigNumber,

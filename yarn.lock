@@ -5587,10 +5587,10 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-carbon-js-sdk@0.7.0-beta.1:
-  version "0.7.0-beta.1"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.7.0-beta.1.tgz#c619e9dce135c7a838d9261ec266ba663250e461"
-  integrity sha512-dM99f5LZfXjQTdRn4LrMOdQfEOyD/PFPeVk3wOpH3rk6xkt2QlbmDe1qkgnJI98vaIT4EGcYDtpUPv9cNDBPxg==
+carbon-js-sdk@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.7.2.tgz#e660585258c492247949ad614b92e54dcd1d4ea0"
+  integrity sha512-eTUp+xYdxD1j4H5SKnhXZUx4uN0u43bXnIvBumXPu2cXUJ8MJG4PfWCKjoY8Si85Pq4GHJy9VWsfB9O1zNbk5A==
   dependencies:
     "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"
@@ -5612,9 +5612,9 @@ carbon-js-sdk@0.7.0-beta.1:
     bignumber.js "^9.1.0"
     bip32 "^2.0.6"
     bip39 "^3.0.4"
-    cosmjs-types "^0.4.1"
+    cosmjs-types "^0.5.2"
     dayjs "^1.10.5"
-    eth-sig-util "^3.0.0"
+    eth-sig-util "^3.0.1"
     ethers "^5.6.0"
     eventemitter3 "^5.0.0"
     ledger-cosmos-js "^2.1.8"
@@ -6197,14 +6197,6 @@ cosmiconfig@^7.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.10.0"
-
-cosmjs-types@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/cosmjs-types/-/cosmjs-types-0.4.1.tgz"
-  integrity sha512-I7E/cHkIgoJzMNQdFF0YVqPlaTqrqKHrskuSTIqlEyxfB5Lf3WKCajSXVK2yHOfOFfSux/RxEdpMzw/eO4DIog==
-  dependencies:
-    long "^4.0.0"
-    protobufjs "~6.11.2"
 
 cosmjs-types@^0.5.2:
   version "0.5.2"
@@ -7631,9 +7623,9 @@ etag@~1.8.1:
   resolved "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
-eth-sig-util@^3.0.0:
+eth-sig-util@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.npmjs.org/eth-sig-util/-/eth-sig-util-3.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/eth-sig-util/-/eth-sig-util-3.0.1.tgz#8753297c83a3f58346bd13547b59c4b2cd110c96"
   integrity sha512-0Us50HiGGvZgjtWTyAI/+qTzYPMLy5Q451D0Xy68bxq1QMWdoOddDwGvsqcFT27uohKgalM9z/yxplyt+mY2iQ==
   dependencies:
     ethereumjs-abi "^0.6.8"
