@@ -4,14 +4,11 @@ import { StaticLinks } from "@demex-info/constants";
 import { Box, Fade, Link, makeStyles, Popper, Theme, Typography } from "@material-ui/core";
 import React, { useState, useRef } from "react";
 
-interface Props {
-  anchorEl: React.MutableRefObject<null>
-}
 
-const TradingViewPopper: React.FC<Props> = (props: Props) => {
-  const { anchorEl } = props;
+const TradingViewPopper: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const anchorEl = useRef(null);
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null); // eslint-disable-line no-undef
 
   const handlePopoverOpen = () => {
@@ -63,11 +60,14 @@ const TradingViewPopper: React.FC<Props> = (props: Props) => {
           </Fade>
         )}
       </Popper>
+
       <div
-        className={classes.tradingViewTooltipBtn}
+        ref={anchorEl}
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
+        className={classes.tradingViewTextWrapper}
       >
+        <Typography className={classes.tradingViewText}>Charts by </Typography>
         <SvgIcon component={TradingView} className={classes.tradingViewLogo} />
       </div>
     </React.Fragment>
@@ -93,16 +93,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   tradingViewPreview: {
     marginBottom: theme.spacing(3),
   },
-  tradingViewTooltipBtn: {
-    cursor: "pointer",
-  },
   tradingViewLogo: {
-    marginLeft: theme.spacing(0.5),
+    margin: theme.spacing(0.125, 0, 0, 0.5),
+    cursor: "pointer",
   },
   tradingViewBody: {
     ...theme.typography.body3,
     color: theme.palette.text.primary,
     marginBottom: theme.spacing(1.5),
+  },
+  tradingViewText: {
+    ...theme.typography.body3,
+    color: theme.palette.text.disabled,
+    fontWeight: "bold",
+  },
+  tradingViewTextWrapper: {
+    display: "flex",
   },
 }));
 
