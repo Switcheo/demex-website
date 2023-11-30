@@ -1,18 +1,19 @@
 import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { eskimi, StyleUtils } from "@demex-info/utils";
-import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, Button, Container, Hidden, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile, Mobile } from "./assets";
-import { MarketsGrid, SocialsBar } from "./components";
+import { MarketsGrid, SocialsBar, TradingViewPopper } from "./components";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
+	const anchorEl = useRef(null);
 
 	const [titleRef, titleView] = useInView({
 		threshold: 0.2,
@@ -75,9 +76,9 @@ const HeroSection: React.FC = () => {
 							</Box>
 
 							<Box className={clsx(classes.text, classes.description)}>
-								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the 
+								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the
 								<span className={classes.altText}>
-								&nbsp;most extensive decentralized platform ever.
+									&nbsp;most extensive decentralized platform ever.
 								</span>
 							</Box>
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
@@ -107,12 +108,22 @@ const HeroSection: React.FC = () => {
 					<Hidden smDown>
 						<Box className={classes.graphicsWrapper}>
 							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
+							<Box display="flex">
+								<div ref={anchorEl} className={classes.tradingViewWrapper}>
+									<Typography className={classes.tradingViewText}>Charts by </Typography>
+									<TradingViewPopper anchorEl={anchorEl} />
+								</div>
+							</Box>
 						</Box>
 					</Hidden>
 
 					<Hidden mdUp>
 						<Box className={classes.mobileGraphicsWrapper}>
 							<SvgIcon component={Mobile} />
+							<div ref={anchorEl} className={classes.tradingViewWrapper}>
+								<Typography className={classes.tradingViewText}>Charts by </Typography>
+								<TradingViewPopper anchorEl={anchorEl} />
+							</div>
 						</Box>
 					</Hidden>
 
@@ -305,7 +316,7 @@ const useStyles = makeStyles((theme) => ({
 			width: "80%",
 		},
 		// on headline text break, always break in between DEX and You Need
-		"& > br":{
+		"& > br": {
 			"@media (max-width: 630px)": {
 				display: "block",
 			},
@@ -390,6 +401,17 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "center",
 		marginBottom: "50px",
+		flexDirection: "column",
+		alignItems: "center",
+	},
+	tradingViewText: {
+		...theme.typography.body3,
+		color: theme.palette.text.disabled,
+		fontWeight: "bold",
+	},
+	tradingViewWrapper: {
+		display: "flex",
+		justifyContent: "end",
 	},
 	svgIcon: {
 		height: "500px",

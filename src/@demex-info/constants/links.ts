@@ -180,6 +180,11 @@ export const StaticLinks = {
     PublicDevnet: "https://guide.dem.exchange/community/incentivized-devnet-event",
     Airdrop: "https://fluofinance.com/airdrop",
   },
+  TradingView: {
+    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/",
+    StockScreener: "https://www.tradingview.com/screener/",
+    EconomicCalendar: "https://www.tradingview.com/economic-calendar/",
+  },
 };
 
 export function getNetworkQueryParam(net: CarbonSDK.Network) {
