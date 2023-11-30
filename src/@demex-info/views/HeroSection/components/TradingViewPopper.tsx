@@ -1,22 +1,8 @@
-import {
-  TradingView,
-  TradingViewPreview,
-} from "@demex-info/assets";
+import { TradingView, TradingViewPreview } from "@demex-info/assets";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
-import {
-  Box,
-  Fade,
-  Link,
-  makeStyles,
-  Popper,
-  Theme,
-  Typography,
-} from "@material-ui/core";
-import React, {
-  useState,
-  useRef,
-} from "react";
+import { Box, Fade, Link, makeStyles, Popper, Theme, Typography } from "@material-ui/core";
+import React, { useState, useRef } from "react";
 
 interface Props {
   anchorEl: React.MutableRefObject<null>
