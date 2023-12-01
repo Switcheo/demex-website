@@ -3,17 +3,18 @@ import { getDemexLink, Paths } from "@demex-info/constants";
 import { eskimi, StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 import TextLoop from "react-text-loop";
 import { DesktopMobile, Mobile } from "./assets";
 import { MarketsGrid, SocialsBar, TradingViewPopper } from "./components";
+import useWindowSize from "./useWindowSize";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [ready, setReady] = React.useState<boolean>(false);
-
+	const windowSize = useWindowSize();
 	const [titleRef, titleView] = useInView({
 		threshold: 0.2,
 		triggerOnce: true,
@@ -25,6 +26,29 @@ const HeroSection: React.FC = () => {
 
 	// const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 	// const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
+
+	const tradingViewPosition = useMemo(() => {
+		const [width] = windowSize;
+		const startBreakpoint = 1280;
+		const endBreakpoint = 1920;
+		const startRightPercentage = 0.10;
+		const endRightPercentage = 0.24;
+		const tradingViewPosition = {
+			right: 0,
+		}
+		if (width > startBreakpoint && width < endBreakpoint) {
+			tradingViewPosition.right = (((width - startBreakpoint) / (endBreakpoint - startBreakpoint)) * (endRightPercentage - startRightPercentage) + startRightPercentage) * 100;
+		} else if (width >= endBreakpoint) {
+			tradingViewPosition.right = 20;
+		}
+		return tradingViewPosition;
+	}, [windowSize]);
+
+	const makeTVPosition = makeStyles(() => ({
+		tradingViewPositionStyle: {
+			right: `${tradingViewPosition.right}%`,
+		},
+	}))();
 
 	useEffect(() => {
 		setTimeout(() => setReady(true));
@@ -107,7 +131,7 @@ const HeroSection: React.FC = () => {
 					<Hidden smDown>
 						<Box className={classes.graphicsWrapper}>
 							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
-							<Box className={classes.tradingViewWrapper}>
+							<Box className={clsx(classes.tradingViewWrapper, makeTVPosition.tradingViewPositionStyle)}>
 								<TradingViewPopper />
 							</Box>
 						</Box>
@@ -400,18 +424,9 @@ const useStyles = makeStyles((theme) => ({
 	tradingViewWrapper: {
 		position: "absolute",
 		bottom: "5%",
-		right: "20%",
-		"@media only screen and (min-width: 1720px) and (max-width: 1920px) ": {
-			right: "25%!important",
-		},
-		"@media only screen and (min-width: 1630px) and (max-width: 1720px) ": {
-			right: "22%!important",
-		},
-		[theme.breakpoints.down("lg")]: {
-			right: "15%",
-		},
 		[theme.breakpoints.down("md")]: {
 			bottom: "5%",
+			right: "20%!important",
 		},
 		"@media (max-width: 1000px)": {
 			bottom: "15%",

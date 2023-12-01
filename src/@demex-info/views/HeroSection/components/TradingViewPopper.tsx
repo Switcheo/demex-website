@@ -65,6 +65,7 @@ const TradingViewPopper: React.FC = () => {
       <div
         ref={anchorEl}
         onMouseEnter={handlePopoverOpen}
+        onTouchStart={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
         className={classes.tradingViewTextWrapper}
       >
