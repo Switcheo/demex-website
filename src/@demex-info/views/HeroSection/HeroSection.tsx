@@ -425,7 +425,6 @@ const useStyles = makeStyles((theme) => ({
 		position: "absolute",
 		bottom: "5%",
 		[theme.breakpoints.down("md")]: {
-			// bottom: "5%",
 			right: "18%!important",
 		},
 		"@media (max-width: 1200px)": {
