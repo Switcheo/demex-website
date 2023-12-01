@@ -64,7 +64,7 @@ export default (): LinksReturn => {
       },
       {
         label: "Rewards",
-        href: getDemexLink(Paths.Promotions, net),
+        href: getDemexLink(Paths.Rewards, net),
       },
       {
         showIcon: true,
