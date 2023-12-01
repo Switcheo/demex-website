@@ -1,4 +1,4 @@
-import { TradingView, TradingViewPreview } from "@demex-info/assets";
+import { CloseIconSecondary, TradingView, TradingViewPreview } from "@demex-info/assets";
 import { SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { Box, Fade, Link, makeStyles, Popper, Theme, Typography } from "@material-ui/core";
@@ -41,6 +41,7 @@ const TradingViewPopper: React.FC = () => {
               onMouseEnter={handlePopoverOpen}
               onMouseLeave={handlePopoverClose}
             >
+              <SvgIcon onClick={handlePopoverClose} component={CloseIconSecondary} className={classes.closeIcon} />
               <Box className={classes.tradingViewPreview}>
                 <SvgIcon component={TradingViewPreview} />
               </Box>
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   popperRootContainer: {
     boxSizing: "border-box",
     maxWidth: "100%",
+    zIndex: 999,
   },
   popperContainer: {
     padding: theme.spacing(3, 3, 1.5, 3),
@@ -89,6 +91,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: "8px",
     boxShadow: theme.shadows[12],
     boxSizing: "border-box",
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(2, 2.5, 2, 2.5),
+    },
   },
   tradingViewPreview: {
     marginBottom: theme.spacing(3),
@@ -109,6 +114,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tradingViewTextWrapper: {
     display: "flex",
+  },
+  closeIcon: {
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 
