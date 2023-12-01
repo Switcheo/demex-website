@@ -35,7 +35,7 @@ const HeroSection: React.FC = () => {
 		const endRightPercentage = 0.24;
 		const tradingViewPosition = {
 			right: 0,
-		}
+		};
 		if (width > startBreakpoint && width < endBreakpoint) {
 			tradingViewPosition.right = (((width - startBreakpoint) / (endBreakpoint - startBreakpoint)) * (endRightPercentage - startRightPercentage) + startRightPercentage) * 100;
 		} else if (width >= endBreakpoint) {
@@ -425,8 +425,14 @@ const useStyles = makeStyles((theme) => ({
 		position: "absolute",
 		bottom: "5%",
 		[theme.breakpoints.down("md")]: {
-			bottom: "5%",
-			right: "20%!important",
+			// bottom: "5%",
+			right: "18%!important",
+		},
+		"@media (max-width: 1200px)": {
+			bottom: "10%",
+		},
+		"@media (max-width: 1100px)": {
+			bottom: "12.5%",
 		},
 		"@media (max-width: 1000px)": {
 			bottom: "15%",
