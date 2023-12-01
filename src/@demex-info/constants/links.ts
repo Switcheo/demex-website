@@ -78,7 +78,7 @@ export const Paths = {
     Liquidations: "/liquidations",
   },
 
-  Promotions: "/promotions",
+  Rewards: "/rewards",
 
   Vaults: {
     Manage: "/vaults/:id/:tab?",
