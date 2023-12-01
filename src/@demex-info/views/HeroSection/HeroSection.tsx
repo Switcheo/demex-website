@@ -407,9 +407,6 @@ const useStyles = makeStyles((theme) => ({
 		"@media only screen and (min-width: 1630px) and (max-width: 1720px) ": {
 			right: "22%!important",
 		},
-		[theme.breakpoints.down("xl")]: {
-			// right:"25%",
-		},
 		[theme.breakpoints.down("lg")]: {
 			right: "15%",
 		},
