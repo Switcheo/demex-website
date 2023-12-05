@@ -78,7 +78,7 @@ export const Paths = {
     Liquidations: "/liquidations",
   },
 
-  Promotions: "/promotions",
+  Rewards: "/rewards",
 
   Vaults: {
     Manage: "/vaults/:id/:tab?",
@@ -179,6 +179,11 @@ export const StaticLinks = {
     DevnetLaunch: "https://dev-app.dem.exchange/pools",
     PublicDevnet: "https://guide.dem.exchange/community/incentivized-devnet-event",
     Airdrop: "https://fluofinance.com/airdrop",
+  },
+  TradingView: {
+    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/",
+    StockScreener: "https://www.tradingview.com/screener/",
+    EconomicCalendar: "https://www.tradingview.com/economic-calendar/",
   },
 };
 

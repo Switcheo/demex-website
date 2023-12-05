@@ -12,6 +12,7 @@ export { ReactComponent as PoweredByCarbonFlat } from "./PoweredByCarbonFlat.svg
 export { ReactComponent as Reddit } from "./Reddit.svg";
 export { ReactComponent as Serum } from "./Serum.svg";
 export { ReactComponent as Telegram } from "./Telegram.svg";
+export { ReactComponent as TradingView } from "./TradingView.svg";
 export { ReactComponent as Twitter } from "./Twitter.svg";
 export { ReactComponent as Uniswap } from "./Uniswap.svg";
 export { ReactComponent as X } from "./X.svg";

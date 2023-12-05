@@ -63,8 +63,8 @@ export default (): LinksReturn => {
         onHandleClose: handleEarnClose,
       },
       {
-        label: "Promotions",
-        href: getDemexLink(Paths.Promotions, net),
+        label: "Rewards",
+        href: getDemexLink(Paths.Rewards, net),
       },
       {
         showIcon: true,
