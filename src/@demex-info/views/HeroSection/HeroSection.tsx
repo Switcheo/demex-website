@@ -1,7 +1,7 @@
 import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
 import { eskimi, StyleUtils } from "@demex-info/utils";
-import { Box, Button, Container, Hidden, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, Button, Container, Hidden, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
@@ -79,16 +79,16 @@ const HeroSection: React.FC = () => {
 					<Box className={classes.left}>
 						<Box className={classes.content}>
 
-							<Box className={clsx(classes.text, classes.headline)}>
+							<Typography variant="h1" className={classes.headline}>
 								The Only DEX <br></br>You Need
-							</Box>
+							</Typography>
 
-							<Box className={clsx(classes.text, classes.description)}>
+							<Typography variant="h3" className={clsx(classes.text, classes.description)}>
 								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the
 								<span className={classes.altText}>
 									&nbsp;most extensive decentralized platform ever.
 								</span>
-							</Box>
+							</Typography>
 							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
 								<Box className={classes.carbonWrapper}>
 									Powered by
@@ -286,12 +286,12 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	headline: {
-
 		...theme.typography.h1,
 		fontSize: "48px",
 		lineHeight: "48px",
 		textAlign: "left",
 		color: theme.palette.text.primary,
+		zIndex: 1,
 		[theme.breakpoints.up("xl")]: {
 			whiteSpace: "nowrap",
 			"& > br": {
