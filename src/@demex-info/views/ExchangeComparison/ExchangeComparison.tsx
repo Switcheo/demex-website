@@ -1,10 +1,8 @@
 import YellowVectorBottom from "@demex-info/assets/background/YellowVectorBottom.svg";
-import { PaperBox, TypographyLabel } from "@demex-info/components";
+import { PaperBox } from "@demex-info/components";
 import { StyleUtils } from "@demex-info/utils";
 import { lazy } from "@loadable/component";
-import {
-  Box, makeStyles, Theme,
-} from "@material-ui/core";
+import { Box, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useInView } from "react-intersection-observer";
@@ -23,9 +21,9 @@ const ExchangeComparison: React.FC = () => {
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.textSecSlide, { open: titleView })}>
-          <TypographyLabel className={classes.header}>
+          <Typography variant="h1" className={classes.header}>
             What makes Demex Different?
-          </TypographyLabel>
+          </Typography>
         </Box>
         <Box className={clsx(
           classes.tableSecSlide,
