@@ -1,6 +1,5 @@
 import BlueVectorBottom from "@demex-info/assets/background/BlueVectorBottom.svg";
-import { TypographyLabel } from "@demex-info/components";
-import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import TextLoop from "react-text-loop";
@@ -18,18 +17,22 @@ const DexProperties: React.FC = () => {
     <Box className={clsx(classes.root, classes.swirlBottom)}>
       <Box>
         <Box className={classes.mainHeader}>
-          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>This is&nbsp;
-          <TextLoop
-          mask={true}
-					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000]}
-				>
-					{items.map((item: string) => (
-						<span key={`${item}`}>{item}</span>
-					))}
-				</TextLoop>
-          ,&nbsp;
-          {isMobile && <br />}
-          If It Was Built Right</TypographyLabel>
+          <Box className={classes.typoContainer}>
+            <Typography variant="h1" className={classes.typography}>
+              This is&nbsp;
+              <TextLoop
+                mask={true}
+                interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000]}
+              >
+                {items.map((item: string) => (
+                  <span key={`${item}`}>{item}</span>
+                ))}
+              </TextLoop>
+              ,&nbsp;
+              {isMobile && <br />}
+              If It Was Built Right
+            </Typography>
+          </Box>
         </Box>
         <Box className={classes.uspList}>
           <USPListItem icon={Decentralized} header="True Decentralization">
@@ -50,12 +53,12 @@ const DexProperties: React.FC = () => {
             </Box>
           </USPListItem>
           <USPListItem icon={Liquidity} header="Deep Liquidity" >
-              <Box className={clsx(classes.description)}>
-                Our unique combination of features promotes a liquidity 
-                  {!isMobile && <br/>} 
-                &nbsp;flywheel and give traders the best of all worlds.
-              </Box>
-            </USPListItem>
+            <Box className={clsx(classes.description)}>
+              Our unique combination of features promotes a liquidity 
+                {!isMobile && <br/>} 
+              &nbsp;flywheel and give traders the best of all worlds.
+            </Box>
+          </USPListItem>
         </Box>
       </Box>
     </Box>
@@ -78,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
       
     },
   },
-    mainHeader: { 
+  mainHeader: { 
     [theme.breakpoints.down("md")]: {
       marginTop: "3rem",
       height: "100px",
@@ -95,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typography: {
     ...theme.typography.h1,
+    color: theme.palette.text.primary,
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.h2,
       whiteSpace: "wrap",

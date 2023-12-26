@@ -1,5 +1,5 @@
-import { SvgIcon, TypographyLabel } from "@demex-info/components";
-import { Box, BoxProps, Hidden, makeStyles } from "@material-ui/core";
+import { SvgIcon } from "@demex-info/components";
+import { Box, BoxProps, Hidden, Typography, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
@@ -17,16 +17,16 @@ const USPListItem: React.FC<Props> = (props: Props) => {
       <Box className={classes.iconWrapper}>
         <SvgIcon className={clsx(iconClass, classes.svgIcon)} component={icon} />
         <Hidden lgUp>
-          <TypographyLabel className={classes.header}>
+          <Typography variant="h2" className={classes.header}>
             {header}
-          </TypographyLabel>
+          </Typography>
         </Hidden>
       </Box>
       <Box className={classes.textWrapper}>
         <Hidden mdDown>
-          <TypographyLabel className={classes.header}>
+          <Typography variant="h2" className={classes.header}>
             {header}
-          </TypographyLabel>
+          </Typography>
         </Hidden>
         {children}
       </Box>
