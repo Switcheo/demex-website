@@ -2,7 +2,7 @@ import { ExternalLink } from "@demex-info/assets/icons";
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, makeStyles, Theme } from "@material-ui/core";
+import { Box, Button, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import vector from "./vector.svg";
@@ -29,9 +29,9 @@ const YourThoughts: React.FC = () =>  {
         </Button>
       </Box>
       <Box className={classes.innerDiv}>
-        <TypographyLabel className={classes.header}>
+        <Typography variant="h1" className={classes.header}>
           Let Us Know Your Thoughts
-        </TypographyLabel>
+        </Typography>
         <TypographyLabel
           color="textPrimary"
           className={classes.subtitle}
