@@ -41,7 +41,7 @@ const TradingViewPopper: React.FC = () => {
               onMouseEnter={handlePopoverOpen}
               onMouseLeave={handlePopoverClose}
             >
-              <SvgIcon onClick={handlePopoverClose} component={CloseIcon} className={classes.closeIcon} color="white" fill="white" stop-color="white" style={{ color: "white" }} />
+              <SvgIcon onClick={handlePopoverClose} component={CloseIcon} className={classes.closeIcon} color="white" fill="white" stopColor="white" style={{ color: "white" }} />
               <Box className={classes.tradingViewPreview}>
                 <SvgIcon component={TradingViewPreview} />
               </Box>
