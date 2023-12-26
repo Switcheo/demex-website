@@ -24,9 +24,6 @@ const HeroSection: React.FC = () => {
 
 	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "ATOM", "AAVE", "Gold", "Anything"];
 
-	// const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-	// const bannerAsString = encodeURIComponent(renderToStaticMarkup(isMobile ? <OSMOSAirdropBannerMobile /> : <OSMOSAirdropBanner />));
-
 	const tradingViewPosition = useMemo(() => {
 		const [width] = windowSize;
 		const startBreakpoint = 1280;
@@ -62,19 +59,7 @@ const HeroSection: React.FC = () => {
 		<Box component="section" className={clsx(classes.root)}>
 			<SocialsBar />
 
-			{/* TODO: Comment out when you uncomment ann banner */}
 			<Box mt="8vh" />
-			{/* TODO: Uncomment when you launch ann banner for competition */}
-			{/* <Banner
-				bannerIcon={OSMOGradient}
-				headerText="$OSMO Perpetuals Airdrop Campaign is LIVE!"
-				subHeader={<span>Trade OSMO, BTC & ETH Perpetual Contracts and <span className={classes.orangeStrong}>earn exciting rebates & rewards!</span></span>}
-				ctaText="Learn more"
-				ctaUrl={StaticLinks.DemexDocs.Competition.Upcoming.Main}
-				buttonText="Join Now"
-				buttonUrl={Paths.Competition.SignUp}
-				backgroundImg={bannerAsString}
-			/> */}
 
 			<Box className={clsx(classes.text, classes.tagline)}>
 				Trade&nbsp;
@@ -108,7 +93,7 @@ const HeroSection: React.FC = () => {
 								<Box className={classes.carbonWrapper}>
 									Powered by
 									<CoinIcon className={classes.carbonLogo} denom="SWTH" />
-									<span style={{ color: "#8CF2FD" }}>Carbon</span>,
+									<span className={classes.carbon}>Carbon</span>,
 								</Box>
 								a&nbsp;
 								<span className={classes.purpleGradient}>Cosmos SDK</span>
@@ -444,6 +429,9 @@ const useStyles = makeStyles((theme) => ({
 			width: "55vw",
 		},
 	},
+	carbon: {
+		color: StyleUtils.carbonColor,
+	},
 	purpleGradient: {
 		background: StyleUtils.purpleGradient,
 		backgroundClip: "text",
@@ -455,9 +443,6 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		"&.carbon": {
-			color: "#8CF2FD",
-		},
 		[theme.breakpoints.up("sm")]: {
 			marginRight: "0.25rem",
 		},
