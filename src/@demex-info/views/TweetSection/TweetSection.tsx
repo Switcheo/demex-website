@@ -1,6 +1,6 @@
 import BlueVectorTop from "@demex-info/assets/background/BlueVectorTop.svg";
-import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
-import { Box, Container, Hidden, makeStyles, Theme } from "@material-ui/core";
+import { BackgroundAnimation } from "@demex-info/components";
+import { Box, Container, Hidden, makeStyles, Theme, Typography } from "@material-ui/core";
 import "animate.css";
 import React, { useEffect, useState } from "react";
 import TweetCard from "./components/TweetCard";
@@ -80,11 +80,15 @@ const TweetSection: React.FC = () => {
       <Hidden smDown><BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} /></Hidden>
       <Container maxWidth={false} className={classes.contentContainer}>
         <Box className={classes.mainHeader}>
-          <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>Don’t Trust, Verify</TypographyLabel>
+          <Box className={classes.typoContainer}>
+            <Typography variant="h1" className={classes.typography}>Don’t Trust, Verify</Typography>
+          </Box>
         </Box>
-        <TypographyLabel boxClass={classes.subtextBox} className={classes.subtext}>
-          See what others are saying
-        </TypographyLabel>
+        <Box className={classes.subtextBox}>
+          <Typography variant="h3" className={classes.subtext}>
+            See what others are saying
+          </Typography>
+        </Box>
         <Box className={classes.tweets}>
           {selectTweet(firstTweet, !onLoad && currIndex % 3 === 0, setFirstTweet)}
           {selectTweet(secondTweet, !onLoad && currIndex % 3 === 1, setSecondTweet)}
