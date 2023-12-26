@@ -12,8 +12,7 @@ const DexProperties: React.FC = () => {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-	const items = ["Coinbase", "Bitfinex", "Binance", "KuCoin", "Gemini", "Huobi", "OKX", "FTX"];
-
+	const items = ["Coinbase", "Bitfinex", "Binance", "KuCoin", "Gemini", "Huobi", "OKX"];
 
   return (
     <Box className={clsx(classes.root, classes.swirlBottom)}>
