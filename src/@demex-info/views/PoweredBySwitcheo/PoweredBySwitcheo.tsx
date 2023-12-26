@@ -2,7 +2,7 @@ import { ExternalLink } from "@demex-info/assets";
 import { CoinIcon, SvgIcon } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, Button, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 import React from "react";
 
@@ -15,14 +15,14 @@ const PoweredBySwitcheo: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.header}>
+      <Typography variant="h1" className={classes.header}>
         Secured by&nbsp;
-        <Box className={classes.carbonSwth}>
+        <span className={classes.carbonSwth}>
           Carbon&nbsp;
           <CoinIcon className={classes.swthLogo} denom="SWTH" />
           &nbsp;SWTH
-        </Box>
-      </Box>
+        </span>
+      </Typography>
       <Box className={classes.description}>
           <b>Demex</b> is a Decentralized App (dApp) built on&nbsp;
 
