@@ -1,9 +1,9 @@
 import { ExternalLink } from "@demex-info/assets";
-import { Cards, SvgIcon, TypographyLabel } from "@demex-info/components";
+import { Cards, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, Divider, makeStyles } from "@material-ui/core";
+import { Box, Button, Divider, Typography, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -18,12 +18,18 @@ const Features: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      <TypographyLabel className={classes.header}>Our Features</TypographyLabel>
+      <Typography variant="h1" className={classes.header}>
+        Our Features
+      </Typography>
       <Box className={classes.features}>
         <Cards className={clsx(classes.cards, "card")}>
           <Box>
-            <TypographyLabel className={clsx(classes.cardHeader)}>Decentralized Central Limit Orderbooks</TypographyLabel>
-            <TypographyLabel className={classes.description}>Enjoy limit orders with the lowest slippage through liquidity backstopped by our AMMs.</TypographyLabel>
+            <Typography variant="h2" className={classes.cardHeader}>
+              Decentralized Central Limit Orderbooks
+            </Typography>
+            <Typography variant="h3" className={classes.description}>
+              Enjoy limit orders with the lowest slippage through liquidity backstopped by our AMMs.
+            </Typography>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={clsx(classes.assets)} component={Orderbooks}/>
           </Box>
@@ -38,8 +44,12 @@ const Features: React.FC = () => {
         </Cards>
         <Cards className={clsx(classes.cards, "card")}>
           <Box>
-            <TypographyLabel className={clsx(classes.cardHeader)}>Nitron, the Money Market for Cosmos</TypographyLabel>
-            <TypographyLabel className={classes.description}>Earn passive yield on your assets through lending, or borrow tokens via secured loans. </TypographyLabel>
+            <Typography variant="h2" className={classes.cardHeader}>
+              Nitron, the Money Market for Cosmos
+            </Typography>
+            <Typography variant="h3" className={classes.description}>
+              Earn passive yield on your assets through lending, or borrow tokens via secured loans.
+            </Typography>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={clsx(classes.assets)} component={Nitron}/>
           </Box>
@@ -54,8 +64,12 @@ const Features: React.FC = () => {
         </Cards>
         <Cards className={clsx(classes.cards, "card")}>
           <Box>
-            <Box className={clsx(classes.cardHeader)}>Cross-chain Interoperability<br /></Box> 
-            <TypographyLabel className={classes.description}>Easily access any desired asset or market via Cosmos IBC and PolyNetwork.</TypographyLabel>
+            <Typography variant="h2" className={classes.cardHeader}>
+              Cross-chain Interoperability<br />
+            </Typography> 
+            <Typography variant="h3" className={classes.description}>
+              Easily access any desired asset or market via Cosmos IBC and PolyNetwork.
+            </Typography>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={clsx(classes.assets)} component={Crosschain}/>
           </Box>
@@ -76,8 +90,12 @@ const Features: React.FC = () => {
         </Cards>
         <Cards className={clsx(classes.cards, "card")}>
           <Box>
-            <TypographyLabel className={classes.cardHeader}>Liquidity Pools</TypographyLabel>
-            <TypographyLabel className={classes.description}>Maximise yields by earning from swap fees, maker rebates and liquidity rewards. </TypographyLabel>
+            <Typography variant="h2" className={classes.cardHeader}>
+              Liquidity Pools
+            </Typography>
+            <Typography variant="h3" className={classes.description}>
+              Maximise yields by earning from swap fees, maker rebates and liquidity rewards.
+            </Typography>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={clsx(classes.assets)} component={LiquidityPools}/>
           </Box>
@@ -94,8 +112,12 @@ const Features: React.FC = () => {
         </Cards>
         <Cards className={clsx(classes.cards, "card")}>
           <Box>
-            <TypographyLabel className={classes.cardHeader}>Derivatives</TypographyLabel>
-            <TypographyLabel className={classes.description}>Trade spot, futures and perpetuals on any financial market imaginable.</TypographyLabel>
+            <Typography variant="h2" className={classes.cardHeader}>
+              Derivatives
+            </Typography>
+            <Typography variant="h3" className={classes.description}>
+              Trade spot, futures and perpetuals on any financial market imaginable.
+            </Typography>
             <Divider className={classes.gradientDivider} />
             <SvgIcon className={classes.assets} component={Derivatives}/>
           </Box>
@@ -130,14 +152,6 @@ const useStyles = makeStyles((theme) => ({
       padding: "13rem 0 0",
       marginTop: "-10rem",
     },
-    // [theme.breakpoints.only("sm")]: {
-    //   margin: 0,
-    //   padding: "2.5rem 1.75rem 0rem",
-    // },
-    // [theme.breakpoints.only("xs")]: {
-    //   margin: 0,
-    //   padding: "2.5rem 0.75rem 0rem",
-    // },
   },
   cards: {
     display: "flex",
