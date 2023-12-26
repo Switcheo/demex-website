@@ -1,6 +1,6 @@
-import { BackgroundAnimation, TypographyLabel } from "@demex-info/components";
+import { BackgroundAnimation } from "@demex-info/components";
 import { lazy } from "@loadable/component";
-import { Box, Hidden, makeStyles } from "@material-ui/core";
+import { Box, Hidden, Typography, makeStyles } from "@material-ui/core";
 import React from "react";
 const MarketsMarquee = lazy(() => import("./components/MarketsMarquee"));
 const TokensMarquee = lazy(() => import("./components/TokensMarquee"));
@@ -16,12 +16,14 @@ const UnleashTrader: React.FC<Props> = () => {
       <Hidden mdDown>
         <BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
       </Hidden>
-      <TypographyLabel className={classes.mainHeader}>
+      <Typography variant="h1" className={classes.mainHeader}>
         Unlimited Connections 
-      </TypographyLabel>
-      <TypographyLabel boxClass={classes.subtextBox} className={classes.subtext}>
-        We&apos;re connected to virtually any chain. Trade any market, token, or instrument right now.
-      </TypographyLabel>
+      </Typography>
+      <Box className={classes.subtextBox}>
+        <Typography variant="h3" className={classes.subtext}>
+          We&apos;re connected to virtually any chain. Trade any market, token, or instrument right now.
+        </Typography>
+      </Box>
       <MarketsMarquee />
       <TokensMarquee />
     </Box>
