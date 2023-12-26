@@ -21,7 +21,7 @@ const DexProperties: React.FC = () => {
           <TypographyLabel boxClass={classes.typoContainer} className={classes.typography}>This is&nbsp;
           <TextLoop
           mask={true}
-					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 2000]}
+					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000]}
 				>
 					{items.map((item: string) => (
 						<span key={`${item}`}>{item}</span>
