@@ -26,7 +26,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.1.0",
-    "carbon-js-sdk": "0.7.2",
+    "carbon-js-sdk": "0.7.10",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -36,6 +36,7 @@
     "long": "^5.2.0",
     "lottie-react": "^2.1.0",
     "moment": "^2.29.1",
+    "path": "npm:path-browserify",
     "react": "^17.0.1",
     "react-countup": "^4.3.3",
     "react-dom": "^17.0.1",
@@ -45,7 +46,7 @@
     "react-intersection-observer": "^8.31.0",
     "react-redux": "^7.2.2",
     "react-responsive-carousel": "^3.2.18",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
     "react-sparklines": "^1.7.0",
     "react-text-loop": "^2.3.0",
     "redux-devtools-extension": "^2.13.9",
@@ -57,8 +58,8 @@
   },
   "scripts": {
     "preinstall": "yarn config set ignore-engines true",
-    "start": "react-scripts --openssl-legacy-provider start",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts --openssl-legacy-provider build",
+    "start": "GENERATE_SOURCEMAP=false react-app-rewired --openssl-legacy-provider start",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-app-rewired --openssl-legacy-provider build",
     "build:master": "REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW REACT_APP_ESKIMI_ID=31136 yarn build",
     "build:staging": "REACT_APP_GA_MEASUREMENT_ID=GTM-PWC6ZDF yarn build",
     "compress": "sh dist/scripts/release.sh",
@@ -66,7 +67,6 @@
     "release:staging": "yarn build:staging && yarn compress",
     "release:master": "yarn build:master && yarn compress",
     "serve": "yarn build && http-server ./build",
-    "lint": "yarn run eslint . --ext .ts,.tsx",
     "upgrade-sdk": "yarn upgrade carbon-js-sdk@latest"
   },
   "eslintConfig": {
@@ -88,6 +88,7 @@
     ]
   },
   "resolutions": {
+    "bignumber.js": "^9.1.0",
     "postcss-safe-parser": "^4.0.0",
     "@ledgerhq/hw-app-eth": "~6.24.1",
     "@ledgerhq/hw-transport-webhid": "~6.24.1",
@@ -95,11 +96,21 @@
     "@ledgerhq/devices": "~6.24.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-async-generator-functions": "^7.20.7",
+    "@babel/plugin-proposal-dynamic-import": "^7.18.6",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@babel/plugin-proposal-json-strings": "^7.18.6",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.20.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
+    "@babel/plugin-proposal-optional-catch-binding": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-proposal-unicode-property-regex": "^7.18.6",
     "@types/loadable__component": "^5.13.4",
     "@types/react-sparklines": "^1.7.2",
     "@types/webpack-env": "^1.18.1",
-    "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
-    "eslint-plugin-react": "^7.22.0"
+    "buffer": "^6.0.3",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1"
   }
 }
