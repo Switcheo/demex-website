@@ -1,3 +1,5 @@
+import "./polyfill";
+
 import * as dotenv from "dotenv";
 import { GoogleAnalytics, PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";

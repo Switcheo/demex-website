@@ -77,7 +77,7 @@ export default (): LinksReturn => {
         href: StaticLinks.CarbonNetwork,
       },
     ];
-    const dropdownNavLinks = navLinksArr.filter((link: NavLink) => !!link.dropdownItems?.length && typeof link.open !== undefined && link.onHandleClose && link.onHandleOpen);
+    const dropdownNavLinks = navLinksArr.filter((link: NavLink) => !!link.dropdownItems?.length && typeof link.open !== "undefined" && link.onHandleClose && link.onHandleOpen);
     return {
       fullNavLinks: navLinksArr,
       dropdownNavLinks: dropdownNavLinks,

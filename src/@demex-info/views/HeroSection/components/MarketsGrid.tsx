@@ -17,10 +17,10 @@ import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
 import { Insights, NumberUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
-import { Pool as PerpPool, PoolDetails } from "carbon-js-sdk/lib/codec/perpspool/pool";
-import { QueryAllPoolsResponse, QueryAllPoolInfoResponse } from "carbon-js-sdk/lib/codec/perpspool/query";
-import { CommitmentCurve } from "carbon-js-sdk/lib/codec/liquiditypool/reward";
-import { Market } from "carbon-js-sdk/lib/codec/market/market";
+import { Pool as PerpPool, PoolDetails } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/pool";
+import { QueryAllPoolsResponse, QueryAllPoolInfoResponse } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/query";
+import { CommitmentCurve } from "carbon-js-sdk/lib/codec/Switcheo/carbon/liquiditypool/reward";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -319,10 +319,12 @@ const MarketsGrid: React.FC = () => {
   const blockRewardsUsdWeekly = React.useMemo(() => {
     let totalBlockRewards24H: BigNumber = BN_ZERO;
     for (const rewardEntry of blockRewards) {
-      for (const token of rewardEntry?.tokens) {
-        const tokenAmt = tokenClient?.toHuman(token.denom, parseNumber(token.balance, BN_ZERO)!) ?? BN_ZERO;
-        const usdValue = (tokenClient?.getUSDValue(token.denom) ?? BN_ZERO).times(tokenAmt);
-        totalBlockRewards24H = totalBlockRewards24H.plus(usdValue);
+      if (rewardEntry?.tokens) {
+        for (const token of rewardEntry.tokens) {
+          const tokenAmt = tokenClient?.toHuman(token.denom, parseNumber(token.balance, BN_ZERO)!) ?? BN_ZERO;
+          const usdValue = (tokenClient?.getUSDValue(token.denom) ?? BN_ZERO).times(tokenAmt);
+          totalBlockRewards24H = totalBlockRewards24H.plus(usdValue);
+        }
       }
     }
     return totalBlockRewards24H.times(liquidityProviderReward).times(7);
