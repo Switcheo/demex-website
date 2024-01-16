@@ -26,7 +26,7 @@
     "@types/redux-logger": "^3.0.8",
     "animate.css": "^4.1.1",
     "bignumber.js": "^9.1.0",
-    "carbon-js-sdk": "0.7.10",
+    "carbon-js-sdk": "0.7.11-rc.1",
     "chart.js": "^3.2.0",
     "dayjs": "^1.11.5",
     "eslint": "^7.23.0",
@@ -66,6 +66,7 @@
     "release": "echo 'Please use yarn release:master or release:staging'",
     "release:staging": "yarn build:staging && yarn compress",
     "release:master": "yarn build:master && yarn compress",
+    "run:lint": "yarn run eslint . --ext .ts,.tsx",
     "serve": "yarn build && http-server ./build",
     "upgrade-sdk": "yarn upgrade carbon-js-sdk@latest"
   },
@@ -108,8 +109,10 @@
     "@types/loadable__component": "^5.13.4",
     "@types/react-sparklines": "^1.7.2",
     "@types/webpack-env": "^1.18.1",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "buffer": "^6.0.3",
+    "eslint-plugin-react": "^7.22.0",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1"
   }
