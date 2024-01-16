@@ -2,7 +2,7 @@ import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import { MarketStatItem } from "@demex-info/utils/markets";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, WSConnector } from "carbon-js-sdk";
-import { Market } from "carbon-js-sdk/lib/codec/market/market";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 
 export interface AppState {
   network: CarbonSDK.Network;

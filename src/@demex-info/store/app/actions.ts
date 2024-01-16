@@ -1,6 +1,6 @@
 import { MarketStatItem } from "@demex-info/utils/markets";
 import { CarbonSDK, WSConnector } from "carbon-js-sdk";
-import { Market } from "carbon-js-sdk/lib/codec/market/market";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import { USDPrices } from "./types";
 
 export const AppActionTypes = {

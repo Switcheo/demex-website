@@ -181,7 +181,8 @@ export const StaticLinks = {
     Airdrop: "https://fluofinance.com/airdrop",
   },
   TradingView: {
-    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/",
+    DownFutures: "https://www.tradingview.com/symbols/CBOT_MINI-YM1!/",
+    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/", 
     StockScreener: "https://www.tradingview.com/screener/",
     EconomicCalendar: "https://www.tradingview.com/economic-calendar/",
   },

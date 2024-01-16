@@ -2,7 +2,7 @@ import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, WSModels } from "carbon-js-sdk";
 import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
-import { Market } from "carbon-js-sdk/lib/codec/market/market";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import Long from "long";
 import moment from "moment";
 import { BN_ZERO, parseNumber } from "./number";

@@ -53,7 +53,8 @@ const TradingViewPopper: React.FC = () => {
               </Typography>
               <Typography className={classes.tradingViewBody}>
                 Powered by robust technologies available on web browsers, desktop applications, and mobile apps, this platform delivers unparalleled access to real-time data e.g.&nbsp;
-                <Link href={StaticLinks.TradingView.BTCUSDChart} target="_blank">BTC USD chart</Link>, the latest financial news,&nbsp;
+                <Link href={StaticLinks.TradingView.DownFutures} target="_blank">Dow Futures</Link> and&nbsp;
+                <Link href={StaticLinks.TradingView.BTCUSDChart} target="_blank">BTC USD</Link> chart, the latest financial news,&nbsp;
                 <Link href={StaticLinks.TradingView.StockScreener} target="_blank">Stock screener</Link> and&nbsp;
                 <Link href={StaticLinks.TradingView.EconomicCalendar} target="_blank">Economic calendar</Link>.
               </Typography>

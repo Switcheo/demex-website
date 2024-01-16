@@ -6,7 +6,7 @@ import { getAdjustedTickLotSize, isPerpetual, MarketStatItem } from "@demex-info
 import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import BigNumber from "bignumber.js";
 import { TokenUtils } from "carbon-js-sdk";
-import { Market } from "carbon-js-sdk/lib/codec/market/market";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { Suspense, useEffect } from "react";
