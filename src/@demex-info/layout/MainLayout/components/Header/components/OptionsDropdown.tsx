@@ -30,14 +30,8 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
     setOpenDropdown(false);
   };
 
-  const customClasses = {
-    endIcon: classes.endIcon,
-    startIcon: classes.startIcon,
-  };
-
   const textLinks = items.map((item: DropdownMenuItem) => ({
     ...item,
-    customClasses,
   }));
 
   return isMobile ? (
@@ -139,20 +133,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "14rem",
     position: "relative",
     backgroundColor: theme.palette.background.paper,
-  },
-  startIcon: {
-    "&.large": {
-      maxWidth: "1.375rem",
-      maxHeight: "1.375rem",
-      minWidth: "1.375rem",
-      minHeight: "1.375rem",
-    },
-  },
-  endIcon: {
-    maxWidth: "0.75rem",
-    maxHeight: "0.75rem",
-    minWidth: "0.75rem",
-    minHeight: "0.75rem",
   },
   tab: {
     ...theme.typography.body2,
