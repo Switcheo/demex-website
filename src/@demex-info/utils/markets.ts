@@ -30,7 +30,7 @@ export interface MarketStatItem {
   dayQuoteVolume: BigNumber;
   dayVolume: BigNumber;
   lastPrice: BigNumber;
-  market: string;
+  market_id: string;
   marketType: MarketType;
   open_interest: BigNumber;
 }
@@ -67,14 +67,14 @@ export function parseMarketListMap(marketList: Market[]): MarketListMap {
   const listMarket: MarketListMap = {};
   marketList.forEach((market: Market) => {
     const {
-      name = "",
+      id = "",
       marketType = "",
       base = "",
       quote = "",
       expiryTime = new Date("1970-01-01T00:00:00"),
     } = market;
-    listMarket[name] = {
-      name,
+    listMarket[id] = {
+      name: id,
       marketType,
       base,
       quote,

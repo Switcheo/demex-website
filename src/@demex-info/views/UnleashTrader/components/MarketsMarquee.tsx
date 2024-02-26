@@ -44,7 +44,7 @@ const MarketsMarquee: React.FC<Props> = () => {
 
   const cards = React.useMemo((): MarketCard[] => {
     return markets.map((market: Market) => {
-      const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market === market.name);
+      const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market_id === market.id);
       const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
       const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
       const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride) ?? "";
@@ -105,7 +105,7 @@ const MarketsMarquee: React.FC<Props> = () => {
             {filteredCards.map((card: MarketCard) => {
               const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
               return (
-                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market ?? "")} display="flex" alignItems="center">
+                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
                   <Box width="50%">
                     <Box display="flex" className={classes.marketName}>
                       {card.baseSymbol}

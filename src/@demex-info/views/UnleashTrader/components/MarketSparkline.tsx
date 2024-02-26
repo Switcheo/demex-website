@@ -29,7 +29,7 @@ export const MarketSparkline = ({
     if (!sdk?.query) return;
 
     let marketBarsData: typeof candleStick = {
-      market: market.name,
+      market: market.id,
       bars: [],
     };
 
@@ -37,7 +37,7 @@ export const MarketSparkline = ({
       if (!sdk || !sdk?.query) return;
 
       const params: QueryCandlesticksRequest = {
-        market: market.name,
+        marketId: market.id,
         resolution: new Long(60),
         from: new Long(Math.floor(new Date(new Date().setDate(new Date().getDate() - 7)).getTime() / 1000)),
         to: new Long(Math.floor(new Date().getTime() / 1000)),
@@ -47,7 +47,7 @@ export const MarketSparkline = ({
         const response = await sdk?.query.broker.Candlesticks(params);
 
         marketBarsData = {
-          market: market.name,
+          market: market.id,
           bars: response.candlesticks.map((candleStick: Candlestick) => parseFloat(candleStick.close)),
         };
         setCandleStick(marketBarsData);

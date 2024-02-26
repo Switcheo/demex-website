@@ -219,7 +219,7 @@ const MarketsGrid: React.FC = () => {
           if (resultData.data.update_type === "full_state") {
             const marketStatItems = Object.values(resultData.data.result ?? {});
             const filteredMarkets = marketStatItems.reduce((prev: MarketStatItem[], market: WSModels.MarketStat) => {
-              if (blacklistedMarkets.includes(market.market)) return prev;
+              if (blacklistedMarkets.includes(market.market_id)) return prev;
               const marketStatItem = parseMarketStats(market);
               prev.push(marketStatItem);
               return prev;
@@ -260,8 +260,8 @@ const MarketsGrid: React.FC = () => {
 
   const marketsList = React.useMemo(() => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
-      const marketItemA = list?.[marketA.market] ?? {};
-      const marketItemB = list?.[marketB.market] ?? {};
+      const marketItemA = list?.[marketA.market_id] ?? {};
+      const marketItemB = list?.[marketB.market_id] ?? {};
       const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.quote ?? "") ?? BN_ZERO;
       const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.quote ?? "") ?? BN_ZERO;
       const dailyVolumeA = tokenClient?.toHuman(marketItemA?.quote ?? "", marketA.dayQuoteVolume) ?? BN_ZERO;
@@ -293,7 +293,7 @@ const MarketsGrid: React.FC = () => {
     const coinsList: string[] = [];
 
     marketsList.forEach((market: MarketStatItem) => {
-      const marketItem = list?.[market.market] ?? {};
+      const marketItem = list?.[market.market_id] ?? {};
       const baseDenom = marketItem?.base ?? "";
       const quoteDenom = marketItem?.quote ?? "";
 
