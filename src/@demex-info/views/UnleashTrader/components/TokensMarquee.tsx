@@ -39,7 +39,7 @@ const TokensMarquee: React.FC<Props> = () => {
     const baseMarketList: BaseDenomMarket[] = [];
 
     marketStatsList.forEach((market: MarketStatItem) => {
-      const marketItem = marketList?.[market.market] ?? {};
+      const marketItem = marketList?.[market.market_id] ?? {};
       const baseDenom = marketItem.marketType === "spot" ? marketItem.base ?? "" : "";
       const usd = sdk?.token.getUSDValue(baseDenom) ?? BN_ZERO;
       const baseMarkets: BaseDenomMarket = {

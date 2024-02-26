@@ -6698,10 +6698,10 @@ caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001565:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001576.tgz#893be772cf8ee6056d6c1e2d07df365b9ec0a5c4"
   integrity sha512-ff5BdakGe2P3SQsMsiqmt1Lc8221NR1VzHj5jXN5vBny9A6fpze94HiVV/n7XRosOlsShJcvMv5mdnpjOGCEgg==
 
-carbon-js-sdk@0.7.11:
-  version "0.7.11"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.7.11.tgz#1984023c81ca94ca76c83e623a7e29c2fe693cfa"
-  integrity sha512-h3y36HdESePOXXSxGA9pHLvYSYASrEZ3sqoWFVoyGjuRlwACIxB1NiHnxCqtCjaTpkYZqCvviIDcK1SbgOddow==
+carbon-js-sdk@0.8.10:
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.8.10.tgz#2455814a0e16617eb03017dd3d26d2495b03e02c"
+  integrity sha512-sKJ63W6WmsMlw5lr9jja9mroQpdBXLBsNTc6kO1eZYxbLhuTxctTD5DshuDaeMnv15CVkrviFHuOgu0VRwWw9A==
   dependencies:
     "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"
