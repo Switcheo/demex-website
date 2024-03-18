@@ -53,7 +53,7 @@ const MarketsMarquee: React.FC<Props> = () => {
       const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
       const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
       const diffDp = baseDp - quoteDp;
-      const dailyVolume = stat?.dayQuoteVolume.shiftedBy(-quoteDp) ?? 0;
+      const dailyVolume = stat?.volume.shiftedBy(-quoteDp) ?? 0;
       const usdVolume = quoteUsd.times(dailyVolume);
 
       const { tickSize } = getAdjustedTickLotSize(market, sdk);
