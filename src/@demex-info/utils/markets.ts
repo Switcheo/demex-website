@@ -33,6 +33,7 @@ export interface MarketStatItem {
   market_id: string;
   marketType: MarketType;
   open_interest: BigNumber;
+  volume: BigNumber;
 }
 
 export interface TickLotSizes {
@@ -94,6 +95,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
     marketType: marketStats.market_type as MarketType,
+    volume: parseNumber(marketStats.day_quote_volume, BN_ZERO)!.multipliedBy(2),
   };
 }
 
