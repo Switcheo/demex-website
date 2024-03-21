@@ -29,8 +29,8 @@ const TokensMarquee: React.FC<Props> = () => {
   const [ready, setReady] = React.useState<boolean>(false);
 
   useEffect(() => {
-		setTimeout(() => setReady(true));
-	}, []);
+    setTimeout(() => setReady(true));
+  }, []);
 
   const { baseMarketList } = React.useMemo((): {
     baseMarketList: BaseDenomMarket[],
@@ -143,23 +143,23 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "0.3rem",
     },
     [theme.breakpoints.only("sm")]: {
-			...theme.typography.body3,
+      ...theme.typography.body3,
       "& > div": {
         ...theme.typography.h4,
         fontFamily: "Montserrat",
         color: theme.palette.text.primary,
         marginTop: "0.3rem",
       },
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.body4,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.body4,
       "& > div": {
         ...theme.typography.title1,
         fontFamily: "Montserrat",
         color: theme.palette.text.primary,
         marginTop: "0.3rem",
       },
-		},
+    },
   },
   coinSvg: {
     height: "3.125rem",
