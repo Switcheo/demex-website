@@ -61,6 +61,7 @@ export const Paths = {
 
   Pools: {
     List: "/pools",
+    PerpList: "/pools/perp",
     Manage: "/pools/manage",
     Create: "/pools/create",
     AddLiquidity: "/pools/add/:pool_denom",
