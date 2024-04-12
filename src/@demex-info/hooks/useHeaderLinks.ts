@@ -23,7 +23,7 @@ export default (): LinksReturn => {
     const earnLinks: DropdownMenuItem[] = [{
       key: "perp-pool-manage",
       label: "Perp Pool",
-      onClick: () => goToDemexLink(getDemexLink(Paths.Vaults.Manage.replace(":id/:tab", "2/deposit"), net)),
+      onClick: () => goToDemexLink(getDemexLink(Paths.Pools.PerpList, net)),
       startIcon: LaunchVaults,
       startIconType: "fill",
     }, {
