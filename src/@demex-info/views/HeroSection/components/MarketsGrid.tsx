@@ -1,26 +1,23 @@
 import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { DEC_SHIFT, HIDE_FIRST_PERP_POOL_MAINNET, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
-import {
-  useAsyncTask, useRollingNum, useWebsocket,
-} from "@demex-info/hooks";
+import { DEC_SHIFT, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
+import { useAsyncTask, useRollingNum, useWebsocket } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, calculateTradingFee, constantLP, estimateApyUSD, getCollateral, getTotalUSDPrice, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils"; // eslint-disable-line
-import { getAllMarkets, MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats } from "@demex-info/utils/markets";
+import { getAllMarkets, getTokens, getTokenTotalSupplyAll, MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats } from "@demex-info/utils/markets";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { lazy } from "@loadable/component";
-import {
-  Box, Button, ClickAwayListener, Grid, Hidden, makeStyles, Theme,
-} from "@material-ui/core";
+import { Box, Button, ClickAwayListener, Grid, Hidden, makeStyles, Theme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Insights, NumberUtils, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
-import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
-import { Pool as PerpPool, PoolDetails } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/pool";
-import { QueryAllPoolsResponse, QueryAllPoolInfoResponse } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/query";
+import { Insights, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { Coin } from "carbon-js-sdk/lib/codec/cosmos/base/v1beta1/coin";
+import { Token } from "carbon-js-sdk/lib/codec/Switcheo/carbon/coin/token";
 import { CommitmentCurve } from "carbon-js-sdk/lib/codec/Switcheo/carbon/liquiditypool/reward";
 import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
+import { Pool as PerpPool } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/pool";
+import { bnOrZero } from "carbon-js-sdk/lib/util/number";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -69,8 +66,8 @@ export interface SetPerpPoolProps extends PerpPoolProps {
 
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
+  const [fetchTokenTotalSupplyPrices] = useAsyncTask("fetchTokenTotalSupplyPrices");
   const [runSpotPools] = useAsyncTask("runSpotPools");
-  const [runPerpPools] = useAsyncTask("runPerpPools");
   const classes = useStyles();
   const [ws] = useWebsocket();
   const dispatch = useDispatch();
@@ -83,52 +80,13 @@ const MarketsGrid: React.FC = () => {
 
   const [openTokens, setOpenTokens] = React.useState<boolean>(false);
   const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
-  const [perpPools, setPerpPools] = React.useState<SetPerpPoolProps[]>([]);
-  const [collateral, setCollateral] = React.useState<BigNumber>(BN_ZERO);
+  const [tokenTotalSupplyAll, setTokenTotalSupplyAll] = React.useState<Coin[]>([]); // eslint-disable-line
+  const [tokens, setTokens] = React.useState<Token[]>([]); // eslint-disable-line
   const [blockRewards, setBlockRewards] = React.useState<BalanceDistributionObj[]>([]);
   const [liquidityProviderReward, setLiquidityProviderReward] = React.useState<BigNumber>(BN_ZERO);
   const [poolVolumes, setPoolVolumes] = React.useState<TypeUtils.SimpleMap<BigNumber>>({});
   const [commitCurve, setCommitCurve] = React.useState<CommitmentCurve | undefined>(undefined);
   const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
-
-  const reloadPerpPools = () => {
-    if (!sdk?.query) return;
-
-    runPerpPools(async () => {
-      try {
-        const { pools: rawPools } = await sdk.query.perpspool.PoolAll({
-          pagination: PageRequest.fromPartial({ limit: 1e6 }),
-        }) as QueryAllPoolsResponse;
-        const poolInfos = await sdk.query.perpspool.PoolInfoAll({
-          pagination: PageRequest.fromPartial({ limit: 1e6 }),
-        }) as QueryAllPoolInfoResponse;
-        // hide first pool in mainnet
-        const pools = HIDE_FIRST_PERP_POOL_MAINNET(sdk.network)
-          ? rawPools.filter((p) => p.pool?.id.toString() !== "1")
-          : rawPools.filter((p) => p.pool);
-    
-        const initialPerpPoolsState: SetPerpPoolProps[] = pools.map((poolResult: PoolDetails) => {
-          const poolId = poolResult.pool!.id.toString();
-          const info = poolInfos.pools[Number(poolId) - 1] ?? {};
-          const initialPoolData: SetPerpPoolProps = {
-            id: poolId,
-            pool: poolResult.pool!,
-            poolInfo: {
-              availableAmount: NumberUtils.bnOrZero(info?.availableAmount),
-              totalInPositionAmount: NumberUtils.bnOrZero(info?.totalInPositionAmount),
-              totalShareAmount: NumberUtils.bnOrZero(info?.totalShareAmount),
-              totalNavAmount: NumberUtils.bnOrZero(info?.totalNavAmount),
-              totalUpnlAmount: NumberUtils.bnOrZero(info?.totalUpnlAmount),
-            },
-          };
-          return initialPoolData;
-        });
-        setPerpPools(initialPerpPoolsState);
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  };
 
   const reloadSpotPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws) return;
@@ -204,9 +162,6 @@ const MarketsGrid: React.FC = () => {
         const listResponse: Market[] = await getAllMarkets(sdk);
         dispatch(actions.App.setMarketList(listResponse));
 
-        const response = await getCollateral(sdk);
-        setCollateral(response);
-
         // handle blacklist markets
         const configJsonResponse = await fetch(`https://raw.githubusercontent.com/Switcheo/demex-webapp-config/master/configs/${network}.json`);
         const configJsonData = await configJsonResponse.json();
@@ -245,13 +200,22 @@ const MarketsGrid: React.FC = () => {
     if (sdk && ws && ws?.connected) {
       reloadData(marketStatsSubscribeParams);
       reloadSpotPools(poolsSubscribeParams);
-      reloadPerpPools();
     }
     return () => {
       ws?.unsubscribe(marketStatsSubscribeParams);
       ws?.unsubscribe(poolsSubscribeParams);
     };
   }, [sdk, ws]);
+
+  useEffect(() => {
+    fetchTokenTotalSupplyPrices(async () => {
+      if (!sdk) return;
+      const totalSupply = await getTokenTotalSupplyAll(sdk);
+      setTokenTotalSupplyAll(totalSupply);
+      const tokensAll = await getTokens(sdk);
+      setTokens(tokensAll);
+    });
+  }, [sdk]);
 
 
   const listResponse = useSelector((store: RootState) => store.app.marketList);
@@ -264,8 +228,8 @@ const MarketsGrid: React.FC = () => {
       const marketItemB = list?.[marketB.market_id] ?? {};
       const symbolUsdA = tokenClient?.getUSDValue(marketItemA?.quote ?? "") ?? BN_ZERO;
       const symbolUsdB = tokenClient?.getUSDValue(marketItemB?.quote ?? "") ?? BN_ZERO;
-      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.quote ?? "", marketA.dayQuoteVolume) ?? BN_ZERO;
-      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.quote ?? "", marketB.dayQuoteVolume) ?? BN_ZERO;
+      const dailyVolumeA = tokenClient?.toHuman(marketItemA?.quote ?? "", marketA.volume) ?? BN_ZERO;
+      const dailyVolumeB = tokenClient?.toHuman(marketItemB?.quote ?? "", marketB.volume) ?? BN_ZERO;
       const usdVolumeA = symbolUsdA.times(dailyVolumeA);
       const usdVolumeB = symbolUsdB.times(dailyVolumeB);
       return usdVolumeB.minus(usdVolumeA).toNumber();
@@ -274,16 +238,18 @@ const MarketsGrid: React.FC = () => {
 
   const totalValueLocked = React.useMemo((): BigNumber => {
     let totalLiquidity: BigNumber = BN_ZERO;
-    pools.forEach((p: Pool) => {
-      totalLiquidity = totalLiquidity.plus(getTotalUSDPrice(sdk, p));
-    });
-    perpPools.forEach((p: SetPerpPoolProps) => {
-      const underlyingDecimals = sdk?.token.getDecimals(p.pool.depositDenom) ?? 0;
-      const totalNavAmount = NumberUtils.bnOrZero(p.poolInfo.totalNavAmount).shiftedBy(-underlyingDecimals);
-      totalLiquidity = totalLiquidity.plus(totalNavAmount);
-    });
-    return totalLiquidity.plus(collateral);
-  }, [pools, collateral, perpPools, sdk?.token]);
+    if (tokenTotalSupplyAll.length !== 0 && tokens.length !== 0 && sdk) {
+      tokenTotalSupplyAll.forEach((token) => {
+        const denom = token.denom;
+        const tokenPrice = sdk?.token.getUSDValue(denom) ?? BN_ZERO;
+        const tokenSupply = tokenTotalSupplyAll.find((token) => token.denom === denom)?.amount ?? "";
+        const decimals = tokens.find((token) => token.denom === denom)?.decimals ?? 0;
+        const tokenValue = bnOrZero(tokenSupply).times(tokenPrice).shiftedBy(-decimals);
+        totalLiquidity = totalLiquidity.plus(tokenValue);
+      });
+    }
+    return totalLiquidity;
+  }, [tokens, tokenTotalSupplyAll, sdk]);
 
   const { volume24H, coinsList } = React.useMemo((): {
     volume24H: BigNumber,
@@ -298,7 +264,7 @@ const MarketsGrid: React.FC = () => {
       const quoteDenom = marketItem?.quote ?? "";
 
       const symbolUsd = sdk?.token.getUSDValue(quoteDenom) ?? BN_ZERO;
-      const adjustedVolume = sdk?.token.toHuman(quoteDenom, market.dayQuoteVolume) ?? BN_ZERO;
+      const adjustedVolume = sdk?.token.toHuman(quoteDenom, market.volume) ?? BN_ZERO;
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
 

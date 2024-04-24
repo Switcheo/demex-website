@@ -2,6 +2,8 @@ import { DEC_SHIFT } from "@demex-info/constants";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, WSModels } from "carbon-js-sdk";
 import { PageRequest } from "carbon-js-sdk/lib/codec/cosmos/base/query/v1beta1/pagination";
+import { Coin } from "carbon-js-sdk/lib/codec/cosmos/base/v1beta1/coin";
+import { Token } from "carbon-js-sdk/lib/codec/Switcheo/carbon/coin/token";
 import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import Long from "long";
 import moment from "moment";
@@ -33,6 +35,7 @@ export interface MarketStatItem {
   market_id: string;
   marketType: MarketType;
   open_interest: BigNumber;
+  volume: BigNumber;
 }
 
 export interface TickLotSizes {
@@ -57,6 +60,30 @@ export async function getAllMarkets(sdk: CarbonSDK): Promise<Market[]> {
     }),
   });
   return markets;
+}
+
+export async function getTokens(sdk: CarbonSDK): Promise<Token[]> {
+  const limit = new Long(10000);
+  const offset = Long.UZERO;
+
+  const { tokens } = await sdk.query.coin.TokenAll({
+    pagination: PageRequest.fromPartial({
+      limit, offset,
+    }),
+  });
+  return tokens;
+}
+
+export async function getTokenTotalSupplyAll(sdk: CarbonSDK): Promise<Coin[]> {
+  const limit = new Long(10000);
+  const offset = Long.UZERO;
+
+  const { supply } = await sdk.query.bank.TotalSupply({
+    pagination: PageRequest.fromPartial({
+      limit, offset,
+    }),
+  });
+  return supply;
 }
 
 export function parseMarketListMap(marketList: Market[]): MarketListMap {
@@ -94,6 +121,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
     marketType: marketStats.market_type as MarketType,
+    volume: parseNumber(marketStats.day_quote_volume, BN_ZERO)!.multipliedBy(2),
   };
 }
 
