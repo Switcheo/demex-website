@@ -114,7 +114,7 @@ export const StaticLinks = {
     SwitcheoTwitter: "https://x.com/SwitcheoNetwork",
     DemexTwitter: "https://x.com/demexchange",
     Reddit: "https://www.reddit.com/r/Switcheo/",
-    Telegram: "https://t.me/demex_community",
+    Telegram: "https://t.me/carbon_ecosystem",
     Youtube: "https://www.youtube.com/channel/UCqZ9sxvw-0UoHzno4-d97oQ",
     Medium: "https://medium.com/switcheo",
     Discord: "https://discord.gg/SPh62Hf",
