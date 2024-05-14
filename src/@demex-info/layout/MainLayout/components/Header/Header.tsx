@@ -1,6 +1,6 @@
 import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
-import { getDemexLink, goToDemexLink, LoginPage, Paths } from "@demex-info/constants";
+import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
 import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui/core";
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
 
   const handleConnect = () => {
     eskimi("track", "Conversion");
-    goToDemexLink(getDemexLink(`${Paths.Trade}?loginType=${LoginPage.Main}`, network));
+    goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
   };
 
   return (
