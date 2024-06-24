@@ -30,6 +30,7 @@ const HeaderMenu: React.FC = () => {
                 key={navLink.label}
                 href={navLink?.href ?? ""}
                 target={navLink.showIcon ? "_blank" : "_self"}
+                onClick={navLink.onClick}
               >
                 {navLink.label}
                 &nbsp;

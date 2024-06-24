@@ -7,7 +7,7 @@ import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui
 import React, { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu } from "./components";
-import { eskimi } from "@demex-info/utils";
+import { eskimi, sendGaEvent } from "@demex-info/utils";
 
 const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
@@ -29,6 +29,7 @@ const Header: React.FC = () => {
   const handleConnect = () => {
     eskimi("track", "Conversion");
     goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
+    sendGaEvent('launch_app')
   };
 
   return (
@@ -57,7 +58,7 @@ const Header: React.FC = () => {
           <HeaderMenu />
           <Button
             className={classes.loginBtn}
-            onClick={() => handleConnect()}
+            onClick={handleConnect}
           >
             Launch App
           </Button>

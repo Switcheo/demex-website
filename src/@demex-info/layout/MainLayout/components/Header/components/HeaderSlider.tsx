@@ -20,6 +20,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
 
   const goToLink = (item: NavLink) => {
     if (item?.href) {
+      if (typeof item.onClick !== "undefined") item.onClick();
       window.open(item.href, item.showIcon ? "_blank" : "_self");
     }
   };
