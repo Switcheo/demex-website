@@ -33,18 +33,18 @@ export default (): LinksReturn => {
     const earnLinks: DropdownMenuItem[] = [{
       key: "perp-pool-manage",
       label: "Perp Pool",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.PerpList, net), 'click_perp_pools'),
+      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.PerpList, net), "click_perp_pools"),
       startIcon: LaunchVaults,
       startIconType: "fill",
     }, {
       key: "pools",
       label: "Pools",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), 'click_pools'),
+      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), "click_pools"),
       startIcon: MenuPools,
       startIconType: "fill",
     }, {
       key: "staking",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Stake.List, net), 'click_stake'),
+      onClick: () => handleClickDemexLink(getDemexLink(Paths.Stake.List, net), "click_stake"),
       label: "Stake SWTH",
       startIcon: MenuStake,
       startIconType: "stroke",
@@ -59,12 +59,12 @@ export default (): LinksReturn => {
       {
         label: "Trade",
         href: getDemexLink(Paths.Trade, net),
-        onClick: () => fireGaEvent('click_trade'),
+        onClick: () => fireGaEvent("click_trade"),
       },
       {
         label: "Nitron",
         href: getDemexLink(Paths.Nitron.Main, net),
-        onClick: () => fireGaEvent('click_nitron'),
+        onClick: () => fireGaEvent("click_nitron"),
       },
       {
         label: "Earn",
@@ -77,7 +77,7 @@ export default (): LinksReturn => {
       {
         label: "Rewards",
         href: getDemexLink(Paths.Rewards, net),
-        onClick: () => fireGaEvent('click_promotion_hub'),
+        onClick: () => fireGaEvent("click_promotion_hub"),
       },
       {
         showIcon: true,

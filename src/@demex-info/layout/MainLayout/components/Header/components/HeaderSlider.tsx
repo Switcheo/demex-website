@@ -49,7 +49,7 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
           <Box className={classes.innerDiv}>
             <MenuList>
               {fullNavLinks.map((navLink: NavLink) => {
-                return (!!navLink.dropdownItems?.length && typeof navLink.open !== 'undefined') ? ( // eslint-disable-line
+                return (!!navLink.dropdownItems?.length && typeof navLink.open !== "undefined") ? ( // eslint-disable-line
                   <MenuItem className={classes.menuItem} key={navLink.label} onClick={navLink.onHandleOpen}>
                     <Box display="flex" alignItems="center">
                       {navLink.label}

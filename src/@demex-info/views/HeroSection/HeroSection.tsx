@@ -53,7 +53,7 @@ const HeroSection: React.FC = () => {
 
 	const handleLaunchApp = () => {
 		eskimi("track", "Conversion");
-		sendGaEvent('launch_app')
+		sendGaEvent("launch_app")
 	};
 
 	return (

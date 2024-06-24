@@ -29,7 +29,7 @@ const Header: React.FC = () => {
   const handleConnect = () => {
     eskimi("track", "Conversion");
     goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
-    sendGaEvent('launch_app')
+    sendGaEvent("launch_app");
   };
 
   return (
