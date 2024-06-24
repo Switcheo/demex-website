@@ -44,19 +44,19 @@ export const sendGaEvent = (eventAction: EventAction, args?: TypeUtils.SimpleMap
   const data = cleanUndefined({
     event: eventAction,
     ...args,
-  })
+  });
   
   if (typeof window !== "undefined") {
     (window as any).logGoogleAnalytics?.(data);
-    (window as any).dataLayer?.push(data)
+    (window as any).dataLayer?.push(data);
   }
-}
+};
   
 const cleanUndefined = (args: any = {}) => {
   for (const key in args) {
     if (typeof args[key] === "undefined") {
-      delete args[key] // eslint-disable-line no-param-reassign
+      delete args[key]; // eslint-disable-line no-param-reassign
     }
   }
-  return args
-}
+  return args;
+};

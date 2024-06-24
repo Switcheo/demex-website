@@ -21,7 +21,7 @@ const NavFooter: React.FC = () => {
 
   const handleClickGaEvent = (gaEvent?: EventAction) => {
     if (gaEvent) sendGaEvent(gaEvent);
-  }
+  };
 
   const FooterNavMap: NavLinkMap[] = [{
     title: "Products",
