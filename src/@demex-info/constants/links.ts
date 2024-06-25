@@ -249,6 +249,7 @@ export interface NavLink {
   label: string;
   path?: string;
   href?: string;
+  onClick?: () => void;
   external?: boolean;
   dropdownItems?: DropdownMenuItem[];
 

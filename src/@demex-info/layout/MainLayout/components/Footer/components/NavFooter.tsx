@@ -2,6 +2,7 @@ import { DemexLogo } from "@demex-info/assets/logos";
 import { TypographyLabel } from "@demex-info/components";
 import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
+import { EventAction, sendGaEvent } from "@demex-info/utils";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
@@ -18,23 +19,32 @@ const NavFooter: React.FC = () => {
   const classes = useStyles();
   const net = useSelector((state: RootState) => state.app.network);
 
+  const handleClickGaEvent = (gaEvent?: EventAction) => {
+    if (gaEvent) sendGaEvent(gaEvent);
+  };
+
   const FooterNavMap: NavLinkMap[] = [{
     title: "Products",
     items: [{
       label: "Trade",
       href: getDemexLink(Paths.Trade, net),
+      onClick: () => handleClickGaEvent("click_trade"),
     }, {
       label: "Nitron",
       href: getDemexLink(Paths.Nitron.Main, net),
+      onClick: () => handleClickGaEvent("click_nitron"),
     }, {
       label: "Perp Pool",
       href: getDemexLink(Paths.Vaults.Manage.replace(":id/:tab", "2/deposit"), net),
+      onClick: () => handleClickGaEvent("click_perp_pools"),
     }, {
       label: "Pools",
       href: getDemexLink(Paths.Pools.List, net),
+      onClick: () => handleClickGaEvent("click_pools"),
     }, {
       label: "Stake SWTH",
       href: getDemexLink(Paths.Stake.List, net),
+      onClick: () => handleClickGaEvent("click_stake"),
     }, {
       label: "GLP Compounder",
       href: getDemexLink(Paths.Strategy.GLPWrapper, net),

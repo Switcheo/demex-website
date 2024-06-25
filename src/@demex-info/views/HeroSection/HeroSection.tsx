@@ -1,6 +1,6 @@
 import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
 import { getDemexLink, Paths } from "@demex-info/constants";
-import { eskimi, StyleUtils } from "@demex-info/utils";
+import { eskimi, sendGaEvent, StyleUtils } from "@demex-info/utils";
 import { Box, Button, Container, Hidden, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect, useMemo } from "react";
@@ -53,6 +53,7 @@ const HeroSection: React.FC = () => {
 
 	const handleLaunchApp = () => {
 		eskimi("track", "Conversion");
+		sendGaEvent("launch_app");
 	};
 
 	return (
