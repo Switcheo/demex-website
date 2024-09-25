@@ -6,7 +6,7 @@ import { TokenClient } from "carbon-js-sdk/lib/clients";
 export interface Collateral {
     amount: BigNumber;
     denom: string;
-    cdp_denom: string;
+    cibt_denom: string;
   }
   
   export interface WSCollateral {
@@ -17,11 +17,11 @@ export interface Collateral {
     const collateralArr = (Object.values(data) ?? []) as WSModels.Collateral[];
     if (!collateralArr || collateralArr.length <= 0 || !tokenClient) return [];
     return collateralArr.map((collateral: WSModels.Collateral) => {
-      const { cdp_denom, denom, collateral_amount } = collateral;
+      const { cibt_denom, denom, collateral_amount } = collateral;
       return {
         denom: denom ?? "",
         amount: parseNumber(collateral_amount, BN_ZERO)!,
-        cdp_denom: cdp_denom ?? "",
+        cibt_denom: cibt_denom ?? "",
       };
     });
   };
