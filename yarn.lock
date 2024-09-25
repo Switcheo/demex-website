@@ -3700,12 +3700,11 @@
     axios "^0.27.2"
     long "^4.0.0"
 
-"@keplr-wallet/types@^0.11.64":
-  version "0.11.64"
-  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.11.64.tgz#5a308c8c019b4e18f894e0f35f0904b60134d605"
-  integrity sha512-GgzeLDHHfZFyne3O7UIfFHj/uYqVbxAZI31RbBwt460OBbvwQzjrlZwvJW3vieWRAgxKSITjzEDBl2WneFTQdQ==
+"@keplr-wallet/types@^0.12.107":
+  version "0.12.129"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.12.129.tgz#474f9467bcd27f21a3f32d292aee1e5aa6077f76"
+  integrity sha512-pLmp4kZyA86vLHmZqVdGnh5zZMXxoCGWdN09iwA7Xpiav64Ee7qqAL94RzwhlQh7f2mBH0Xm7yVs0TO+1rUoUg==
   dependencies:
-    axios "^0.27.2"
     long "^4.0.0"
 
 "@keplr-wallet/unit@0.11.16":
@@ -6800,20 +6799,15 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001181:
-  version "1.0.30001572"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001572.tgz"
-  integrity sha512-1Pbh5FLmn5y4+QhNyJE9j3/7dK44dGB83/ZMjv/qJk86TvDbjk0LosiZo0i0WB0Vx607qMX9jYrn1VLHCkN4rw==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001565:
+  version "1.0.30001663"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001663.tgz"
+  integrity sha512-o9C3X27GLKbLeTYZ6HBOLU1tsAcBZsLis28wrVzddShCS16RujjHp9GDHKZqrB3meE0YjhawvMFsGb/igqiPzA==
 
-caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001565:
-  version "1.0.30001576"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001576.tgz#893be772cf8ee6056d6c1e2d07df365b9ec0a5c4"
-  integrity sha512-ff5BdakGe2P3SQsMsiqmt1Lc8221NR1VzHj5jXN5vBny9A6fpze94HiVV/n7XRosOlsShJcvMv5mdnpjOGCEgg==
-
-carbon-js-sdk@0.11.4:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.11.4.tgz#23184ff206173961eea1990fa08756f052df7934"
-  integrity sha512-YdlmT5El0hFAOBuXq4MsJsN94iU26XviC6DV52PdSaZBV9XJQIzzk4y1axkiIYHvqFvUk7GaiCSsbIWdYHodNw==
+carbon-js-sdk@0.11.20:
+  version "0.11.20"
+  resolved "https://registry.yarnpkg.com/carbon-js-sdk/-/carbon-js-sdk-0.11.20.tgz#ba9cdaa6fee0b8590d481931de0efa96f699aef3"
+  integrity sha512-XQph2nhqFHLe5TLLhNKSXpH77NqIlN6oqC2JQOSHD0l4dcrSTC1CyfdBrrTTgGfCA7tns75KxL92d7B2eISKlA==
   dependencies:
     "@cityofzion/neon-api" "^4.9.0"
     "@cityofzion/neon-core" "^4.9.0"
@@ -6823,7 +6817,7 @@ carbon-js-sdk@0.11.4:
     "@cosmos-kit/leap" "^0.15.12"
     "@improbable-eng/grpc-web" "^0.15.0"
     "@improbable-eng/grpc-web-node-http-transport" "^0.15.0"
-    "@keplr-wallet/types" "^0.11.64"
+    "@keplr-wallet/types" "^0.12.107"
     "@ledgerhq/hw-transport-webhid" "^6.20.0"
     "@ledgerhq/hw-transport-webusb" "^6.20.0"
     "@metamask/detect-provider" "^2.0.0"

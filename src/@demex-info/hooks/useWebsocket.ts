@@ -43,16 +43,15 @@ export default (): WsResponse => {
       const wsConnector = new WSConnector({
         endpoint: sdk.networkConfig.wsUrl,
         timeoutConnect: 5000,
-        disableHeartbeat: false,
+        timeoutHeartbeat: 10000,
       });
       connectWs(wsConnector);
-      return () => {
-        if (ws && ws.connected) {
-          disconnectWs(ws);
-        }
-      };
     }
-    return () => { };
+    return () => {
+      if (ws && ws.connected) {
+        disconnectWs(ws);
+      }
+    };
   }, [sdk, network]);
 
   return [ws];
