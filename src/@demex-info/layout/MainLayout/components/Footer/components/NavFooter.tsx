@@ -1,14 +1,12 @@
 import { DemexLogo } from "@demex-info/assets/logos";
-import { TypographyLabel } from "@demex-info/components";
-import { getDemexLink, getExplorerLink, NavLink, Paths, StaticLinks } from "@demex-info/constants";
+import { CustomAccordion, TypographyLabel } from "@demex-info/components";
+import { getExplorerLink, NavLink, StaticLinks } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { EventAction, sendGaEvent } from "@demex-info/utils";
 import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
-import clsx from "clsx";
 import React from "react";
 import { useSelector } from "react-redux";
-import { ExternalLink } from "../../Header/assets";
+import SocialLinkBox from "./SocialLinkBox";
 
 interface NavLinkMap {
   title: string;
@@ -19,78 +17,54 @@ const NavFooter: React.FC = () => {
   const classes = useStyles();
   const net = useSelector((state: RootState) => state.app.network);
 
-  const handleClickGaEvent = (gaEvent?: EventAction) => {
-    if (gaEvent) sendGaEvent(gaEvent);
-  };
-
-  const FooterNavMap: NavLinkMap[] = [{
-    title: "Products",
-    items: [{
-      label: "Trade",
-      href: getDemexLink(Paths.Trade, net),
-      onClick: () => handleClickGaEvent("click_trade"),
-    }, {
-      label: "Nitron",
-      href: getDemexLink(Paths.Nitron.Main, net),
-      onClick: () => handleClickGaEvent("click_nitron"),
-    }, {
-      label: "Perp Pool",
-      href: getDemexLink(Paths.Vaults.Manage.replace(":id/:tab", "2/deposit"), net),
-      onClick: () => handleClickGaEvent("click_perp_pools"),
-    }, {
-      label: "Pools",
-      href: getDemexLink(Paths.Pools.List, net),
-      onClick: () => handleClickGaEvent("click_pools"),
-    }, {
-      label: "Stake SWTH",
-      href: getDemexLink(Paths.Stake.List, net),
-      onClick: () => handleClickGaEvent("click_stake"),
-    }, {
-      label: "GLP Compounder",
-      href: getDemexLink(Paths.Strategy.GLPWrapper, net),
-    }],
-  }, {
-    title: "Resources",
-    items: [{
-      label: "API",
-      href: StaticLinks.Api.Home,
-      external: true,
-    }, {
-      label: "Explorer",
-      href: getExplorerLink(net),
-      external: true,
-    }, {
-      label: "Guide",
-      href: StaticLinks.DemexDocs.Home,
-      external: true,
-    }, {
-      label: "User Feedback",
-      href: StaticLinks.Feedback,
-      external: true,
-    }, {
-      label: "Brand Assets",
-      href: StaticLinks.BrandAssets,
-      external: true,
-    }],
-  }, {
-    title: "About Demex",
-    items: [{
-      label: "Ecosystem",
-      href: StaticLinks.CarbonNetwork,
-      external: true,
-    }, {
-      label: "Blog",
-      href: StaticLinks.DemexBlog,
-      external: true,
-    }, /* {
-      label: "T&C",
-      href: StaticLinks.TermsConditions,
-    } */],
+  const FooterNavMap: NavLinkMap[] = [
+    {
+      title: "About Demex",
+      items: [
+        {
+          label: "About Us",
+          href: StaticLinks.DemexDocs.About,
+        },
+        {
+          label: "Ecosystem",
+          href: StaticLinks.CarbonNetwork,
+        },
+        {
+          label: "Blog",
+          href: StaticLinks.DemexBlog,
+        },
+      ],
+    },
+    {
+      title: "Resources",
+      items: [
+        {
+          label: "Explorer",
+          href: getExplorerLink(net),
+        }, {
+          label: "GitHub",
+          href: StaticLinks.Socials.GitHub,
+        },
+        {
+          label: "Brand Assets",
+          href: StaticLinks.BrandAssets,
+        },
+      ],
   }];
 
   return (
     <Box className={classes.root}>
-      <DemexLogo className={classes.bottomLogo} />
+      <Box className={classes.logoWrapper}>
+        <DemexLogo className={classes.bottomLogo} />
+        <Hidden smUp>
+          <TypographyLabel className={classes.copyright}>
+            © 2024 Demex. All rights reserved.
+          </TypographyLabel>
+        </Hidden>
+        <Hidden only="xs">
+          <SocialLinkBox />
+        </Hidden>
+      </Box>
       <Box className={classes.footerNav}>
         <Box className={classes.navBox}>
           <Hidden only="xs">
@@ -108,63 +82,6 @@ const NavFooter: React.FC = () => {
                           color="textPrimary"
                           key={navItem.label}
                           href={navItem?.href}
-                          target={navItem.external ? "_blank" : "_self"}
-                        >
-                          {navItem.label}
-                          {navItem.external && <ExternalLink />}
-                        </Link>
-                      );
-                    }
-                    return null;
-                  })}
-                </Box>
-              );
-            })}
-            {/* <SocialLinkBox /> */}
-          </Hidden>
-          <Hidden smUp>
-            <React.Fragment>
-              <Box className={classes.mobileMenu}>
-                {FooterNavMap.map((footerNav: NavLinkMap, index: number) => {
-                  if (index === 2) return null;
-                  return (
-                    <Box className={clsx(classes.navDiv, `child-${index}`)} key={footerNav.title}>
-                      <TypographyLabel className={classes.navTxt}>
-                        {footerNav.title}
-                      </TypographyLabel>
-                      {footerNav.items.map((navItem: NavLink) => {
-                        if (navItem?.href) {
-                          return (
-                            <Link
-                              className={classes.navLink}
-                              color="textPrimary"
-                              key={navItem.label}
-                              href={navItem?.href}
-                              target="_blank"
-                            >
-                              {navItem.label}
-                            </Link>
-                          );
-                        }
-                        return null;
-                      })}
-                    </Box>
-                  );
-                })}
-              </Box>
-              <Box display="flex" mt={3}>
-                <Box className={clsx(classes.navDiv, "child-2")} key={FooterNavMap[2].title}>
-                  <TypographyLabel className={classes.navTxt}>
-                    {FooterNavMap[2].title}
-                  </TypographyLabel>
-                  {FooterNavMap[2].items.map((navItem: NavLink) => {
-                    if (navItem?.href) {
-                      return (
-                        <Link
-                          className={classes.navLink}
-                          color="textPrimary"
-                          key={navItem.label}
-                          href={navItem?.href}
                           target="_blank"
                         >
                           {navItem.label}
@@ -174,11 +91,51 @@ const NavFooter: React.FC = () => {
                     return null;
                   })}
                 </Box>
+              );
+            })}
+          </Hidden>
+          <Hidden smUp>
+            <React.Fragment>
+              <Box className={classes.mobileMenu}>
+                {FooterNavMap.map((footerNav: NavLinkMap) => {
+                  return (
+                    <CustomAccordion
+                      key={footerNav.title}
+                      accordionSummary={footerNav.title}
+                      accordionDetails={(
+                        <React.Fragment>
+                          {footerNav.items.map((navItem: NavLink) => {
+                            if (navItem?.href) {
+                              return (
+                                <Link
+                                  className={classes.navLink}
+                                  color="textPrimary"
+                                  key={navItem.label}
+                                  href={navItem?.href}
+                                  target="_blank"
+                                >
+                                  {navItem.label}
+                                </Link>
+                              );
+                            }
+                            return null;
+                          })}
+                        </React.Fragment>
+                      )}
+                      accordionClasses={{
+                        acordionSummary: classes.accordionSummary,
+                      }}
+                    />
+                  );
+                })}
               </Box>
             </React.Fragment>
           </Hidden>
         </Box>
       </Box>
+      <Hidden smUp>
+        <SocialLinkBox />
+      </Hidden>
     </Box>
   );
 };
@@ -187,13 +144,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
-    padding: theme.spacing(6, 0),
+    paddingTop: theme.spacing(12.5),
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(5.5, 0),
     },
-    [theme.breakpoints.down("sm")]: {
-      display: "block",
+    [theme.breakpoints.down("xs")]: {
       padding: theme.spacing(2.5, 0, 3),
+      flexDirection: "column",
+      alignItems: "center",
+      gap: theme.spacing(3),
+    },
+  },
+  logoWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: theme.spacing(1),
+    [theme.breakpoints.down("xs")]: {
+      alignItems: "center",
     },
   },
   bottomLogo: {
@@ -205,12 +174,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("md")]: {
       display: "block",
     },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(4.5),
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
     },
   },
   mobileMenu: {
     display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(2),
   },
   navBox: {
     display: "flex",
@@ -220,55 +191,38 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   navDiv: {
     minWidth: "12.5rem",
-    [theme.breakpoints.only("sm")]: {
-      minWidth: "unset",
-      width: "33%",
-    },
-    [theme.breakpoints.only("xs")]: {
-      width: "50%",
-      marginRight: theme.spacing(0),
-      minWidth: "unset",
-      "&.child-0, &.child-2": {
-        paddingRight: theme.spacing(4.5),
-      },
-      "&.child-1": {
-        paddingLeft: theme.spacing(4.5),
-      },
-    },
-    "@media (max-width: 360px)": {
-      "&.child-0, &.child-2": {
-        paddingRight: theme.spacing(0),
-      },
-      "&.child-1": {
-        paddingLeft: theme.spacing(2.5),
-      },
-    },
   },
   navLink: {
     ...theme.typography.body3,
     display: "block",
     marginTop: "0.625rem",
-    "& svg": {
-      marginLeft: theme.spacing(0.5),
-      scale: 0.8,
-      "& path": {
-        fill: theme.palette.text.primary,
-      },
-    },
+    color: theme.palette.text.secondary,
     "&:hover": {
       background: StyleUtils.primaryGradient(theme),
       backgroundClip: "text",
       WebkitTextFillColor: "transparent",
       WebkitBackgroundClip: "text",
       textDecoration: "none",
-      "& svg path": {
-        fill: "url(#demexLinearGradient)",
-      },
+    },
+    [theme.breakpoints.only("xs")]: {
+      marginTop: 0,
+      ...theme.typography.body4,
     },
   },
   navTxt: {
-    ...theme.typography.body3,
+    ...theme.typography.body2,
+    fontWeight: 700,
+  },
+  copyright: {
+    ...theme.typography.body4,
     color: theme.palette.text.secondary,
+    fontSize: "0.5625rem",
+    [theme.breakpoints.only("xs")]: {
+      textAlign: "center",
+    },
+  },
+  accordionSummary: {
+    ...theme.typography.title3,
   },
 }));
 

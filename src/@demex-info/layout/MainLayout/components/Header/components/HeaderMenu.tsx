@@ -53,9 +53,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     padding: "0px 20px",
     borderRadius: 0,
-    fontWeight: 400,
+    fontWeight: 700,
     opacity: 1,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     "&:hover": {
       textShadow: `.5px 0 0 ${theme.palette.text.secondary}`,
       backgroundColor: "transparent",

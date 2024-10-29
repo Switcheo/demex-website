@@ -20,6 +20,10 @@ export interface MarketListItem {
   base: string
   quote: string;
   expiryTime: Date;
+  basePrecision: BigNumber | Long;
+  quotePrecision: BigNumber | Long;
+  lotSize: number | string | undefined;
+  tickSize: number | string | undefined;
 }
 
 export interface MarketListMap {
@@ -35,6 +39,7 @@ export interface MarketStatItem {
   market_id: string;
   marketType: MarketType;
   open_interest: BigNumber;
+  mark_price: BigNumber;
   volume: BigNumber;
 }
 
@@ -99,13 +104,22 @@ export function parseMarketListMap(marketList: Market[]): MarketListMap {
       base = "",
       quote = "",
       expiryTime = new Date("1970-01-01T00:00:00"),
+      basePrecision = BN_ZERO,
+      quotePrecision = BN_ZERO,
+      lotSize,
+      tickSize,
     } = market;
+
     listMarket[id] = {
       name: id,
       marketType,
       base,
       quote,
       expiryTime,
+      basePrecision,
+      quotePrecision,
+      lotSize,
+      tickSize,
     };
   });
   return listMarket;
@@ -120,6 +134,7 @@ export function parseMarketStats(marketStats: WSModels.MarketStat): MarketStatIt
     dayVolume: parseNumber(marketStats.day_volume, BN_ZERO)!,
     lastPrice: parseNumber(marketStats.last_price, BN_ZERO)!,
     open_interest: parseNumber(marketStats.open_interest, BN_ZERO)!,
+    mark_price: parseNumber(marketStats.mark_price, BN_ZERO)!,
     marketType: marketStats.market_type as MarketType,
     volume: parseNumber(marketStats.day_quote_volume, BN_ZERO)!.multipliedBy(2),
   };
@@ -154,7 +169,7 @@ export const shiftByDiffDp = (
 };
 
 export function getAdjustedTickLotSize(
-  market: Market | null | undefined, sdk?: CarbonSDK,
+  market: Market | MarketListItem | null | undefined, sdk?: CarbonSDK,
 ): TickLotSizes {
   if (!market || !sdk?.token) {
     return {

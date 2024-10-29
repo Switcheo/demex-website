@@ -1,6 +1,7 @@
-import { Box, Divider, makeStyles, Theme } from "@material-ui/core";
+import { Box, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
-import { HomeFooter, NavFooter } from "./components";
+import { NavFooter } from "./components";
+
 
 const Footer: React.FC = () => {
   const classes = useStyles();
@@ -9,8 +10,6 @@ const Footer: React.FC = () => {
     <Box className={classes.root}>
       <Box className={classes.innerFooter}>
         <NavFooter />
-        <Divider />
-        <HomeFooter />
       </Box>
     </Box>
   );
@@ -21,11 +20,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(0, "auto"),
   },
   root: {
-    backgroundColor: theme.palette.background.secondary,
-    padding: theme.spacing(0, 6),
+    maxWidth: "1346px",
+    margin: "0 auto",
     minHeight: "17.5rem",
+    [theme.breakpoints.up("sm")]: {
+      width: "100%",
+    },
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(0, 1.75),
+      margin: 0,
     },
   },
 }));

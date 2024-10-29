@@ -1,5 +1,6 @@
 import { DropdownMenuItem, NavLink, Paths, StaticLinks, getDemexLink, goToDemexLink } from "@demex-info/constants";
-import { GLPCompounder, LaunchVaults, MenuPools, MenuStake } from "@demex-info/layout/MainLayout/components/Header/assets";
+import { Lend, LaunchVaults, MenuStake, Swap, Trade, Guide, Blog } from "@demex-info/layout/MainLayout/components/Header/assets";
+import { ExternalLink } from "../assets";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { EventAction, sendGaEvent } from "@demex-info/utils";
@@ -8,14 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface LinksReturn {
   fullNavLinks: NavLink[];
-  dropdownNavLinks: NavLink[];
 }
 
 export default (): LinksReturn => {
   const dispatch = useDispatch();
   const net = useSelector((state: RootState) => state.app.network);
   const earnOpen = useSelector((state: RootState) => state.app.earnOpen);
-  const promotionsOpen = useSelector((state: RootState) => state.app.promotionsOpen);
 
   const handleEarnOpen = () => dispatch(actions.App.setEarnDrawerOpen(true));
   const handleEarnClose = () => dispatch(actions.App.setEarnDrawerOpen(false));
@@ -25,46 +24,85 @@ export default (): LinksReturn => {
     fireGaEvent(gaEvent);
   };
 
+
   const fireGaEvent = (gaEvent?: EventAction) => {
     if (gaEvent) sendGaEvent(gaEvent);
   };
 
   return useMemo(() => {
-    const earnLinks: DropdownMenuItem[] = [{
-      key: "perp-pool-manage",
-      label: "Perp Pool",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.PerpList, net), "click_perp_pools"),
-      startIcon: LaunchVaults,
-      startIconType: "fill",
-    }, {
-      key: "pools",
-      label: "Pools",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), "click_pools"),
-      startIcon: MenuPools,
-      startIconType: "fill",
-    }, {
-      key: "staking",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Stake.List, net), "click_stake"),
-      label: "Stake SWTH",
-      startIcon: MenuStake,
-      startIconType: "stroke",
-    }, {
-      key: "glp-compounder",
-      label: "GLP Compounder",
-      onClick: () => handleClickDemexLink(getDemexLink(Paths.Strategy.GLPWrapper, net)),
-      startIcon: GLPCompounder,
-      startIconType: "fill",
-    }];
+    const earnLinks: DropdownMenuItem[] = [
+      {
+        key: "lending",
+        label: "Lend, Borrow, Mint",
+        description: "Lend and borrow with additional incentives and flexible terms",
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron"),
+        startIcon: Lend,
+        startIconType: "fill",
+      },
+      {
+        key: "perp-pool-manage",
+        label: "Add Liquidity",
+        description: "Earn across multiple liquidity pools",
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Pools.PerpList, net), "click_perp_pools"),
+        startIcon: LaunchVaults,
+        startIconType: "fill",
+      },
+      {
+        key: "staking",
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Stake.List, net), "click_stake"),
+        label: "Stake SWTH",
+        description: "No lock-up periods while earning",
+        startIcon: MenuStake,
+        startIconType: "stroke",
+      },
+    ];
+
+    const tradeLinks: DropdownMenuItem[] = [
+      {
+        key: "trading",
+        label: "Trade",
+        description: "Leverage up to 100x with ultra-low trading fees",
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade"),
+        startIcon: Trade,
+        startIconType: "fill",
+      },
+      {
+        key: "swap",
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Swap, net), "click_swap"),
+        label: "Swap",
+        description: "Swap tokens across any network",
+        startIcon: Swap,
+        startIconType: "stroke",
+      },
+    ];
+
+    const learnLinks: DropdownMenuItem[] = [
+      {
+        key: "blog",
+        label: "Blog",
+        onClick: () => window.open(StaticLinks.DemexBlog, "_blank"),
+        startIcon: Blog,
+        startIconType: "stroke",
+        endIcon: ExternalLink,
+        endIconType: "fill",
+      },
+      {
+        key: "guide",
+        onClick: () => window.open(StaticLinks.DemexDocs.Home, "_blank"),
+        label: "Guide",
+        startIcon: Guide,
+        startIconType: "stroke",
+        endIcon: ExternalLink,
+        endIconType: "fill",
+      },
+    ];
+
     const navLinksArr: NavLink[] = [
       {
         label: "Trade",
-        href: getDemexLink(Paths.Trade, net),
+        href: undefined,
+        dropdownItems: tradeLinks,
         onClick: () => fireGaEvent("click_trade"),
-      },
-      {
-        label: "Nitron",
-        href: getDemexLink(Paths.Nitron.Main, net),
-        onClick: () => fireGaEvent("click_nitron"),
       },
       {
         label: "Earn",
@@ -75,25 +113,16 @@ export default (): LinksReturn => {
         onHandleClose: handleEarnClose,
       },
       {
-        label: "Rewards",
-        href: getDemexLink(Paths.Rewards, net),
-        onClick: () => fireGaEvent("click_promotion_hub"),
-      },
-      {
-        showIcon: true,
-        label: "Blog",
-        href: StaticLinks.DemexBlog,
-      },
-      {
-        showIcon: true,
-        label: "Ecosystem",
-        href: StaticLinks.CarbonNetwork,
+        label: "Learn",
+        href: undefined,
+        dropdownItems: learnLinks,
+        open: earnOpen,
+        onHandleOpen: handleEarnOpen,
+        onHandleClose: handleEarnClose,
       },
     ];
-    const dropdownNavLinks = navLinksArr.filter((link: NavLink) => !!link.dropdownItems?.length && typeof link.open !== "undefined" && link.onHandleClose && link.onHandleOpen);
     return {
       fullNavLinks: navLinksArr,
-      dropdownNavLinks: dropdownNavLinks,
     };
-  }, [net, earnOpen, promotionsOpen]);
+  }, [net, earnOpen]);
 };

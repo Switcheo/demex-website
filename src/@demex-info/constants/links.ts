@@ -45,6 +45,7 @@ export const Paths = {
   },
 
   Trade: "/trade",
+  Swap: "/swap",
 
   Stake: {
     List: "/stake",
@@ -164,6 +165,7 @@ export const StaticLinks = {
         TopGainers: "https://guide.dem.exchange/competition/usdosmo-perpetuals-airdrop-campaign-jan-2023",
       },
     },
+    Roadmap: "https://guide.dem.exchange/welcome/what-is-demex/demex-roadmap",
   },
   DemexBlog: "https://blog.dem.exchange/",
   Tendermint: "https://tendermint.com/core/",
@@ -183,7 +185,7 @@ export const StaticLinks = {
   },
   TradingView: {
     DownFutures: "https://www.tradingview.com/symbols/CBOT_MINI-YM1!/",
-    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/", 
+    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/",
     StockScreener: "https://www.tradingview.com/screener/",
     EconomicCalendar: "https://www.tradingview.com/economic-calendar/",
   },
@@ -237,6 +239,7 @@ export interface DropdownMenuItem extends DOMAttributes<any> {
   key: string
   className?: string
   label: string | ReactNode
+  description?: string | ReactNode
   startIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
   startIconType?: "stroke" | "fill"
   endIcon?: FunctionComponent<SVGProps<SVGSVGElement>>

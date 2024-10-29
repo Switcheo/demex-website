@@ -6,7 +6,10 @@ import {
 import clsx from "clsx";
 import React from "react";
 import {
-  Markets, TradingRow, TradingVal, LogoCell,
+  Markets,
+  TradingRow,
+  TradingVal,
+  LogoCell,
 } from "../compareConfig";
 import ComparisonRow from "./ComparisonRow";
 
@@ -56,9 +59,9 @@ const ComparisonTable: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   tableShadow: {
-    backgroundImage: `linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}), 
+    backgroundImage: `linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
       linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
-      linear-gradient(to right, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0)), 
+      linear-gradient(to right, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0)),
       linear-gradient(to left, rgb(196 196 196 / 14%), rgba(255, 255, 255, 0))`,
     /* Shadows */
     /* Shadow covers */
@@ -75,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   headerAltCell: {
     background: theme.palette.background.primary,
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: "none",
     minWidth: "12.5rem",
     zIndex: 2,
     left: 0,
@@ -89,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   headerCell: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: "none",
     padding: theme.spacing(0, 1.5),
     minWidth: "calc((80% - 56px)/ 6)",
     height: "100%",
