@@ -1,0 +1,1 @@
+export { ReactComponent as IncentiveIcon } from "./Incentive.svg";

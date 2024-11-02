@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   description: {
-    ...theme.typography.title2,
+    ...theme.typography.body2,
     color: theme.palette.text.secondary,
     maxWidth: "16.5rem",
     [theme.breakpoints.down("sm")]: {

@@ -5,7 +5,6 @@ import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO } from "@demex-info/utils"; // eslint-disable-line
 import { getAllMarkets, getTokens, getTokenTotalSupplyAll, MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats } from "@demex-info/utils/markets";
-import { StyleUtils } from "@demex-info/utils/styles";
 import { Box, makeStyles, Theme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
@@ -258,7 +257,7 @@ const MarketsGrid: React.FC = () => {
         </TypographyLabel>
         <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
           <RenderGuard renderIf={statLoading}>
-            <Skeleton className={classes.numSkeleton} />
+            <Skeleton className={classes.standardSkeleton} />
           </RenderGuard>
           <RenderGuard renderIf={!statLoading}>
             <TypographyLabel className={classes.gridContent}>
@@ -267,69 +266,19 @@ const MarketsGrid: React.FC = () => {
           </RenderGuard>
         </Box>
       </Cards>
-        <div className={classes.linearGradient}>
-          <Fade triggerOnce delay={1000} duration={1000}>
-            <SvgIcon component={Line} />
-          </Fade>
-        </div>
+      <div className={classes.linearGradient}>
+        <Fade triggerOnce delay={1000} duration={1000}>
+          <SvgIcon component={Line} />
+        </Fade>
+      </div>
     </Box>
   );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  backdrop: {
-    zIndex: 1,
-  },
-  numSkeleton: {
-    width: "80px",
-    height: "44px",
-    [theme.breakpoints.only("xs")]: {
-      height: "40px",
-      width: "40px",
-    },
-    "@media (max-width: 400px)": {
-      width: "80px",
-    },
-  },
   standardSkeleton: {
     width: "80px",
-    height: "38px",
-  },
-  coinIcon: {
-    transform: "translate(30px, 0px)",
-    zIndex: 8,
-    "&.coin-1": {
-      transform: "translate(20px, 0px)",
-      zIndex: 7,
-    },
-    "&.coin-2": {
-      transform: "translate(10px, 0px)",
-      zIndex: 6,
-    },
-    "&.coin-3": {
-      transform: "none",
-      zIndex: 5,
-    },
-    [theme.breakpoints.only("xs")]: {
-      height: "1.75em",
-      width: "1.75em",
-    },
-  },
-  coinSkeleton: {
-    width: "120px",
-    height: "44px",
-    [theme.breakpoints.only("xs")]: {
-      width: "72px",
-    },
-    "@media (max-width: 400px)": {
-      width: "120px",
-    },
-  },
-  dropdownInner: {
-    position: "absolute",
-    top: theme.spacing(4.25),
-    right: theme.spacing(-1.25),
-    zIndex: 5,
+    height: "28px",
   },
   innerDiv: {
     position: "relative",
@@ -347,9 +296,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "100%",
       marginTop: "16vh",
     },
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "1000px",
+    },
     [theme.breakpoints.down("sm")]: {
       marginTop: "6vh",
-      display: "none",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: theme.spacing(2),
+      padding: theme.spacing(2, 0),
+      boxShadow: "-10px 10px 50px 0px #482BFF1F inset",
     },
   },
   boxShadow: {
@@ -365,30 +321,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     bottom: -10,
     width: "100%",
     textAlign: "center",
-  },
-  labelBox: {
-    cursor: "pointer",
-    zIndex: 100,
-    [theme.breakpoints.only("xs")]: {
-      width: "unset",
-    },
-  },
-  plusLabel: {
-    ...theme.typography.title2,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(0.75),
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
-    },
-  },
-  viewAll: {
-    padding: 0,
-    ...theme.typography.title2,
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.title3,
+      display: "none",
     },
   },
   gridHeader: {
@@ -397,39 +331,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.body4,
-    },
   },
   gridContent: {
     ...theme.typography.h3,
     color: theme.palette.text.primary,
-  },
-  gridSubtitle: {
-    ...theme.typography.body2,
-    color: theme.palette.text.secondary,
-    whiteSpace: "nowrap",
-    "&.primary": {
-      color: theme.palette.text.primary,
-      marginLeft: "1rem",
-    },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.body3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.body4,
-    },
-  },
-  yellowGradientText: {
-    ...theme.typography.title1,
-    background: StyleUtils.warningGradient,
-    backgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    WebkitBackgroundClip: "text",
-    whiteSpace: "nowrap",
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.h4,
-    },
+    fontWeight: 700,
   },
   marketsCard: {
     boxShadow: "none",

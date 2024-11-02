@@ -134,8 +134,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   description: {
-    ...theme.typography.title1,
-    fontWeight: 600,
+    ...theme.typography.body1,
     textAlign: "center",
     margin: "0.5rem auto",
     color: theme.palette.text.secondary,

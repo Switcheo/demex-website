@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& td": {
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
-          paddingBottom: "3rem",
+          paddingBottom: theme.spacing(6),
           "&.demex": {
             paddingBottom: 0,
             "& > div > div": {
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             },
             "& > div > p": {
               paddingTop: "1rem",
-              paddingBottom: "3rem",
+              paddingBottom: theme.spacing(6),
             },
           },
         },
@@ -198,7 +198,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rowHeader: {
-    ...theme.typography.h4,
+    ...theme.typography.body1,
     whiteSpace: "pre-wrap",
     color: theme.palette.text.secondary,
   },

@@ -2,7 +2,6 @@ import { Box, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { NavFooter } from "./components";
 
-
 const Footer: React.FC = () => {
   const classes = useStyles();
 
@@ -23,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "1346px",
     margin: "0 auto",
     minHeight: "17.5rem",
+    [theme.breakpoints.up("md")]: {
+      padding: theme.spacing(0, 4),
+    },
     [theme.breakpoints.up("sm")]: {
       width: "100%",
     },

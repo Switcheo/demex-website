@@ -1,14 +1,13 @@
 import TopGradient from "./assets/TopGradient.svg";
 import BackgroundGrid from "./assets/BackgroundGrid.svg";
-import { Box, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, Typography, makeStyles, useMediaQuery } from "@material-ui/core";
 import React from "react";
 import { CateredInfoDesktop, CateredInfoMobile } from "./components";
 import { Fade } from "react-awesome-reveal";
 
 const DexProperties: React.FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery("(max-width:880px)");
 
   return (
     <Box className={classes.root}>

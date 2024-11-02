@@ -28,7 +28,7 @@ const PoweredBySwitcheo: React.FC = () => {
       </Fade>
       <Zoom triggerOnce duration={2000}>
         <div className={classes.videoContainer}>
-          <video className={classes.video} poster={Video1} autoPlay loop muted>
+          <video className={classes.video} poster={Video1} autoPlay loop muted playsInline>
             <source src="videos/Trading.mp4" type="video/mp4" />
           Your browser does not support the video tag.
           </video>
@@ -46,7 +46,7 @@ const PoweredBySwitcheo: React.FC = () => {
       </Fade>
       <Zoom triggerOnce duration={2000}>
         <div className={classes.videoContainer}>
-          <video className={classes.video} poster={Video2} autoPlay loop muted>
+          <video className={classes.video} poster={Video2} autoPlay loop muted playsInline>
             <source src="videos/Example.mp4" type="video/mp4" />
           Your browser does not support the video tag.
           </video>
@@ -101,15 +101,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   description: {
-    ...theme.typography.h4,
+    ...theme.typography.body1,
     fontWeight: 600,
     textAlign: "center",
     margin: "1rem auto 2.5rem",
     color: theme.palette.text.secondary,
     maxWidth: "50rem",
-    "& > b": {
-      color: theme.palette.text.primary,
-    },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
       maxWidth: "46.5rem",
@@ -125,6 +122,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   video: {
+    [theme.breakpoints.up("md")]: {
+      width: "100%",
+      height: "auto",
+      maxWidth: "60rem",
+    },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       height: "auto",

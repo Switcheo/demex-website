@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.large": {
       maxWidth: "1.5rem",
       maxHeight: "1.5rem",
-      marginRight: theme.spacing(1.25),
+      marginRight: theme.spacing(1.5),
     },
   },
   iconFill: {
@@ -165,9 +165,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 4,
   },
   itemDescription: {
-    ...theme.typography.body4,
+    ...theme.typography.body3,
     color: theme.palette.text.secondary,
     marginTop: theme.spacing(1),
+    whiteSpace: "pre-wrap",
   },
 }));
 

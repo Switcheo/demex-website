@@ -52,6 +52,8 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
 	},
 	button: {
 		color: theme.palette.text.primary,
+    opacity: 1,
+    transition: "opacity .5s ease-in-out",
     "&.inactive": {
       opacity: 0.2,
     },

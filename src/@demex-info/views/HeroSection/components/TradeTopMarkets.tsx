@@ -81,7 +81,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
       <CardContent className={styles.cardContent}>
         <div className={styles.cardTitleWrapper}>
           <Typography variant="h3" className={styles.cardTitle}>Trade Top Markets</Typography>
-          <Hidden smUp>
+          <Hidden mdUp>
             <Button
               onClick={onClickButton}
               size="small"
@@ -138,7 +138,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
             </Box>
           ))}
         </Box>
-        <Hidden smDown>
+        <Hidden mdDown>
           <Button
             onClick={onClickButton}
             size="large"
@@ -171,7 +171,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.main,
   },
   marketName: {
-    ...theme.typography.title2,
+    ...theme.typography.body2,
     color: theme.palette.text.primary,
     whiteSpace: "nowrap",
     "& > div": {
@@ -185,7 +185,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   priceName: {
-    ...theme.typography.title2,
+    ...theme.typography.body2,
     color: theme.palette.text.primary,
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.title3,

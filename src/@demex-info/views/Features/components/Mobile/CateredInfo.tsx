@@ -41,7 +41,7 @@ const CateredInfo = () => {
         />
         <CateredCard
           title="Nitron Money Market"
-          description="Lend and borrow assets on Nitron, our money market, with additional incentives and flexible terms"
+          description="Lend and borrow assets on Nitron with additional incentives and flexible terms"
         />
         <CateredCard
           title="Seamless Earning"

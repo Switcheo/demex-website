@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   dropdown: {
     padding: theme.spacing(1),
     borderRadius: 4,
-    minWidth: "10.75rem",
+    width: "17.5rem",
   },
   labelClass: {
     margin: "0px 4px 0px 16px",

@@ -1,4 +1,4 @@
-import { Box, Button, Hidden, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import React from "react";
 import { Timeline, TimelineMobile } from "./components";
 
@@ -10,6 +10,9 @@ import { StaticLinks } from "@demex-info/constants";
 
 const Features: React.FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
 
   return (
     <Box className={classes.root}>
@@ -38,12 +41,11 @@ const Features: React.FC = () => {
             </Button>
           </Flip>
         </div>
-        <Hidden smDown>
-          <Timeline />
-        </Hidden>
-        <Hidden smUp>
+        {isMobile ? (
           <TimelineMobile />
-        </Hidden>
+        ) : (
+          <Timeline />
+        )}
       </div>
     </Box>
   );
@@ -72,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       flexDirection: "column-reverse",
       gap: theme.spacing(2),
     },
@@ -80,13 +82,16 @@ const useStyles = makeStyles((theme) => ({
   title: {
     ...theme.typography.h2,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.h3,
+    },
+    [theme.breakpoints.down("xs")]: {
 			...theme.typography.h4,
       textAlign: "center",
     },
   },
   description: {
-    ...theme.typography.h4,
+    ...theme.typography.body1,
     color: theme.palette.text.secondary,
     marginTop: theme.spacing(1),
     [theme.breakpoints.down("md")]: {

@@ -6,7 +6,8 @@ export const roadmapData = [
       "Socials Log In",
       "Mobile App",
     ],
-    highlight: false,
+    highlight: true,
+    active: false,
   },
   {
     quarter: "Q2 2024",
@@ -15,7 +16,8 @@ export const roadmapData = [
       "On-chain Demex Alerts",
       "Signless Trading",
     ],
-    highlight: false,
+    highlight: true,
+    active: false,
   },
   {
     quarter: "Q3 2024",
@@ -25,6 +27,7 @@ export const roadmapData = [
       "CEX On-ramp",
     ],
     highlight: true,
+    active: true,
   },
   {
     quarter: "Q4 2024",
@@ -34,6 +37,7 @@ export const roadmapData = [
       "Multi-Asset Collateral",
     ],
     highlight: false,
+    active: false,
   },
   {
     quarter: "Q1 2025",
@@ -43,5 +47,6 @@ export const roadmapData = [
       "BTC L2 Deployment",
     ],
     highlight: false,
+    active: false,
   },
 ];

@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(8),
     maxWidth: "1346px",
     [theme.breakpoints.down("md")]: {
+      gap: theme.spacing(4),
+    },
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   },
@@ -68,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   description: {
-    ...theme.typography.h4,
+    ...theme.typography.body1,
     color: theme.palette.text.secondary,
     marginBottom: theme.spacing(4),
   },

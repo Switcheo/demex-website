@@ -27,9 +27,7 @@ const HeroSection: React.FC = () => {
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
-			<Hidden mdDown>
-				<Box mt="15vh" />
-			</Hidden>
+			<Box className={classes.emptySpacing} />
 			<div className={classes.containerWrapper}>
 				<Container maxWidth={false} className={classes.contentContainer}>
 					<Box className={classes.left}>
@@ -53,7 +51,7 @@ const HeroSection: React.FC = () => {
 					</Box>
 					<Fade triggerOnce direction="up">
 						<div className={classes.right}>
-							<Hidden smUp>
+							<Hidden mdUp>
 								<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
 									<Button
 										size="large"
@@ -84,7 +82,7 @@ const HeroSection: React.FC = () => {
 										<Box display="flex" flexDirection="column"alignItems="center" gridGap={16} width="100%">
 											<div className={styles.cardTitleWrapper}>
 												<Typography variant="h3" className={styles.cardTitle}>Earn High Yield</Typography>
-												<Hidden smUp>
+												<Hidden mdUp>
 													<Button
 														onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
 														size="small"
@@ -101,7 +99,7 @@ const HeroSection: React.FC = () => {
 											<Typography className={classes.title}>Up to 100% APR</Typography>
 											<Typography className={classes.subTitle}>Borrow, lend, mint assets</Typography>
 										</Box>
-										<Hidden smDown>
+										<Hidden mdDown>
 											<Button
 												onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
 												size="large"
@@ -141,6 +139,20 @@ const useStyles = makeStyles((theme) => ({
 			overflow: "hidden",
 			paddingBottom: "15rem",
 			marginBottom: "-15rem",
+			backgroundSize: "contain",
+			backgroundPosition: "center 11%",
+		},
+	},
+	emptySpacing: {
+		marginTop: "15rem",
+		[theme.breakpoints.down("lg")]: {
+			marginTop: "10rem",
+		},
+		[theme.breakpoints.down("sm")]: {
+			marginTop: "5rem",
+		},
+		[theme.breakpoints.down("xs")]: {
+			marginTop: 0,
 		},
 	},
 	padding: {
@@ -196,9 +208,10 @@ const useStyles = makeStyles((theme) => ({
 			marginTop: 0,
 			height: "unset",
 			overflow: "hidden",
+			padding: theme.spacing(0, 4),
 		},
-		[theme.breakpoints.down("sm")]: {
-			padding: "0",
+		[theme.breakpoints.down("xs")]: {
+			padding: 0,
 			justifyContent: "center",
 			flexDirection: "column",
 		},
@@ -209,7 +222,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "flex-start",
 		justifyContent: "center",
 		gap: theme.spacing(4),
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.down("xs")]: {
 			alignItems: "center",
 			gap: theme.spacing(2),
 		},
@@ -227,14 +240,18 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
 		[theme.breakpoints.down("sm")]: {
 			...theme.typography.h2,
+		},
+		[theme.breakpoints.down("xs")]: {
 			textAlign: "center",
 		},
 	},
 	description: {
-		...theme.typography.h4,
+		...theme.typography.body1,
 		maxWidth: "320px",
 		[theme.breakpoints.down("sm")]: {
 			...theme.typography.title3,
+		},
+		[theme.breakpoints.down("xs")]: {
 			textAlign: "center",
 		},
 	},
@@ -249,13 +266,14 @@ const useStyles = makeStyles((theme) => ({
 	containerWrapper: {
 		width: "100%",
 		maxWidth: "1346px",
+		margin: "0 auto",
 	},
 	title: {
 		...theme.typography.h3,
 		color: theme.palette.text.primary,
 	},
 	subTitle: {
-		...theme.typography.title2,
+		...theme.typography.body2,
 		color: theme.palette.text.secondary,
 	},
 	tab: {

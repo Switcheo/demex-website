@@ -26,10 +26,6 @@ const NavFooter: React.FC = () => {
           href: StaticLinks.DemexDocs.About,
         },
         {
-          label: "Ecosystem",
-          href: StaticLinks.CarbonNetwork,
-        },
-        {
           label: "Blog",
           href: StaticLinks.DemexBlog,
         },

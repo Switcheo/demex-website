@@ -173,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   marketName: {
-    ...theme.typography.title2,
+    ...theme.typography.body2,
     color: theme.palette.text.primary,
     whiteSpace: "nowrap",
     "& > div": {
@@ -190,10 +190,10 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.h4,
     color: theme.palette.text.primary,
     [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title1,
+      ...theme.typography.body1,
     },
     [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title2,
+      ...theme.typography.body2,
     },
   },
   changeText: {
