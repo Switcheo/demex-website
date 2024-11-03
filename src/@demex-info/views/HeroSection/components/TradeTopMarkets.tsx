@@ -8,7 +8,7 @@ import { AssetIcon, RenderGuard } from "@demex-info/components";
 import { RootState } from "@demex-info/store/types";
 import { BN_ZERO, getDecimalPlaces, toPercentage } from "@demex-info/utils";
 import { getAdjustedTickLotSize, isPerpetual, MarketListMap, MarketStatItem, parseMarketListMap } from "@demex-info/utils/markets";
-import { Box, Button, Card, CardContent, Hidden, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, Card, CardContent, makeStyles, Typography, useMediaQuery } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useHeroSectionStyles } from "../styles";
 
@@ -21,6 +21,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
   const { active, onClickButton } = props;
   const classes = useStyles();
   const styles = useHeroSectionStyles();
+  const isMobile = useMediaQuery("(max-width:930px)");
 
   const sdk = useSelector((store: RootState) => store.app.sdk);
   const tokenClient = sdk?.token;
@@ -81,7 +82,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
       <CardContent className={styles.cardContent}>
         <div className={styles.cardTitleWrapper}>
           <Typography variant="h3" className={styles.cardTitle}>Trade Top Markets</Typography>
-          <Hidden mdUp>
+          {isMobile && (
             <Button
               onClick={onClickButton}
               size="small"
@@ -92,7 +93,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
             >
               Trade
             </Button>
-          </Hidden>
+          )}
         </div>
         <Box display="flex" flexDirection="column" gridGap={16} width="100%">
           <RenderGuard renderIf={statLoading || !tokensStats.length}>
@@ -138,7 +139,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
             </Box>
           ))}
         </Box>
-        <Hidden mdDown>
+        {!isMobile && (
           <Button
             onClick={onClickButton}
             size="large"
@@ -149,7 +150,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
           >
             Trade Now
           </Button>
-        </Hidden>
+        )}
       </CardContent>
     </Card>
   );
@@ -177,6 +178,9 @@ const useStyles = makeStyles((theme) => ({
     "& > div": {
       color: theme.palette.text.secondary,
     },
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.body3,
+    },
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.title3,
     },
@@ -187,8 +191,14 @@ const useStyles = makeStyles((theme) => ({
   priceName: {
     ...theme.typography.body2,
     color: theme.palette.text.primary,
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.body3,
+    },
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.title3,
+    },
+    [theme.breakpoints.only("xs")]: {
+      ...theme.typography.title4,
     },
   },
   standardSkeleton: {

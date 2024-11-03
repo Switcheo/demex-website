@@ -1,6 +1,6 @@
 import HeroBackground from "@demex-info/assets/background/HeroBackground.svg";
 import { SvgIcon } from "@demex-info/components";
-import { Box, Button, ButtonGroup, Card, CardContent, Container, Hidden, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Card, CardContent, Container, makeStyles, Typography, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { Fade, Rotate } from "react-awesome-reveal";
@@ -17,6 +17,7 @@ const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const styles = useHeroSectionStyles();
 	const net = useSelector((state: RootState) => state.app.network);
+	const isMobile = useMediaQuery("(max-width:930px)");
 
 	const handleClickDemexLink = (demexLink: string, gaEvent?: EventAction) => {
     goToDemexLink(demexLink);
@@ -51,7 +52,7 @@ const HeroSection: React.FC = () => {
 					</Box>
 					<Fade triggerOnce direction="up">
 						<div className={classes.right}>
-							<Hidden mdUp>
+							{isMobile && (
 								<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
 									<Button
 										size="large"
@@ -70,7 +71,7 @@ const HeroSection: React.FC = () => {
 										Earn
 									</Button>
 								</ButtonGroup>
-							</Hidden>
+							)}
 							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
 							<Fade triggerOnce delay={50} direction="up">
 								<Card
@@ -82,7 +83,7 @@ const HeroSection: React.FC = () => {
 										<Box display="flex" flexDirection="column"alignItems="center" gridGap={16} width="100%">
 											<div className={styles.cardTitleWrapper}>
 												<Typography variant="h3" className={styles.cardTitle}>Earn High Yield</Typography>
-												<Hidden mdUp>
+												{isMobile && (
 													<Button
 														onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
 														size="small"
@@ -93,13 +94,13 @@ const HeroSection: React.FC = () => {
 													>
 														Earn
 													</Button>
-												</Hidden>
+												)}
 											</div>
 											<SvgIcon className={classes.tokensLogo} component={Tokens} />
 											<Typography className={classes.title}>Up to 100% APR</Typography>
 											<Typography className={classes.subTitle}>Borrow, lend, mint assets</Typography>
 										</Box>
-										<Hidden mdDown>
+										{!isMobile && (
 											<Button
 												onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
 												size="large"
@@ -110,7 +111,7 @@ const HeroSection: React.FC = () => {
 											>
 												Earn Now
 											</Button>
-										</Hidden>
+										)}
 									</CardContent>
 								</Card>
 							</Fade>
@@ -193,6 +194,9 @@ const useStyles = makeStyles((theme) => ({
 		gap: theme.spacing(4),
 		width: "100%",
 		height: "100%",
+		[theme.breakpoints.down("md")]: {
+			gap: theme.spacing(3),
+		},
 		[theme.breakpoints.down("sm")]: {
 			flexDirection: "column",
 			gap: theme.spacing(1),
@@ -204,13 +208,22 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 		padding: 0,
+		gap: theme.spacing(16),
 		[theme.breakpoints.down("md")]: {
 			marginTop: 0,
 			height: "unset",
 			overflow: "hidden",
 			padding: theme.spacing(0, 4),
+			gap: theme.spacing(10),
 		},
-		[theme.breakpoints.down("xs")]: {
+		["@media (max-width: 1050px)"]: {
+			marginTop: 0,
+			height: "unset",
+			overflow: "hidden",
+			padding: 0,
+			gap: theme.spacing(1),
+		},
+		["@media (max-width: 755px)"]: {
 			padding: 0,
 			justifyContent: "center",
 			flexDirection: "column",
@@ -222,7 +235,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "flex-start",
 		justifyContent: "center",
 		gap: theme.spacing(4),
-		[theme.breakpoints.down("xs")]: {
+		["@media (max-width: 755px)"]: {
 			alignItems: "center",
 			gap: theme.spacing(2),
 		},
@@ -238,20 +251,20 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: "48px",
 		textAlign: "left",
 		color: theme.palette.text.primary,
-		[theme.breakpoints.down("sm")]: {
+		["@media (max-width: 1180px)"]: {
 			...theme.typography.h2,
 		},
-		[theme.breakpoints.down("xs")]: {
+		["@media (max-width: 755px)"]: {
 			textAlign: "center",
 		},
 	},
 	description: {
 		...theme.typography.body1,
 		maxWidth: "320px",
-		[theme.breakpoints.down("sm")]: {
+		["@media (max-width: 1180px)"]: {
 			...theme.typography.title3,
 		},
-		[theme.breakpoints.down("xs")]: {
+		["@media (max-width: 755px)"]: {
 			textAlign: "center",
 		},
 	},
@@ -264,17 +277,22 @@ const useStyles = makeStyles((theme) => ({
 		height: "auto",
 	},
 	containerWrapper: {
-		width: "100%",
 		maxWidth: "1346px",
 		margin: "0 auto",
 	},
 	title: {
 		...theme.typography.h3,
 		color: theme.palette.text.primary,
+		[theme.breakpoints.down("md")]: {
+			...theme.typography.h4,
+		},
 	},
 	subTitle: {
 		...theme.typography.body2,
 		color: theme.palette.text.secondary,
+		[theme.breakpoints.down("md")]: {
+			...theme.typography.body2,
+		},
 	},
 	tab: {
 		...theme.typography.body3,

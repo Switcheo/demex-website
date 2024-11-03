@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     height: "2px",
     backgroundColor: "#4A5568",
     transform: "translateY(-50%)",
-    [theme.breakpoints.down("md")]: {
-      top: "45.5%",
-    },
   },
   activeLine: {
     position: "absolute",
@@ -40,9 +37,6 @@ const useStyles = makeStyles((theme) => ({
     transform: "translateY(-50%)",
     background: "linear-gradient(270deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)",
     boxShadow: "0px 0px 32px 0px #007AFF",
-    [theme.breakpoints.down("md")]: {
-      top: "45.5%",
-    },
   },
   roadmapItem: {
     display: "flex",
@@ -75,16 +69,22 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(4),
     },
     [theme.breakpoints.down("md")]: {
-      width: "220px",
+      width: "200px",
+    },
+    "@media (max-width: 940px)": {
+      width: "150px",
     },
   },
   emptyCard: {
     width: "240px",
     [theme.breakpoints.down("md")]: {
-      width: "220px",
+      width: "150px",
     },
     [theme.breakpoints.down("sm")]: {
       width: "110px",
+    },
+    ["@media (max-width: 725px)"]: {
+      width: "50px",
     },
   },
   highlightedCard: {
@@ -106,6 +106,11 @@ const useStyles = makeStyles((theme) => ({
     "& > svg": {
       width: "16px",
       height: "16px",
+    },
+    "@media (max-width: 940px)": {
+      "& > p": {
+        ...theme.typography.body3,
+      }
     },
   },
 }));

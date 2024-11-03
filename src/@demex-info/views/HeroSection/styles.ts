@@ -14,7 +14,12 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
     "&.inactive": {
       opacity: 0.7,
     },
+    [theme.breakpoints.down("md")]: {
+      width: "320px",
+      minWidth: "320px",
+    },
     [theme.breakpoints.down("sm")]: {
+      minWidth: "360px",
       opacity: 1,
       "&.inactive": {
         display: "none",
@@ -31,6 +36,13 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
       gap: theme.spacing(3.5),
     },
 		padding: theme.spacing(5, 4),
+    ["@media (max-width: 1180px)"]: {
+      gap: theme.spacing(3),
+      padding: theme.spacing(4, 3),
+      "&.earn": {
+        gap: theme.spacing(1.375),
+      },
+    },
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(3, 2),
     },
@@ -46,6 +58,9 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
 	cardTitle: {
 		...theme.typography.h3,
 		color: theme.palette.text.primary,
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.h4,
+    },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.title2,
     },
