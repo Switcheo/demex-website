@@ -1,48 +1,13 @@
 import { DemexLogo } from "@demex-info/assets/logos";
-import { CustomAccordion, TypographyLabel } from "@demex-info/components";
-import { getExplorerLink, NavLink, StaticLinks } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
+import { TypographyLabel } from "@demex-info/components";
 import { StyleUtils } from "@demex-info/utils/styles";
-import { Box, Hidden, Link, makeStyles, Theme } from "@material-ui/core";
+import { Box, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
 import SocialLinkBox from "./SocialLinkBox";
 
-interface NavLinkMap {
-  title: string;
-  items: NavLink[];
-}
 
 const NavFooter: React.FC = () => {
   const classes = useStyles();
-  const net = useSelector((state: RootState) => state.app.network);
-
-  const FooterNavMap: NavLinkMap[] = [
-    {
-      title: "About Demex",
-      items: [
-        {
-          label: "Blog",
-          href: StaticLinks.DemexBlog,
-        },
-      ],
-    },
-    {
-      title: "Resources",
-      items: [
-        {
-          label: "Explorer",
-          href: getExplorerLink(net),
-        }, {
-          label: "GitHub",
-          href: StaticLinks.Socials.GitHub,
-        },
-        {
-          label: "Brand Assets",
-          href: StaticLinks.BrandAssets,
-        },
-      ],
-  }];
 
   return (
     <Box className={classes.root}>
@@ -53,81 +18,8 @@ const NavFooter: React.FC = () => {
             © 2024 Demex. All rights reserved.
           </TypographyLabel>
         </Hidden>
-        <Hidden only="xs">
-          <SocialLinkBox />
-        </Hidden>
       </Box>
-      <Box className={classes.footerNav}>
-        <Box className={classes.navBox}>
-          <Hidden only="xs">
-            {FooterNavMap.map((footerNav: NavLinkMap) => {
-              return (
-                <Box className={classes.navDiv} key={footerNav.title}>
-                  <TypographyLabel className={classes.navTxt}>
-                    {footerNav.title}
-                  </TypographyLabel>
-                  {footerNav.items.map((navItem: NavLink) => {
-                    if (navItem?.href) {
-                      return (
-                        <Link
-                          className={classes.navLink}
-                          color="textPrimary"
-                          key={navItem.label}
-                          href={navItem?.href}
-                          target="_blank"
-                        >
-                          {navItem.label}
-                        </Link>
-                      );
-                    }
-                    return null;
-                  })}
-                </Box>
-              );
-            })}
-          </Hidden>
-          <Hidden smUp>
-            <React.Fragment>
-              <Box className={classes.mobileMenu}>
-                {FooterNavMap.map((footerNav: NavLinkMap) => {
-                  return (
-                    <CustomAccordion
-                      key={footerNav.title}
-                      accordionSummary={footerNav.title}
-                      accordionDetails={(
-                        <React.Fragment>
-                          {footerNav.items.map((navItem: NavLink) => {
-                            if (navItem?.href) {
-                              return (
-                                <Link
-                                  className={classes.navLink}
-                                  color="textPrimary"
-                                  key={navItem.label}
-                                  href={navItem?.href}
-                                  target="_blank"
-                                >
-                                  {navItem.label}
-                                </Link>
-                              );
-                            }
-                            return null;
-                          })}
-                        </React.Fragment>
-                      )}
-                      accordionClasses={{
-                        acordionSummary: classes.accordionSummary,
-                      }}
-                    />
-                  );
-                })}
-              </Box>
-            </React.Fragment>
-          </Hidden>
-        </Box>
-      </Box>
-      <Hidden smUp>
-        <SocialLinkBox />
-      </Hidden>
+      <SocialLinkBox />
     </Box>
   );
 };
@@ -135,6 +27,7 @@ const NavFooter: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
+    alignItems: "center",
     justifyContent: "space-between",
     paddingTop: theme.spacing(12.5),
     [theme.breakpoints.only("md")]: {
@@ -144,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: theme.spacing(2.5, 0, 3),
       flexDirection: "column",
       alignItems: "center",
+      justifyContent: "center",
       gap: theme.spacing(3),
     },
   },

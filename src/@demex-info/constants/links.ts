@@ -1,4 +1,4 @@
-import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, X, Youtube } from "@demex-info/assets/logos";
+import { Blog, CarbonIcon, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, X, Youtube } from "@demex-info/assets/logos";
 import { TipsIcon } from "@demex-info/assets/icons";
 import { CarbonSDK } from "carbon-js-sdk";
 import { DOMAttributes, FunctionComponent, ReactNode, SVGProps } from "react";
@@ -166,6 +166,7 @@ export const StaticLinks = {
       },
     },
     Roadmap: "https://guide.dem.exchange/welcome/what-is-demex/demex-roadmap",
+    Explore: "https://scan.carbon.network/dashboard?net=main",
   },
   DemexBlog: "https://blog.dem.exchange/",
   Tendermint: "https://tendermint.com/core/",
@@ -329,5 +330,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "feedback",
     href: StaticLinks.Feedback,
     component: TipsIcon,
+  },
+  Explore: {
+    label: "explore",
+    href: StaticLinks.DemexDocs.Explore,
+    component: CarbonIcon,
   },
 };

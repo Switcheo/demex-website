@@ -1,5 +1,5 @@
 import { CloseIcon } from "@demex-info/assets/icons";
-import { DemexLogo, PoweredByCarbonFlat } from "@demex-info/assets/logos";
+import { DemexLogo } from "@demex-info/assets/logos";
 import { CustomAccordion } from "@demex-info/components";
 import { NavLink } from "@demex-info/constants";
 import useHeaderLinks from "@demex-info/hooks/useHeaderLinks";
@@ -57,11 +57,6 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
             ))}
           </Box>
         </div>
-        <Box className={classes.box}>
-          <Box className={classes.footerLogo}>
-            <PoweredByCarbonFlat className={classes.swthLogo} />
-          </Box>
-        </Box>
       </Drawer>
     </React.Fragment>
   );

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     maxWidth: "1346px",
     margin: "0 auto",
-    minHeight: "17.5rem",
+    minHeight: "11rem",
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(0, 4),
     },

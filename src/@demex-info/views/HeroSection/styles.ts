@@ -3,8 +3,10 @@ import { makeStyles } from "@material-ui/core";
 export const useHeroSectionStyles = makeStyles((theme) => ({
   card: {
 		flex: 1,
+    display: "flex",
     minHeight: "257px",
 		minWidth: "360px",
+    width: "360px",
     background: "#FFFFFF0A",
     backdropFilter: "blur(64px)",
     boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
@@ -14,12 +16,9 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
     "&.inactive": {
       opacity: 0.7,
     },
-    [theme.breakpoints.down("md")]: {
-      width: "320px",
-      minWidth: "320px",
-    },
     [theme.breakpoints.down("sm")]: {
       minWidth: "360px",
+      width: "360px",
       opacity: 1,
       "&.inactive": {
         display: "none",
@@ -32,21 +31,11 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
 		alignItems: "center",
 		justifyContent: "space-between",
     gap: theme.spacing(4),
-    "&.earn": {
-      gap: theme.spacing(3.5),
-    },
+    width: "100%",
 		padding: theme.spacing(5, 4),
-    ["@media (max-width: 1278px)"]: {
-      "&.earn": {
-      gap: theme.spacing(2.25),
-    },
-    },
     ["@media (max-width: 1180px)"]: {
       gap: theme.spacing(3),
       padding: theme.spacing(4, 3),
-      "&.earn": {
-        gap: theme.spacing(1.375),
-      },
     },
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(3, 2),

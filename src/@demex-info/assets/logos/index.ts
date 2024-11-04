@@ -8,7 +8,6 @@ export { ReactComponent as GitBook } from "./GitBook.svg";
 export { ReactComponent as GitHub } from "./GitHub.svg";
 export { ReactComponent as LinkedIn } from "./LinkedIn.svg";
 export { ReactComponent as Medium } from "./Medium.svg";
-export { ReactComponent as PoweredByCarbonFlat } from "./PoweredByCarbonFlat.svg";
 export { ReactComponent as Reddit } from "./Reddit.svg";
 export { ReactComponent as Telegram } from "./Telegram.svg";
 export { ReactComponent as TradingView } from "./TradingView.svg";
@@ -17,3 +16,5 @@ export { ReactComponent as X } from "./X.svg";
 export { ReactComponent as Youtube } from "./Youtube.svg";
 export { ReactComponent as HyperLiquid } from "./HyperLiquid.svg";
 export { ReactComponent as Drift } from "./Drift.svg";
+export { ReactComponent as CarbonIcon } from "./Carbon.svg";
+

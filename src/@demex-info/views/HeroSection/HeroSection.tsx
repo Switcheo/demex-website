@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
 								<Typography variant="h1" className={classes.headline}>
 									Trade. Earn.
 									<br />
-									Exponentially.
+									Exponentially
 								</Typography>
 							</Fade>
 							<Fade triggerOnce direction="up">
@@ -82,7 +82,7 @@ const HeroSection: React.FC = () => {
 									<CardContent className={clsx(styles.cardContent, "earn")}>
 										<Box display="flex" flexDirection="column"alignItems="center" gridGap={16} width="100%">
 											<div className={styles.cardTitleWrapper}>
-												<Typography variant="h3" className={styles.cardTitle}>Earn High Yield</Typography>
+												<Typography variant="h3" className={styles.cardTitle}>Earn Yield</Typography>
 												{isMobile && (
 													<Button
 														onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
@@ -97,8 +97,8 @@ const HeroSection: React.FC = () => {
 												)}
 											</div>
 											<SvgIcon className={classes.tokensLogo} component={Tokens} />
-											<Typography className={classes.title}>Up to 100% APR</Typography>
-											<Typography className={classes.subTitle}>Borrow, lend, mint assets</Typography>
+											<Typography className={classes.title}>Lend/Borrow, Liquidity Pools and Staking</Typography>
+											<Typography className={classes.subTitle}>Get the most out of your assets</Typography>
 										</Box>
 										{!isMobile && (
 											<Button
@@ -273,19 +273,21 @@ const useStyles = makeStyles((theme) => ({
 		height: "60px",
 	},
 	tokensLogo: {
-		width: "18.75rem",
+		width: "100%",
 		height: "auto",
+		[theme.breakpoints.down("sm")]: {
+			width: "70%",
+		},
 	},
 	containerWrapper: {
 		maxWidth: "1346px",
 		margin: "0 auto",
 	},
 	title: {
-		...theme.typography.h3,
+		...theme.typography.h4,
 		color: theme.palette.text.primary,
-		[theme.breakpoints.down("md")]: {
-			...theme.typography.h4,
-		},
+		textAlign: "center",
+		whiteSpace: "pre-wrap",
 	},
 	subTitle: {
 		...theme.typography.body2,

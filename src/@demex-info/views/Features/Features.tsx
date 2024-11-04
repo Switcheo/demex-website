@@ -15,7 +15,7 @@ const DexProperties: React.FC = () => {
       <Box className={classes.mainHeader}>
         <Box className={classes.typoContainer}>
           <Fade triggerOnce duration={2000}>
-            <Typography variant="h1" className={classes.typography}>
+            <Typography variant="h2" className={classes.typography}>
               Why Choose Demex?
             </Typography>
           </Fade>
@@ -84,17 +84,12 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(2),
   },
   typography: {
-    ...theme.typography.h1,
+    ...theme.typography.h2,
     color: theme.palette.text.primary,
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.h2,
+      ...theme.typography.h4,
       whiteSpace: "wrap",
       textAlign: "center",
-    },
-    [theme.breakpoints.only("xs")]: {
-      fontSize: "28px",
-      lineHeight: "38px",
-      whiteSpace: "break-spaces",
     },
   },
   description: {

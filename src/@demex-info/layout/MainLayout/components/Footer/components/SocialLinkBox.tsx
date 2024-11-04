@@ -10,6 +10,8 @@ const SocialLinkBox: React.FC = () => {
     SocialLnks.Telegram,
     SocialLnks.Discord,
     SocialLnks.Tips,
+    SocialLnks.Explore,
+    SocialLnks.GitHub,
   ];
 
   return (
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   iconBtn: {
-    margin: theme.spacing(0, 1, 0, 0),
+    margin: theme.spacing(0, 2, 0, 0),
     "&:last-child": {
       marginRight: 0,
     },
