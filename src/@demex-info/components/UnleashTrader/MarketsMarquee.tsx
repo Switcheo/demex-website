@@ -138,7 +138,10 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "300px",
     display: "flex",
     justifyContent: "space-between",
-    borderRadius: "32px",
+    border: "1px solid #FFFFFF0A",
+    borderRadius: theme.spacing(1),
+    backdropFilter: "blur(64px)",
+    boxShadow: "-16px 0px 40px 0px #482BFF1A inset",
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
       minHeight: "2.75rem",
