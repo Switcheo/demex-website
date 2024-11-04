@@ -1,15 +1,74 @@
+import { RootState } from "@demex-info/store/types";
+import { BN_ZERO, getDecimalPlaces } from "@demex-info/utils";
+import { getAdjustedTickLotSize, MarketStatItem } from "@demex-info/utils/markets";
 import { Box, makeStyles } from "@material-ui/core";
-import React from "react";
+import { TokenUtils } from "carbon-js-sdk";
+import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
+import dayjs from "dayjs";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import MarketsMarquee from "./MarketsMarquee";
-import TokensMarquee from "./TokensMarquee";
+import { MarketCard } from "@demex-info/constants/markets";
 
 const UnleashTrader: React.FC = () => {
   const classes = useStyles();
 
+  const sdk = useSelector((store: RootState) => store.app.sdk);
+  const markets = useSelector((store: RootState) => store.app.marketList);
+  const marketStatsList = useSelector((store: RootState) => store.app.marketStats);
+
+  const cards = React.useMemo((): MarketCard[] => {
+    return markets.map((market: Market) => {
+      const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market_id === market.id);
+      const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
+      const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
+      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride) ?? "";
+      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride) ?? "";
+      const quoteUsd = sdk?.token.getUSDValue(market?.quote ?? "") ?? BN_ZERO;
+      const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
+      const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
+      const diffDp = baseDp - quoteDp;
+      const dailyVolume = stat?.volume.shiftedBy(-quoteDp) ?? 0;
+      const usdVolume = quoteUsd.times(dailyVolume);
+
+      const { tickSize } = getAdjustedTickLotSize(market, sdk);
+      const priceDp = getDecimalPlaces(tickSize.toString(10));
+      const lastPrice = stat?.lastPrice.shiftedBy(diffDp) ?? BN_ZERO;
+      const openPrice = stat?.dayOpen.shiftedBy(diffDp) ?? BN_ZERO;
+      const closePrice = stat?.dayClose.shiftedBy(diffDp) ?? BN_ZERO;
+      const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
+
+      return {
+        stat,
+        baseSymbol,
+        quoteSymbol,
+        expiry,
+        priceDp,
+        lastPrice,
+        usdVolume,
+        change24H,
+        market,
+      };
+    });
+  }, [markets, marketStatsList, sdk?.token]);
+
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [cards]);
+
+  // only display markets with 24H volume > $100 in desc order
+  const filteredCards = cards.filter((card: MarketCard) => {
+    return card.usdVolume.gt(100);
+  }).sort((cardA: MarketCard, cardB: MarketCard) => {
+    const volumeA = cardA.usdVolume;
+    const volumeB = cardB.usdVolume;
+    return volumeA.comparedTo(volumeB);
+  });
+
   return (
     <Box className={classes.root}>
-      <MarketsMarquee />
-      <TokensMarquee />
+      <MarketsMarquee filteredCards={filteredCards} />
+      <MarketsMarquee filteredCards={filteredCards} direction="right" />
     </Box>
   );
 };
@@ -18,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
+    gap: theme.spacing(2),
     zIndex: 1,
     marginTop: "0.5rem",
     alignItems: "center",
@@ -63,14 +123,6 @@ const useStyles = makeStyles((theme) => ({
       left: "50%",
       height: "calc(100vh + 40rem)",
     },
-    // [theme.breakpoints.down("md")]: {
-    //   overflow: "hidden",
-    //   top: "-125px",
-    //   minHeight: "60rem",
-    // },
-    // [theme.breakpoints.down("xs")]: {
-    //   top: "-200px",
-    // },
   },
   container: {
     zIndex: -2,
@@ -103,4 +155,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default UnleashTrader;
+export default React.memo(UnleashTrader);

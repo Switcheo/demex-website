@@ -1,95 +1,29 @@
+import { AssetIcon } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
 import { goToLink, Paths } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, formatUsdPrice, getDecimalPlaces, toPercentage } from "@demex-info/utils";
-import { getAdjustedTickLotSize, isPerpetual, MarketStatItem } from "@demex-info/utils/markets";
+import { formatUsdPrice, toPercentage } from "@demex-info/utils";
+import { isPerpetual } from "@demex-info/utils/markets";
 import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import BigNumber from "bignumber.js";
-import { TokenUtils } from "carbon-js-sdk";
-import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
-import { useSelector } from "react-redux";
-import { AssetIcon } from "@demex-info/components";
 import MarketSparkline from "./MarketSparkline";
-
-interface MarketCard {
-  stat?: MarketStatItem;
-  baseSymbol: string;
-  quoteSymbol: string;
-  expiry: string;
-  priceDp: number;
-  lastPrice: BigNumber;
-  usdVolume: BigNumber;
-  change24H: BigNumber;
-  market: Market;
-}
+import { MarketCard } from "@demex-info/constants/markets";
 
 interface Props {
+  filteredCards: MarketCard[];
+  direction?: "left" | "right";
 }
 
-const MarketsMarquee: React.FC<Props> = () => {
+const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) => {
   const theme = useTheme();
   const classes = useStyles();
 
-  const sdk = useSelector((store: RootState) => store.app.sdk);
-  const markets = useSelector((store: RootState) => store.app.marketList);
-  const marketStatsList = useSelector((store: RootState) => store.app.marketStats);
   const [ready, setReady] = React.useState<boolean>(false);
 
   useEffect(() => {
     setTimeout(() => setReady(true));
   }, []);
-
-  const cards = React.useMemo((): MarketCard[] => {
-    return markets.map((market: Market) => {
-      const stat: MarketStatItem | undefined = marketStatsList.find(stat => stat.market_id === market.id);
-      const symbolOverride = market.marketType === "spot" ? undefined : TokenUtils.FuturesDenomOverride;
-      const expiry = market.marketType === "futures" ? dayjs(market.expiryTime).format("DD MMM YYYY") : "";
-      const baseSymbol = sdk?.token.getTokenName(market.base, symbolOverride) ?? "";
-      const quoteSymbol = sdk?.token.getTokenName(market.quote, symbolOverride) ?? "";
-      const quoteUsd = sdk?.token.getUSDValue(market?.quote ?? "") ?? BN_ZERO;
-      const baseDp = sdk?.token.getDecimals(market?.base ?? "") ?? 0;
-      const quoteDp = sdk?.token.getDecimals(market?.quote ?? "") ?? 0;
-      const diffDp = baseDp - quoteDp;
-      const dailyVolume = stat?.volume.shiftedBy(-quoteDp) ?? 0;
-      const usdVolume = quoteUsd.times(dailyVolume);
-
-      const { tickSize } = getAdjustedTickLotSize(market, sdk);
-      const priceDp = getDecimalPlaces(tickSize.toString(10));
-      const lastPrice = stat?.lastPrice.shiftedBy(diffDp) ?? BN_ZERO;
-      const openPrice = stat?.dayOpen.shiftedBy(diffDp) ?? BN_ZERO;
-      const closePrice = stat?.dayClose.shiftedBy(diffDp) ?? BN_ZERO;
-      const change24H = openPrice.isZero() ? BN_ZERO : closePrice.minus(openPrice).dividedBy(openPrice);
-
-      return {
-        stat,
-        baseSymbol,
-        quoteSymbol,
-        expiry,
-        priceDp,
-        lastPrice,
-        usdVolume,
-        change24H,
-        market,
-      };
-    });
-  }, [markets, marketStatsList, sdk?.token]);
-
-  useEffect(() => {
-    window.dispatchEvent(new Event("resize"));
-  }, [cards]);
-
-  // only display markets with 24H volume > $100 in desc order
-  const filteredCards = cards.filter((card: MarketCard) => {
-    return card.usdVolume.gt(100);
-  }).sort((cardA: MarketCard, cardB: MarketCard) => {
-    const volumeA = cardA.usdVolume;
-    const volumeB = cardB.usdVolume;
-    return volumeA.comparedTo(volumeB);
-  });
 
   const goToMarket = (market: string) => {
     goToLink(`${Paths.Trade}/${market ?? ""}`);
@@ -97,12 +31,11 @@ const MarketsMarquee: React.FC<Props> = () => {
 
   const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;
 
-
   return (
     <React.Fragment>
       {ready && (
         <Suspense fallback={null}>
-          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction="right" speed={speed} pauseOnHover>
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={speed} pauseOnHover>
             {filteredCards.map((card: MarketCard) => {
               const sparklineColor: string = card.change24H.isPositive() ? `${theme.palette.success.main}` : `${theme.palette.error.main}`;
               return (
@@ -229,4 +162,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default MarketsMarquee;
+export default React.memo(MarketsMarquee);
