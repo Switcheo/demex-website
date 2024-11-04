@@ -3,7 +3,7 @@ import { Cards } from "@demex-info/components/Cards";
 import { goToLink, Paths } from "@demex-info/constants";
 import { toPercentage } from "@demex-info/utils";
 import { isPerpetual } from "@demex-info/utils/markets";
-import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
@@ -15,7 +15,6 @@ interface Props {
 }
 
 const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) => {
-  const theme = useTheme();
   const classes = useStyles();
 
   const [ready, setReady] = React.useState<boolean>(false);
@@ -28,13 +27,11 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
     goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
-  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;
-
   return (
     <React.Fragment>
       {ready && (
         <Suspense fallback={null}>
-          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={speed} pauseOnHover>
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={20} pauseOnHover>
             {filteredCards.map((card: MarketCard) => {
               return (
                 <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
@@ -145,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
       minHeight: "2.75rem",
-      minWidth: "unset",
+      minWidth: "250px",
     },
   },
 }));
