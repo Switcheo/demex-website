@@ -204,6 +204,9 @@ const useStyles = makeStyles((theme) => ({
   standardSkeleton: {
     width: "100%",
     height: "36px",
+    [theme.breakpoints.down("md")]: {
+      height: "32px",
+    },
   },
 }));
 

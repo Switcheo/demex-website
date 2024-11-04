@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     "@media (max-width: 940px)": {
       "& > p": {
         ...theme.typography.body3,
-      }
+      },
     },
   },
 }));

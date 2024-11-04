@@ -22,10 +22,6 @@ const NavFooter: React.FC = () => {
       title: "About Demex",
       items: [
         {
-          label: "About Us",
-          href: StaticLinks.DemexDocs.About,
-        },
-        {
           label: "Blog",
           href: StaticLinks.DemexBlog,
         },

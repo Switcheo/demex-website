@@ -36,6 +36,11 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
       gap: theme.spacing(3.5),
     },
 		padding: theme.spacing(5, 4),
+    ["@media (max-width: 1278px)"]: {
+      "&.earn": {
+      gap: theme.spacing(2.25),
+    },
+    },
     ["@media (max-width: 1180px)"]: {
       gap: theme.spacing(3),
       padding: theme.spacing(4, 3),

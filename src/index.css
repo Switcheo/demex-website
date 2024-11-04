@@ -8,14 +8,21 @@ html {
 
 @font-face {
   font-family: 'Eina01';
+  font-weight: 400;
+  text-rendering: geometricPrecision;
+  src: url('./fonts/Eina01-Regular.ttf') format('woff');
+}
+
+@font-face {
+  font-family: 'Eina01';
   font-weight: 700;
   text-rendering: geometricPrecision;
-  src: url('./fonts/Eina01-Bold.woff2') format('woff');
+  src: url('./fonts/Eina01-Bold.ttf') format('woff');
 }
 
 @font-face {
   font-family: 'Eina01';
   font-weight: 600;
   text-rendering: geometricPrecision;
-  src: url('./fonts/Eina01-SemiBold.woff2') format('woff');
+  src: url('./fonts/Eina01-SemiBold.ttf') format('woff');
 }
