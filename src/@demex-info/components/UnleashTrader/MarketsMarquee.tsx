@@ -49,7 +49,7 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
                   </Box>
                   <Box display="flex" flexDirection="column" alignItems="flex-end" mt={0.25}>
                     <Box className={classes.priceName}>
-                      {card.lastPrice.toFormat(card.priceDp)}
+                      ${card.lastPrice.toFormat(card.priceDp)}
                     </Box>
                     <Box
                       className={clsx(
@@ -105,12 +105,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   priceName: {
-    ...theme.typography.h4,
+    ...theme.typography.body2,
     color: theme.palette.text.primary,
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.body1,
-    },
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       ...theme.typography.body2,
     },
   },
@@ -138,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   marketsCard: {
-    minWidth: "287px",
+    minWidth: "300px",
     display: "flex",
     justifyContent: "space-between",
     borderRadius: "32px",
