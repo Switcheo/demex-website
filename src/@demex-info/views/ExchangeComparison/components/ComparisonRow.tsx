@@ -165,7 +165,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("xs")]: {
       ...theme.typography.title3,
       lineHeight: "1.175rem",
-      minWidth: "10rem",
     },
   },
   headerSkeleton: {
@@ -201,6 +200,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.body1,
     whiteSpace: "pre-wrap",
     color: theme.palette.text.secondary,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
+    },
   },
   rowText: {
     ...theme.typography.body2,
