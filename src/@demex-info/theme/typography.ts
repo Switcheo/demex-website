@@ -1,7 +1,7 @@
 import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 
 export const typography: TypographyOptions = {
-  fontFamily: ["Play, Montserrat"].join(","),
+  fontFamily: ["Montserrat", "Roboto"].join(","),
   h1: {
     // styleName: Heading/48px;
     fontFamily: "Montserrat",
@@ -21,7 +21,7 @@ export const typography: TypographyOptions = {
   },
   h3: {
     // styleName: Heading/24px;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "24px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -30,7 +30,7 @@ export const typography: TypographyOptions = {
   },
   h4: {
     // styleName: Heading/20px;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "20px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -38,9 +38,9 @@ export const typography: TypographyOptions = {
     letterSpacing: "0em",
   },
 	title1: {
-    // styleName: Extra Large 18px/Title + CTA;
-    fontFamily: "Play",
-    fontSize: "18px",
+    // styleName: Extra Large 20px/Title + CTA;
+    fontFamily: "Eina01",
+    fontSize: "20px",
     fontStyle: "normal",
     fontWeight: 700,
     lineHeight: "22px",
@@ -48,7 +48,7 @@ export const typography: TypographyOptions = {
   },
   title2: {
     // styleName: Heading/16px;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -57,7 +57,7 @@ export const typography: TypographyOptions = {
   },
 	title3: {
     // styleName: Regular 13px/Title + CTA
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "13px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -66,7 +66,7 @@ export const typography: TypographyOptions = {
   },
 	title4: {
     // styleName: Small 11px/Title + CTA;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "11px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -75,37 +75,37 @@ export const typography: TypographyOptions = {
   },
   body1: {
     // styleName: Extra Large 18px/Body;
-    fontFamily: "Play",
-    fontSize: "18px",
+    fontFamily: "Eina01",
+    fontSize: "20px",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: 600,
     lineHeight: "22px",
     letterSpacing: "0em",
   },
   body2: {
     // styleName: Large 16px/Body;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "16px",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: 600,
     lineHeight: "20px",
     letterSpacing: "0em",
   },
   body3: {
     // styleName: Regular 13px/Title;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "13px",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: 600,
     lineHeight: "16px",
     letterSpacing: "0em",
   },
   body4: {
     // styleName: Small 11px/Body;
-    fontFamily: "Play",
+    fontFamily: "Eina01",
     fontSize: "11px",
     fontStyle: "normal",
-    fontWeight: 400,
+    fontWeight: 600,
     lineHeight: "12px",
     letterSpacing: "0em",
   },

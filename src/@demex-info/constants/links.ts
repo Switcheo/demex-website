@@ -1,4 +1,4 @@
-import { Blog, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, X, Youtube } from "@demex-info/assets/logos";
+import { Blog, CarbonIcon, Discord, Facebook, GitBook, GitHub, LinkedIn, Medium, Reddit, Telegram, X, Youtube } from "@demex-info/assets/logos";
 import { TipsIcon } from "@demex-info/assets/icons";
 import { CarbonSDK } from "carbon-js-sdk";
 import { DOMAttributes, FunctionComponent, ReactNode, SVGProps } from "react";
@@ -45,6 +45,7 @@ export const Paths = {
   },
 
   Trade: "/trade",
+  Swap: "/swap",
 
   Stake: {
     List: "/stake",
@@ -164,6 +165,8 @@ export const StaticLinks = {
         TopGainers: "https://guide.dem.exchange/competition/usdosmo-perpetuals-airdrop-campaign-jan-2023",
       },
     },
+    Roadmap: "https://guide.dem.exchange/welcome/what-is-demex/demex-roadmap",
+    Explore: "https://scan.carbon.network/dashboard?net=main",
   },
   DemexBlog: "https://blog.dem.exchange/",
   Tendermint: "https://tendermint.com/core/",
@@ -183,7 +186,7 @@ export const StaticLinks = {
   },
   TradingView: {
     DownFutures: "https://www.tradingview.com/symbols/CBOT_MINI-YM1!/",
-    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/", 
+    BTCUSDChart: "https://www.tradingview.com/symbols/BTCUSD/",
     StockScreener: "https://www.tradingview.com/screener/",
     EconomicCalendar: "https://www.tradingview.com/economic-calendar/",
   },
@@ -237,6 +240,7 @@ export interface DropdownMenuItem extends DOMAttributes<any> {
   key: string
   className?: string
   label: string | ReactNode
+  description?: string | ReactNode
   startIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
   startIconType?: "stroke" | "fill"
   endIcon?: FunctionComponent<SVGProps<SVGSVGElement>>
@@ -326,5 +330,10 @@ export const SocialLnks: { [key: string]: ExtSocialLnk } = {
     label: "feedback",
     href: StaticLinks.Feedback,
     component: TipsIcon,
+  },
+  Explore: {
+    label: "explore",
+    href: StaticLinks.DemexDocs.Explore,
+    component: CarbonIcon,
   },
 };

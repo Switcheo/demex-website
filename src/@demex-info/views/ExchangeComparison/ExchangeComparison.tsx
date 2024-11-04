@@ -1,13 +1,9 @@
-import YellowVectorBottom from "@demex-info/assets/background/YellowVectorBottom.svg";
 import { PaperBox } from "@demex-info/components";
-import { StyleUtils } from "@demex-info/utils";
-import { lazy } from "@loadable/component";
 import { Box, makeStyles, Theme, Typography } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
 import { useInView } from "react-intersection-observer";
-
-const ComparisonTable = lazy(() => import("./components/ComparisonTable"));
+import { ComparisonTable } from "./components";
 
 const ExchangeComparison: React.FC = () => {
   const classes = useStyles();
@@ -21,8 +17,11 @@ const ExchangeComparison: React.FC = () => {
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.textSecSlide, { open: titleView })}>
-          <Typography variant="h1" className={classes.header}>
-            What makes Demex Different?
+          <Typography variant="h2" className={classes.header}>
+            How Does Demex Compare?
+          </Typography>
+          <Typography variant="h4" className={classes.description}>
+            See how Demex stacks up against the competition
           </Typography>
         </Box>
         <Box className={clsx(
@@ -32,9 +31,7 @@ const ExchangeComparison: React.FC = () => {
         )}>
           <PaperBox className={classes.tablePaper}>
             <Box className={classes.tableContent}>
-              <Suspense fallback={null}>
-                <ComparisonTable />
-              </Suspense>
+              <ComparisonTable />
             </Box>
           </PaperBox>
         </Box>
@@ -45,27 +42,21 @@ const ExchangeComparison: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   header: {
-    ...theme.typography.h1,
+    ...theme.typography.h2,
+    fontSize: "36px",
+    lineHeight: "56px",
     color: theme.palette.text.primary,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      paddingTop: "12rem",
+      paddingTop: theme.spacing(24),
     },
     [theme.breakpoints.down("sm")]: {
-			...theme.typography.h2,
+			...theme.typography.h3,
+      paddingTop: theme.spacing(16),
 		},
 		[theme.breakpoints.only("xs")]: {
-			fontSize: "28px",
-      lineHeight: "38px",
 			margin: "0 auto",
 		},
-  },
-  demexLogo: {
-    height: "1.375rem",
-    width: "1.375rem",
-  },
-  divider: {
-    backgroundColor: theme.palette.divider,
   },
   innerDiv: {
     margin: theme.spacing(0, "auto"),
@@ -92,12 +83,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     padding: 0,
     position: "relative",
+    marginBottom: theme.spacing(10),
     [theme.breakpoints.down("md")]: {
       padding: 0,
       marginTop: "-100px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      background: `url(${YellowVectorBottom}) no-repeat top left`,
     },
   },
   tableSecSlide: {
@@ -127,84 +116,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-  switchBase: {
-    padding: theme.spacing(1.25, 0.75, 1.125, 1),
-    "&.Mui-checked + $switchTrack": {
-      opacity: 1,
-    },
-  },
-  switchDiv: {
-    alignItems: "center",
-    display: "flex",
-    justifyContent: "center",
-    margin: theme.spacing(0, "auto", 4),
-  },
-  switchRoot: {
-    height: "2.625rem",
-    padding: theme.spacing(0.75, 0.5),
-  },
-  switchSub: {
-    color: theme.palette.text.secondary,
-    cursor: "pointer",
-    fontWeight: "bold",
-    lineHeight: "1.125rem",
-    textAlign: "center",
-    "&:first-child": {
-      marginRight: theme.spacing(1),
-    },
-    "&:last-child": {
-      marginLeft: theme.spacing(1),
-    },
-    "&.toggle": {
-      color: theme.palette.text.primary,
-    },
-    [theme.breakpoints.only("xs")]: {
-      maxWidth: "7rem",
-      "&:first-child": {
-        marginRight: theme.spacing(0.5),
-      },
-      "&:last-child": {
-        marginLeft: theme.spacing(0.5),
-      },
-    },
-  },
-  switchThumb: {
-    color: theme.palette.secondary.main,
-    height: "1.375rem",
-    width: "1.375rem",
-  },
-  switchTrack: {
-    backgroundColor: "#E0F0FF",
-    borderRadius: theme.spacing(7),
-    opacity: 1,
-  },
-  tabBtn: {
-    ...theme.typography.title3,
-    display: "inline-block",
-    fontSize: "1.25rem",
-    marginLeft: theme.spacing(2.5),
-    padding: theme.spacing(3, 1.5),
-    "&:first-child": {
-      marginLeft: 0,
-    },
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
-    "&.selected": {
-      color: theme.palette.text.primary,
-    },
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(3, 1.5, 2),
-    },
-  },
   tableContent: {
     width: "100%",
   },
   tablePaper: {
-    backgroundColor: theme.palette.background.primary,
-    borderRadius: "0.25rem",
-    boxShadow: `0px 0px 48px ${StyleUtils.boxShadow(theme)}`,
+    backgroundColor: "#FFFFFF0A",
+    borderRadius: theme.spacing(2),
+    border: "1px solid #FFFFFF14",
     overflow: "hidden",
+    boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
+    backdropFilter: "blur(64px)",
   },
   tableSection: {
     marginTop: theme.spacing(6),
@@ -212,20 +133,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: theme.spacing(4),
     },
   },
-  tabSlide: {
-    display: "flex",
-    justifyContent: "center",
-    overflowX: "auto",
-    width: "100%",
-    "&.cex": {
-      "@media (max-width: 540px)": {
-        justifyContent: "initial",
-      },
+  description: {
+    ...theme.typography.body1,
+    textAlign: "center",
+    margin: "0.5rem auto",
+    color: theme.palette.text.secondary,
+    "& > b": {
+      color: theme.palette.text.primary,
     },
-    "&.dex": {
-      "@media (max-width: 640px)": {
-        justifyContent: "initial",
-      },
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
+      maxWidth: "288px",
+      margin: "0.75rem auto",
     },
   },
 }));

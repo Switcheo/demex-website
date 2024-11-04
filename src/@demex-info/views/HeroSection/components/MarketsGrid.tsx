@@ -1,29 +1,24 @@
-import { CoinIcon, RenderGuard, TypographyLabel } from "@demex-info/components";
+import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { Cards } from "@demex-info/components/Cards";
-import { DEC_SHIFT, getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import { useAsyncTask, useRollingNum, useWebsocket } from "@demex-info/hooks";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { BN_ZERO, calculateTradingFee, constantLP, estimateApyUSD, getCollateral, getTotalUSDPrice, parseLiquidityPools, parseNumber, Pool } from "@demex-info/utils"; // eslint-disable-line
+import { BN_ZERO } from "@demex-info/utils"; // eslint-disable-line
 import { getAllMarkets, getTokens, getTokenTotalSupplyAll, MarketListMap, MarketStatItem, parseMarketListMap, parseMarketStats } from "@demex-info/utils/markets";
-import { StyleUtils } from "@demex-info/utils/styles";
-import { lazy } from "@loadable/component";
-import { Box, Button, ClickAwayListener, Grid, Hidden, makeStyles, Theme } from "@material-ui/core";
+import { Box, makeStyles, Theme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import BigNumber from "bignumber.js";
-import { Insights, TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
+import { TypeUtils, WSConnectorTypes, WSModels, WSResult } from "carbon-js-sdk";
 import { Coin } from "carbon-js-sdk/lib/codec/cosmos/base/v1beta1/coin";
 import { Token } from "carbon-js-sdk/lib/codec/Switcheo/carbon/coin/token";
-import { CommitmentCurve } from "carbon-js-sdk/lib/codec/Switcheo/carbon/liquiditypool/reward";
 import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import { Pool as PerpPool } from "carbon-js-sdk/lib/codec/Switcheo/carbon/perpspool/pool";
 import { bnOrZero } from "carbon-js-sdk/lib/util/number";
-import clsx from "clsx";
-import dayjs from "dayjs";
 import React, { useEffect } from "react";
+import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-
-const TokenPopover = lazy(() => import("./TokenPopover"));
+import { Line } from "../assets";
+import { Fade } from "react-awesome-reveal";
 
 interface WSData {
   block_height: number;
@@ -33,17 +28,6 @@ interface WSData {
 
 interface MarketStatWSData extends WSData {
   result: TypeUtils.SimpleMap<WSModels.MarketStat>;
-}
-
-interface PoolWSData extends WSData {
-  result: TypeUtils.SimpleMap<WSModels.Pool>;
-}
-
-interface BalanceDistributionObj {
-  date: string;
-  amountValue: string;
-  totalAmountValue: string;
-  tokens: Insights.BalanceDistribution[];
 }
 
 export interface PerpPoolProps {
@@ -67,7 +51,6 @@ export interface SetPerpPoolProps extends PerpPoolProps {
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [fetchTokenTotalSupplyPrices] = useAsyncTask("fetchTokenTotalSupplyPrices");
-  const [runSpotPools] = useAsyncTask("runSpotPools");
   const classes = useStyles();
   const [ws] = useWebsocket();
   const dispatch = useDispatch();
@@ -78,81 +61,8 @@ const MarketsGrid: React.FC = () => {
   const tokenClient = sdk?.token;
   const statLoading = loading || Boolean(loadingTasks.runInitSDK);
 
-  const [openTokens, setOpenTokens] = React.useState<boolean>(false);
-  const [pools, setPools] = React.useState<Pool[]>([]); // eslint-disable-line
   const [tokenTotalSupplyAll, setTokenTotalSupplyAll] = React.useState<Coin[]>([]); // eslint-disable-line
   const [tokens, setTokens] = React.useState<Token[]>([]); // eslint-disable-line
-  const [blockRewards, setBlockRewards] = React.useState<BalanceDistributionObj[]>([]);
-  const [liquidityProviderReward, setLiquidityProviderReward] = React.useState<BigNumber>(BN_ZERO);
-  const [poolVolumes, setPoolVolumes] = React.useState<TypeUtils.SimpleMap<BigNumber>>({});
-  const [commitCurve, setCommitCurve] = React.useState<CommitmentCurve | undefined>(undefined);
-  const [tokenBlacklist, setTokenBlacklist] = React.useState<string[]>([]);
-
-  const reloadSpotPools = (poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams) => {
-    if (!sdk?.query || !ws) return;
-
-    runSpotPools(async () => {
-      try {
-        const utcOffset = dayjs().utcOffset();
-        const endBlockRewardsSnapshotTime = dayjs().subtract(utcOffset, "minute");
-        const startBlockRewardsSnapshotTime = endBlockRewardsSnapshotTime.subtract(24, "hour");
-        const distributedResponse = await sdk!.insights.BalanceDistribution({
-          interval: "hour",
-          from: startBlockRewardsSnapshotTime.unix().toString(),
-          until: endBlockRewardsSnapshotTime.unix().toString(),
-        }) as Insights.InsightsQueryResponse<Insights.QueryGetBalanceDistributionResponse>;
-        const blockRewardsArr = distributedResponse.result.entries ?? [];
-        setBlockRewards(blockRewardsArr);
-
-        const curveResponse = await sdk.query.liquiditypool.CommitmentCurve({});
-        setCommitCurve(curveResponse.commitmentCurve);
-
-        const params = await sdk.query.distribution.Params({});
-        const liquidityProviderReward = parseNumber(params.params?.liquidityProviderReward, BN_ZERO)!.shiftedBy(-DEC_SHIFT);
-        setLiquidityProviderReward(liquidityProviderReward);
-
-        const endPoolVolumeSnapshotTime = dayjs();
-        const startPoolVolumeSnapshotTime = endPoolVolumeSnapshotTime.subtract(1, "day");
-        const poolVolume = await sdk.insights.PoolsVolume({
-          from: startPoolVolumeSnapshotTime.unix().toString(),
-          until: endPoolVolumeSnapshotTime.unix().toString(),
-          interval: "hour",
-        }) as Insights.InsightsQueryResponse<Insights.QueryGetPoolsVolumeResponse>;
-        const poolsVolumeAll = poolVolume.result.entries;
-
-        const volumeMarketObj: TypeUtils.SimpleMap<BigNumber> = {};
-        poolsVolumeAll.forEach((volumeAll: {
-          date: string;
-          volumeValue: string;
-          totalVolumeValue: string;
-          markets: Insights.PoolsVolume[];
-        }) => {
-          const allMarkets = volumeAll.markets ?? [];
-          allMarkets.forEach((market) => {
-            const latestVolume = parseNumber(market.volumeValue, BN_ZERO)!;
-            const poolIdStr = market.poolId.toString(10);
-            if (!volumeMarketObj[poolIdStr]) {
-              volumeMarketObj[poolIdStr] = latestVolume;
-            } else {
-              volumeMarketObj[poolIdStr] = volumeMarketObj[poolIdStr].plus(latestVolume);
-            }
-          });
-        });
-        setPoolVolumes(volumeMarketObj);
-
-        ws.subscribe(poolsSubscribeParams, (result: any) => {
-          const resultData = result as WSResult<PoolWSData>;
-          if (resultData.data.update_type === "full_state") {
-            const poolsData: Pool[] = parseLiquidityPools(resultData.data.result, sdk!.token);
-            setPools(poolsData);
-            ws.unsubscribe(poolsSubscribeParams);
-          }
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  };
 
   const reloadData = (marketSubcribeParams: WSConnectorTypes.WsSubscriptionParams) => {
     if (!sdk?.query || !ws || !ws.connected) return;
@@ -166,8 +76,6 @@ const MarketsGrid: React.FC = () => {
         const configJsonResponse = await fetch(`https://raw.githubusercontent.com/Switcheo/demex-webapp-config/master/configs/${network}.json`);
         const configJsonData = await configJsonResponse.json();
         const blacklistedMarkets = configJsonData?.blacklisted_markets?.map((market: string) => market.toLowerCase()) ?? [];
-        const blacklistedTokens = configJsonData?.blacklisted_tokens?.map((token: string) => token.toLowerCase()) ?? [];
-        setTokenBlacklist(blacklistedTokens);
 
         ws.subscribe(marketSubcribeParams, (result: any) => {
           const resultData = result as WSResult<MarketStatWSData>;
@@ -193,17 +101,12 @@ const MarketsGrid: React.FC = () => {
     const marketStatsSubscribeParams: WSConnectorTypes.WsSubscriptionParams = {
       channel: WSConnectorTypes.WSChannel.market_stats,
     };
-    const poolsSubscribeParams: WSConnectorTypes.WsSubscriptionParams = {
-      channel: WSConnectorTypes.WSChannel.pools,
-    };
 
     if (sdk && ws && ws?.connected) {
       reloadData(marketStatsSubscribeParams);
-      reloadSpotPools(poolsSubscribeParams);
     }
     return () => {
       ws?.unsubscribe(marketStatsSubscribeParams);
-      ws?.unsubscribe(poolsSubscribeParams);
     };
   }, [sdk, ws]);
 
@@ -251,404 +154,175 @@ const MarketsGrid: React.FC = () => {
     return totalLiquidity;
   }, [tokens, tokenTotalSupplyAll, sdk]);
 
-  const { volume24H, coinsList } = React.useMemo((): {
+  const { volume24H, openInterest } = React.useMemo((): {
     volume24H: BigNumber,
-    coinsList: string[],
+    openInterest: BigNumber,
   } => {
     let volume24H: BigNumber = BN_ZERO;
-    const coinsList: string[] = [];
+    let openInterest: BigNumber = BN_ZERO;
 
     marketsList.forEach((market: MarketStatItem) => {
       const marketItem = list?.[market.market_id] ?? {};
-      const baseDenom = marketItem?.base ?? "";
       const quoteDenom = marketItem?.quote ?? "";
+      const martketStats = stats.find((stats) => stats.market_id === market.market_id);
+      const baseDp = marketItem?.basePrecision.toNumber() ?? 0;
+      const quoteDp = marketItem?.quotePrecision.toNumber() ?? 0;
+
+      const marketOpenInterest = bnOrZero(martketStats?.open_interest).shiftedBy(-baseDp).times(bnOrZero(martketStats?.mark_price).shiftedBy(baseDp - quoteDp));
+      openInterest = openInterest.plus(marketOpenInterest);
 
       const symbolUsd = sdk?.token.getUSDValue(quoteDenom) ?? BN_ZERO;
       const adjustedVolume = sdk?.token.toHuman(quoteDenom, market.volume) ?? BN_ZERO;
       const usdVolume = symbolUsd.times(adjustedVolume);
       volume24H = volume24H.plus(usdVolume);
-
-      if (!coinsList.includes(baseDenom) && baseDenom.length > 0 && !tokenBlacklist.includes(baseDenom)) {
-        coinsList.push(baseDenom);
-      }
-      if (!coinsList.includes(quoteDenom) && quoteDenom.length > 0 && !tokenBlacklist.includes(quoteDenom)) {
-        coinsList.push(quoteDenom);
-      }
     });
 
     return {
       volume24H,
-      coinsList,
+      openInterest,
     };
   }, [marketsList, list, sdk?.token]);
 
-  const blockRewardsUsdWeekly = React.useMemo(() => {
-    let totalBlockRewards24H: BigNumber = BN_ZERO;
-    for (const rewardEntry of blockRewards) {
-      if (rewardEntry?.tokens) {
-        for (const token of rewardEntry.tokens) {
-          const tokenAmt = tokenClient?.toHuman(token.denom, parseNumber(token.balance, BN_ZERO)!) ?? BN_ZERO;
-          const usdValue = (tokenClient?.getUSDValue(token.denom) ?? BN_ZERO).times(tokenAmt);
-          totalBlockRewards24H = totalBlockRewards24H.plus(usdValue);
-        }
-      }
-    }
-    return totalBlockRewards24H.times(liquidityProviderReward).times(7);
-  }, [blockRewards, liquidityProviderReward, tokenClient]);
-
-  const maxAPR = React.useMemo((): BigNumber => {
-    let weightTotal: BigNumber = BN_ZERO;
-    let weightedPools: number = 0;
-    let maxVal: BigNumber = BN_ZERO;
-    const maxBoostBN = parseNumber(commitCurve?.maxRewardMultiplier, BN_ZERO)!.dividedBy(100);
-
-    pools.forEach((p: Pool) => {
-      if (p.rewardsWeight.gt(0)) {
-        weightedPools = weightedPools + 1;
-      }
-      weightTotal = weightTotal.plus(p.rewardsWeight ?? BN_ZERO);
-    });
-    pools.forEach((pool: Pool) => {
-      const poolTotal = getTotalUSDPrice(sdk, pool);
-      const volumeBN = poolVolumes[pool.poolId.toString(10) ?? "0"] ?? BN_ZERO;
-      const shareOfPool = constantLP.div(poolTotal);
-      const tradingFee = calculateTradingFee(volumeBN, pool.swapFee, shareOfPool);
-      if (pool.rewardsWeight.gt(0)) {
-        const indivApy = estimateApyUSD({
-          sdk,
-          pool,
-          blockRewards: blockRewardsUsdWeekly,
-          totalWeight: weightTotal,
-          boostFactor: maxBoostBN,
-          notionalLp: constantLP,
-          tradingFee,
-        });
-        maxVal = maxVal.lt(indivApy) ? indivApy : maxVal;
-      }
-    });
-    return maxVal;
-  }, [pools, blockRewardsUsdWeekly, sdk, commitCurve, poolVolumes]);
-
-  const handleOpen = () => {
-    setOpenTokens(true);
-  };
-
-  const handleClose = () => {
-    setOpenTokens(false);
-  };
-
-  const handleToggle = () => {
-    if (openTokens) {
-      handleClose();
-    } else {
-      handleOpen();
-    }
-  };
-
   const volumeCountUp = useRollingNum(volume24H, 2, 4);
   const liquidityCountUp = useRollingNum(totalValueLocked, 2, 4);
-  // const spotCountUp = useRollingNum(spotMarketsList.length, 0, 2);
-  const coinsCountUp = useRollingNum(coinsList.length, 0, 4);
-  // const futuresCountUp = useRollingNum(futuresMarketsList.length, 0, 2);
-  const poolsCountUp = useRollingNum(pools.length, 0, 4);
+  const marketsCountUp = useRollingNum(marketsList.length, 0, 4);
+  const openInterestCountUp = useRollingNum(openInterest, 2, 4);
 
   return (
-    <Grid container spacing={4} className={classes.innerDiv}>
-      <Grid item xs={12} sm={6} lg={3}>
-        <Cards className={classes.marketsCard}>
-          <Box
-            display="flex"
-            alignItems="center"
-            mb={1}
-          >
-            <TypographyLabel className={classes.gridHeader}>
-              Trading Volume (24H)
-            </TypographyLabel>
-          </Box>
+    <Box className={classes.innerDiv}>
+      <div className={classes.boxShadow} />
+      <Cards className={classes.marketsCard}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
+          Total Value Locked
+        </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          mt={1}
+        >
+          <RenderGuard renderIf={statLoading}>
+            <Skeleton className={classes.standardSkeleton} />
+          </RenderGuard>
+          <RenderGuard renderIf={!statLoading}>
+            <Box display="flex" alignItems="baseline" width="100%" justifyContent="space-between">
+              <TypographyLabel className={classes.gridContent}>
+                ${liquidityCountUp}
+              </TypographyLabel>
+            </Box>
+          </RenderGuard>
+        </Box>
+      </Cards>
+      <Cards className={classes.marketsCard}>
+        <Box
+          display="flex"
+          alignItems="center"
+          mb={1}
+        >
+          <TypographyLabel className={classes.gridHeader}>
+            Trading Volume (24H)
+          </TypographyLabel>
+        </Box>
+        <RenderGuard renderIf={statLoading}>
+          <Skeleton className={classes.standardSkeleton} />
+        </RenderGuard>
+        <RenderGuard renderIf={!statLoading}>
+          <TypographyLabel className={classes.gridContent}>
+            ${volumeCountUp}
+          </TypographyLabel>
+        </RenderGuard>
+      </Cards>
+      <Cards className={classes.marketsCard}>
+        <Box
+          display="flex"
+          alignItems="center"
+          mb={1}
+        >
+          <TypographyLabel className={classes.gridHeader}>
+            Open Interest
+          </TypographyLabel>
+        </Box>
+        <RenderGuard renderIf={statLoading}>
+          <Skeleton className={classes.standardSkeleton} />
+        </RenderGuard>
+        <RenderGuard renderIf={!statLoading}>
+          <TypographyLabel className={classes.gridContent}>
+            ${openInterestCountUp}
+          </TypographyLabel>
+        </RenderGuard>
+      </Cards>
+      <Cards className={clsx(classes.marketsCard,  "market")}>
+        <TypographyLabel className={classes.gridHeader}>
+          Markets
+        </TypographyLabel>
+        <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
           <RenderGuard renderIf={statLoading}>
             <Skeleton className={classes.standardSkeleton} />
           </RenderGuard>
           <RenderGuard renderIf={!statLoading}>
             <TypographyLabel className={classes.gridContent}>
-              ${volumeCountUp}
+              {marketsCountUp}
             </TypographyLabel>
           </RenderGuard>
-        </Cards>
-      </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
-        <Cards className={classes.marketsCard}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.gridHeader}>
-            Total Value Locked
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            mt={1}
-          >
-            <RenderGuard renderIf={statLoading}>
-              <Skeleton className={classes.standardSkeleton} />
-            </RenderGuard>
-            <RenderGuard renderIf={!statLoading}>
-              <Box display="flex" alignItems="baseline" width="100%" justifyContent="space-between">
-                <TypographyLabel className={classes.gridContent}>
-                  ${liquidityCountUp}
-                </TypographyLabel>
-              </Box>
-            </RenderGuard>
-          </Box>
-        </Cards>
-      </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
-        <Cards className={classes.marketsCard}>
-          <Box
-            display="flex"
-            alignItems="center"
-            mb={1}
-          >
-            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%" className={classes.gridHeader}>
-              Liquidity Pools
-              <Hidden xsDown>
-                <Button
-                  onClick={() => goToDemexLink(getDemexLink(Paths.Pools.List, network))}
-                  className={classes.viewAll}
-                  variant="text"
-                  color="secondary"
-                >
-                  View
-                </Button>
-              </Hidden>
-            </Box>
-          </Box>
-          <RenderGuard renderIf={statLoading}>
-            <Skeleton className={classes.standardSkeleton} />
-          </RenderGuard>
-          <RenderGuard renderIf={!statLoading}>
-            <Box display="flex" justifyContent="space-between">
-              <Box display="flex" alignItems="baseline">
-                <Box display="flex" alignItems="baseline">
-                  <TypographyLabel className={classes.gridContent}>
-                    {poolsCountUp}
-                  </TypographyLabel>
-                </Box>
-                <Box display="flex" alignItems="baseline" ml={1}>
-                  <TypographyLabel className={clsx(classes.gridSubtitle, "pools")}>Up to</TypographyLabel>
-                  &nbsp;
-                  <TypographyLabel className={classes.yellowGradientText}>
-                    {`${maxAPR.decimalPlaces(1, 1).toString(10)}% APR`}
-                  </TypographyLabel>
-                </Box>
-              </Box>
-              <Hidden smUp>
-                <Button
-                  onClick={() => goToDemexLink(getDemexLink(Paths.Pools.List, network))}
-                  className={classes.viewAll}
-                  variant="text"
-                  color="secondary"
-                >
-                  View
-                </Button>
-              </Hidden>
-            </Box>
-          </RenderGuard>
-        </Cards>
-      </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
-        <Cards className={classes.marketsCard}>
-          {
-            <React.Fragment>
-              <TypographyLabel className={classes.gridHeader}>
-                Tokens
-              </TypographyLabel>
-              <Box display="flex" alignItems="center" mt={1} justifyContent="space-between">
-                <RenderGuard renderIf={statLoading}>
-                  <Skeleton className={classes.numSkeleton} />
-                </RenderGuard>
-                <RenderGuard renderIf={!statLoading}>
-                  <TypographyLabel className={classes.gridContent}>
-                    {coinsCountUp}
-                  </TypographyLabel>
-                </RenderGuard>
-                <RenderGuard renderIf={!statLoading && coinsList.length > 0}>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <Box
-                      position="relative"
-                      minHeight={38}
-                      display="flex"
-                      alignItems="center"
-                      onMouseEnter={handleOpen}
-                      onFocus={handleOpen}
-                      onMouseLeave={handleClose}
-                    >
-                      <Box
-                        className={classes.labelBox}
-                        display="flex"
-                        alignItems="center"
-                        onTouchEnd={handleToggle}
-                      >
-                        {coinsList.map((coin: string, index: number) => {
-                          if (index <= 3) {
-                            const coinName = sdk?.token.getTokenName(coin) ?? "";
-                            return (
-                              <CoinIcon
-                                className={clsx(classes.coinIcon, `coin-${index}`)}
-                                key={coin}
-                                denom={coinName}
-                              />
-                            );
-                          }
-                          return null;
-                        })}
-                        {
-                          coinsList.length > 4 && (
-                            <Box>
-                              <TypographyLabel
-                                className={classes.plusLabel}
-                              >
-                                +{coinsList.length - 4}
-                              </TypographyLabel>
-                            </Box>
-                          )
-                        }
-                      </Box>
-                      <Box>
-                        <Box className={classes.dropdownInner}>
-                          {
-                            openTokens && (
-                              <TokenPopover tokens={coinsList} />
-                            )
-                          }
-                        </Box>
-                      </Box>
-                    </Box>
-                  </ClickAwayListener>
-                </RenderGuard>
-                <RenderGuard renderIf={statLoading}>
-                  <Box alignItems="center" display="flex" justifyContent="center">
-                    <Skeleton className={classes.coinSkeleton} />
-                  </Box>
-                </RenderGuard>
-              </Box>
-              {/* <Backdrop
-                className={classes.backdrop}
-                open={openTokens}
-                invisible
-                onClick={handleClose}
-                onMouseEnter={handleClose}
-              /> */}
-            </React.Fragment>
-          }
-        </Cards>
-      </Grid>
-    </Grid>
+        </Box>
+      </Cards>
+      <div className={classes.linearGradient}>
+        <Fade triggerOnce delay={1000} duration={1000}>
+          <SvgIcon component={Line} />
+        </Fade>
+      </div>
+    </Box>
   );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  backdrop: {
-    zIndex: 1,
-  },
-  numSkeleton: {
-    width: "80px",
-    height: "44px",
-    [theme.breakpoints.only("xs")]: {
-      height: "40px",
-      width: "40px",
-    },
-    "@media (max-width: 400px)": {
-      width: "80px",
-    },
-  },
   standardSkeleton: {
     width: "80px",
-    height: "44px",
-    [theme.breakpoints.only("xs")]: {
-      height: "40px",
-    },
-  },
-  coinIcon: {
-    transform: "translate(30px, 0px)",
-    zIndex: 8,
-    "&.coin-1": {
-      transform: "translate(20px, 0px)",
-      zIndex: 7,
-    },
-    "&.coin-2": {
-      transform: "translate(10px, 0px)",
-      zIndex: 6,
-    },
-    "&.coin-3": {
-      transform: "none",
-      zIndex: 5,
-    },
-    [theme.breakpoints.only("xs")]: {
-      height: "1.75em",
-      width: "1.75em",
-    },
-  },
-  coinSkeleton: {
-    width: "120px",
-    height: "44px",
-    [theme.breakpoints.only("xs")]: {
-      width: "72px",
-    },
-    "@media (max-width: 400px)": {
-      width: "120px",
-    },
-  },
-  dropdownInner: {
-    position: "absolute",
-    top: theme.spacing(4.25),
-    right: theme.spacing(-1.25),
-    zIndex: 5,
+    height: "28px",
   },
   innerDiv: {
-    display: "flex",
-    marginTop: "6vh",
     position: "relative",
+    display: "flex",
+    gap: theme.spacing(4),
+    justifyContent: "center",
     margin: theme.spacing(0, "auto"),
+    background: "#1A1D1F",
+    border: "1px solid #FFFFFF0A",
+    borderRadius: theme.spacing(1),
+    backdropFilter: "blur(64px)",
+    maxWidth: "1200px",
+    marginTop: "5vh",
+    [theme.breakpoints.down("lg")]: {
+      width: "100%",
+      marginTop: "16vh",
+    },
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "1000px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "6vh",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: theme.spacing(2),
+      padding: theme.spacing(2, 0),
+      boxShadow: "-10px 10px 50px 0px #482BFF1F inset",
+    },
+  },
+  boxShadow: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    boxShadow: "-10px 10px 20px -5px #482BFF1F inset",
+  },
+  linearGradient: {
+    position: "absolute",
+    bottom: -10,
     width: "100%",
-    [theme.breakpoints.up("lg")]: {
-      maxWidth: "1344px",
-      "& > .MuiGrid-item:first-child": {
-        paddingLeft: 0,
-      },
-      "& > .MuiGrid-item:last-child": {
-        paddingRight: 0,
-      },
-    },
+    textAlign: "center",
     [theme.breakpoints.down("sm")]: {
-      marginTop: 0,
-    },
-    [theme.breakpoints.down("xs")]: {
-      "& > .MuiGrid-item": {
-        padding: "0.375rem 0",
-      },
-    },
-  },
-  labelBox: {
-    cursor: "pointer",
-    zIndex: 100,
-    [theme.breakpoints.only("xs")]: {
-      width: "unset",
-    },
-  },
-  plusLabel: {
-    ...theme.typography.title2,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(0.75),
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
-    },
-  },
-  viewAll: {
-    padding: 0,
-    ...theme.typography.title2,
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.title3,
+      display: "none",
     },
   },
   gridHeader: {
@@ -657,48 +331,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,
     },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.body4,
-    },
   },
   gridContent: {
-    ...theme.typography.h2,
+    ...theme.typography.h3,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.h3,
-    },
-  },
-  gridSubtitle: {
-    ...theme.typography.body2,
-    color: theme.palette.text.secondary,
-    whiteSpace: "nowrap",
-    "&.primary": {
-      color: theme.palette.text.primary,
-      marginLeft: "1rem",
-    },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.body3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.body4,
-    },
-  },
-  yellowGradientText: {
-    ...theme.typography.title1,
-    background: StyleUtils.warningGradient,
-    backgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    WebkitBackgroundClip: "text",
-    whiteSpace: "nowrap",
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.h4,
-    },
+    fontWeight: 700,
   },
   marketsCard: {
-    [theme.breakpoints.down("sm")]: {
-      padding: "1rem",
-      minHeight: "2.75rem",
-      minWidth: "unset",
+    boxShadow: "none",
+    borderRadius: 0,
+
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+
+    minWidth: "255px",
+    "&.market": {
+      maxWidth: "111px",
+      minWidth: "111px",
     },
   },
 }));

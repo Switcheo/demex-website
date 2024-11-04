@@ -1,7 +1,7 @@
 import { SvgIcon } from "@demex-info/components";
 import { DropdownMenuItem } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, MenuItem, MenuList, MenuListProps, Theme, makeStyles } from "@material-ui/core";
+import { Hidden, MenuItem, MenuList, MenuListProps, Theme, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
@@ -31,7 +31,7 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
       {...rest}
     >
       {items.map((item: DropdownMenuItem) => {
-        const { className, endIcon, label, key, startIcon, startIconType, endIconType, ...restItem } = item;
+        const { className, label, description, key, startIcon, startIconType, endIcon, endIconType, ...restItem } = item;
         return (
           <MenuItem
             className={clsx(classes.label, className, { small: size === "small", large: size === "large" })}
@@ -41,25 +41,39 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
             {startIcon && startIconType && (
               <SvgIcon className={clsx(classes.icon, { large: size === "large" }, "startIcon", genIconTypeClasses(startIconType))} component={startIcon} />
             )}
-            <Box display="flex" justifyContent="space-between" width="100%" alignItems="center">
-              {label}
-              {endIcon && endIconType && (
-                <SvgIcon className={clsx(classes.icon, "endIcon", genIconTypeClasses(endIconType))} component={endIcon} />
+            <div className={classes.itemDetail}>
+              <span>{label}</span>
+              {description && (
+                <Hidden smDown>
+                  <span className={classes.itemDescription}>{description}</span>
+                </Hidden>
               )}
-            </Box>
+            </div>
+            {endIcon && endIconType && (
+              <SvgIcon className={clsx(classes.icon, "large", "endIcon", genIconTypeClasses(endIconType))} component={endIcon} />
+            )}
           </MenuItem>
         );
       })}
     </MenuList>
   );
 };
-  
+
 const useStyles = makeStyles((theme: Theme) => ({
+  itemDetail: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
   icon: {
     marginRight: theme.spacing(0.75),
     width: "max-content",
     "&.endIcon": {
       marginRight: 0,
+      "& path": {
+        fill: theme.palette.text.primary,
+        stroke: "unset",
+      },
     },
     "& path": {
       fill: theme.palette.text.secondary,
@@ -67,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.large": {
       maxWidth: "1.5rem",
       maxHeight: "1.5rem",
-      marginRight: theme.spacing(1.25),
+      marginRight: theme.spacing(1.5),
     },
   },
   iconFill: {
@@ -89,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   label: {
     ...theme.typography.body3,
     borderRadius: 4,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     padding: theme.spacing(1.5),
     "&$active": {
       color: theme.palette.text.primary,
@@ -115,6 +129,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "&.large": {
       ...theme.typography.body2,
+    },
+    [theme.breakpoints.down("md")]: {
+      color: theme.palette.text.secondary,
     },
   },
   active: {
@@ -147,7 +164,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "0px 4px 2px",
     borderRadius: 4,
   },
+  itemDescription: {
+    ...theme.typography.body3,
+    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(1),
+    whiteSpace: "pre-wrap",
+  },
 }));
 
 export default MenuListItems;
-  

@@ -3,12 +3,12 @@ import {
   } from "@material-ui/core";
   import clsx from "clsx";
   import React from "react";
-  
+
 import { StyleUtils } from "@demex-info/utils";
 import { SvgIcon } from "@demex-info/components";
 import { CaretDown } from "../assets"  ;
 
-  
+
   interface Props extends React.DOMAttributes<any> {
     label: string | React.ReactNode
     dropdownOpen: boolean
@@ -22,16 +22,16 @@ import { CaretDown } from "../assets"  ;
     newLblClass?: string
     disabled?: boolean
   }
-  
+
   const Dropdown: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-  
+
     const {
       label, selected = false, children, className, labelClassName,
       dropdownOpen, rightDropDownMenu = false, containerClass, newLblClass,
       disabled = false, onTouchEnd, ...rest
     } = props;
-  
+
     return (
       <React.Fragment>
         <div
@@ -48,7 +48,7 @@ import { CaretDown } from "../assets"  ;
               </div>
             <div className={classes.bottomHighLight} />
           </div>
-  
+
           <Paper className={disabled ? classes.disabled : clsx(classes.dropdownContent, className, { rightDropDownMenu, dropdownOpen })}>
             {
               dropdownOpen && children
@@ -58,7 +58,7 @@ import { CaretDown } from "../assets"  ;
       </React.Fragment>
     );
   };
-  
+
   const useStyles = makeStyles((theme) => createStyles({
     dropdown: {
       position: "relative",
@@ -125,12 +125,10 @@ import { CaretDown } from "../assets"  ;
       },
     },
     close: {
-        "& path": {
-          fill: theme.palette.text.secondary,
-        },
-
+      "& path": {
+        fill: theme.palette.text.primary,
+      },
     },
   }));
-  
+
   export default Dropdown;
-  

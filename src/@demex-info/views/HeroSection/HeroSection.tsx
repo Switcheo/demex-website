@@ -1,197 +1,159 @@
-import { BackgroundAnimation, CoinIcon, SvgIcon } from "@demex-info/components";
-import { getDemexLink, Paths } from "@demex-info/constants";
-import { eskimi, sendGaEvent, StyleUtils } from "@demex-info/utils";
-import { Box, Button, Container, Hidden, Typography, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import HeroBackground from "@demex-info/assets/background/HeroBackground.svg";
+import { SvgIcon } from "@demex-info/components";
+import { Box, Button, ButtonGroup, Card, CardContent, Container, makeStyles, Typography, useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
-import React, { Suspense, useEffect, useMemo } from "react";
-import { useInView } from "react-intersection-observer";
-import TextLoop from "react-text-loop";
-import { DesktopMobile, Mobile } from "./assets";
-import { MarketsGrid, SocialsBar, TradingViewPopper } from "./components";
-import useWindowSize from "./useWindowSize";
+import React from "react";
+import { Fade, Rotate } from "react-awesome-reveal";
+import { Demex } from "@demex-info/assets/logos";
+import { MarketsGrid, TradeTopMarkets } from "./components";
+import { Tokens } from "./assets";
+import { useSelector } from "react-redux";
+import { RootState } from "@demex-info/store/types";
+import { EventAction, sendGaEvent } from "@demex-info/utils";
+import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
+import { useHeroSectionStyles } from "./styles";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
-	const theme = useTheme();
-	const [ready, setReady] = React.useState<boolean>(false);
-	const windowSize = useWindowSize();
-	const [titleRef, titleView] = useInView({
-		threshold: 0.2,
-		triggerOnce: true,
-	});
+	const styles = useHeroSectionStyles();
+	const net = useSelector((state: RootState) => state.app.network);
+	const isMobile = useMediaQuery("(max-width:930px)");
 
-	const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+	const handleClickDemexLink = (demexLink: string, gaEvent?: EventAction) => {
+    goToDemexLink(demexLink);
+    if (gaEvent) sendGaEvent(gaEvent);
+  };
 
-	const items = ["Bitcoin", "Perpetuals", "Ethereum", "SWTH", "USDC", "Futures", "ATOM", "AAVE", "Gold", "Anything"];
-
-	const tradingViewPosition = useMemo(() => {
-		const [width] = windowSize;
-		const startBreakpoint = 1280;
-		const endBreakpoint = 1920;
-		const startRightPercentage = 0.10;
-		const endRightPercentage = 0.24;
-		const tradingViewPosition = {
-			right: 0,
-		};
-		if (width > startBreakpoint && width < endBreakpoint) {
-			tradingViewPosition.right = (((width - startBreakpoint) / (endBreakpoint - startBreakpoint)) * (endRightPercentage - startRightPercentage) + startRightPercentage) * 100;
-		} else if (width >= endBreakpoint) {
-			tradingViewPosition.right = 20;
-		}
-		return tradingViewPosition;
-	}, [windowSize]);
-
-	const makeTVPosition = makeStyles(() => ({
-		tradingViewPositionStyle: {
-			right: `${tradingViewPosition.right}%`,
-		},
-	}))();
-
-	useEffect(() => {
-		setTimeout(() => setReady(true));
-	}, []);
-
-	const handleLaunchApp = () => {
-		eskimi("track", "Conversion");
-		sendGaEvent("launch_app");
-	};
+	const [isTradeCard, setIsTradeCard] = React.useState(true);
 
 	return (
 		<Box component="section" className={clsx(classes.root)}>
-			<SocialsBar />
-
-			<Box mt="8vh" />
-
-			<Box className={clsx(classes.text, classes.tagline)}>
-				Trade&nbsp;
-				<TextLoop
-					interval={[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000]}
-				>
-					{items.map((item: string) => (
-						<span key={`${item}`}>{item}</span>
-					))}
-				</TextLoop>
-			</Box>
-			{ready && (
-				<BackgroundAnimation positionClass={classes.position} containerClass={classes.container} paddingClass={classes.padding} />
-			)}
-			<div className={classes.containerWrapper} ref={titleRef}>
-				<Container maxWidth={false} className={clsx(classes.contentContainer, { open: titleView })}>
+			<Box className={classes.emptySpacing} />
+			<div className={classes.containerWrapper}>
+				<Container maxWidth={false} className={classes.contentContainer}>
 					<Box className={classes.left}>
 						<Box className={classes.content}>
-
-							<Typography variant="h1" className={classes.headline}>
-								The Only DEX <br></br>You Need
-							</Typography>
-
-							<Typography variant="h3" className={clsx(classes.text, classes.description)}>
-								Trade derivatives, lend or borrow tokens, mint stablecoins, and provide liquidity on the
-								<span className={classes.altText}>
-									&nbsp;most extensive decentralized platform ever.
-								</span>
-							</Typography>
-							<Box display={isDesktop ? "flex" : "block"} className={clsx(classes.text, classes.altText)} style={{ fontWeight: 700 }}>
-								<Box className={classes.carbonWrapper}>
-									Powered by
-									<CoinIcon className={classes.carbonLogo} denom="SWTH" />
-									<span className={classes.carbon}>Carbon</span>,
-								</Box>
-								a&nbsp;
-								<span className={classes.purpleGradient}>Cosmos SDK</span>
-								AppChain
-							</Box>
-
-
-							<Button
-								className={classes.button}
-								variant="contained"
-								target="_blank"
-								onClick={handleLaunchApp}
-								href={getDemexLink(Paths.Trade)}
-							>
-								Launch App
-							</Button>
+							<Rotate triggerOnce>
+								<SvgIcon className={classes.demexLogo} component={Demex} />
+							</Rotate>
+							<Fade triggerOnce duration={2000}>
+								<Typography variant="h1" className={classes.headline}>
+									Trade. Earn.
+									<br />
+									Exponentially
+								</Typography>
+							</Fade>
+							<Fade triggerOnce direction="up">
+								<Typography variant="h3" className={clsx(classes.text, classes.description)}>
+									Trade Perpetuals or Earn Yield — All on One Platform
+								</Typography>
+							</Fade>
 						</Box>
 					</Box>
-
-					<Hidden smDown>
-						<Box className={classes.graphicsWrapper}>
-							<SvgIcon className={classes.svgIcon} component={DesktopMobile} />
-							<Box className={clsx(classes.tradingViewWrapper, makeTVPosition.tradingViewPositionStyle)}>
-								<TradingViewPopper />
-							</Box>
-						</Box>
-					</Hidden>
-
-					<Hidden mdUp>
-						<Box className={classes.mobileGraphicsWrapper}>
-							<SvgIcon component={Mobile} />
-							<TradingViewPopper />
-						</Box>
-					</Hidden>
-
+					<Fade triggerOnce direction="up">
+						<div className={classes.right}>
+							{isMobile && (
+								<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+									<Button
+										size="large"
+										variant="contained"
+										className={clsx(classes.tab, { inactive: !isTradeCard })}
+										onClick={() => setIsTradeCard(true)}
+									>
+										Trade
+									</Button>
+									<Button
+										size="large"
+										variant="contained"
+										className={clsx(classes.tab, { inactive: isTradeCard })}
+										onClick={() => setIsTradeCard(false)}
+									>
+										Earn
+									</Button>
+								</ButtonGroup>
+							)}
+							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
+							<Fade triggerOnce delay={50} direction="up">
+								<Card
+									className={clsx(styles.card, { inactive: isTradeCard })}
+									onMouseEnter={() => setIsTradeCard(false)}
+									onMouseLeave={() => setIsTradeCard(true)}
+								>
+									<CardContent className={clsx(styles.cardContent, "earn")}>
+										<Box display="flex" flexDirection="column"alignItems="center" gridGap={16} width="100%">
+											<div className={styles.cardTitleWrapper}>
+												<Typography variant="h3" className={styles.cardTitle}>Earn Yield</Typography>
+												{isMobile && (
+													<Button
+														onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
+														size="small"
+														variant="contained"
+														color="primary"
+														className={clsx(styles.button, "isMobile")}
+														fullWidth
+													>
+														Earn
+													</Button>
+												)}
+											</div>
+											<SvgIcon className={classes.tokensLogo} component={Tokens} />
+											<Typography className={classes.title}>Lend/Borrow, Liquidity Pools and Staking</Typography>
+											<Typography className={classes.subTitle}>Get the most out of your assets</Typography>
+										</Box>
+										{!isMobile && (
+											<Button
+												onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
+												size="large"
+												variant="contained"
+												color="primary"
+												className={clsx(styles.button, { inactive: isTradeCard })}
+												fullWidth
+											>
+												Earn Now
+											</Button>
+										)}
+									</CardContent>
+								</Card>
+							</Fade>
+						</div>
+					</Fade>
 				</Container>
+				<Fade triggerOnce direction="up" delay={500}>
+					<MarketsGrid />
+				</Fade>
 			</div>
-			<Suspense fallback={null}>
-				<MarketsGrid />
-			</Suspense>
 		</Box>
-
 	);
 };
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: "relative",
-		marginBottom: "12px",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
-		height: "maxContent",
-
+		backgroundImage: `url(${HeroBackground})`,
+		backgroundSize: "cover",
+		backgroundRepeat: "no-repeat",
 		[theme.breakpoints.down("sm")]: {
 			padding: "0 0.75rem",
 			overflow: "hidden",
 			paddingBottom: "15rem",
 			marginBottom: "-15rem",
+			backgroundSize: "contain",
+			backgroundPosition: "center 11%",
 		},
 	},
-	position: {
-		position: "absolute",
-		left: 0,
-		width: "100%",
-		zIndex: 0,
-		[theme.breakpoints.up("lg")]: {
-			left: "-30%",
-			top: "-15rem",
-		},
-		[theme.breakpoints.down("md")]: {
-			top: "-125px",
-			minHeight: "60rem",
-		},
-		[theme.breakpoints.down("xs")]: {
-			top: "-15rem",
-		},
-	},
-	container: {
-		position: "relative",
-		margin: "0 auto",
-		maxWidth: "1480px",
-		[theme.breakpoints.only("lg")]: {
-			width: "1480px",
-		},
-		[theme.breakpoints.down("md")]: {
-			maxWidth: "unset",
-			margin: "-70% ​-100%",
+	emptySpacing: {
+		marginTop: "15rem",
+		[theme.breakpoints.down("lg")]: {
+			marginTop: "10rem",
 		},
 		[theme.breakpoints.down("sm")]: {
-			margin: "-1rem -3rem",
+			marginTop: "5rem",
 		},
-		[theme.breakpoints.only("xs")]: {
-			margin: "-1rem -15rem",
-		},
-		"@media (max-width: 319px)": {
-			margin: "-20% -106%",
+		[theme.breakpoints.down("xs")]: {
+			marginTop: 0,
 		},
 	},
 	padding: {
@@ -204,10 +166,10 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		maxHeight: "800px",
 		height: "calc(100vh - 500px)",
+		maxWidth: "380px",
 		flexDirection: "column",
-		alignItems: "center",
+		alignItems: "flex-start",
 		justifyContent: "center",
-		width: "50%",
 		[theme.breakpoints.down("md")]: {
 			width: "auto",
 			height: "unset",
@@ -219,10 +181,25 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down("sm")]: {
 			height: "unset",
 			width: "100%",
+			marginBottom: "30px",
 		},
 		[theme.breakpoints.only("xs")]: {
 			padding: "2.265rem 0 0",
 			height: "unset",
+		},
+	},
+	right: {
+		display: "flex",
+		justifyContent: "flex-end",
+		gap: theme.spacing(4),
+		width: "100%",
+		height: "100%",
+		[theme.breakpoints.down("md")]: {
+			gap: theme.spacing(3),
+		},
+		[theme.breakpoints.down("sm")]: {
+			flexDirection: "column",
+			gap: theme.spacing(1),
 		},
 	},
 	contentContainer: {
@@ -231,20 +208,23 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 		padding: 0,
-		opacity: 0,
-		transform: "translate(0px, 60px)",
-		transition: "opacity ease-in 0.5s, transform ease-in 0.6s",
-		"&.open": {
-			opacity: 1,
-			transform: "translate(0px,0px)",
-		},
+		gap: theme.spacing(16),
 		[theme.breakpoints.down("md")]: {
 			marginTop: 0,
 			height: "unset",
 			overflow: "hidden",
+			padding: theme.spacing(0, 4),
+			gap: theme.spacing(10),
 		},
-		[theme.breakpoints.down("sm")]: {
-			padding: "0",
+		["@media (max-width: 1050px)"]: {
+			marginTop: 0,
+			height: "unset",
+			overflow: "hidden",
+			padding: 0,
+			gap: theme.spacing(1),
+		},
+		["@media (max-width: 755px)"]: {
+			padding: 0,
 			justifyContent: "center",
 			flexDirection: "column",
 		},
@@ -254,11 +234,10 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "flex-start",
 		justifyContent: "center",
-		[theme.breakpoints.up("md")]: {
-			paddingLeft: "5rem",
-		},
-		[theme.breakpoints.down("sm")]: {
+		gap: theme.spacing(4),
+		["@media (max-width: 755px)"]: {
 			alignItems: "center",
+			gap: theme.spacing(2),
 		},
 	},
 	text: {
@@ -267,202 +246,64 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "left",
 		zIndex: 1,
 	},
-	tagline: {
-		display: "flex",
-		width: "150px",
-		"& > div > div > div > span": {
-			fontWeight: 700,
-			textDecoration: "underline",
-			color: theme.palette.text.primary,
-		},
-		[theme.breakpoints.down("md")]: {
-			...theme.typography.body3,
-			width: "107px",
-			paddingLeft: "1.7rem",
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.body4,
-			width: "95px",
-			paddingLeft: "1.2rem",
-		},
-	},
 	headline: {
 		...theme.typography.h1,
-		fontSize: "48px",
 		lineHeight: "48px",
 		textAlign: "left",
 		color: theme.palette.text.primary,
-		zIndex: 1,
-		[theme.breakpoints.up("xl")]: {
-			whiteSpace: "nowrap",
-			"& > br": {
-				display: "none",
-			},
+		["@media (max-width: 1180px)"]: {
+			...theme.typography.h2,
 		},
-		[theme.breakpoints.down("sm")]: {
+		["@media (max-width: 755px)"]: {
 			textAlign: "center",
-			"& > br": {
-				display: "none",
-			},
-		},
-		[theme.breakpoints.up("md")]: {
-			fontSize: "56px",
-			lineHeight: "56px",
-		},
-		[theme.breakpoints.only("sm")]: {
-			fontSize: "40px",
-			lineHeight: "40px",
-		},
-		[theme.breakpoints.only("xs")]: {
-			fontSize: "32px",
-			lineHeight: "38px",
-			width: "80%",
-		},
-		// on headline text break, always break in between DEX and You Need
-		"& > br": {
-			"@media (max-width: 630px)": {
-				display: "block",
-			},
 		},
 	},
 	description: {
-		maxWidth: "380px",
-		marginTop: "1.75rem",
-		fontSize: "20px",
-		lineHeight: "24px",
-		width: "100%",
-		marginBottom: "2.5rem",
-		[theme.breakpoints.down("lg")]: {
-			width: "90%",
+		...theme.typography.body1,
+		maxWidth: "320px",
+		["@media (max-width: 1180px)"]: {
+			...theme.typography.title3,
 		},
-		[theme.breakpoints.up("xl")]: {
-			maxWidth: "none",
-			width: "700px",
-		},
-		[theme.breakpoints.down("md")]: {
-			marginBottom: "1.5rem",
-		},
-		[theme.breakpoints.down("sm")]: {
+		["@media (max-width: 755px)"]: {
 			textAlign: "center",
 		},
-		[theme.breakpoints.only("md")]: {
-			...theme.typography.body1,
-		},
-		[theme.breakpoints.only("sm")]: {
-			...theme.typography.body2,
-
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.body3,
-		},
-		"@media (max-width: 481px)": {
-			width: "18.5rem",
-		},
 	},
-	button: {
-		marginTop: "2.5rem",
-		minWidth: "16rem",
-		minHeight: "4rem",
-		[theme.breakpoints.down("md")]: {
-			minWidth: "10.125rem",
-			minHeight: "2.5rem",
-		},
-		"& .MuiButton-label": {
-			[theme.breakpoints.down("md")]: {
-				...theme.typography.title3,
-			},
-		},
+	demexLogo: {
+		width: "60px",
+		height: "60px",
 	},
-	orangeStrong: {
-		fontWeight: 700,
-		background: StyleUtils.orangeGradient,
-		backgroundClip: "text",
-		WebkitTextFillColor: "transparent",
-		WebkitBackgroundClip: "text",
-	},
-	altText: {
-		color: theme.palette.text.primary,
-		[theme.breakpoints.only("md")]: {
-			...theme.typography.body1,
-		},
-		[theme.breakpoints.only("sm")]: {
-			...theme.typography.body2,
-		},
-		[theme.breakpoints.only("xs")]: {
-			...theme.typography.body3,
-		},
-	},
-	graphicsWrapper: {
-		position: "relative",
-		overflow: "hidden",
-		marginLeft: "-9rem",
-		[theme.breakpoints.down("md")]: {
-			width: "60%",
-		},
-	},
-	mobileGraphicsWrapper: {
-		display: "flex",
-		justifyContent: "center",
-		marginBottom: "50px",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-	tradingViewWrapper: {
-		position: "absolute",
-		bottom: "5%",
-		[theme.breakpoints.down("md")]: {
-			right: "18%!important",
-		},
-		"@media (max-width: 1200px)": {
-			bottom: "10%",
-		},
-		"@media (max-width: 1100px)": {
-			bottom: "12.5%",
-		},
-		"@media (max-width: 1000px)": {
-			bottom: "15%",
-		},
-	},
-	svgIcon: {
-		height: "500px",
-		position: "relative",
-		[theme.breakpoints.down(1400)]: {
-			width: "55vw",
-		},
-	},
-	carbon: {
-		color: StyleUtils.carbonColor,
-	},
-	purpleGradient: {
-		background: StyleUtils.purpleGradient,
-		backgroundClip: "text",
-		WebkitTextFillColor: "transparent",
-		WebkitBackgroundClip: "text",
-		marginRight: "0.25rem",
-	},
-	carbonWrapper: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		[theme.breakpoints.up("sm")]: {
-			marginRight: "0.25rem",
-		},
-	},
-	carbonLogo: {
-		margin: "0 0.25rem",
-		width: "19px",
-		height: "19px",
-		[theme.breakpoints.only("xs")]: {
-			width: "16px",
-			height: "16px",
+	tokensLogo: {
+		width: "100%",
+		height: "auto",
+		[theme.breakpoints.down("sm")]: {
+			width: "70%",
 		},
 	},
 	containerWrapper: {
-		[theme.breakpoints.only("lg")]: {
-			width: "100%",
+		maxWidth: "1346px",
+		margin: "0 auto",
+	},
+	title: {
+		...theme.typography.h4,
+		color: theme.palette.text.primary,
+		textAlign: "center",
+		whiteSpace: "pre-wrap",
+	},
+	subTitle: {
+		...theme.typography.body2,
+		color: theme.palette.text.secondary,
+		[theme.breakpoints.down("md")]: {
+			...theme.typography.body2,
 		},
-		[theme.breakpoints.only("md")]: {
-			width: "100%",
+	},
+	tab: {
+		...theme.typography.body3,
+		color: theme.palette.text.primary,
+
+		width: "100%",
+		"&.inactive": {
+			background: theme.palette.background.tertiary,
+			color: theme.palette.text.secondary,
 		},
 	},
 }));

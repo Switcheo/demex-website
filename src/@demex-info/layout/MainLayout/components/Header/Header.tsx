@@ -2,14 +2,11 @@ import { CloseIcon, MenuIcon } from "@demex-info/assets/icons";
 import { DemexLogo } from "@demex-info/assets/logos";
 import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import { RootState } from "@demex-info/store/types";
-import { lazy } from "@loadable/component";
 import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui/core";
-import React, { Suspense } from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { HeaderMenu } from "./components";
+import { HeaderMenu, HeaderSlider } from "./components";
 import { eskimi, sendGaEvent } from "@demex-info/utils";
-
-const HeaderSlider = lazy(() => import("./components/HeaderSlider"));
 
 const Header: React.FC = () => {
   const classes = useStyles();
@@ -22,9 +19,9 @@ const Header: React.FC = () => {
     setOpenMenu(true);
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpenMenu(false);
-  };
+  }, []);
 
   const handleConnect = () => {
     eskimi("track", "Conversion");
@@ -56,17 +53,15 @@ const Header: React.FC = () => {
         </Box>
         <Box display="flex" alignItems="center" height="100%">
           <HeaderMenu />
-          <Button
-            className={classes.loginBtn}
-            onClick={handleConnect}
-          >
-            Launch App
-          </Button>
         </Box>
+        <Button
+          className={classes.loginBtn}
+          onClick={handleConnect}
+        >
+          Launch App
+        </Button>
       </Box>
-      <Suspense fallback={null}>
-        <HeaderSlider open={openMenu} onClose={handleClose} />
-      </Suspense>
+      <HeaderSlider open={openMenu} onClose={handleClose} />
     </Box>
   );
 };

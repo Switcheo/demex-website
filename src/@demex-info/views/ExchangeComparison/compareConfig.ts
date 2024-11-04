@@ -1,5 +1,5 @@
 import {
-  Demex, Dydx, Serum, Uniswap,
+  DemexLogo, Dydx, HyperLiquid, Drift,
 } from "@demex-info/assets";
 
 export interface LogoCell {
@@ -9,16 +9,16 @@ export interface LogoCell {
 
 export const Markets: LogoCell[] = [{
   value: "demex",
-  component: Demex,
-}, {
-  value: "uniswap",
-  component: Uniswap,
+  component: DemexLogo,
 }, {
   value: "dydx",
   component: Dydx,
 }, {
-  value: "serum",
-  component: Serum,
+  value: "hyper",
+  component: HyperLiquid,
+}, {
+  value: "drift",
+  component: Drift,
 }];
 
 export type RowVal = boolean | string | string[];
@@ -36,59 +36,59 @@ export interface ListItemHead {
 }
 
 export const TradingVal: TradingRow[] = [{
-  header: "Interoperability",
-  values: {
-    demex: "Cosmos IBC & PolyNetwork Alliance",
-    uniswap: "Ethereum & all bridged assets chain",
-    dydx: "N/A",
-    serum: "Wormhole",
-  },
-}, {
-  header: "Dated Futures",
+  header: "Spot, Perps & Pre-Launch Markets",
   values: {
     demex: true,
-    uniswap: false,
     dydx: false,
-    serum: false,
+    hyper: true,
+    drift: true,
   },
 }, {
-  header: "Perpetuals",
+  header: "Multi-Asset Collateral",
   values: {
     demex: true,
-    uniswap: false,
+    dydx: false,
+    hyper: false,
+    drift: true,
+  },
+}, {
+  header: "Multi-Chain & Wallet Access",
+  values: {
+    demex: true,
     dydx: true,
-    serum: false,
+    hyper: false,
+    drift: false,
   },
 }, {
-  header: "Options",
+  header: "Integrated Money Market",
   values: {
-    demex: "Coming Soon",
-    uniswap: false,
+    demex: true,
     dydx: false,
-    serum: false,
+    hyper: false,
+    drift: false,
   },
 }, {
-  header: "Leverage",
+  header: "In-App Notifications",
   values: {
-    demex: "150x",
-    uniswap: "N/A",
-    dydx: "20x",
-    serum: "Dependent on the DEX",
-  }, 
+    demex: true,
+    dydx: false,
+    hyper: false,
+    drift: false,
+  },
 }, {
   header: "Speed",
   values: {
     demex: "10,000 TPS",
-    uniswap: "1.2 TPS",
-    dydx: "1,000 TPS",
-    serum: "65,000 TPS",
-  }, 
+    dydx: "10,000 TPS",
+    hyper: "20,000 TPS",
+    drift: "7,000 TPS",
+  },
 }, {
-  header: "Listing New Markets",
+  header: "Interoperability",
   values: {
-    demex: "Anyone, Permissionless",
-    uniswap: "Anyone, Permissionless",
-    dydx: "Team, Permissioned",
-    serum: "Anyone, Permissionless",
+    demex: "Cosmos IBC & Axelar",
+    dydx: "Cosmos IBC & Axelar",
+    hyper: "Native Bridge",
+    drift: "Solana",
   },
 }];

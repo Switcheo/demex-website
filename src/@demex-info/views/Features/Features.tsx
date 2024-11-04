@@ -1,139 +1,33 @@
-import { ExternalLink } from "@demex-info/assets";
-import { Cards, SvgIcon } from "@demex-info/components";
-import { getDemexLink, Paths, StaticLinks } from "@demex-info/constants";
-import { RootState } from "@demex-info/store/types";
-import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, Divider, Typography, makeStyles } from "@material-ui/core";
-import clsx from "clsx";
+import TopGradient from "./assets/TopGradient.svg";
+import BackgroundGrid from "./assets/BackgroundGrid.svg";
+import { Box, Typography, makeStyles, useMediaQuery } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
-import { Crosschain, Derivatives, LiquidityPools, Orderbooks, Nitron } from "./assets";
-import OrangeVectorTop from "@demex-info/assets/background/OrangeVectorTop.svg";
+import { CateredInfoDesktop, CateredInfoMobile } from "./components";
+import { Fade } from "react-awesome-reveal";
 
-
-const Features: React.FC = () => {
+const DexProperties: React.FC = () => {
   const classes = useStyles();
-
-  const net = useSelector((state: RootState) => state.app.network);
+  const isMobile = useMediaQuery("(max-width:880px)");
 
   return (
     <Box className={classes.root}>
-      <Typography variant="h1" className={classes.header}>
-        Our Features
-      </Typography>
-      <Box className={classes.features}>
-        <Cards className={clsx(classes.cards, "card")}>
-          <Box>
-            <Typography variant="h2" className={classes.cardHeader}>
-              Decentralized Central Limit Orderbooks
+      <div className={classes.background} />
+      <Box className={classes.mainHeader}>
+        <Box className={classes.typoContainer}>
+          <Fade triggerOnce duration={2000}>
+            <Typography variant="h2" className={classes.typography}>
+              Why Choose Demex?
             </Typography>
-            <Typography variant="h3" className={classes.description}>
-              Enjoy limit orders with the lowest slippage through liquidity backstopped by our AMMs.
+          </Fade>
+          <Fade triggerOnce direction="up">
+            <Typography variant="body1" className={classes.description}>
+              Whether you’re looking to trade the hottest markets, or earn the highest yield, Demex brings the best of trading and earning.
             </Typography>
-            <Divider className={classes.gradientDivider} />
-            <SvgIcon className={clsx(classes.assets)} component={Orderbooks}/>
-          </Box>
-          <Button
-              className={classes.button}
-              variant="contained"
-              target="_blank"
-              href={getDemexLink(Paths.Trade, net)}
-            >
-              Start Trading
-            </Button>
-        </Cards>
-        <Cards className={clsx(classes.cards, "card")}>
-          <Box>
-            <Typography variant="h2" className={classes.cardHeader}>
-              Nitron, the Money Market for Cosmos
-            </Typography>
-            <Typography variant="h3" className={classes.description}>
-              Earn passive yield on your assets through lending, or borrow tokens via secured loans.
-            </Typography>
-            <Divider className={classes.gradientDivider} />
-            <SvgIcon className={clsx(classes.assets)} component={Nitron}/>
-          </Box>
-          <Button
-              className={classes.button}
-              variant="contained"
-              target="_blank"
-              href={getDemexLink(Paths.Nitron.Main, net)}
-            >
-              Explore Nitron
-            </Button>
-        </Cards>
-        <Cards className={clsx(classes.cards, "card")}>
-          <Box>
-            <Typography variant="h2" className={classes.cardHeader}>
-              Cross-chain Interoperability<br />
-            </Typography> 
-            <Typography variant="h3" className={classes.description}>
-              Easily access any desired asset or market via Cosmos IBC and PolyNetwork.
-            </Typography>
-            <Divider className={classes.gradientDivider} />
-            <SvgIcon className={clsx(classes.assets)} component={Crosschain}/>
-          </Box>
-          <Box className={classes.actionBtn}>
-          <Button
-            className={clsx(classes.button, "learnMore")}
-            variant="outlined"
-            target="_blank"
-            href={StaticLinks.DemexDocs.Features.Crosschain}
-            classes={{
-              label: classes.learnMoreLabel,
-            }}
-          >
-            Learn More
-            <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
-          </Button>
-          </Box>
-        </Cards>
-        <Cards className={clsx(classes.cards, "card")}>
-          <Box>
-            <Typography variant="h2" className={classes.cardHeader}>
-              Liquidity Pools
-            </Typography>
-            <Typography variant="h3" className={classes.description}>
-              Maximise yields by earning from swap fees, maker rebates and liquidity rewards.
-            </Typography>
-            <Divider className={classes.gradientDivider} />
-            <SvgIcon className={clsx(classes.assets)} component={LiquidityPools}/>
-          </Box>
-          <Box className={classes.actionBtn}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              target="_blank"
-              href={getDemexLink(Paths.Pools.List, net)}
-            >
-              Start Earning
-            </Button>
-          </Box>
-        </Cards>
-        <Cards className={clsx(classes.cards, "card")}>
-          <Box>
-            <Typography variant="h2" className={classes.cardHeader}>
-              Derivatives
-            </Typography>
-            <Typography variant="h3" className={classes.description}>
-              Trade spot, futures and perpetuals on any financial market imaginable.
-            </Typography>
-            <Divider className={classes.gradientDivider} />
-            <SvgIcon className={classes.assets} component={Derivatives}/>
-          </Box>
-          <Button
-            className={clsx(classes.button, "learnMore")}
-            variant="outlined"
-            target="_blank"
-            href={StaticLinks.DemexDocs.Trade.Futures}
-            classes={{
-              label: classes.learnMoreLabel,
-            }}
-          >
-            Learn More
-            <SvgIcon className={classes.gradientIcon} component={ExternalLink} />
-          </Button>
-        </Cards>
+          </Fade>
+        </Box>
+      </Box>
+      <Box className={classes.uspList}>
+        {isMobile ? <CateredInfoMobile /> : <CateredInfoDesktop />}
       </Box>
     </Box>
   );
@@ -141,172 +35,126 @@ const Features: React.FC = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "0 auto",
-    padding: "0 2rem",
-    zIndex: 2,
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    [theme.breakpoints.down("md")]: {
-      background: `url(${OrangeVectorTop}) no-repeat top right`,
-      padding: "13rem 0 0",
-      marginTop: "-10rem",
+    flexWrap: "wrap",
+    overflowY: "visible",
+    paddingTop: "6rem",
+		zIndex: 2,
+    [theme.breakpoints.up("md")]: {
+      background: `url(${BackgroundGrid}) no-repeat`,
+      backgroundPosition: "center",
+    },
+    [theme.breakpoints.down("sm")]: {
+      padding: 0,
     },
   },
-  cards: {
+  background: {
+    [theme.breakpoints.up("md")]: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: -1,
+      background: `url(${TopGradient}) no-repeat top`,
+      opacity: "90%",
+      filter: "blur(40px)",
+    },
+  },
+  mainHeader: {
+    [theme.breakpoints.down("md")]: {
+      marginTop: theme.spacing(6),
+      height: "100px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(2),
+    },
+  },
+  typoContainer: {
+    height: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
-    width: "100%",
-    padding: "2.5rem",
-    [theme.breakpoints.down("sm")]: {
-      padding: "1rem 0.75rem",
-      marginBottom: "1rem",
-    },
-    [theme.breakpoints.down("md")]: {
-      padding: "1.5rem 0.75rem",
-      marginBottom: "1rem",
-    },
-  },
-  header: {
-    ...theme.typography.h1,
-    color: theme.palette.text.primary,
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: "5rem",
-    [theme.breakpoints.down("md")]: {
-      marginBottom: "2.5rem",
-    },
-    [theme.breakpoints.down("sm")]: {
-			...theme.typography.h2,
-    },
-    [theme.breakpoints.only("xs")]: {
-			fontSize: "28px",
-      lineHeight: "38px",
-    },
+    margin: "0 auto",
+    textAlign: "center",
+    gap: theme.spacing(2),
   },
-  cardHeader: {
+  typography: {
     ...theme.typography.h2,
     color: theme.palette.text.primary,
-    marginBottom: "1.5rem",
-    [theme.breakpoints.only("md")]: {
-      ...theme.typography.h3,
-      marginBottom: "2rem",
-    },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.h4,
-      marginBottom: "1rem",
-    },
-  },
-  features: {
-    display: "grid",
-    gridTemplateColumns: "repeat(12, 1fr)",
-    gap: "2rem",
-    //Arranging of cards
-    "& .card:nth-child(-1n + 3)": {
-      gridColumn: "span 4",
-    },
-    "& .card:nth-last-child(2)": {
-      gridRowStart: "2",
-      gridColumn: "3 / span 4",
-    },
-    "& .card:nth-last-child(1)": {
-      gridRowStart: "2",
-      gridColumn: "7 / span 4",
-    },
-    [theme.breakpoints.down("md")]: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "0",
-      width: "92.5%",
+      whiteSpace: "wrap",
+      textAlign: "center",
     },
   },
   description: {
-    ...theme.typography.body1,
-    maxWidth: "34.5rem",
     color: theme.palette.text.secondary,
+    "& > b": {
+      color: theme.palette.text.primary,
+    },
     [theme.breakpoints.down("md")]: {
-      ...theme.typography.body2,
-      maxWidth: "unset",
-      minHeight: "3.75rem",
+      padding: "0rem 1.5rem",
     },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
-      minHeight: "unset",
+      padding: "0rem 1rem",
+      maxWidth: "400px",
     },
   },
-  gradientDivider: {
-    background: StyleUtils.primaryGradient(theme),
-    marginTop: "1.5rem",
-    width: "8rem", 
-    radius: 4,
-    [theme.breakpoints.only("md")]: {
-      marginTop: "2rem",
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "1rem",
-    },
-  },
-  assets: {
-    width: "100%",
-    margin: "-2rem auto",
-  },
-  actionBtn: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-    width: "100%",
-    position: "relative",
-    bottom: 0,
-    "& a:first-child": {
-      marginRight: "2rem",
-      [theme.breakpoints.down("md")]: {
-        marginRight: "1.5rem",
-      },
-    },
-    "@media (max-width: 319px)": {
-      flexDirection: "column",
-      alignItems: "start",
-      "& a:first-child": {
-        marginRight: "0",
-      },
-    },
-  },
-  learnMoreLabel: {
-    ...theme.typography.title1,
-    background: StyleUtils.primaryGradientHover(theme),
-    backgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    WebkitBackgroundClip: "text",
-    textDecoration: "none",
-    whiteSpace: "nowrap",
-    [theme.breakpoints.only("md")]: {
-      ...theme.typography.title2,
-    },
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.title3,
-    },
-  },
-  button: {
-		minWidth: "12rem",
-		minHeight: "4rem",
-    maxWidth: "8.75rem",
+  uspList: {
+    marginTop: theme.spacing(6),
+    maxWidth: "58rem",
 
-    [theme.breakpoints.down("md")]: {
-      ...theme.typography.title2,
-      minWidth: "max-content",
-      minHeight: "2.5rem",
-    },
+    dixplay: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.title3,
+      width: "90%",
+      padding: theme.spacing(0, 1.5),
+      marginTop: theme.spacing(4),
     },
-	},
-  gradientIcon: {
-    "& path": {
-      fill: "url(#demexLinearGradient)",
+  },
+  cateredTitle: {
+    ...theme.typography.h3,
+    color: theme.palette.text.primary,
+    textAlign: "center",
+    marginBottom: theme.spacing(3),
+  },
+  graphicsWrapper: {
+    "@media (min-width: 2660px)": {
+      width: "1800px",
     },
+  },
+  svgIcon: {
+    position: "relative",
+    zIndex: 1,
+    top: "215px",
+    left: "260px",
+    "@media (min-width: 1280px) and (max-width: 1500px)": {
+      left: "50px",
+    },
+  },
+  // background animation:
+  position: {
+    width: "100%",
+  },
+  container: {
+    maxWidth: "1480px",
+    "& > div > svg": {
+      width: "unset !important",
+      top: "-250px !important",
+    },
+  },
+  swirlTop: {
+    width: "10rem",
+    float: "right",
+    marginRight: "-2rem",
   },
 }));
 
-export default Features;
+export default DexProperties;

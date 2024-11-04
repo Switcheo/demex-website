@@ -1,4 +1,4 @@
-import { CloseIcon, ExternalLink, TickIcon } from "@demex-info/assets";
+import { CloseV2Icon, ExternalLink, TickIcon } from "@demex-info/assets";
 import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
 import { StaticLinks } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
@@ -101,7 +101,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && !valueItem}>
                   {newKey === "demex" && <Box className={classes.gradientBorder} />}
-                  <CloseIcon />
+                  <CloseV2Icon />
                 </RenderGuard>
               </Box>
             </TableCell>
@@ -119,19 +119,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   compareRow: {
     "& td": {
       "&.headerCol, &.rowCell": {
-        [theme.breakpoints.up("md")]: {
-          borderBottom: `1px solid ${theme.palette.divider}`,
-        },
-        [theme.breakpoints.down("sm")]: {
-          borderBottom: "none",
-        },
+        borderBottom: "none",
       },
     },
     "&:last-child": {
       "& td": {
         "&.headerCol, &.rowCell": {
           borderBottom: "none",
-          paddingBottom: "3rem",
+          paddingBottom: theme.spacing(6),
           "&.demex": {
             paddingBottom: 0,
             "& > div > div": {
@@ -140,7 +135,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             },
             "& > div > p": {
               paddingTop: "1rem",
-              paddingBottom: "3rem",
+              paddingBottom: theme.spacing(6),
             },
           },
         },
@@ -164,13 +159,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
       ...theme.typography.title2,
-      padding: theme.spacing(2, 1.5),
+      padding: theme.spacing(0, 1.5),
       minWidth: "6rem",
     },
     [theme.breakpoints.only("xs")]: {
       ...theme.typography.title3,
       lineHeight: "1.175rem",
-      minWidth: "5rem",
     },
   },
   headerSkeleton: {
@@ -203,7 +197,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   rowHeader: {
-    whiteSpace: "nowrap",
+    ...theme.typography.body1,
+    whiteSpace: "pre-wrap",
+    color: theme.palette.text.secondary,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
+    },
   },
   rowText: {
     ...theme.typography.body2,
@@ -226,6 +225,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     minWidth: "10rem",
+    wordWrap: "break-word",
     [theme.breakpoints.only("xs")]: {
       minWidth: "unset",
     },

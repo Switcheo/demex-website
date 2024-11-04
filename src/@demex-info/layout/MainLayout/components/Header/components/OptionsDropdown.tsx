@@ -1,24 +1,19 @@
 import { DropdownMenuItem } from "@demex-info/constants";
 import MenuListItems from "@demex-info/layout/MainLayout/common/MenuItem";
 import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, Divider, Drawer, makeStyles, Theme, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core";
+import { Box, Button, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
 import Dropdown from "./Dropdown";
 
 interface Props {
-  openDrawer?: boolean;
-  closeDrawer?: () => void;
   items: DropdownMenuItem[];
   title: string;
 }
 
 const OptionsDropdown: React.FC<Props> = (props: Props) => {
-  const { openDrawer, closeDrawer, items, title } = props;
+  const { items, title } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
 
@@ -34,35 +29,7 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
     ...item,
   }));
 
-  return isMobile ? (
-    <Drawer
-      anchor="left"
-      open={openDrawer}
-      onClose={closeDrawer}
-      classes={{
-        paper: classes.drawer,
-      }}
-      ModalProps={{
-        BackdropProps: {
-          invisible: true,
-        },
-      }}
-    >
-      <div
-        className={classes.list}
-        role="presentation"
-      >
-        <div className={classes.innerDiv}>
-          <Divider />
-          <MenuListItems
-            menuListClasses={{ root: classes.menuList }}
-            items={textLinks}
-            size="large"
-          />
-        </div>
-      </div>
-    </Drawer>
-  ) : (
+  return (
     <Dropdown
       label={(
         <Box className={classes.tabWrapper}>
@@ -110,29 +77,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       background: StyleUtils.primaryTextGradient,
     },
   },
-  drawer: {
-    overflowY: "hidden",
-    padding: theme.spacing(2.5),
-    background: theme.palette.background.paper,
-  },
   dropdown: {
     padding: theme.spacing(1),
     borderRadius: 4,
-    minWidth: "10.75rem",
+    width: "17.5rem",
   },
   labelClass: {
     margin: "0px 4px 0px 16px",
-  },
-  innerDiv: {
-    position: "absolute",
-    width: "100%",
-    overflowY: "auto",
-  },
-  list: {
-    height: "100%",
-    width: "14rem",
-    position: "relative",
-    backgroundColor: theme.palette.background.paper,
   },
   tab: {
     ...theme.typography.body2,
@@ -143,21 +94,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
     minWidth: "unset",
     opacity: 1,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     "&:hover": {
       textShadow: `.5px 0 0 ${theme.palette.text.secondary}`,
       backgroundColor: "transparent",
     },
     "&.isHighlighted": {
-      color: theme.palette.text.primary,
       textShadow: `.5px 0 0 ${theme.palette.text.primary}`,
     },
-    // "@media (min-width: 960px) and (max-width: 1056px)": {
-    //   paddingLeft: 0,
-    //   "&:first-child": {
-    //     paddingLeft: theme.spacing(2.5),
-    //   },
-    // },
   },
   menuList: {
     paddingBottom: 0,

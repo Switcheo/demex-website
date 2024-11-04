@@ -53,9 +53,8 @@ const AssetIcon: React.FunctionComponent<Props> = (
 const useStyles = makeStyles(() => ({
   root: {
     position: "relative",
-    paddingTop: "2em",
-    width: "2em",
-    height: "2em",
+    width: "32px",
+    height: "32px",
     flexShrink: 0,
   },
   icon: {

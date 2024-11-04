@@ -1,6 +1,4 @@
-export { ReactComponent as Crosschain } from "./Crosschain.svg";
-export { ReactComponent as Derivatives } from "./Derivatives.svg";
-export { ReactComponent as LiquidityPools } from "./LiquidityPools.svg";
-export { ReactComponent as Nitron } from "./Nitron.svg";
-export { ReactComponent as Orderbooks } from "./Orderbooks.svg";
-
+export { ReactComponent as HighLeverage } from "./HighLeverage.svg";
+export { ReactComponent as TradingInstruments } from "./TradingInstruments.svg";
+export { ReactComponent as CompetitiveFields } from "./CompetitiveFields.svg";
+export { ReactComponent as CrossChain } from "./CrossChain.svg";

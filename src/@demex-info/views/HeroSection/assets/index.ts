@@ -1,2 +1,2 @@
-export { ReactComponent as DesktopMobile } from "./DesktopMobile.svg";
-export { ReactComponent as Mobile } from "./Mobile.svg";
+export { ReactComponent as Tokens } from "./Tokens.svg";
+export { ReactComponent as Line } from "./Line.svg";
