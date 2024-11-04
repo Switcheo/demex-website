@@ -220,7 +220,7 @@ const MarketsGrid: React.FC = () => {
           mb={1}
         >
           <TypographyLabel className={classes.gridHeader}>
-            Trading Volume (24H)
+            Total Trading Volume (24H)
           </TypographyLabel>
         </Box>
         <RenderGuard renderIf={statLoading}>
@@ -285,9 +285,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     gap: theme.spacing(4),
     justifyContent: "center",
-    margin: theme.spacing(0, "auto"),
     background: "#1A1D1F",
-    border: "1px solid #FFFFFF0A",
     borderRadius: theme.spacing(1),
     backdropFilter: "blur(64px)",
     maxWidth: "1200px",
@@ -318,7 +316,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   linearGradient: {
     position: "absolute",
-    bottom: -10,
+    bottom: -8,
     width: "100%",
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {

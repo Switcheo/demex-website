@@ -17,7 +17,7 @@ interface Props {
   onClickButton: () => void;
 }
 
-const TradeTopMarkets: React.FC<Props> = (props) => {
+const   TradeTopMarkets: React.FC<Props> = (props) => {
   const { active, onClickButton } = props;
   const classes = useStyles();
   const styles = useHeroSectionStyles();
@@ -95,7 +95,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
             </Button>
           )}
         </div>
-        <Box display="flex" flexDirection="column" gridGap={16} width="100%">
+        <div className={classes.tokensWrapper}>
           <RenderGuard renderIf={statLoading || !tokensStats.length}>
             {[1, 2, 3].map((index) => (
               <Skeleton key={index} className={classes.standardSkeleton} />
@@ -138,7 +138,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
               </Box>
             </Box>
           ))}
-        </Box>
+        </div>
         {!isMobile && (
           <Button
             onClick={onClickButton}
@@ -206,6 +206,15 @@ const useStyles = makeStyles((theme) => ({
     height: "36px",
     [theme.breakpoints.down("md")]: {
       height: "32px",
+    },
+  },
+  tokensWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(4),
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      gap: theme.spacing(3),
     },
   },
 }));

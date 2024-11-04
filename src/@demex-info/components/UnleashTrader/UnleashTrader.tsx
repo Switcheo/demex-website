@@ -68,7 +68,7 @@ const UnleashTrader: React.FC = () => {
   return (
     <Box className={classes.root}>
       <MarketsMarquee filteredCards={filteredCards} />
-      <MarketsMarquee filteredCards={filteredCards} direction="right" />
+      <MarketsMarquee filteredCards={[...filteredCards, ...filteredCards]} direction="right" />
     </Box>
   );
 };

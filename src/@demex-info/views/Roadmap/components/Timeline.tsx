@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   roadmapLine: {
     position: "absolute",
-    top: "47.5%",
+    top: "45%",
     left: 0,
     right: 0,
     height: "2px",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   activeLine: {
     position: "absolute",
-    top: "47.5%",
+    top: "45%",
     left: 0,
     right: "50%",
     height: "4px",
@@ -42,17 +42,22 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    "&.top": {
+      justifyContent: "flex-end",
+    },
   },
   timelineDot: {
-    width: "24px",
-    height: "24px",
+    width: "16px",
+    height: "16px",
+    border: "4px solid #6C6E71",
     borderRadius: "50%",
     marginBottom: theme.spacing(1),
     backgroundColor: "#4A5568",
+    boxShadow: "0px 0px 4px 0px #00000080 inset",
   },
   activeDot: {
-    background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
-    boxShadow: "0px 0px 12px 0px #00000080 inset",
+    border: "4px solid #007AFF",
+    background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
   },
   card: {
     width: "240px",
@@ -98,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(2),
+    padding: theme.spacing(3),
   },
   quarterItem: {
     display: "flex",
@@ -124,11 +130,11 @@ const Timeline: React.FC = () => {
         <Grid container justify="space-between" style={{ position: "relative", zIndex: 1 }}>
           {roadmapData.map((quarter, index) => {
             if (index % 2 === 0) return (
-              <div className={classes.emptyCard} />
+              <div key={index} className={classes.emptyCard} />
             );
 
             return (
-              <Grid key={quarter.quarter} item className={classes.roadmapItem}>
+              <Grid key={quarter.quarter} item className={clsx(classes.roadmapItem, "top")}>
                 <Fade triggerOnce direction="down" delay={index * 150}>
                   <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard, "top")}>
                     <CardContent className={classes.cardContent}>
@@ -153,7 +159,7 @@ const Timeline: React.FC = () => {
         <Grid container justify="space-between" style={{ position: "relative", zIndex: 1 }}>
           {roadmapData.map((quarter, index) => {
             if (index % 2 !== 0) return (
-              <div className={clsx(classes.emptyCard, classes.roadmapItem)}>
+              <div key={index} className={clsx(classes.emptyCard, classes.roadmapItem)}>
                 <div className={clsx(classes.timelineDot, index <= 2 && classes.activeDot)} />
               </div>
             );

@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   bottomLogo: {
-    width: "6.625rem",
-    height: "1.5rem",
+    width: "7.625rem",
+    height: "2.5rem",
   },
   footerNav: {
     display: "flex",

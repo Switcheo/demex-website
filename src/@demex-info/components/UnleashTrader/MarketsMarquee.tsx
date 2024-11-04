@@ -31,10 +31,10 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
     <React.Fragment>
       {ready && (
         <Suspense fallback={null}>
-          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={20} pauseOnHover>
-            {filteredCards.map((card: MarketCard) => {
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={50} pauseOnHover>
+            {filteredCards.map((card: MarketCard, index: number) => {
               return (
-                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
+                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-${index}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
                   <Box display="flex" alignItems="center" gridGap={8}>
                     <AssetIcon denom={card.baseSymbol} />
                     <Box display="flex" className={classes.marketName}>
@@ -46,7 +46,7 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
                   </Box>
                   <Box display="flex" flexDirection="column" alignItems="flex-end" mt={0.25}>
                     <Box className={classes.priceName}>
-                      ${card.lastPrice.toFormat(card.priceDp)}
+                      ${card.lastPrice.toFormat(card.lastPrice.gt(1) ? 2 : card.priceDp)}
                     </Box>
                     <Box
                       className={clsx(
@@ -94,18 +94,15 @@ const useStyles = makeStyles((theme) => ({
     "& > div": {
       color: theme.palette.text.secondary,
     },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
     },
   },
   priceName: {
     ...theme.typography.body2,
     color: theme.palette.text.primary,
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.body2,
+      ...theme.typography.body3,
     },
   },
   changeText: {

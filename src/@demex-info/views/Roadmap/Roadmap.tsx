@@ -13,7 +13,6 @@ const Features: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-
   return (
     <Box className={classes.root}>
       <div className={classes.roadmapWrapper}>

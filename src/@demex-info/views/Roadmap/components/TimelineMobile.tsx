@@ -75,19 +75,21 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
   timelineDot: {
-    width: "16px",
-    height: "16px",
+    width: "12px",
+    height: "12px",
+    border: "4px solid #6C6E71",
     borderRadius: "50%",
     marginBottom: theme.spacing(1),
     backgroundColor: "#4A5568",
+    boxShadow: "0px 0px 4px 0px #00000080 inset",
 
     position: "absolute",
-    left: "48%",
+    left: "47.5%",
+    zIndex: 1,
   },
   activeDot: {
-    background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
-    boxShadow: "0px 0px 12px 0px #00000080 inset",
-    zIndex: 1,
+    border: "4px solid #007AFF",
+    background: "linear-gradient(270deg, #007AFF 0%, #482BFF 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
   },
   quarterItem: {
     display: "flex",

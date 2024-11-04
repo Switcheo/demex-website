@@ -50,10 +50,10 @@ const HeroSection: React.FC = () => {
 							</Fade>
 						</Box>
 					</Box>
-					<Fade triggerOnce direction="up">
-						<div className={classes.right}>
-							{isMobile && (
-								<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+					<div className={classes.right}>
+						{isMobile && (
+							<Fade triggerOnce direction="up">
+								<ButtonGroup className={classes.buttonGroup} variant="contained" color="primary" aria-label="contained primary button group">
 									<Button
 										size="large"
 										variant="contained"
@@ -71,54 +71,56 @@ const HeroSection: React.FC = () => {
 										Earn
 									</Button>
 								</ButtonGroup>
-							)}
-							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
-							<Fade triggerOnce delay={50} direction="up">
-								<Card
-									className={clsx(styles.card, { inactive: isTradeCard })}
-									onMouseEnter={() => setIsTradeCard(false)}
-									onMouseLeave={() => setIsTradeCard(true)}
-								>
-									<CardContent className={clsx(styles.cardContent, "earn")}>
-										<Box display="flex" flexDirection="column"alignItems="center" gridGap={16} width="100%">
-											<div className={styles.cardTitleWrapper}>
-												<Typography variant="h3" className={styles.cardTitle}>Earn Yield</Typography>
-												{isMobile && (
-													<Button
-														onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
-														size="small"
-														variant="contained"
-														color="primary"
-														className={clsx(styles.button, "isMobile")}
-														fullWidth
-													>
-														Earn
-													</Button>
-												)}
-											</div>
-											<SvgIcon className={classes.tokensLogo} component={Tokens} />
-											<Typography className={classes.title}>Lend/Borrow, Liquidity Pools and Staking</Typography>
-											<Typography className={classes.subTitle}>Get the most out of your assets</Typography>
-										</Box>
-										{!isMobile && (
-											<Button
-												onClick={() => handleClickDemexLink(getDemexLink(Paths.Nitron.Main, net), "click_nitron")}
-												size="large"
-												variant="contained"
-												color="primary"
-												className={clsx(styles.button, { inactive: isTradeCard })}
-												fullWidth
-											>
-												Earn Now
-											</Button>
-										)}
-									</CardContent>
-								</Card>
 							</Fade>
-						</div>
-					</Fade>
+						)}
+						<Fade className={classes.fade} triggerOnce direction="up">
+							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
+						</Fade>
+						<Fade triggerOnce delay={50} direction="up">
+							<Card
+								className={clsx(styles.card, { inactive: isTradeCard })}
+								onMouseEnter={() => setIsTradeCard(false)}
+								onMouseLeave={() => setIsTradeCard(true)}
+							>
+								<CardContent className={clsx(styles.cardContent, "earn")}>
+									<div className={classes.earnWrapper} >
+										<div className={styles.cardTitleWrapper}>
+											<Typography variant="h3" className={styles.cardTitle}>Earn Yield</Typography>
+											{isMobile && (
+												<Button
+													onClick={() => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), "click_earn_now")}
+													size="small"
+													variant="contained"
+													color="primary"
+													className={clsx(styles.button, "isMobile")}
+													fullWidth
+												>
+													Earn
+												</Button>
+											)}
+										</div>
+										<SvgIcon className={classes.tokensLogo} component={Tokens} />
+										<Typography className={classes.title}>Lend/Borrow, Liquidity Pools and Staking</Typography>
+										<Typography className={classes.subTitle}>Get the most out of your assets</Typography>
+									</div>
+									{!isMobile && (
+										<Button
+											onClick={() => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), "click_earn_now")}
+											size="large"
+											variant="contained"
+											color="primary"
+											className={clsx(styles.button, { inactive: isTradeCard })}
+											fullWidth
+										>
+											Earn Now
+										</Button>
+									)}
+								</CardContent>
+							</Card>
+						</Fade>
+					</div>
 				</Container>
-				<Fade triggerOnce direction="up" delay={500}>
+				<Fade className={classes.fade} triggerOnce direction="up" delay={500}>
 					<MarketsGrid />
 				</Fade>
 			</div>
@@ -145,11 +147,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	emptySpacing: {
-		marginTop: "15rem",
+		marginTop: "10rem",
 		[theme.breakpoints.down("lg")]: {
-			marginTop: "10rem",
-		},
-		[theme.breakpoints.down("sm")]: {
 			marginTop: "5rem",
 		},
 		[theme.breakpoints.down("xs")]: {
@@ -274,9 +273,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tokensLogo: {
 		width: "100%",
-		height: "auto",
+		height: "80px",
 		[theme.breakpoints.down("sm")]: {
 			width: "70%",
+			height: "auto",
 		},
 	},
 	containerWrapper: {
@@ -284,10 +284,13 @@ const useStyles = makeStyles((theme) => ({
 		margin: "0 auto",
 	},
 	title: {
-		...theme.typography.h4,
+		...theme.typography.h3,
 		color: theme.palette.text.primary,
 		textAlign: "center",
 		whiteSpace: "pre-wrap",
+		[theme.breakpoints.down("md")]: {
+			...theme.typography.h4,
+		},
 	},
 	subTitle: {
 		...theme.typography.body2,
@@ -305,6 +308,23 @@ const useStyles = makeStyles((theme) => ({
 			background: theme.palette.background.tertiary,
 			color: theme.palette.text.secondary,
 		},
+	},
+	earnWrapper: {
+		width: "100%",
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		gap: theme.spacing(4),
+		[theme.breakpoints.down("sm")]: {
+			gap: theme.spacing(3),
+		},
+	},
+	buttonGroup: {
+		width: "100%",
+	},
+	fade: {
+		display: "flex",
+		justifyContent: "center",
 	},
 }));
 

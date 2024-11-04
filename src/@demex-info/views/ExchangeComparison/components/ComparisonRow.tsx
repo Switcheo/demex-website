@@ -152,9 +152,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "sticky",
     background: theme.palette.background.primary,
     left: 0,
-    maxWidth: "6rem",
-    minWidth: "6rem",
-    padding: theme.spacing(2, 3),
+    width: "12rem",
+    padding: theme.spacing(0, 3, 0, 0),
     zIndex: 2,
     [theme.breakpoints.down("sm")]: {
       maxWidth: "unset",
@@ -198,10 +197,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   rowHeader: {
     ...theme.typography.body1,
+    fontSize: "18px",
     whiteSpace: "pre-wrap",
+    width: "12rem",
     color: theme.palette.text.secondary,
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.body3,
+      width: "8rem",
     },
   },
   rowText: {
@@ -210,7 +212,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     display: "flex",
     textAlign: "center",
-    maxWidth: "9.75rem",
+    maxWidth: "10.25rem",
     flexWrap: "wrap",
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,

@@ -40,8 +40,8 @@ const CateredInfo = () => {
           svgClassName={classes.svgIcon}
         />
         <CateredCard
-          title="Nitron Money Market"
-          description="Lend and borrow assets on Nitron with additional incentives and flexible terms"
+          title="Money Market"
+          description="Lend and borrow assets on Demex with additional incentives and flexible terms"
         />
         <CateredCard
           title="Seamless Earning"

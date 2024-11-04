@@ -40,18 +40,21 @@ export type EventAction =
   // Promotion Hub
   | "click_promotion_hub"
 
+  // Earn
+  | "click_earn_now" // click link to Pools page
+
 export const sendGaEvent = (eventAction: EventAction, args?: TypeUtils.SimpleMap<string>) => {
   const data = cleanUndefined({
     event: eventAction,
     ...args,
   });
-  
+
   if (typeof window !== "undefined") {
     (window as any).logGoogleAnalytics?.(data);
     (window as any).dataLayer?.push(data);
   }
 };
-  
+
 const cleanUndefined = (args: any = {}) => {
   for (const key in args) {
     if (typeof args[key] === "undefined") {

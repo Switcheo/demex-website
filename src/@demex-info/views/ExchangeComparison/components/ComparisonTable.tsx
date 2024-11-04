@@ -79,14 +79,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   headerAltCell: {
     background: theme.palette.background.primary,
     borderBottom: "none",
-    minWidth: "12.5rem",
+    minWidth: "12rem",
     zIndex: 2,
     left: 0,
-    padding: theme.spacing(3, 1.5, 3, 0),
+    padding: 0,
     position: "sticky",
-    [theme.breakpoints.down("md")]: {
-      padding: theme.spacing(3, 1.5, 3, 3),
-    },
     [theme.breakpoints.down("xs")]: {
       minWidth: "unset",
     },
