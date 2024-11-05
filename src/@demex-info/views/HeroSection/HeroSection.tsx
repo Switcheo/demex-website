@@ -282,6 +282,9 @@ const useStyles = makeStyles((theme) => ({
 	containerWrapper: {
 		maxWidth: "1346px",
 		margin: "0 auto",
+		[theme.breakpoints.down("xs")]: {
+			width: "100%",
+		},
 	},
 	title: {
 		...theme.typography.h3,
