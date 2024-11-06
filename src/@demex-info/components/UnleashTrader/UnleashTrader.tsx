@@ -57,13 +57,11 @@ const UnleashTrader: React.FC = () => {
   }, [cards]);
 
   // only display markets with 24H volume > $100 in desc order
-  const filteredCards = cards.filter((card: MarketCard) => {
-    return card.usdVolume.gt(100);
-  }).sort((cardA: MarketCard, cardB: MarketCard) => {
-    const volumeA = cardA.usdVolume;
-    const volumeB = cardB.usdVolume;
-    return volumeA.comparedTo(volumeB);
-  });
+  const filteredCards = React.useMemo(() => {
+    return cards
+      .filter((card: MarketCard) => card.usdVolume.gt(100))
+      .sort((cardA: MarketCard, cardB: MarketCard) => cardB.usdVolume.comparedTo(cardA.usdVolume));
+  }, [cards]);
 
   return (
     <Box className={classes.root}>

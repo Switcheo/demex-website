@@ -122,8 +122,9 @@ const MarketsGrid: React.FC = () => {
 
 
   const listResponse = useSelector((store: RootState) => store.app.marketList);
-  const list: MarketListMap = parseMarketListMap(listResponse);
   const stats = useSelector((store: RootState) => store.app.marketStats);
+
+  const list: MarketListMap = React.useMemo(() => parseMarketListMap(listResponse), [listResponse]);
 
   const marketsList = React.useMemo(() => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
@@ -181,7 +182,7 @@ const MarketsGrid: React.FC = () => {
       volume24H,
       openInterest,
     };
-  }, [marketsList, list, sdk?.token]);
+  }, [marketsList, sdk?.token]);
 
   const volumeCountUp = useRollingNum(volume24H, 2, 4);
   const liquidityCountUp = useRollingNum(totalValueLocked, 2, 4);
@@ -369,4 +370,4 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default MarketsGrid;
+export default React.memo(MarketsGrid);

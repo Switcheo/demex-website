@@ -27,10 +27,11 @@ const   TradeTopMarkets: React.FC<Props> = (props) => {
   const tokenClient = sdk?.token;
 
   const listMarkets = useSelector((store: RootState) => store.app.marketList);
-  const list: MarketListMap = parseMarketListMap(listMarkets);
   const stats = useSelector((store: RootState) => store.app.marketStats);
   const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
   const statLoading = Boolean(loadingTasks.runInitSDK);
+
+  const list: MarketListMap = React.useMemo(() => parseMarketListMap(listMarkets), [listMarkets]);
 
   const topThreeMarkets = React.useMemo(() => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
