@@ -1,16 +1,17 @@
-import { CloseV2Icon, ExternalLink, TickIcon } from "@demex-info/assets";
-import { RenderGuard, SvgIcon, TypographyLabel } from "@demex-info/components";
-import { StaticLinks } from "@demex-info/constants";
-import { StyleUtils } from "@demex-info/utils";
+import { CloseV2Icon, TickIcon } from "@demex-info/assets";
+import { RenderGuard, SvgIcon } from "@demex-info/components";
 import {
-  Box, Button, Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
+  Box,
+  Hidden, makeStyles, TableCell, TableRow, Theme, Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
+import { BottomLeftLine, BottomLine, BottomRightLine } from "../assets";
 import { TradingRow } from "../compareConfig";
 
 interface Props {
   row: TradingRow;
+  isLastRow?: boolean;
 }
 
 interface BrokenProps {
@@ -35,7 +36,7 @@ const BrokenHeader: React.FC<BrokenProps> = (props: BrokenProps) => {
 };
 
 const ComparisonRow: React.FC<Props> = (props: Props) => {
-  const { row } = props;
+  const { row, isLastRow } = props;
   const classes = useStyles();
 
   return (
@@ -56,53 +57,28 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
       {
         Object.keys(row.values).map((newKey: string) => {
           const valueItem = row.values?.[newKey] ?? false;
+
           return (
             <TableCell className={clsx(classes.rowCell, "rowCell", newKey)} key={`${row.header}-${newKey}`}>
               <Box className={clsx(classes.rowTextBox, newKey)}>
-                <RenderGuard renderIf={typeof valueItem === "string" && valueItem !== "Cosmos IBC & PolyNetwork Alliance"}>
-                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
+                <RenderGuard renderIf={typeof valueItem === "string"}>
                   <Typography className={classes.rowText} color="textPrimary">
                     {valueItem}
                   </Typography>
                 </RenderGuard>
-                <RenderGuard renderIf={typeof valueItem === "string" && valueItem === "Cosmos IBC & PolyNetwork Alliance"}>
-                  <Box className={classes.gradientBorder} />
-                  <Box className={classes.rowText}>
-                    <Button
-                      className={classes.button}
-                      variant="text"
-                      target="_blank"
-                      href={StaticLinks.CosmosIBC}
-                      classes={{
-                        label: classes.linkLabel,
-                      }}
-                    >
-                      Cosmos IBC
-                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
-                    </Button>
-                    <TypographyLabel className={classes.ampersand}>&</TypographyLabel>
-                    <Button
-                      className={classes.button}
-                      variant="text"
-                      target="_blank"
-                      href={StaticLinks.PolyNetworkAlliance}
-                      classes={{
-                        label: classes.linkLabel,
-                      }}
-                    >
-                      PolyNetwork Alliance
-                      <SvgIcon className={classes.externalLink} component={ExternalLink} />
-                    </Button>
-                  </Box>
-                </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && valueItem}>
-                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <TickIcon />
                 </RenderGuard>
                 <RenderGuard renderIf={typeof valueItem === "boolean" && !valueItem}>
-                  {newKey === "demex" && <Box className={classes.gradientBorder} />}
                   <CloseV2Icon />
                 </RenderGuard>
+                {newKey === "demex" && isLastRow && (
+                  <React.Fragment>
+                    <SvgIcon className={classes.bottomLine} component={BottomLine} />
+                    <SvgIcon className={classes.bottomLeftLine} component={BottomLeftLine} />
+                    <SvgIcon className={classes.bottomRightLine} component={BottomRightLine} />
+                  </React.Fragment>
+                )}
               </Box>
             </TableCell>
           );
@@ -288,19 +264,20 @@ const useStyles = makeStyles((theme: Theme) => ({
       ...theme.typography.body4,
     },
   },
-  gradientBorder: {
+  bottomLine: {
     position: "absolute",
-    padding: theme.spacing(0, 2.5),
-    height: "80.5px",
-    width: "100%",
-    boxSizing: "border-box",
-    border: "2px solid",
-    borderBottom: "none",
-    borderTop: "none",
-    borderImageSlice: 1,
-    borderImageSource: StyleUtils.primaryGradient(theme),
-    borderRadius: "12px",
-    filter: "drop-shadow(0px 0px 12px #4035FF)",
+    bottom: -15,
+    zIndex: 2,
+  },
+  bottomRightLine: {
+    position: "absolute",
+    bottom: -15,
+    right: -64,
+  },
+  bottomLeftLine: {
+    position: "absolute",
+    bottom: -15,
+    left: -64,
   },
 }));
 

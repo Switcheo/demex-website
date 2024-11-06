@@ -1,4 +1,3 @@
-import { StyleUtils } from "@demex-info/utils";
 import {
   Box, Hidden, makeStyles, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Theme,
@@ -12,6 +11,8 @@ import {
   LogoCell,
 } from "../compareConfig";
 import ComparisonRow from "./ComparisonRow";
+import { SvgIcon } from "@demex-info/components";
+import { TopLeftLine, TopLine, TopRightLine } from "../assets";
 
 const ComparisonTable: React.FC = () => {
   const classes = useStyles();
@@ -35,7 +36,13 @@ const ComparisonTable: React.FC = () => {
                     key={`svg-${cell.value}`}
                   >
                     <Box className={clsx(classes.iconBox, { demex: cell.value === "demex" })}>
-                      {cell.value === "demex" && <Box className={classes.gradientBorder} />}
+                      {cell.value === "demex" && (
+                        <React.Fragment>
+                          <SvgIcon className={classes.topLine} component={TopLine} />
+                          <SvgIcon className={classes.topRightLine} component={TopRightLine} />
+                          <SvgIcon className={classes.topLeftLine} component={TopLeftLine} />
+                        </React.Fragment>
+                      )}
                       <Component className={clsx(classes.iconClass, cell.value)} />
                     </Box>
                   </TableCell>
@@ -48,8 +55,8 @@ const ComparisonTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {TradingVal.map((tradingVal: TradingRow) => (
-            <ComparisonRow key={`${tradingVal.header}-tradingVal`} row={tradingVal} />
+          {TradingVal.map((tradingVal: TradingRow, idx: number) => (
+            <ComparisonRow key={`${tradingVal.header}-tradingVal`} row={tradingVal} isLastRow={idx === TradingVal.length - 1} />
           ))}
         </TableBody>
       </Table>
@@ -131,18 +138,20 @@ const useStyles = makeStyles((theme: Theme) => ({
       position: "relative",
     },
   },
-  gradientBorder: {
+  topLine: {
     position: "absolute",
-    padding: theme.spacing(0, 2.5),
-    height: "100%",
-    width: "100%",
-    boxSizing: "border-box",
-    border: "2px solid",
-    borderBottom: "none",
-    borderImageSlice: 1,
-    borderImageSource: StyleUtils.primaryGradient(theme),
-    borderRadius: "12px",
-    filter: "drop-shadow(0px 0px 12px #4035FF)",
+    top: 0,
+    zIndex: 2,
+  },
+  topRightLine: {
+    position: "absolute",
+    top: 0,
+    right: -64,
+  },
+  topLeftLine: {
+    position: "absolute",
+    top: 0,
+    left: -64,
   },
 }));
 
