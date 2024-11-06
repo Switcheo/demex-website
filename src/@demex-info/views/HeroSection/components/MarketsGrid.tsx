@@ -17,7 +17,7 @@ import { bnOrZero } from "carbon-js-sdk/lib/util/number";
 import React, { useEffect } from "react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { Line } from "../assets";
+import { BottomLeftVector, Line, TopRightVector } from "../assets";
 import { Fade } from "react-awesome-reveal";
 
 interface WSData {
@@ -271,6 +271,8 @@ const MarketsGrid: React.FC = () => {
           <SvgIcon component={Line} />
         </Fade>
       </div>
+      <SvgIcon className={classes.bottomLeftVector} component={BottomLeftVector} />
+      <SvgIcon className={classes.topRightVector} component={TopRightVector} />
     </Box>
   );
 };
@@ -347,6 +349,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.market": {
       maxWidth: "111px",
       minWidth: "111px",
+    },
+  },
+  topRightVector: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  bottomLeftVector: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
 }));
