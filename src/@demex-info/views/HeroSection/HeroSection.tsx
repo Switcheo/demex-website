@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
 						<Fade className={classes.fade} triggerOnce direction="up">
 							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
 						</Fade>
-						<Fade triggerOnce delay={50} direction="up">
+						<Fade className={classes.fade} triggerOnce delay={50} direction="up">
 							<Card
 								className={clsx(styles.card, { inactive: isTradeCard })}
 								onMouseEnter={() => setIsTradeCard(false)}
@@ -198,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down("sm")]: {
 			flexDirection: "column",
-			gap: theme.spacing(1),
+			gap: 0,
 		},
 	},
 	contentContainer: {
@@ -324,6 +324,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	buttonGroup: {
 		width: "100%",
+		paddingBottom: theme.spacing(1),
 	},
 	fade: {
 		display: "flex",

@@ -47,7 +47,6 @@ export interface SetPerpPoolProps extends PerpPoolProps {
   id: string;
 }
 
-
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
   const [fetchTokenTotalSupplyPrices] = useAsyncTask("fetchTokenTotalSupplyPrices");
@@ -356,17 +355,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "absolute",
     top: 0,
     right: 0,
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
   },
   bottomLeftVector: {
     position: "absolute",
     bottom: 0,
     left: 0,
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
   },
 }));
 
