@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { Box, Card, CardContent, Typography, Grid } from "@material-ui/core";
+import { Box, Card, CardContent, Typography, Grid, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Fade } from "react-awesome-reveal";
 import { roadmapData } from "../utils";
@@ -119,6 +119,18 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  chip: {
+    ...theme.typography.title2,
+    width: "100px",
+    height: "40px",
+    backgroundColor: theme.palette.background.tertiary,
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: "8px",
+    color: theme.palette.text.secondary,
+    "&.active": {
+      color: theme.palette.text.primary,
+    },
+  },
 }));
 
 const Timeline: React.FC = () => {
@@ -138,7 +150,7 @@ const Timeline: React.FC = () => {
                 <Fade triggerOnce direction="down" delay={index * 150}>
                   <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard, "top")}>
                     <CardContent className={classes.cardContent}>
-                      <Typography variant="h6">{quarter.quarter}</Typography>
+                      <Chip className={clsx(classes.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (
                         <span className={classes.quarterItem} key={i}>
                           {quarter.active && (
@@ -170,7 +182,7 @@ const Timeline: React.FC = () => {
                 <Fade triggerOnce direction="up" delay={index * 150}>
                   <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
                     <CardContent className={classes.cardContent}>
-                      <Typography variant="h6">{quarter.quarter}</Typography>
+                      <Chip className={clsx(classes.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (
                         <span className={classes.quarterItem} key={i}>
                           {quarter.active && (

@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box, Grid, Card, CardContent } from "@material-ui/core";
+import { Typography, Box, Grid, Card, CardContent, Chip } from "@material-ui/core";
 import { roadmapData } from "../utils";
 import { Fade } from "react-awesome-reveal";
 import { IncentiveIcon } from "../assets";
@@ -104,6 +104,18 @@ const useStyles = makeStyles((theme) => ({
       ...theme.typography.body3,
     },
   },
+  chip: {
+    ...theme.typography.title2,
+    width: "100px",
+    height: "32px",
+    backgroundColor: theme.palette.background.tertiary,
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: "8px",
+    color: theme.palette.text.secondary,
+    "&.active": {
+      color: theme.palette.text.primary,
+    },
+  },
 }));
 
 export default function Component() {
@@ -124,9 +136,7 @@ export default function Component() {
               <Fade triggerOnce direction="left" delay={index * 150}>
                 <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
                   <CardContent className={classes.paper}>
-                    <Typography variant="h6">
-                      {quarter.quarter}
-                    </Typography>
+                    <Chip className={clsx(classes.chip, { "active": quarter.active })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (
                       <span className={classes.quarterItem} key={itemIndex}>
                         {quarter.active && (
@@ -156,9 +166,7 @@ export default function Component() {
               <Fade triggerOnce direction="right" delay={index * 150}>
                 <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
                   <CardContent className={classes.paper}>
-                    <Typography variant="h6">
-                      {quarter.quarter}
-                    </Typography>
+                    <Chip className={clsx(classes.chip, { "active": quarter.active })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (
                       <span className={classes.quarterItem} key={itemIndex}>
                         {quarter.active && (

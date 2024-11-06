@@ -81,7 +81,7 @@ const   TradeTopMarkets: React.FC<Props> = (props) => {
     <Card className={clsx(styles.card, { inactive: !active })}>
       <CardContent className={styles.cardContent}>
         <div className={styles.cardTitleWrapper}>
-          <Typography variant="h3" className={styles.cardTitle}>Trade Top Markets</Typography>
+          <Typography variant="h3" className={clsx(styles.cardTitle, active && styles.glow)}>Trade Top Markets</Typography>
           {isMobile && (
             <Button
               onClick={onClickButton}
@@ -145,7 +145,7 @@ const   TradeTopMarkets: React.FC<Props> = (props) => {
             size="large"
             variant="contained"
             color="primary"
-            className={clsx(styles.button, { inactive: !active })}
+            className={clsx(styles.button, { inactive: !active, active })}
             fullWidth
           >
             Trade Now

@@ -81,5 +81,11 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
       width: "fit-content",
       height: "1.5rem",
     },
+    "&.active": {
+      filter: "drop-shadow(0 0 25px rgb(0,122,255, .4))",
+    },
 	},
+  glow: {
+    textShadow: "0 0 25px rgb(240,248,255, .5)",
+  },
 }));

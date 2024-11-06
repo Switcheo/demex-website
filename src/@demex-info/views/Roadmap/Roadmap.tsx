@@ -111,6 +111,10 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #148AFF",
     boxShadow: "0px 0px 40px 0px #007AFF40 inset",
     textTransform: "uppercase",
+    "&:hover": {
+      boxShadow: "0 0 1em 0.5em #007aff40 inset",
+      filter: "drop-shadow(0 0 15px rgb(0,122,255, .8))",
+    },
   },
   roadmapWrapper: {
     magin: "0 auto",
@@ -122,9 +126,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       gap: theme.spacing(3),
     },
-  },
-  roadmap: {
-
   },
 }));
 

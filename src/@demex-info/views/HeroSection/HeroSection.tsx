@@ -40,7 +40,7 @@ const HeroSection: React.FC = () => {
 								<Typography variant="h1" className={classes.headline}>
 									Trade. Earn.
 									<br />
-									Exponentially
+									<span className={styles.glow}>Exponentially</span>
 								</Typography>
 							</Fade>
 							<Fade triggerOnce direction="up">
@@ -85,7 +85,7 @@ const HeroSection: React.FC = () => {
 								<CardContent className={clsx(styles.cardContent, "earn")}>
 									<div className={classes.earnWrapper} >
 										<div className={styles.cardTitleWrapper}>
-											<Typography variant="h3" className={styles.cardTitle}>Earn Yield</Typography>
+											<Typography variant="h3" className={clsx(styles.cardTitle, !isTradeCard && styles.glow )}>Earn Yield</Typography>
 											{isMobile && (
 												<Button
 													onClick={() => handleClickDemexLink(getDemexLink(Paths.Pools.List, net), "click_earn_now")}
@@ -109,7 +109,7 @@ const HeroSection: React.FC = () => {
 											size="large"
 											variant="contained"
 											color="primary"
-											className={clsx(styles.button, { inactive: isTradeCard })}
+											className={clsx(styles.button, { inactive: isTradeCard, active: !isTradeCard })}
 											fullWidth
 										>
 											Earn Now
