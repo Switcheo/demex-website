@@ -85,14 +85,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     fontWeight: 700,
     "&.header2": {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(16),
     },
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.h3,
       display: "block",
       textAlign: "center",
       "&.header2": {
-        marginTop: theme.spacing(4),
+        marginTop: theme.spacing(8),
       },
     },
     [theme.breakpoints.only("xs")]: {
@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   video: {
+    borderRadius: theme.spacing(1),
     [theme.breakpoints.up("md")]: {
       width: "100%",
       height: "auto",

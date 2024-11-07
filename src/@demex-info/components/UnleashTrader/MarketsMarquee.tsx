@@ -3,7 +3,7 @@ import { Cards } from "@demex-info/components/Cards";
 import { goToLink, Paths } from "@demex-info/constants";
 import { toPercentage } from "@demex-info/utils";
 import { isPerpetual } from "@demex-info/utils/markets";
-import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React, { Suspense, useEffect } from "react";
 import Marquee from "react-fast-marquee";
@@ -15,7 +15,6 @@ interface Props {
 }
 
 const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) => {
-  const theme = useTheme();
   const classes = useStyles();
 
   const [ready, setReady] = React.useState<boolean>(false);
@@ -28,16 +27,14 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
     goToLink(`${Paths.Trade}/${market ?? ""}`);
   };
 
-  const speed = useMediaQuery(theme.breakpoints.down("xs")) ? 8 : 20;
-
   return (
     <React.Fragment>
       {ready && (
         <Suspense fallback={null}>
-          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={speed} pauseOnHover>
-            {filteredCards.map((card: MarketCard) => {
+          <Marquee className={classes.root} gradient={false} gradientWidth={0} direction={direction} speed={50} pauseOnHover>
+            {filteredCards.map((card: MarketCard, index: number) => {
               return (
-                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
+                <Cards className={classes.marketsCard} key={`${card.baseSymbol}/${card.quoteSymbol}-${card.expiry}-${index}-card`} onClick={() => goToMarket(card.stat?.market_id ?? "")} display="flex" alignItems="center">
                   <Box display="flex" alignItems="center" gridGap={8}>
                     <AssetIcon denom={card.baseSymbol} />
                     <Box display="flex" className={classes.marketName}>
@@ -49,7 +46,7 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
                   </Box>
                   <Box display="flex" flexDirection="column" alignItems="flex-end" mt={0.25}>
                     <Box className={classes.priceName}>
-                      ${card.lastPrice.toFormat(card.priceDp)}
+                      ${card.lastPrice.toFormat(card.lastPrice.gt(1) ? 2 : card.priceDp)}
                     </Box>
                     <Box
                       className={clsx(
@@ -83,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
       cursor: "pointer",
       gap: theme.spacing(2),
+      marginLeft: "1rem",
     },
     [theme.breakpoints.down("sm")]: {
       "& > div > div": {
@@ -97,18 +95,15 @@ const useStyles = makeStyles((theme) => ({
     "& > div": {
       color: theme.palette.text.secondary,
     },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body3,
     },
   },
   priceName: {
     ...theme.typography.body2,
     color: theme.palette.text.primary,
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.body2,
+      ...theme.typography.body3,
     },
   },
   changeText: {
@@ -145,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       padding: "0.75rem 1rem",
       minHeight: "2.75rem",
-      minWidth: "unset",
+      minWidth: "250px",
     },
   },
 }));

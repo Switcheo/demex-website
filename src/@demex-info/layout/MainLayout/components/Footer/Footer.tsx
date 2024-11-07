@@ -16,22 +16,17 @@ const Footer: React.FC = () => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   innerFooter: {
-    margin: theme.spacing(0, "auto"),
-  },
-  root: {
-    maxWidth: "1346px",
+    width: "100%",
     margin: "0 auto",
-    minHeight: "11rem",
-    [theme.breakpoints.up("md")]: {
+    padding: theme.spacing(0, 10),
+    [theme.breakpoints.down("md")]: {
       padding: theme.spacing(0, 4),
     },
-    [theme.breakpoints.up("sm")]: {
-      width: "100%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0, 1.75),
-      margin: 0,
-    },
+  },
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    minHeight: "11rem",
   },
 }));
 

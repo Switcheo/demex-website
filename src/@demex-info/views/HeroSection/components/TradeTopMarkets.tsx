@@ -17,7 +17,7 @@ interface Props {
   onClickButton: () => void;
 }
 
-const TradeTopMarkets: React.FC<Props> = (props) => {
+const   TradeTopMarkets: React.FC<Props> = (props) => {
   const { active, onClickButton } = props;
   const classes = useStyles();
   const styles = useHeroSectionStyles();
@@ -27,10 +27,11 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
   const tokenClient = sdk?.token;
 
   const listMarkets = useSelector((store: RootState) => store.app.marketList);
-  const list: MarketListMap = parseMarketListMap(listMarkets);
   const stats = useSelector((store: RootState) => store.app.marketStats);
   const loadingTasks = useSelector((store: RootState) => store.layout.loadingTasks);
   const statLoading = Boolean(loadingTasks.runInitSDK);
+
+  const list: MarketListMap = React.useMemo(() => parseMarketListMap(listMarkets), [listMarkets]);
 
   const topThreeMarkets = React.useMemo(() => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
@@ -81,7 +82,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
     <Card className={clsx(styles.card, { inactive: !active })}>
       <CardContent className={styles.cardContent}>
         <div className={styles.cardTitleWrapper}>
-          <Typography variant="h3" className={styles.cardTitle}>Trade Top Markets</Typography>
+          <Typography variant="h3" className={clsx(styles.cardTitle, active && styles.glow)}>Trade Top Markets</Typography>
           {isMobile && (
             <Button
               onClick={onClickButton}
@@ -95,7 +96,7 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
             </Button>
           )}
         </div>
-        <Box display="flex" flexDirection="column" gridGap={16} width="100%">
+        <div className={classes.tokensWrapper}>
           <RenderGuard renderIf={statLoading || !tokensStats.length}>
             {[1, 2, 3].map((index) => (
               <Skeleton key={index} className={classes.standardSkeleton} />
@@ -138,14 +139,14 @@ const TradeTopMarkets: React.FC<Props> = (props) => {
               </Box>
             </Box>
           ))}
-        </Box>
+        </div>
         {!isMobile && (
           <Button
             onClick={onClickButton}
             size="large"
             variant="contained"
             color="primary"
-            className={clsx(styles.button, { inactive: !active })}
+            className={clsx(styles.button, { inactive: !active, active })}
             fullWidth
           >
             Trade Now
@@ -206,6 +207,15 @@ const useStyles = makeStyles((theme) => ({
     height: "36px",
     [theme.breakpoints.down("md")]: {
       height: "32px",
+    },
+  },
+  tokensWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(4),
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      gap: theme.spacing(3),
     },
   },
 }));

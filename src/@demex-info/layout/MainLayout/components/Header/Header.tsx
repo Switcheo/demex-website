@@ -98,14 +98,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     // marginLeft: theme.spacing(2.25),
   },
   root: {
-    backgroundColor: theme.palette.background.primary,
+    backgroundColor: theme.palette.background.base,
     minHeight: "4rem",
     padding: theme.spacing(0, 6),
     position: "sticky",
     top: 0,
     maxWidth: "100%",
     zIndex: 1100, //zIndex for menu drawer is 1200
-    borderBottom: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.only("md")]: {
       padding: theme.spacing(0, 6),
     },
@@ -119,8 +118,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   topLogo: {
-    width: "6.625rem",
-    height: "1.5rem",
+    width: "7.625rem",
+    height: "2.5rem",
     [theme.breakpoints.down("sm")]: {
       width: "6rem",
       height: "unset",
