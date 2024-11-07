@@ -1,11 +1,12 @@
 import React from "react";
 import clsx from "clsx";
-import { Box, Card, CardContent, Typography, Grid } from "@material-ui/core";
+import { Box, Card, CardContent, Typography, Grid, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Fade } from "react-awesome-reveal";
 import { roadmapData } from "../utils";
 import { SvgIcon } from "@demex-info/components";
 import { IncentiveIcon } from "../assets";
+import { useRoadmapStyles } from "../styles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,38 +22,30 @@ const useStyles = makeStyles((theme) => ({
   },
   roadmapLine: {
     position: "absolute",
-    top: "47.5%",
-    left: 0,
+    top: "45%",
+    left: "50%",
     right: 0,
-    height: "2px",
-    backgroundColor: "#4A5568",
+    height: "4px",
+    background: "linear-gradient(to right, #4A5568 50%, transparent 100%)",
     transform: "translateY(-50%)",
   },
   activeLine: {
     position: "absolute",
-    top: "47.5%",
+    top: "45%",
     left: 0,
     right: "50%",
     height: "4px",
     transform: "translateY(-50%)",
     background: "linear-gradient(270deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)",
-    boxShadow: "0px 0px 32px 0px #007AFF",
+    filter: "drop-shadow(0 0 15px #007AFF)",
   },
   roadmapItem: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
-  timelineDot: {
-    width: "24px",
-    height: "24px",
-    borderRadius: "50%",
-    marginBottom: theme.spacing(1),
-    backgroundColor: "#4A5568",
-  },
-  activeDot: {
-    background: "linear-gradient(270deg, #482BFF 0%, #007AFF 100%)",
-    boxShadow: "0px 0px 12px 0px #00000080 inset",
+    "&.top": {
+      justifyContent: "flex-end",
+    },
   },
   card: {
     width: "240px",
@@ -98,25 +91,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(2),
-  },
-  quarterItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: theme.spacing(0.5),
-    "& > svg": {
-      width: "16px",
-      height: "16px",
-    },
-    "@media (max-width: 940px)": {
-      "& > p": {
-        ...theme.typography.body3,
-      },
-    },
+    padding: theme.spacing(3),
   },
 }));
 
 const Timeline: React.FC = () => {
   const classes = useStyles();
+  const styles = useRoadmapStyles();
 
   return (
     <Box className={classes.container}>
@@ -124,17 +105,17 @@ const Timeline: React.FC = () => {
         <Grid container justify="space-between" style={{ position: "relative", zIndex: 1 }}>
           {roadmapData.map((quarter, index) => {
             if (index % 2 === 0) return (
-              <div className={classes.emptyCard} />
+              <div key={index} className={classes.emptyCard} />
             );
 
             return (
-              <Grid key={quarter.quarter} item className={classes.roadmapItem}>
+              <Grid key={quarter.quarter} item className={clsx(classes.roadmapItem, "top")}>
                 <Fade triggerOnce direction="down" delay={index * 150}>
                   <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard, "top")}>
                     <CardContent className={classes.cardContent}>
-                      <Typography variant="h6">{quarter.quarter}</Typography>
+                      <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (
-                        <span className={classes.quarterItem} key={i}>
+                        <span className={styles.quarterItem} key={i}>
                           {quarter.active && (
                             <SvgIcon component={IncentiveIcon} />
                           )}
@@ -153,20 +134,20 @@ const Timeline: React.FC = () => {
         <Grid container justify="space-between" style={{ position: "relative", zIndex: 1 }}>
           {roadmapData.map((quarter, index) => {
             if (index % 2 !== 0) return (
-              <div className={clsx(classes.emptyCard, classes.roadmapItem)}>
-                <div className={clsx(classes.timelineDot, index <= 2 && classes.activeDot)} />
+              <div key={index} className={clsx(classes.emptyCard, classes.roadmapItem)}>
+                <div className={clsx(styles.timelineDot, index <= 2 && clsx(styles.highlightDot, { active: quarter.active }))} />
               </div>
             );
 
             return (
               <Grid key={quarter.quarter} item className={classes.roadmapItem}>
-                <div className={clsx(classes.timelineDot, index <= 2 && classes.activeDot)} />
+                <div className={clsx(styles.timelineDot, index <= 2 && clsx(styles.highlightDot, { active: quarter.active }))} />
                 <Fade triggerOnce direction="up" delay={index * 150}>
                   <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
                     <CardContent className={classes.cardContent}>
-                      <Typography variant="h6">{quarter.quarter}</Typography>
+                      <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (
-                        <span className={classes.quarterItem} key={i}>
+                        <span className={styles.quarterItem} key={i}>
                           {quarter.active && (
                             <SvgIcon component={IncentiveIcon} />
                           )}

@@ -2,10 +2,9 @@ import { makeStyles } from "@material-ui/core";
 
 export const useHeroSectionStyles = makeStyles((theme) => ({
   card: {
-		flex: 1,
+    flex: 1,
     display: "flex",
-    minHeight: "257px",
-		minWidth: "360px",
+    minHeight: "291px",
     width: "360px",
     background: "#FFFFFF0A",
     backdropFilter: "blur(64px)",
@@ -17,12 +16,13 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
       opacity: 0.7,
     },
     [theme.breakpoints.down("sm")]: {
-      minWidth: "360px",
-      width: "360px",
       opacity: 1,
       "&.inactive": {
         display: "none",
       },
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
     },
 	},
 	cardContent: {
@@ -33,12 +33,22 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
     gap: theme.spacing(4),
     width: "100%",
 		padding: theme.spacing(5, 4),
+    "&:last-child": {
+      paddingBottom: theme.spacing(5),
+    },
     ["@media (max-width: 1180px)"]: {
       gap: theme.spacing(3),
       padding: theme.spacing(4, 3),
+      "&:last-child": {
+        paddingBottom: theme.spacing(4),
+      },
     },
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(3, 2),
+      justifyContent: "flex-start",
+      "&:last-child": {
+        paddingBottom: theme.spacing(3),
+      },
     },
 	},
   cardTitleWrapper: {
@@ -63,11 +73,19 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
     opacity: 1,
     transition: "opacity .5s ease-in-out",
+    height: "3rem",
     "&.inactive": {
       opacity: 0.2,
     },
     "&.isMobile": {
       width: "fit-content",
+      height: "1.5rem",
+    },
+    "&.active": {
+      filter: "drop-shadow(0 0 25px rgb(0,122,255, .4))",
     },
 	},
+  glow: {
+    textShadow: "0 0 25px rgb(240,248,255, .5)",
+  },
 }));

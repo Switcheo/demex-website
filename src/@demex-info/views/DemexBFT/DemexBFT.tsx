@@ -71,13 +71,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   description: {
-    ...theme.typography.body1,
+    ...theme.typography.body2,
     color: theme.palette.text.secondary,
     marginBottom: theme.spacing(4),
   },
   button: {
-    width: "fit-content",
+    ...theme.typography.title2,
+    width: "164px",
     height: "48px",
+    background: "#444546",
   },
 }));
 

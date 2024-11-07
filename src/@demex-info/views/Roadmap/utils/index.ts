@@ -22,9 +22,8 @@ export const roadmapData = [
   {
     quarter: "Q3 2024",
     items: [
-      "Axelar Cross-Chain Network",
-      "Multi-Chain Deployment",
-      "CEX On-ramp",
+      "Chain Abstraction",
+      "Web3 Wallets",
     ],
     highlight: true,
     active: true,
@@ -32,9 +31,10 @@ export const roadmapData = [
   {
     quarter: "Q4 2024",
     items: [
-      "Users' Managed Vaults",
-      "Cross Margin",
-      "Multi-Asset Collateral",
+      "Axelar Bridge Integration",
+      "Skip Protocol",
+      "CEX On-Ramp",
+      "New Demex Points",
     ],
     highlight: false,
     active: false,
@@ -42,9 +42,11 @@ export const roadmapData = [
   {
     quarter: "Q1 2025",
     items: [
-      "Telegram Trading Bot",
+      "User Managed Vaults",
       "Decentralized Perp Listing",
-      "BTC L2 Deployment",
+      "Multi-Collateral",
+      "Telegram Interface",
+      "$DMX Launch",
     ],
     highlight: false,
     active: false,

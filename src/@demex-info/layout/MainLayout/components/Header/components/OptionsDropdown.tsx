@@ -44,7 +44,7 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
           <Box className={clsx(classes.activeIndicator)} />
         </Box>
       )}
-      className={classes.dropdown}
+      className={clsx(classes.dropdown, { "learn": title === "Learn" })}
       dropdownOpen={openDropdown}
       onMouseOver={openMoreDropdown}
       onFocus={openMoreDropdown}
@@ -81,6 +81,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1),
     borderRadius: 4,
     width: "17.5rem",
+    "&.learn": {
+      maxWidth: "10rem",
+    },
   },
   labelClass: {
     margin: "0px 4px 0px 16px",

@@ -17,7 +17,7 @@ import { bnOrZero } from "carbon-js-sdk/lib/util/number";
 import React, { useEffect } from "react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { Line } from "../assets";
+import { BottomLeftVector, Line, TopRightVector } from "../assets";
 import { Fade } from "react-awesome-reveal";
 
 interface WSData {
@@ -46,7 +46,6 @@ export interface PerpPoolInfo {
 export interface SetPerpPoolProps extends PerpPoolProps {
   id: string;
 }
-
 
 const MarketsGrid: React.FC = () => {
   const [fetchData, loading] = useAsyncTask("fetchData");
@@ -122,8 +121,9 @@ const MarketsGrid: React.FC = () => {
 
 
   const listResponse = useSelector((store: RootState) => store.app.marketList);
-  const list: MarketListMap = parseMarketListMap(listResponse);
   const stats = useSelector((store: RootState) => store.app.marketStats);
+
+  const list: MarketListMap = React.useMemo(() => parseMarketListMap(listResponse), [listResponse]);
 
   const marketsList = React.useMemo(() => {
     return stats.sort((marketA: MarketStatItem, marketB: MarketStatItem) => {
@@ -181,7 +181,7 @@ const MarketsGrid: React.FC = () => {
       volume24H,
       openInterest,
     };
-  }, [marketsList, list, sdk?.token]);
+  }, [marketsList, sdk?.token]);
 
   const volumeCountUp = useRollingNum(volume24H, 2, 4);
   const liquidityCountUp = useRollingNum(totalValueLocked, 2, 4);
@@ -220,7 +220,7 @@ const MarketsGrid: React.FC = () => {
           mb={1}
         >
           <TypographyLabel className={classes.gridHeader}>
-            Trading Volume (24H)
+            Total Trading Volume (24H)
           </TypographyLabel>
         </Box>
         <RenderGuard renderIf={statLoading}>
@@ -271,6 +271,8 @@ const MarketsGrid: React.FC = () => {
           <SvgIcon component={Line} />
         </Fade>
       </div>
+      <SvgIcon className={classes.bottomLeftVector} component={BottomLeftVector} />
+      <SvgIcon className={classes.topRightVector} component={TopRightVector} />
     </Box>
   );
 };
@@ -285,9 +287,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     gap: theme.spacing(4),
     justifyContent: "center",
-    margin: theme.spacing(0, "auto"),
     background: "#1A1D1F",
-    border: "1px solid #FFFFFF0A",
     borderRadius: theme.spacing(1),
     backdropFilter: "blur(64px)",
     maxWidth: "1200px",
@@ -318,7 +318,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   linearGradient: {
     position: "absolute",
-    bottom: -10,
+    bottom: -8,
     width: "100%",
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
@@ -351,6 +351,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       minWidth: "111px",
     },
   },
+  topRightVector: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+  bottomLeftVector: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+  },
 }));
 
-export default MarketsGrid;
+export default React.memo(MarketsGrid);

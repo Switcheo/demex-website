@@ -38,12 +38,10 @@ const CateredCard: React.FC<Props> = (props) => {
 
 const useStyles = makeStyles((theme) => ({
   cateredCardContainer: {
+    display: "flex",
     width: "100%",
     height: "100%",
     border: "1px solid #FFFFFF0A",
-    background: "#FFFFFF0A",
-    boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
-    backdropFilter: "blur(24px)",
     borderRadius: theme.spacing(1),
   },
   cateredCard: {
@@ -51,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: theme.spacing(3, 4),
+
+    background: "#FFFFFF0A",
+    boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
+    backdropFilter: "blur(24px)",
+
+    flex: 1,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(3),
       alignItems: "flex-start",

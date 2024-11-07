@@ -1,10 +1,10 @@
 import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 
 export const typography: TypographyOptions = {
-  fontFamily: ["Montserrat", "Roboto"].join(","),
+  fontFamily: ["Roboto"].join(","),
   h1: {
     // styleName: Heading/48px;
-    fontFamily: "Montserrat",
+    fontFamily: "Eina01",
     fontSize: "48px",
     fontWeight: 700,
     lineHeight: "58px",
@@ -12,7 +12,7 @@ export const typography: TypographyOptions = {
   },
   h2: {
     // styleName: Heading/32px;
-    fontFamily: "Montserrat",
+    fontFamily: "Eina01",
     fontSize: "32px",
     fontStyle: "normal",
     fontWeight: 700,
@@ -25,7 +25,7 @@ export const typography: TypographyOptions = {
     fontSize: "24px",
     fontStyle: "normal",
     fontWeight: 700,
-    lineHeight: "28px",
+    lineHeight: "28.8px",
     letterSpacing: "0em",
   },
   h4: {
@@ -52,7 +52,7 @@ export const typography: TypographyOptions = {
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: 700,
-    lineHeight: "20px",
+    lineHeight: "19.2px",
     letterSpacing: "0em",
   },
 	title3: {
@@ -61,7 +61,7 @@ export const typography: TypographyOptions = {
     fontSize: "13px",
     fontStyle: "normal",
     fontWeight: 700,
-    lineHeight: "16px",
+    lineHeight: "15.6px",
     letterSpacing: "0em",
   },
 	title4: {
@@ -88,7 +88,7 @@ export const typography: TypographyOptions = {
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: 600,
-    lineHeight: "20px",
+    lineHeight: "19.2px",
     letterSpacing: "0em",
   },
   body3: {
@@ -97,7 +97,7 @@ export const typography: TypographyOptions = {
     fontSize: "13px",
     fontStyle: "normal",
     fontWeight: 600,
-    lineHeight: "16px",
+    lineHeight: "15.6px",
     letterSpacing: "0em",
   },
   body4: {
@@ -106,7 +106,7 @@ export const typography: TypographyOptions = {
     fontSize: "11px",
     fontStyle: "normal",
     fontWeight: 600,
-    lineHeight: "12px",
+    lineHeight: "13.2px",
     letterSpacing: "0em",
   },
 };
