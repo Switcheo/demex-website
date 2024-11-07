@@ -80,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
       cursor: "pointer",
       gap: theme.spacing(2),
+      marginLeft: "1rem",
     },
     [theme.breakpoints.down("sm")]: {
       "& > div > div": {
