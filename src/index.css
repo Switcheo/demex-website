@@ -3,12 +3,19 @@
 
 html {
   font-family: Eina01-Regular;
-  font-weight: 400;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @font-face {
   font-family: 'Eina01';
-  font-weight: 400;
+  font-weight: 600;
   text-rendering: geometricPrecision;
   src: url('./fonts/Eina01-Regular.ttf') format('woff');
 }
