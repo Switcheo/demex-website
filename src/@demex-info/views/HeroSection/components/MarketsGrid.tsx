@@ -303,7 +303,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: "6vh",
       flexDirection: "column",
       alignItems: "center",
-      gap: theme.spacing(2),
+      gap: 0,
       padding: theme.spacing(2, 0),
       boxShadow: "-10px 10px 50px 0px #482BFF1F inset",
     },
