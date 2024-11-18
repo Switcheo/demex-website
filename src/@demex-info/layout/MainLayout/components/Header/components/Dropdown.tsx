@@ -119,7 +119,7 @@ import { CaretDown } from "../assets"  ;
       fontSize: "0.375rem",
     },
     open: {
-      transform: "rotate(180deg)",
+      transform: "rotate(-180deg)",
       "& path": {
         fill: "url(#demexLinearGradient)",
       },

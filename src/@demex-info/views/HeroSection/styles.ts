@@ -4,7 +4,7 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
   card: {
     flex: 1,
     display: "flex",
-    minHeight: "291px",
+    minHeight: "245px",
     width: "360px",
     background: "#FFFFFF0A",
     backdropFilter: "blur(64px)",
@@ -33,22 +33,13 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
     gap: theme.spacing(4),
     width: "100%",
 		padding: theme.spacing(5, 4),
-    "&:last-child": {
-      paddingBottom: theme.spacing(5),
-    },
     ["@media (max-width: 1180px)"]: {
       gap: theme.spacing(3),
       padding: theme.spacing(4, 3),
-      "&:last-child": {
-        paddingBottom: theme.spacing(4),
-      },
     },
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(3, 2),
+      padding: theme.spacing(3.5, 3),
       justifyContent: "flex-start",
-      "&:last-child": {
-        paddingBottom: theme.spacing(3),
-      },
     },
 	},
   cardTitleWrapper: {
@@ -64,9 +55,6 @@ export const useHeroSectionStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
     [theme.breakpoints.down("md")]: {
       ...theme.typography.h4,
-    },
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.title2,
     },
 	},
 	button: {

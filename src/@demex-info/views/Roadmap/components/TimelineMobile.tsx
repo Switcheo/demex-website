@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     left: "50%", // Aligns with `roadmapLine`
     top: 0,
-    bottom: "52%", // Sets the active portion to cover only half of the container vertically
+    bottom: "54%", // Sets the active portion to cover only half of the container vertically
     width: "4px", // Sets the line width
     transform: "translateX(-50%)", // Centers the line
     background: "linear-gradient(0deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)", // Adjusts gradient for vertical direction
@@ -87,12 +87,12 @@ export default function Component() {
         {roadmapData.map((quarter, index) => {
           if (index % 2 !== 0) return (
             <div className={clsx(classes.emptyCard, classes.timelineItem)}>
-              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: `${(index * 20) + 8}%` }} />
+              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: `${(index * 20) + 6}%` }} />
             </div>
           );
           return (
             <Grid item key={quarter.quarter} className={classes.timelineItem}>
-              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: index === 0 ? "11%" : `${(index * 20) + 7}%` }} />
+              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: index === 0 ? "11%" : `${(index * 20) + 4}%` }} />
               <Fade triggerOnce direction="left" delay={index * 150}>
                 <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
                   <CardContent className={classes.paper}>

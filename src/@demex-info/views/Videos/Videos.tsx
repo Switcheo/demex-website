@@ -17,7 +17,7 @@ const PoweredBySwitcheo: React.FC = () => {
         <UnleashTrader />
       </Hidden>
       <Fade triggerOnce duration={2000}>
-        <Typography variant="h2" className={classes.header}>
+        <Typography className={classes.header}>
           The Fastest Decentralized Trading Experience
         </Typography>
       </Fade>
@@ -35,7 +35,7 @@ const PoweredBySwitcheo: React.FC = () => {
         </div>
       </Zoom>
       <Fade triggerOnce duration={2000}>
-        <Typography variant="h2" className={clsx(classes.header, "header2")}>
+        <Typography className={clsx(classes.header, "header2")}>
           Decentralized Liquidity High-Yield Opportunities
         </Typography>
       </Fade>
@@ -88,16 +88,12 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(16),
     },
     [theme.breakpoints.down("sm")]: {
-      ...theme.typography.h3,
+      ...theme.typography.h4,
       display: "block",
       textAlign: "center",
       "&.header2": {
         marginTop: theme.spacing(8),
       },
-    },
-    [theme.breakpoints.only("xs")]: {
-      fontSize: "28px",
-      lineHeight: "38px",
     },
   },
   description: {
