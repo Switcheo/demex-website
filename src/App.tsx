@@ -1,4 +1,4 @@
-import { GoogleAnalytics, PreferenceThemeProvider, UnleashTrader } from "@demex-info/components";
+import { GoogleAnalytics, PreferenceThemeProvider } from "@demex-info/components";
 import { MainLayout } from "@demex-info/layout";
 import { Footer } from "@demex-info/layout/MainLayout/components";
 import { store } from "@demex-info/store";
@@ -14,9 +14,6 @@ const App = () => {
         <GoogleAnalytics />
           <MainLayout>
             <HeroSection />
-            <Hidden smUp>
-              <UnleashTrader />
-            </Hidden>
             <Features />
             <Videos />
             <Roadmap />

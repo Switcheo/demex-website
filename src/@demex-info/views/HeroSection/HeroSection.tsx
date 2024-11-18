@@ -304,9 +304,22 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
 
 		width: "100%",
+		borderRadius: theme.spacing(0.5),
+		"&:not(:last-child)": {
+			borderTopRightRadius: theme.spacing(0.5),
+			borderBottomRightRadius: theme.spacing(0.5),
+		},
+		"&:not(:first-child)": {
+			borderTopLeftRadius: theme.spacing(0.5),
+			borderBottomLeftRadius: theme.spacing(0.5),
+		},
 		"&.inactive": {
-			background: theme.palette.background.tertiary,
+			background: "transparent",
 			color: theme.palette.text.secondary,
+			"&:hover": {
+				background: "transparent",
+				boxShadow: "none",
+			},
 		},
 	},
 	earnWrapper: {
@@ -320,8 +333,15 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	buttonGroup: {
-		width: "100%",
-		paddingBottom: theme.spacing(1),
+		display: "flex",
+		gap: theme.spacing(0.25),
+		width: "calc(100% - 4px)",
+		padding: theme.spacing(0.25),
+		background: "rgba(255, 255, 255, 0.06)",
+		marginBottom: theme.spacing(1),
+		"& > button:not(:last-child)": {
+			borderRight: "none",
+		},
 	},
 	fade: {
 		display: "flex",

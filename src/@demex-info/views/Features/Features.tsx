@@ -45,23 +45,24 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: 2,
     [theme.breakpoints.up("md")]: {
       background: `url(${BackgroundGrid}) no-repeat`,
-      backgroundPosition: "center",
+      backgroundPosition: "center -90%",
     },
     [theme.breakpoints.down("sm")]: {
-      padding: 0,
+      paddingTop: "2rem",
     },
   },
   background: {
-    [theme.breakpoints.up("md")]: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: -1,
-      background: `url(${TopGradient}) no-repeat top`,
-      opacity: "90%",
-      filter: "blur(40px)",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
+    background: `url(${TopGradient}) no-repeat top`,
+    opacity: "90%",
+    filter: "blur(40px)",
+    [theme.breakpoints.down("sm")]: {
+      backgroundSize: "250%",
     },
   },
   mainHeader: {
