@@ -318,7 +318,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   linearGradient: {
     position: "absolute",
-    bottom: -7,
+    bottom: -6,
     width: "100%",
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
