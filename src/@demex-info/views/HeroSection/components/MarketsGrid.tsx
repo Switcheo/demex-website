@@ -291,7 +291,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: theme.spacing(1),
     backdropFilter: "blur(64px)",
     maxWidth: "1200px",
-    marginTop: "5vh",
+    marginTop: "8vh",
     [theme.breakpoints.down("lg")]: {
       width: "100%",
       marginTop: "16vh",
@@ -318,7 +318,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   linearGradient: {
     position: "absolute",
-    bottom: -8,
+    bottom: -7,
     width: "100%",
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {

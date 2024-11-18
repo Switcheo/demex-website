@@ -275,7 +275,7 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		height: "80px",
 		[theme.breakpoints.down("sm")]: {
-			width: "70%",
+			width: "60%",
 			height: "auto",
 		},
 	},
@@ -287,13 +287,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	title: {
-		...theme.typography.h3,
+		...theme.typography.h4,
 		color: theme.palette.text.primary,
 		textAlign: "center",
 		whiteSpace: "pre-wrap",
-		[theme.breakpoints.down("md")]: {
-			...theme.typography.h4,
-		},
 	},
 	subTitle: {
 		...theme.typography.body2,
@@ -319,7 +316,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 		gap: theme.spacing(4),
 		[theme.breakpoints.down("sm")]: {
-			gap: theme.spacing(3),
+			gap: theme.spacing(2),
 		},
 	},
 	buttonGroup: {

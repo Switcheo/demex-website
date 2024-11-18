@@ -12,14 +12,14 @@ import {
 } from "../compareConfig";
 import ComparisonRow from "./ComparisonRow";
 import { SvgIcon } from "@demex-info/components";
-import { TopLeftLine, TopLine, TopRightLine } from "../assets";
+import { GlowLight, TopLeftLine, TopLine, TopRightLine } from "../assets";
 
 const ComparisonTable: React.FC = () => {
   const classes = useStyles();
 
   return (
     <TableContainer className={classes.tableShadow}>
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <Hidden mdDown>
@@ -41,6 +41,7 @@ const ComparisonTable: React.FC = () => {
                           <SvgIcon className={classes.topLine} component={TopLine} />
                           <SvgIcon className={classes.topRightLine} component={TopRightLine} />
                           <SvgIcon className={classes.topLeftLine} component={TopLeftLine} />
+                          <SvgIcon className={classes.topGlowLight} component={GlowLight} />
                         </React.Fragment>
                       )}
                       <Component className={clsx(classes.iconClass, cell.value)} />
@@ -65,6 +66,11 @@ const ComparisonTable: React.FC = () => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  table: {
+    [theme.breakpoints.up("md")]: {
+      overflow: "hidden",
+    },
+  },
   tableShadow: {
     backgroundImage: `linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
       linear-gradient(to right, ${theme.palette.background.primary}, ${theme.palette.background.primary}),
@@ -77,6 +83,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.primary,
     backgroundSize: "20px 100%, 20px 100%, 15px 100%, 15px 100%",
     backgroundAttachment: "local, local, scroll, scroll",
+    [theme.breakpoints.down("md")]: {
+      backgroundImage: "none",
+    },
   },
   fillerCell: {
     borderBottom: "none",
@@ -152,6 +161,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "absolute",
     top: 0,
     left: -64,
+  },
+  topGlowLight: {
+    position: "absolute",
+    top: -350,
+    zIndex: 10,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
 }));
 

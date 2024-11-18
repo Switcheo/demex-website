@@ -88,7 +88,7 @@ export const typography: TypographyOptions = {
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: 600,
-    lineHeight: "19.2px",
+    lineHeight: "18px",
     letterSpacing: "0em",
   },
   body3: {

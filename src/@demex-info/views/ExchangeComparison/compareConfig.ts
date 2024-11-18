@@ -36,7 +36,7 @@ export interface ListItemHead {
 }
 
 export const TradingVal: TradingRow[] = [{
-  header: "Spot, Perps & Pre-Launch Markets",
+  header: "Spot, Perps &\nPre-Launch Markets",
   values: {
     demex: true,
     dydx: false,
@@ -44,7 +44,7 @@ export const TradingVal: TradingRow[] = [{
     drift: true,
   },
 }, {
-  header: "Multi-Asset Collateral",
+  header: "Multi-Asset\nCollateral",
   values: {
     demex: true,
     dydx: false,
@@ -52,7 +52,7 @@ export const TradingVal: TradingRow[] = [{
     drift: true,
   },
 }, {
-  header: "Multi-Chain & Wallet Access",
+  header: "Multi-Chain &\nWallet Access",
   values: {
     demex: true,
     dydx: true,
@@ -60,7 +60,7 @@ export const TradingVal: TradingRow[] = [{
     drift: false,
   },
 }, {
-  header: "Integrated Money Market",
+  header: "Integrated\nMoney Market",
   values: {
     demex: true,
     dydx: false,
@@ -68,7 +68,7 @@ export const TradingVal: TradingRow[] = [{
     drift: false,
   },
 }, {
-  header: "In-App Notifications",
+  header: "In-App\nNotifications",
   values: {
     demex: true,
     dydx: false,

@@ -118,7 +118,7 @@ const   TradeTopMarkets: React.FC<Props> = (props) => {
                   {token.marketType === "spot" && <Box>/{token.quoteSymbol}</Box>}
                 </Box>
               </Box>
-              <Box display="flex" flexDirection="column" alignItems="flex-end">
+              <Box display="flex" flexDirection="column" alignItems="flex-end" gridGap={4}>
                 <RenderGuard renderIf={statLoading}>
                   <Skeleton className={classes.standardSkeleton} />
                 </RenderGuard>
@@ -162,9 +162,6 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.body3,
     marginLeft: "0.5rem",
     color: theme.palette.text.primary,
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.body4,
-    },
   },
   positive: {
     color: theme.palette.success.main,
@@ -179,35 +176,14 @@ const useStyles = makeStyles((theme) => ({
     "& > div": {
       color: theme.palette.text.secondary,
     },
-    [theme.breakpoints.down("md")]: {
-      ...theme.typography.body3,
-    },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
-    },
   },
   priceName: {
     ...theme.typography.body2,
     color: theme.palette.text.primary,
-    [theme.breakpoints.down("md")]: {
-      ...theme.typography.body3,
-    },
-    [theme.breakpoints.only("sm")]: {
-      ...theme.typography.title3,
-    },
-    [theme.breakpoints.only("xs")]: {
-      ...theme.typography.title4,
-    },
   },
   standardSkeleton: {
     width: "100%",
-    height: "36px",
-    [theme.breakpoints.down("md")]: {
-      height: "32px",
-    },
+    height: "37.6px",
   },
   tokensWrapper: {
     display: "flex",
@@ -215,7 +191,7 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(4),
     width: "100%",
     [theme.breakpoints.down("sm")]: {
-      gap: theme.spacing(3),
+      gap: theme.spacing(2),
     },
   },
 }));

@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
-import { BottomLeftLine, BottomLine, BottomRightLine } from "../assets";
+import { GlowLight, BottomLeftLine, BottomLine, BottomRightLine } from "../assets";
 import { TradingRow } from "../compareConfig";
 
 interface Props {
@@ -24,12 +24,7 @@ const BrokenHeader: React.FC<BrokenProps> = (props: BrokenProps) => {
   return (
     <React.Fragment>
       {frontStr}
-      <Hidden smUp>
-        &nbsp;
-      </Hidden>
-      <Hidden only="xs">
-        <br />
-      </Hidden>
+      <br />
       {backStr}
     </React.Fragment>
   );
@@ -77,6 +72,7 @@ const ComparisonRow: React.FC<Props> = (props: Props) => {
                     <SvgIcon className={classes.bottomLine} component={BottomLine} />
                     <SvgIcon className={classes.bottomLeftLine} component={BottomLeftLine} />
                     <SvgIcon className={classes.bottomRightLine} component={BottomRightLine} />
+                    <SvgIcon className={classes.bottomGlowLight} component={GlowLight} />
                   </React.Fragment>
                 )}
               </Box>
@@ -266,18 +262,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   bottomLine: {
     position: "absolute",
-    bottom: -15,
+    bottom: -16,
     zIndex: 2,
+    [theme.breakpoints.down("sm")]: {
+      bottom: -17,
+    },
   },
   bottomRightLine: {
     position: "absolute",
-    bottom: -15,
+    bottom: -16,
     right: -64,
   },
   bottomLeftLine: {
     position: "absolute",
-    bottom: -15,
+    bottom: -16,
     left: -64,
+  },
+  bottomGlowLight: {
+    position: "absolute",
+    bottom: -350,
+    zIndex: 10,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
 }));
 

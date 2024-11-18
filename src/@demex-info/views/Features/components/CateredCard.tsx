@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
     backdropFilter: "blur(24px)",
 
+    borderRadius: theme.spacing(1),
     flex: 1,
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(3),
@@ -78,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
   description: {
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
-    maxWidth: "16.5rem",
     [theme.breakpoints.down("sm")]: {
       ...theme.typography.title3,
     },

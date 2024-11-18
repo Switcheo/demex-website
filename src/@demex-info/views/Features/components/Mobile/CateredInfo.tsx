@@ -1,7 +1,6 @@
 import React from "react";
 import CateredCard from "../CateredCard";
 import { Box, makeStyles, Typography } from "@material-ui/core";
-import { CompetitiveFields, CrossChain, HighLeverage, TradingInstruments } from "../../assets";
 
 const CateredInfo = () => {
   const classes = useStyles();
@@ -13,8 +12,6 @@ const CateredInfo = () => {
         <CateredCard
           title="High Leverage"
           description="Maximize your capital efficiency with up to 100x leverage"
-          svgIcon={HighLeverage}
-          svgClassName={classes.svgIcon}
         />
         <CateredCard
           title="Deep Liquidity"
@@ -27,8 +24,6 @@ const CateredInfo = () => {
         <CateredCard
           title="Fast Execution"
           description="Lightning-fast trades executed in under 1 second"
-          svgIcon={TradingInstruments}
-          svgClassName={classes.svgIcon}
         />
       </Box>
       <Box display="flex" flexDirection="column" gridGap={8}>
@@ -36,8 +31,6 @@ const CateredInfo = () => {
         <CateredCard
           title="Cross-Chain Liquidity Pools"
           description="Earn across multiple blockchain ecosystems with ease"
-          svgIcon={CrossChain}
-          svgClassName={classes.svgIcon}
         />
         <CateredCard
           title="Money Market"
@@ -50,8 +43,6 @@ const CateredInfo = () => {
         <CateredCard
           title="Competitive Yields"
           description="Earn high APYs with deep liquidity backing your assets"
-          svgIcon={CompetitiveFields}
-          svgClassName={classes.svgIcon}
         />
       </Box>
     </div>
@@ -63,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(3),
-  },
-  svgIcon: {
-    width: "100%",
   },
   header: {
     ...theme.typography.title2,

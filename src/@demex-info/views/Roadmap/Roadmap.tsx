@@ -105,15 +105,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    height: "2.875rem",
-    width: "9.375rem",
+    width: "150px",
+    height: "46px",
     color: "#66B8FF",
     border: "1px solid #148AFF",
+    borderRadius: theme.spacing(1),
     boxShadow: "0px 0px 40px 0px #007AFF40 inset",
     textTransform: "uppercase",
+    fontWeight: 600,
+    lineHeight: "unset",
     "&:hover": {
       boxShadow: "0 0 1em 0.5em #007aff40 inset",
       filter: "drop-shadow(0 0 15px rgb(0,122,255, .8))",
+    },
+    [theme.breakpoints.down("xs")]: {
+      ...theme.typography.body3,
+      width: "98px",
+      height: "33px",
+      lineHeight: "unset",
     },
   },
   roadmapWrapper: {

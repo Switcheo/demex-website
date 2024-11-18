@@ -34,12 +34,14 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
         const { className, label, description, key, startIcon, startIconType, endIcon, endIconType, ...restItem } = item;
         return (
           <MenuItem
-            className={clsx(classes.label, className, { small: size === "small", large: size === "large" })}
+            className={clsx(classes.label, className, { small: size === "small", large: size === "large", multiline: !!description })}
             {...restItem}
             key={key}
           >
             {startIcon && startIconType && (
-              <SvgIcon className={clsx(classes.icon, { large: size === "large" }, "startIcon", genIconTypeClasses(startIconType))} component={startIcon} />
+              <div className={classes.iconWrapper}>
+                <SvgIcon className={clsx(classes.icon, { large: size === "large" }, "startIcon", genIconTypeClasses(startIconType))} component={startIcon} />
+              </div>
             )}
             <div className={classes.itemDetail}>
               <span>{label}</span>
@@ -50,7 +52,9 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
               )}
             </div>
             {endIcon && endIconType && (
-              <SvgIcon className={clsx(classes.icon, "large", "endIcon", genIconTypeClasses(endIconType))} component={endIcon} />
+              <div className={classes.iconWrapper}>
+                <SvgIcon className={clsx(classes.icon, "large", "endIcon", genIconTypeClasses(endIconType))} component={endIcon} />
+              </div>
             )}
           </MenuItem>
         );
@@ -65,8 +69,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     width: "100%",
   },
+  iconWrapper: {
+    width: "1.5rem",
+    height: "1.5rem",
+  },
   icon: {
-    marginRight: theme.spacing(0.75),
     width: "max-content",
     "&.endIcon": {
       marginRight: 0,
@@ -79,9 +86,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       fill: theme.palette.text.secondary,
     },
     "&.large": {
-      maxWidth: "1.5rem",
-      maxHeight: "1.5rem",
-      marginRight: theme.spacing(1.5),
+      width: "1.5rem",
+      height: "1.5rem",
     },
   },
   iconFill: {
@@ -95,9 +101,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   root: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingBottom: theme.spacing(1.5),
     outline: "none",
   },
   label: {
@@ -105,6 +108,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: 4,
     color: theme.palette.text.primary,
     padding: theme.spacing(1.5),
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(1.5),
+    "&.multiline": {
+      alignItems: "flex-start",
+    },
     "&$active": {
       color: theme.palette.text.primary,
     },

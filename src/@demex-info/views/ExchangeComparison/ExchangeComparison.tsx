@@ -17,7 +17,7 @@ const ExchangeComparison: React.FC = () => {
     <div id="exchangeCompare" ref={titleRef} className={classes.root}>
       <Box className={classes.innerDiv}>
         <Box className={clsx(classes.textSecSlide, { open: titleView })}>
-          <Typography variant="h2" className={classes.header}>
+          <Typography className={classes.header}>
             How Does Demex Compare?
           </Typography>
           <Typography variant="h4" className={classes.description}>
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       paddingTop: theme.spacing(24),
     },
     [theme.breakpoints.down("sm")]: {
-			...theme.typography.h3,
+			...theme.typography.h4,
       paddingTop: theme.spacing(16),
 		},
 		[theme.breakpoints.only("xs")]: {
@@ -126,6 +126,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     boxShadow: "0px 1px 0px 0px #FFFFFF14 inset",
     backdropFilter: "blur(64px)",
+    [theme.breakpoints.down("sm")]: {
+      border: "none",
+    },
   },
   tableSection: {
     marginTop: theme.spacing(6),
