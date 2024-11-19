@@ -3,7 +3,7 @@ import Video1 from "./assets/Video1.svg";
 import Video2 from "./assets/Video2.svg";
 import React from "react";
 import clsx from "clsx";
-import { Box, Hidden, Typography, makeStyles } from "@material-ui/core";
+import { Box, Typography, makeStyles } from "@material-ui/core";
 import { Fade, Zoom } from "react-awesome-reveal";
 import { UnleashTrader } from "@demex-info/components";
 
@@ -13,9 +13,7 @@ const PoweredBySwitcheo: React.FC = () => {
   return (
     <section className={classes.root}>
       <div className={classes.background} />
-      <Hidden smDown>
-        <UnleashTrader />
-      </Hidden>
+      <UnleashTrader />
       <Fade triggerOnce duration={2000}>
         <Typography className={classes.header}>
           The Fastest Decentralized Trading Experience

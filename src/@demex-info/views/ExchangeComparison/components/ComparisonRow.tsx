@@ -262,7 +262,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   bottomLine: {
     position: "absolute",
-    bottom: -16,
+    bottom: -15,
     zIndex: 2,
     [theme.breakpoints.down("sm")]: {
       bottom: -17,
@@ -270,13 +270,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   bottomRightLine: {
     position: "absolute",
-    bottom: -16,
+    bottom: -14,
     right: -64,
+    [theme.breakpoints.down("sm")]: {
+      bottom: -16,
+    },
   },
   bottomLeftLine: {
     position: "absolute",
-    bottom: -16,
+    bottom: -14,
     left: -64,
+    [theme.breakpoints.down("sm")]: {
+      bottom: -16,
+    },
   },
   bottomGlowLight: {
     position: "absolute",
