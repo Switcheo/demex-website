@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     left: "50%", // Aligns with `roadmapLine`
     top: 0,
-    bottom: "54%", // Sets the active portion to cover only half of the container vertically
+    bottom: "14%", // Sets the active portion to cover only half of the container vertically
     width: "4px", // Sets the line width
     transform: "translateX(-50%)", // Centers the line
     background: "linear-gradient(0deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)", // Adjusts gradient for vertical direction
@@ -72,9 +72,6 @@ const useStyles = makeStyles((theme) => ({
   highlightedCard: {
     boxShadow: "16px -16px 50px 0px #482BFF1F inset",
   },
-  activeCard: {
-    color: theme.palette.text.primary,
-  },
 }));
 
 export default function Component() {
@@ -87,14 +84,14 @@ export default function Component() {
         {roadmapData.map((quarter, index) => {
           if (index % 2 !== 0) return (
             <div className={clsx(classes.emptyCard, classes.timelineItem)}>
-              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: `${(index * 20) + 6}%` }} />
+              <div className={clsx(styles.timelineDot, quarter.highlight && styles.highlightDot)} style={{ top: `${(index * 20) + 6}%` }} />
             </div>
           );
           return (
             <Grid item key={quarter.quarter} className={classes.timelineItem}>
-              <div className={clsx(styles.timelineDot, index <= 2 && styles.highlightDot)} style={{ top: index === 0 ? "11%" : `${(index * 20) + 4}%` }} />
+              <div className={clsx(styles.timelineDot, quarter.highlight && styles.highlightDot)} style={{ top: index === 0 ? "11%" : `${(index * 20) + 4}%` }} />
               <Fade triggerOnce direction="left" delay={index * 150}>
-                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
+                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard)}>
                   <CardContent className={classes.paper}>
                     <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (
@@ -124,7 +121,7 @@ export default function Component() {
           return (
             <Grid item key={quarter.quarter} className={classes.timelineItem}>
               <Fade triggerOnce direction="right" delay={index * 150}>
-                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
+                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard)}>
                   <CardContent className={classes.paper}>
                     <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (

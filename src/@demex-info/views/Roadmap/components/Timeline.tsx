@@ -22,22 +22,34 @@ const useStyles = makeStyles((theme) => ({
   },
   roadmapLine: {
     position: "absolute",
-    top: "45%",
+    top: "46.5%",
     left: "50%",
     right: 0,
     height: "4px",
     background: "linear-gradient(to right, #4A5568 50%, transparent 100%)",
     transform: "translateY(-50%)",
+    [theme.breakpoints.down("md")]: {
+      top: "45%",
+    },
+    "@media (max-width: 940px)": {
+      top: "43.5%",
+    },
   },
   activeLine: {
     position: "absolute",
-    top: "45%",
+    top: "46.5%",
     left: 0,
-    right: "50%",
+    right: "11%",
     height: "4px",
     transform: "translateY(-50%)",
     background: "linear-gradient(270deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)",
     filter: "drop-shadow(0 0 15px #007AFF)",
+    [theme.breakpoints.down("md")]: {
+      top: "45%",
+    },
+    "@media (max-width: 940px)": {
+      top: "43.5%",
+    },
   },
   roadmapItem: {
     display: "flex",
@@ -84,9 +96,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFFFFF0A",
     boxShadow: "-16px 16px 50px 0px #482BFF1F inset",
   },
-  activeCard: {
-    color: theme.palette.text.primary,
-  },
   cardContent: {
     display: "flex",
     flexDirection: "column",
@@ -111,7 +120,7 @@ const Timeline: React.FC = () => {
             return (
               <Grid key={quarter.quarter} item className={clsx(classes.roadmapItem, "top")}>
                 <Fade triggerOnce direction="down" delay={index * 150}>
-                  <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard, "top")}>
+                  <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard, "top")}>
                     <CardContent className={classes.cardContent}>
                       <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (
@@ -135,15 +144,15 @@ const Timeline: React.FC = () => {
           {roadmapData.map((quarter, index) => {
             if (index % 2 !== 0) return (
               <div key={index} className={clsx(classes.emptyCard, classes.roadmapItem)}>
-                <div className={clsx(styles.timelineDot, index <= 2 && clsx(styles.highlightDot, { active: quarter.active }))} />
+                <div className={clsx(styles.timelineDot, quarter.highlight && clsx(styles.highlightDot, { active: quarter.active }))} />
               </div>
             );
 
             return (
               <Grid key={quarter.quarter} item className={classes.roadmapItem}>
-                <div className={clsx(styles.timelineDot, index <= 2 && clsx(styles.highlightDot, { active: quarter.active }))} />
+                <div className={clsx(styles.timelineDot, quarter.highlight && clsx(styles.highlightDot, { active: quarter.active }))} />
                 <Fade triggerOnce direction="up" delay={index * 150}>
-                  <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && classes.activeCard)}>
+                  <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard)}>
                     <CardContent className={classes.cardContent}>
                       <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
                       {quarter.items.map((item, i) => (

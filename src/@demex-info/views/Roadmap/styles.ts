@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 
+import BottomGradient from "./assets/BottomGradient.svg";
+
 export const useRoadmapStyles = makeStyles((theme) => ({
   chip: {
     ...theme.typography.title2,
@@ -60,5 +62,11 @@ export const useRoadmapStyles = makeStyles((theme) => ({
     "&.active": {
       boxShadow: "0px 0px 32px 0px #4268FF",
     },
+  },
+  activeCard: {
+    color: `${theme.palette.text.primary} !important`,
+    backgroundImage: `url(${BottomGradient})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
   },
 }));

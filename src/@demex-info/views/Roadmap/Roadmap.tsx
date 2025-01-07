@@ -2,7 +2,6 @@ import { Box, Button, makeStyles, Typography, useMediaQuery, useTheme } from "@m
 import React from "react";
 import { Timeline, TimelineMobile } from "./components";
 
-import BottomGradient from "./assets/BottomGradient.svg";
 import RightGradient from "./assets/RightGradient.svg";
 import LeftGradient from "./assets/LeftGradient.svg";
 import { Fade, Flip } from "react-awesome-reveal";
@@ -60,9 +59,9 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(3),
     padding: theme.spacing(15, 0, 30),
     [theme.breakpoints.up("sm")]: {
-      backgroundImage: `url(${BottomGradient}), url(${RightGradient}), url(${LeftGradient})`,
+      backgroundImage: `url(${RightGradient}), url(${LeftGradient})`,
       backgroundRepeat: "no-repeat",
-      backgroundPosition: "center 20rem, right, left",
+      backgroundPosition: "right, left",
     },
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(4, 0),
