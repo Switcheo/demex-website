@@ -26,7 +26,7 @@ export const roadmapData = [
       "Web3 Wallets",
     ],
     highlight: true,
-    active: true,
+    active: false,
   },
   {
     quarter: "Q4 2024",
@@ -36,19 +36,19 @@ export const roadmapData = [
       "CEX On-Ramp",
       "New Demex Points",
     ],
-    highlight: false,
+    highlight: true,
     active: false,
   },
   {
     quarter: "Q1 2025",
     items: [
       "User Managed Vaults",
-      "Decentralized Perp Listing",
+      "Cross Margin",
       "Multi-Collateral",
       "Telegram Interface",
       "$DMX Launch",
     ],
-    highlight: false,
-    active: false,
+    highlight: true,
+    active: true,
   },
 ];
