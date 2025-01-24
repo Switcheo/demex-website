@@ -43,6 +43,9 @@ export type EventAction =
   // Earn
   | "click_earn_now" // click link to Pools page
 
+  // Rewards
+  | "click_airdrop" // click link to Airdrop page
+
 export const sendGaEvent = (eventAction: EventAction, args?: TypeUtils.SimpleMap<string>) => {
   const data = cleanUndefined({
     event: eventAction,

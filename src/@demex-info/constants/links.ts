@@ -80,7 +80,9 @@ export const Paths = {
     Liquidations: "/liquidations",
   },
 
-  Rewards: "/rewards",
+  Rewards: {
+    Airdrop: "/rewards/demex-points/main/overview",
+  },
 
   Vaults: {
     Manage: "/vaults/:id/:tab?",

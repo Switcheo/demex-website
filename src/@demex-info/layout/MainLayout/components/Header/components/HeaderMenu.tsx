@@ -1,7 +1,6 @@
 import { NavLink } from "@demex-info/constants";
 import useHeaderLinks from "@demex-info/hooks/useHeaderLinks";
-import { StyleUtils } from "@demex-info/utils/styles";
-import { Box, Button, Hidden, makeStyles, Theme } from "@material-ui/core";
+import { Button, Hidden, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { ExternalLink } from "../assets";
 import OptionsDropdown from "./OptionsDropdown";
@@ -23,23 +22,20 @@ const HeaderMenu: React.FC = () => {
           );
         } else {
           return (
-            <Box key={`menu-tab-${navLink.label}`} className={classes.tabWrapper}>
-              <Button
-                variant="text"
-                className={classes.navLink}
-                key={navLink.label}
-                href={navLink?.href ?? ""}
-                target={navLink.showIcon ? "_blank" : "_self"}
-                onClick={navLink.onClick}
-              >
-                {navLink.label}
-                &nbsp;
-                {navLink?.showIcon && (
-                  <ExternalLink />
-                )}
-              </Button>
-              <Box className={classes.activeIndicator} />
-            </Box>
+            <Button
+              variant="text"
+              className={classes.navLink}
+              key={navLink.label}
+              href={navLink?.href ?? ""}
+              target={navLink.showIcon ? "_blank" : "_self"}
+              onClick={navLink.onClick}
+            >
+              {navLink.label}
+              &nbsp;
+              {navLink?.showIcon && (
+                <ExternalLink />
+              )}
+            </Button>
           );
         }
       })}
@@ -53,14 +49,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     padding: "0px 20px",
     borderRadius: 0,
-    fontWeight: 700,
     opacity: 1,
     color: theme.palette.text.primary,
     "&:hover": {
       textShadow: `.5px 0 0 ${theme.palette.text.secondary}`,
       backgroundColor: "transparent",
       textDecoration: "none",
-      color: theme.palette.text.primary,
       "& svg path": {
         fill: theme.palette.text.primary,
       },
@@ -68,23 +62,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "@media (min-width: 960px) and (max-width: 1056px)": {
       padding: theme.spacing(0, 2.5),
     },
-  },
-  tabWrapper: {
-    position: "relative",
-    flex: 1,
-    height: "4rem",
-    "&:hover > $activeIndicator": {
-      background: StyleUtils.primaryGradientHover(theme),
-    },
-  },
-  activeIndicator: {
-    height: "2px",
-    position: "absolute",
-    background: "transparent",
-    borderRadius: "4px",
-    width: "calc(100% - 40px)",
-    marginLeft: "20px",
-    marginTop: -2,
   },
 }));
 
