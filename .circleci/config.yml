@@ -63,6 +63,12 @@ jobs:
           name: deploy to gcp
           command: |
             gcloud storage cp -R build/* gs://demex-website-${CIRCLE_BRANCH}/
+      
+      - run:
+          name: Update cache control
+          command: |
+            gsutil -h "Cache-Control:public, max-age=0" \
+                   cp build/index.html gs://demex-website-${CIRCLE_BRANCH}/
 
 workflows: 
   deploy-project:
