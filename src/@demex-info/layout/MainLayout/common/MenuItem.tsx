@@ -1,7 +1,7 @@
 import { SvgIcon } from "@demex-info/components";
 import { DropdownMenuItem } from "@demex-info/constants";
 import { StyleUtils } from "@demex-info/utils";
-import { Hidden, MenuItem, MenuList, MenuListProps, Theme, makeStyles } from "@material-ui/core";
+import { MenuItem, MenuList, MenuListProps, Theme, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 
@@ -16,6 +16,8 @@ interface Props extends MenuListProps {
 const MenuListItems: React.FC<Props> = (props: Props) => {
   const { items = [], menuListClasses = {}, size = "regular", ...rest } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const genIconTypeClasses = (iconType: "stroke" | "fill") => ({
     [classes.iconFill]: iconType === "fill",
@@ -34,7 +36,7 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
         const { className, label, description, key, startIcon, startIconType, endIcon, endIconType, ...restItem } = item;
         return (
           <MenuItem
-            className={clsx(classes.label, className, { small: size === "small", large: size === "large", multiline: !!description })}
+            className={clsx(classes.label, className, { small: size === "small", large: size === "large", multiline: !!description && !isMobile })}
             {...restItem}
             key={key}
           >
@@ -45,10 +47,8 @@ const MenuListItems: React.FC<Props> = (props: Props) => {
             )}
             <div className={classes.itemDetail}>
               <span>{label}</span>
-              {description && (
-                <Hidden smDown>
-                  <span className={classes.itemDescription}>{description}</span>
-                </Hidden>
+              {description && !isMobile && (
+                <span className={classes.itemDescription}>{description}</span>
               )}
             </div>
             {endIcon && endIconType && (

@@ -1,7 +1,6 @@
 import { DropdownMenuItem } from "@demex-info/constants";
 import MenuListItems from "@demex-info/layout/MainLayout/common/MenuItem";
-import { StyleUtils } from "@demex-info/utils";
-import { Box, Button, makeStyles, Theme } from "@material-ui/core";
+import { Button, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
 import Dropdown from "./Dropdown";
@@ -32,17 +31,14 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
   return (
     <Dropdown
       label={(
-        <Box className={classes.tabWrapper}>
-          <Button
-            variant="text"
-            className={clsx(classes.tab)}
-            onClick={() => { }}
-            disableRipple
-          >
-            {title}
-          </Button>
-          <Box className={clsx(classes.activeIndicator)} />
-        </Box>
+        <Button
+          variant="text"
+          className={clsx(classes.tab)}
+          onClick={() => { }}
+          disableRipple
+        >
+          {title}
+        </Button>
       )}
       className={clsx(classes.dropdown, { "learn": title === "Learn" })}
       dropdownOpen={openDropdown}
@@ -61,22 +57,6 @@ const OptionsDropdown: React.FC<Props> = (props: Props) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  tabWrapper: {
-    position: "relative",
-    flex: 1,
-    height: "100%",
-  },
-  activeIndicator: {
-    position: "absolute",
-    height: "2px",
-    background: "transparent",
-    borderRadius: "4px",
-    width: "100%",
-    marginTop: -2,
-    "&.isHighlighted": {
-      background: StyleUtils.primaryTextGradient,
-    },
-  },
   dropdown: {
     padding: theme.spacing(1),
     borderRadius: 4,
@@ -101,9 +81,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       textShadow: `.5px 0 0 ${theme.palette.text.secondary}`,
       backgroundColor: "transparent",
-    },
-    "&.isHighlighted": {
-      textShadow: `.5px 0 0 ${theme.palette.text.primary}`,
     },
   },
   menuList: {

@@ -38,23 +38,37 @@ const HeaderSlider: React.FC<Props> = (props: Props) => {
             <DemexLogo className={classes.topLogo} />
           </Box>
           <Box className={classes.innerDiv}>
-            {fullNavLinks.map((navLink: NavLink) => (
-              <CustomAccordion
-                key={navLink.label}
-                accordionSummary={navLink.label}
-                accordionDetails={(
-                  <MenuListItems
-                    menuListClasses={{ root: classes.menuList }}
-                    items={navLink.dropdownItems}
-                    size="large"
+            {fullNavLinks.map((navLink: NavLink) => {
+              if (navLink.dropdownItems) {
+                return (
+                  <CustomAccordion
+                    key={navLink.label}
+                    accordionSummary={navLink.label}
+                    accordionDetails={(
+                      <MenuListItems
+                        menuListClasses={{ root: classes.menuList }}
+                        items={navLink.dropdownItems}
+                        size="large"
+                      />
+                    )}
+                    accordionClasses={{
+                      root: classes.accordion,
+                      accordionDetails: classes.accordionDetails,
+                    }}
                   />
-                )}
-                accordionClasses={{
-                  root: classes.accordion,
-                  accordionDetails: classes.accordionDetails,
-                }}
-              />
-            ))}
+                );
+              } else {
+                return (
+                  <span
+                    key={navLink.label}
+                    className={classes.singleNav}
+                    onClick={navLink.onClick}
+                  >
+                    {navLink.label}
+                  </span>
+                );
+              }
+            })}
           </Box>
         </div>
       </Drawer>
@@ -123,6 +137,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   accordionDetails: {
     padding: theme.spacing(1, 1, 0, 2),
+  },
+  singleNav: {
+    ...theme.typography.title2,
+    color: theme.palette.text.secondary,
+    height: "32px",
+    minHeight: "32px",
+    padding: theme.spacing(0, 2, 0, 3),
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
   },
 }));
 

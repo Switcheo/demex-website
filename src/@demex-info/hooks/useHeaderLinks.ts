@@ -102,7 +102,6 @@ export default (): LinksReturn => {
         label: "Trade",
         href: undefined,
         dropdownItems: tradeLinks,
-        onClick: () => fireGaEvent("click_trade"),
       },
       {
         label: "Earn",
@@ -119,6 +118,11 @@ export default (): LinksReturn => {
         open: earnOpen,
         onHandleOpen: handleEarnOpen,
         onHandleClose: handleEarnClose,
+      },
+      {
+        label: "Airdrop",
+        href: undefined,
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Rewards.Airdrop, net), "click_airdrop"),
       },
     ];
     return {
