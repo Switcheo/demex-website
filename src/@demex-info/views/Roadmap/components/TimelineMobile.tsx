@@ -2,11 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Box, Grid, Card, CardContent, Chip } from "@material-ui/core";
-import { roadmapData } from "../utils";
+import { getRoadmapQuarterStatus, roadmapData, getCurrentRoadmapQuarter } from "../utils";
 import { Fade } from "react-awesome-reveal";
 import { IncentiveIcon } from "../assets";
 import { SvgIcon } from "@demex-info/components";
 import { useRoadmapStyles } from "../styles";
+
+const currentQuarterRoadmap = getCurrentRoadmapQuarter();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     left: "50%", // Aligns with `roadmapLine`
     top: 0,
-    bottom: "14%", // Sets the active portion to cover only half of the container vertically
+    bottom: currentQuarterRoadmap.activeLinePortion, // Sets the active portion to cover only half of the container vertically
     width: "4px", // Sets the line width
     transform: "translateX(-50%)", // Centers the line
     background: "linear-gradient(0deg, #007AFF 80%, rgba(0, 122, 255, 0) 100%)", // Adjusts gradient for vertical direction
@@ -82,21 +84,23 @@ export default function Component() {
     <Box className={classes.root}>
       <Grid container className={classes.timeline}>
         {roadmapData.map((quarter, index) => {
+          const { isActive, isHighlighted } = getRoadmapQuarterStatus(quarter);
+
           if (index % 2 !== 0) return (
             <div className={clsx(classes.emptyCard, classes.timelineItem)}>
-              <div className={clsx(styles.timelineDot, quarter.highlight && styles.highlightDot)} style={{ top: `${(index * 20) + 6}%` }} />
+              <div className={clsx(styles.timelineDot, isHighlighted && styles.highlightDot)} style={{ top: `${(index * 20) + 8}%` }} />
             </div>
           );
           return (
             <Grid item key={quarter.quarter} className={classes.timelineItem}>
-              <div className={clsx(styles.timelineDot, quarter.highlight && styles.highlightDot)} style={{ top: index === 0 ? "11%" : `${(index * 20) + 4}%` }} />
+              <div className={clsx(styles.timelineDot, isHighlighted && styles.highlightDot)} style={{ top: index === 0 ? "9%" : `${(index * 20) + 8}%` }} />
               <Fade triggerOnce direction="left" delay={index * 150}>
-                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard)}>
+                <Card className={clsx(classes.card, isHighlighted && classes.highlightedCard, isActive && styles.activeCard)}>
                   <CardContent className={classes.paper}>
-                    <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
+                    <Chip className={clsx(styles.chip, { "active": isActive })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (
                       <span className={styles.quarterItem} key={itemIndex}>
-                        {quarter.active && (
+                        {isActive && (
                           <SvgIcon component={IncentiveIcon} />
                         )}
                         <Typography key={itemIndex} variant="body2">
@@ -118,15 +122,18 @@ export default function Component() {
           if (index % 2 === 0) return (
             <div className={classes.emptyCard} />
           );
+
+          const { isActive, isHighlighted } = getRoadmapQuarterStatus(quarter);
+
           return (
             <Grid item key={quarter.quarter} className={classes.timelineItem}>
               <Fade triggerOnce direction="right" delay={index * 150}>
-                <Card className={clsx(classes.card, quarter.highlight && classes.highlightedCard, quarter.active && styles.activeCard)}>
+                <Card className={clsx(classes.card, isHighlighted && classes.highlightedCard, isActive && styles.activeCard)}>
                   <CardContent className={classes.paper}>
-                    <Chip className={clsx(styles.chip, { "active": quarter.active })} label={quarter.quarter}/>
+                    <Chip className={clsx(styles.chip, { "active": isActive })} label={quarter.quarter}/>
                     {quarter.items.map((item, itemIndex) => (
                       <span className={styles.quarterItem} key={itemIndex}>
-                        {quarter.active && (
+                        {isActive && (
                           <SvgIcon component={IncentiveIcon} />
                         )}
                         <Typography key={itemIndex} variant="body2">

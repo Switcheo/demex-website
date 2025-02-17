@@ -87,9 +87,9 @@ export default (): LinksReturn => {
         endIconType: "fill",
       },
       {
-        key: "guide",
+        key: "docs",
         onClick: () => window.open(StaticLinks.DemexDocs.Home, "_blank"),
-        label: "Guide",
+        label: "Docs",
         startIcon: Guide,
         startIconType: "stroke",
         endIcon: ExternalLink,
