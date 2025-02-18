@@ -184,7 +184,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     display: "flex",
     textAlign: "center",
-    maxWidth: "10.25rem",
+    maxWidth: "11rem",
     flexWrap: "wrap",
     [theme.breakpoints.only("sm")]: {
       ...theme.typography.body3,

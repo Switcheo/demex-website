@@ -60,7 +60,7 @@ export const TradingVal: TradingRow[] = [{
     drift: false,
   },
 }, {
-  header: "Integrated\nMoney Market",
+  header: "Integrated\nLending Market",
   values: {
     demex: true,
     dydx: false,
@@ -86,9 +86,9 @@ export const TradingVal: TradingRow[] = [{
 }, {
   header: "Interoperability",
   values: {
-    demex: "Cosmos IBC & Axelar",
-    dydx: "Cosmos IBC & Axelar",
-    hyper: "Native Bridge",
+    demex: "18+ chains",
+    dydx: "16 chains",
+    hyper: "Arbitrum",
     drift: "Solana",
   },
 }];
