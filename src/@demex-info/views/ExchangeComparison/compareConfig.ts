@@ -86,9 +86,9 @@ export const TradingVal: TradingRow[] = [{
 }, {
   header: "Interoperability",
   values: {
-    demex: "20+ Chains Supported",
-    dydx: "Cosmos IBC & Axelar",
-    hyper: "Native Bridge",
+    demex: "18+ chains",
+    dydx: "16 chains",
+    hyper: "Arbitrum",
     drift: "Solana",
   },
 }];
