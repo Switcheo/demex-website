@@ -35,10 +35,10 @@ export const roadmapData: RoadmapItem[] = [
     id: 3,
     quarter: "Q1 2025",
     items: [
-      "$DMX Launch",
       "Cross Margin",
       "Decentralized Perp Listing",
       "User Managed Vaults",
+      "Telegram Interface",
     ],
     startDate: "2025-01-01",
     activeLinePortion: "50%",
@@ -47,9 +47,9 @@ export const roadmapData: RoadmapItem[] = [
     id: 4,
     quarter: "Q2 2025",
     items: [
+      "$DMX Launch",
       "Multi-Collateral",
       "Centralised Bridge Deposit",
-      "Telegram Interface",
       "New Demex Points",
     ],
     startDate: "2025-04-01",
