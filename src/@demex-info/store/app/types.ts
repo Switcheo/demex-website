@@ -1,5 +1,6 @@
 import { BN_ZERO, parseNumber } from "@demex-info/utils";
 import { MarketStatItem } from "@demex-info/utils/markets";
+import { StatsigClient } from "@statsig/js-client";
 import BigNumber from "bignumber.js";
 import { CarbonSDK, WSConnector } from "carbon-js-sdk";
 import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
@@ -12,6 +13,7 @@ export interface AppState {
   isAppReady: boolean;
   marketList: Market[];
   marketStats: MarketStatItem[];
+  statsigClient?: StatsigClient;
 
 // component open state
   earnOpen: boolean; // control earn slider open/close

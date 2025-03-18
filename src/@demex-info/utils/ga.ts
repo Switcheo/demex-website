@@ -1,5 +1,3 @@
-import { TypeUtils } from "carbon-js-sdk";
-
 export type EventAction =
   // General
   "launch_app" // Launch Demex web app
@@ -46,19 +44,7 @@ export type EventAction =
   // Rewards
   | "click_airdrop" // click link to Airdrop page
 
-export const sendGaEvent = (eventAction: EventAction, args?: TypeUtils.SimpleMap<string>) => {
-  const data = cleanUndefined({
-    event: eventAction,
-    ...args,
-  });
-
-  if (typeof window !== "undefined") {
-    (window as any).logGoogleAnalytics?.(data);
-    (window as any).dataLayer?.push(data);
-  }
-};
-
-const cleanUndefined = (args: any = {}) => {
+export const cleanUndefined = (args: any = {}) => {
   for (const key in args) {
     if (typeof args[key] === "undefined") {
       delete args[key]; // eslint-disable-line no-param-reassign

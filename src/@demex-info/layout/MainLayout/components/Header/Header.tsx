@@ -6,12 +6,15 @@ import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu, HeaderSlider } from "./components";
-import { eskimi, sendGaEvent } from "@demex-info/utils";
+import { eskimi } from "@demex-info/utils";
+import useEventTracker from "@demex-info/hooks/useEventTracker";
 
 const Header: React.FC = () => {
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
+
+  const { sendStatsigEvent, sendGaEvent } = useEventTracker();
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
@@ -27,6 +30,7 @@ const Header: React.FC = () => {
     eskimi("track", "Conversion");
     goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
     sendGaEvent("launch_app");
+    sendStatsigEvent("launch_app");
   };
 
   return (

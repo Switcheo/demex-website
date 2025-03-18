@@ -17,6 +17,7 @@ const initial_state: AppState = {
   // component open state
   earnOpen: false,
   promotionsOpen: false,
+  statsigClient: undefined,
 };
 
 const reducer = (state: AppState = initial_state, actions: any) => {
@@ -66,6 +67,11 @@ const reducer = (state: AppState = initial_state, actions: any) => {
     return {
       ...state,
       promotionsOpen: actions.promotionsOpen,
+    };
+  case AppActionTypes.SET_STATSIG_CLIENT:
+    return {
+      ...state,
+      statsigClient: actions.statsigClient,
     };
 	default:
 		return state;
