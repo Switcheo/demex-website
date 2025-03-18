@@ -2,6 +2,7 @@ import { MarketStatItem } from "@demex-info/utils/markets";
 import { CarbonSDK, WSConnector } from "carbon-js-sdk";
 import { Market } from "carbon-js-sdk/lib/codec/Switcheo/carbon/market/market";
 import { USDPrices } from "./types";
+import { StatsigClient } from "@statsig/js-client";
 
 export const AppActionTypes = {
 	UPDATE_NETWORK: "UPDATE_NETWORK",
@@ -16,6 +17,9 @@ export const AppActionTypes = {
   // component open state actions
   SET_EARN_DRAWER_OPEN: "SET_EARN_DRAWER_OPEN",
   SET_PROMOTIONS_DRAWER_OPEN: "SET_PROMOTIONS_DRAWER_OPEN",
+
+  //statsig
+  SET_STATSIG_CLIENT: "SET_STATSIG_CLIENT",
 };
 
 export function setSDK(sdk: CarbonSDK) {
@@ -71,5 +75,12 @@ export function setPromotionsDrawerOpen(promotionsOpen: boolean) {
   return {
     type: AppActionTypes.SET_PROMOTIONS_DRAWER_OPEN,
     promotionsOpen,
+  };
+}
+
+export function setStatsigClient(statsigClient: StatsigClient) {
+  return {
+    type: AppActionTypes.SET_STATSIG_CLIENT,
+    statsigClient,
   };
 }

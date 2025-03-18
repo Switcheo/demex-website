@@ -9,15 +9,18 @@ import { MarketsGrid, TradeTopMarkets } from "./components";
 import { Tokens } from "./assets";
 import { useSelector } from "react-redux";
 import { RootState } from "@demex-info/store/types";
-import { EventAction, sendGaEvent } from "@demex-info/utils";
+import { EventAction } from "@demex-info/utils";
 import { getDemexLink, goToDemexLink, Paths } from "@demex-info/constants";
 import { useHeroSectionStyles } from "./styles";
+import useEventTracker from "@demex-info/hooks/useEventTracker";
 
 const HeroSection: React.FC = () => {
 	const classes = useStyles();
 	const styles = useHeroSectionStyles();
 	const net = useSelector((state: RootState) => state.app.network);
 	const isMobile = useMediaQuery("(max-width:930px)");
+	
+	const { sendGaEvent } = useEventTracker();
 
 	const handleClickDemexLink = (demexLink: string, gaEvent?: EventAction) => {
     goToDemexLink(demexLink);
