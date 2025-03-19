@@ -30,8 +30,12 @@ const StatsigConfigProvider = (props: PropsWithChildren<React.ReactNode>) => {
   useEffect(() => {
     if (statsigKey) {
       runInitStatsigClient(async () => {
-        await statsigClient.initializeAsync();
-        dispatch(setStatsigClient(statsigClient));
+        try {
+          await statsigClient.initializeAsync();
+          dispatch(setStatsigClient(statsigClient));
+        } catch (error) {
+          console.error(error);
+        }
       });
     }
   }, []);

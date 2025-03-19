@@ -15,7 +15,6 @@ const useEventTracker = () => {
       args?: TypeUtils.SimpleMap<string>,
       eventValue?: number,
     ) => {
-
       if (statsigClient) {
         statsigClient.logEvent(eventAction, eventValue, { ...args });
       }
@@ -23,17 +22,20 @@ const useEventTracker = () => {
     [statsigClient],
   );
 
-  const sendGaEvent = useCallback((eventAction: EventAction, args?: TypeUtils.SimpleMap<string>) => {
-    const data = cleanUndefined({
-      event: eventAction,
-      ...args,
-    });
-  
-    if (typeof window !== "undefined") {
-      (window as any).logGoogleAnalytics?.(data);
-      (window as any).dataLayer?.push(data);
-    }
-  }, []);
+  const sendGaEvent = useCallback(
+    (eventAction: EventAction, args?: TypeUtils.SimpleMap<string>) => {
+      const data = cleanUndefined({
+        event: eventAction,
+        ...args,
+      });
+
+      if (typeof window !== "undefined") {
+        (window as any).logGoogleAnalytics?.(data)
+        ;(window as any).dataLayer?.push(data);
+      }
+    },
+    [],
+  );
 
   return { sendStatsigEvent, sendGaEvent };
 };
