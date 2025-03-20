@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
 							</Fade>
 						)}
 						<Fade className={classes.fade} triggerOnce direction="up">
-							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade")}/>
+							<TradeTopMarkets active={isTradeCard} onClickButton={() => handleClickDemexLink(getDemexLink(Paths.Trade.EthPerp, net), "click_trade")}/>
 						</Fade>
 						<Fade className={classes.fade} triggerOnce delay={50} direction="up">
 							<Card

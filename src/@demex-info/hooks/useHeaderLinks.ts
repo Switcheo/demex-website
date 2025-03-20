@@ -65,7 +65,7 @@ export default (): LinksReturn => {
         key: "trading",
         label: "Trade",
         description: "Leverage up to 100x with ultra-low trading fees and spread",
-        onClick: () => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade"),
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Trade.EthPerp, net), "click_trade"),
         startIcon: Trade,
         startIconType: "fill",
       },

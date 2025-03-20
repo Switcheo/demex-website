@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 
   const handleConnect = () => {
     eskimi("track", "Conversion");
-    goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
+    goToDemexLink(getDemexLink(`${Paths.Trade.EthPerp}`, network));
     sendGaEvent("launch_app");
     sendStatsigEvent("launch_app");
   };
@@ -101,6 +101,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: theme.spacing(0.25),
     ...theme.typography.title3,
     textTransform: "none",
+    // lineHeight: "1rem",
   },
   menuIcon: {
     height: "1.5rem",

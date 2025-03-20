@@ -24,7 +24,7 @@ const MarketsMarquee: React.FC<Props> = ({ filteredCards, direction = "left" }) 
   }, []);
 
   const goToMarket = (market: string) => {
-    goToLink(`${Paths.Trade}/${market ?? ""}`);
+    goToLink(`${Paths.Trade.Main}/${market ?? ""}`);
   };
 
   return (
