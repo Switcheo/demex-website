@@ -90,9 +90,6 @@ export const Paths = {
   Vaults: {
     Manage: "/vaults/:id/:tab?",
   },
-  Market: {
-    ETHPERP: "/trade/ETH-PERP",
-  }
 };
 
 export const DemexHosts: { [key: string]: string } = {
