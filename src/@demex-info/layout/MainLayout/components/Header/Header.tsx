@@ -101,7 +101,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: theme.spacing(0.25),
     ...theme.typography.title3,
     textTransform: "none",
-    // lineHeight: "1rem",
   },
   menuIcon: {
     height: "1.5rem",
