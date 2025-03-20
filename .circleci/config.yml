@@ -34,6 +34,10 @@ jobs:
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               echo 'ESKIMI_ID=31136' >> .env
               echo 'REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW' >> .env
+              echo 'REACT_APP_STATSIG_KEY=${REACT_APP_STATSIG_KEY_PROD}' >> .env
+              echo 'REACT_APP_STATSIG_URL=${REACT_APP_STATSIG_URL_PROD}' >> .env
+            if [ "${CIRCLE_BRANCH}" = "staging" ]; then
+              echo 'REACT_APP_STATSIG_KEY=${REACT_APP_STATSIG_KEY_STAGING}' >> .env
             fi
             yarn build
 

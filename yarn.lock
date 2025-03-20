@@ -4555,6 +4555,34 @@
     "@stablelib/random" "^1.0.2"
     "@stablelib/wipe" "^1.0.1"
 
+"@statsig/client-core@3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@statsig/client-core/-/client-core-3.15.0.tgz#706dc520295a44abc6d6cab2081b59bbbe87917d"
+  integrity sha512-T6bMUlYtHjUw3nkrIpVozHZKMdWfDN+n9Ahf3F1UQAVlX1DCOICZ5dyc0g9cn3bCVLYgUGDcPjJF7Lt+IbeSKA==
+
+"@statsig/js-client@3.15.0", "@statsig/js-client@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@statsig/js-client/-/js-client-3.15.0.tgz#6b8c1fff2c5213b60adbc0aa1715895585b68dee"
+  integrity sha512-rUAwgBtzbP4G37HnktkmbYL4bwADYx6cJmmTAhZSY9nVKqEK71A2WbnOPA9Qwlip34H2ZBkO4QdWsNsCFJWI0w==
+  dependencies:
+    "@statsig/client-core" "3.15.0"
+
+"@statsig/react-bindings@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@statsig/react-bindings/-/react-bindings-3.15.0.tgz#f9f85ab34b4d58630f6247699abf0ca7633d66ae"
+  integrity sha512-kiimjwW0I8pli12xduFAuByWMCqJK5Ar1t7yKKmuSlJ4y1Y1s+WXEMr7fVMGDRR5atnMKugkPyG2VfG87fe6hw==
+  dependencies:
+    "@statsig/client-core" "3.15.0"
+    "@statsig/js-client" "3.15.0"
+
+"@statsig/web-analytics@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@statsig/web-analytics/-/web-analytics-3.15.0.tgz#cc8cdb26ed164ec3778af36aa07eb58ce12be815"
+  integrity sha512-ufxEtDQI+nCREbgX+5ewwRngPipjkmM6bZxDbqVpLVBpVXvowJPnGsZ7vyPAIEgAh8E72n0Ln/w0O7SlqEjibQ==
+  dependencies:
+    "@statsig/client-core" "3.15.0"
+    "@statsig/js-client" "3.15.0"
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz#ee34985952ca21558ab0d952f00298ad2190c053"

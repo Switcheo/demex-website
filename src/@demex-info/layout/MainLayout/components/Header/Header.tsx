@@ -6,12 +6,16 @@ import { Box, Button, Hidden, IconButton, makeStyles, Theme } from "@material-ui
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { HeaderMenu, HeaderSlider } from "./components";
-import { eskimi, sendGaEvent } from "@demex-info/utils";
+import { eskimi } from "@demex-info/utils";
+import useEventTracker from "@demex-info/hooks/useEventTracker";
+import { TypographyLabel } from "@demex-info/components";
 
 const Header: React.FC = () => {
   const classes = useStyles();
 
   const network = useSelector((state: RootState) => state.app.network);
+
+  const { sendStatsigEvent, sendGaEvent } = useEventTracker();
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
@@ -25,8 +29,9 @@ const Header: React.FC = () => {
 
   const handleConnect = () => {
     eskimi("track", "Conversion");
-    goToDemexLink(getDemexLink(`${Paths.Trade}`, network));
+    goToDemexLink(getDemexLink(`${Paths.Trade.EthPerp}`, network));
     sendGaEvent("launch_app");
+    sendStatsigEvent("launch_app");
   };
 
   return (
@@ -58,7 +63,9 @@ const Header: React.FC = () => {
           className={classes.loginBtn}
           onClick={handleConnect}
         >
-          Launch App
+          <TypographyLabel className={classes.loginBtnText}>
+            Launch App
+          </TypographyLabel>
         </Button>
       </Box>
       <HeaderSlider open={openMenu} onClose={handleClose} />
@@ -81,12 +88,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: 0,
   },
   loginBtn: {
-    ...theme.typography.title3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     padding: theme.spacing(1.5, 2.25),
-    textTransform: "none",
+    
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(0.75, 1.25),
     },
+  },
+  loginBtnText: {
+    paddingTop: theme.spacing(0.25),
+    ...theme.typography.title3,
+    textTransform: "none",
   },
   menuIcon: {
     height: "1.5rem",

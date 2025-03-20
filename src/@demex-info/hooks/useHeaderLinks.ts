@@ -3,9 +3,10 @@ import { Lend, LaunchVaults, MenuStake, Swap, Trade, Guide, Blog } from "@demex-
 import { ExternalLink } from "../assets";
 import actions from "@demex-info/store/actions";
 import { RootState } from "@demex-info/store/types";
-import { EventAction, sendGaEvent } from "@demex-info/utils";
+import { EventAction } from "@demex-info/utils";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useEventTracker from "./useEventTracker";
 
 interface LinksReturn {
   fullNavLinks: NavLink[];
@@ -15,6 +16,8 @@ export default (): LinksReturn => {
   const dispatch = useDispatch();
   const net = useSelector((state: RootState) => state.app.network);
   const earnOpen = useSelector((state: RootState) => state.app.earnOpen);
+  
+  const { sendGaEvent } = useEventTracker();
 
   const handleEarnOpen = () => dispatch(actions.App.setEarnDrawerOpen(true));
   const handleEarnClose = () => dispatch(actions.App.setEarnDrawerOpen(false));
@@ -62,7 +65,7 @@ export default (): LinksReturn => {
         key: "trading",
         label: "Trade",
         description: "Leverage up to 100x with ultra-low trading fees and spread",
-        onClick: () => handleClickDemexLink(getDemexLink(Paths.Trade, net), "click_trade"),
+        onClick: () => handleClickDemexLink(getDemexLink(Paths.Trade.EthPerp, net), "click_trade"),
         startIcon: Trade,
         startIconType: "fill",
       },
