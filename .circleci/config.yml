@@ -9,15 +9,14 @@ jobs:
           password: $DOCKER_HUB_PASSWORD
     resource_class: large
     steps:
-
       # checkout workspace to repo code
       - checkout
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           name: yarn install
@@ -36,6 +35,7 @@ jobs:
               echo 'REACT_APP_GA_MEASUREMENT_ID=GTM-MBRQRCW' >> .env
               echo 'REACT_APP_STATSIG_KEY=${REACT_APP_STATSIG_KEY_PROD}' >> .env
               echo 'REACT_APP_STATSIG_URL=${REACT_APP_STATSIG_URL_PROD}' >> .env
+            fi
             if [ "${CIRCLE_BRANCH}" = "staging" ]; then
               echo 'REACT_APP_STATSIG_KEY=${REACT_APP_STATSIG_KEY_STAGING}' >> .env
             fi
@@ -67,22 +67,22 @@ jobs:
           name: deploy to gcp
           command: |
             gcloud storage cp -R build/* gs://demex-website-${CIRCLE_BRANCH}/
-      
+
       - run:
           name: Update cache control
           command: |
             gsutil -h "Cache-Control:public, max-age=0" \
                    cp build/index.html gs://demex-website-${CIRCLE_BRANCH}/
 
-workflows: 
+workflows:
   deploy-project:
     jobs:
-      - build: 
+      - build:
           context: org-switcheo
           filters:
             branches:
               only:
-                - master 
+                - master
                 - staging
       - deploy:
           context: org-switcheo
