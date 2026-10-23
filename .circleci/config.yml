@@ -45,34 +45,44 @@ jobs:
           root: .
           paths:
             - build
+            - scripts/ci/deploy-gcs.sh
 
   deploy:
     docker:
-      - image: cimg/gcp:2023.08
-        auth:
-          username: $DOCKER_HUB_USERNAME
-          password: $DOCKER_HUB_PASSWORD
+      # Reviewed CircleCI GCP image; deployment needs no stored cloud key.
+      - image: cimg/gcp@sha256:d2dca4da0c46ab4aa0760d14b9260229a40b75ec9842136201ab63af99686526
     steps:
       - attach_workspace:
           at: .
-
       - run:
-          name: activate GCP service account
+          name: Authenticate to GCP with branch-scoped workload identity
           command: |
-            echo $GCP_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
-            gcloud config set project $GCP_PROJECT_ID
+            set -euo pipefail
+            : "${CIRCLE_OIDC_TOKEN_V3:?CircleCI OIDC token is unavailable}"
+            case "${CIRCLE_BRANCH}" in
+              master|staging) ;;
+              *) printf >&2 'Unsupported deployment branch: %s\n' "${CIRCLE_BRANCH}"; exit 1 ;;
+            esac
 
+            umask 077
+            oidc_token_path="${HOME}/circleci-oidc-token"
+            gcp_creds_path="${HOME}/gcp-creds.json"
+            provider="projects/290730833389/locations/global/workloadIdentityPools/circleci-demex-website-${CIRCLE_BRANCH}/providers/circleci-demex-website-${CIRCLE_BRANCH}"
+            service_account="demex-website-${CIRCLE_BRANCH}-ci@cloud-nodes-372902.iam.gserviceaccount.com"
+            printf '%s' "${CIRCLE_OIDC_TOKEN_V3}" > "${oidc_token_path}"
+            gcloud iam workload-identity-pools create-cred-config \
+              "${provider}" \
+              --service-account="${service_account}" \
+              --credential-source-file="${oidc_token_path}" \
+              --output-file="${gcp_creds_path}"
+            export GOOGLE_APPLICATION_CREDENTIALS="${gcp_creds_path}"
+            printf "export GOOGLE_APPLICATION_CREDENTIALS='%s'\n" "${gcp_creds_path}" >> "${BASH_ENV}"
+            gcloud auth login --quiet --cred-file="${gcp_creds_path}"
+            gcloud config set project cloud-nodes-372902
       - run:
-          name: deploy to gcp
-          command: |
-            gcloud storage cp -R build/* gs://demex-website-${CIRCLE_BRANCH}/
+          name: Deploy the validated build to Google
+          command: bash scripts/ci/deploy-gcs.sh
 
-      - run:
-          name: Update cache control
-          command: |
-            gsutil -h "Cache-Control:public, max-age=0" \
-                   cp build/index.html gs://demex-website-${CIRCLE_BRANCH}/
 
 workflows:
   deploy-project:
@@ -85,6 +95,5 @@ workflows:
                 - master
                 - staging
       - deploy:
-          context: org-switcheo
           requires:
             - build
